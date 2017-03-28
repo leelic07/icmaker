@@ -29,7 +29,7 @@
         </div>
         <div class="col-xs-2">
             <a class="col-xs-8 col-xs-push-8" href="#">
-                <i class="glyphicon glyphicon-off"></i>
+                <i class="glyphicon glyphicon-off" @click = "loginOut"></i>
             </a>
         </div>
     </div>
@@ -43,7 +43,16 @@
 			}
 		},
         methods:{
-            
+            loginOut() {
+                this.$http.post("/logout").then(res=>{
+                    console.log(res.data.code);
+                    if (res.data.code == 0) {//登出成功
+                        this.$router.push({path:"/login"});
+                    }
+                }).catch(err=>{
+                    console.log('登出服务器异常' + err);
+                });
+            }
         }
 	}
 </script>

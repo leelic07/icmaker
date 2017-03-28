@@ -76,22 +76,7 @@
                             <td>第三监区</td>
                             <td><em class="agree-text">同意</em></td>
                             <td><em class="reject-text">拒绝</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>Tanmay</td>
-                            <td>4307000012</td>
-                            <td>4307000012</td>
-                            <td>4307000012</td>
-                            <td>女子监狱</td>
-                            <td>第七监狱</td>
-                            <td>mmm-nn-2</td>
-                            <td>ftsfdasd</td>
-                            <td>2年3个月</td>
-                            <td>第三监区</td>
-                            <td><em class="agree-text">同意</em></td>
-                            <td><em class="reject-text">拒绝</em></td>
-                        </tr>    
+                        </tr>   
                     </tbody>
                 </table>
             </div>

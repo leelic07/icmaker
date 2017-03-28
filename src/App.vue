@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="container-fluid">
     <loading v-show="false"></loading>
-    <LeftSide></LeftSide>
-    <NavBar></NavBar>
+    <LeftSide v-show = "isNotLogin"></LeftSide>
+    <NavBar v-show = "isNotLogin"></NavBar>
         <router-view></router-view>
   </div>
 </template>
@@ -17,22 +17,41 @@ export default {
   name: 'app',
   data () {
     return {
-     
+      isNotLogin: true
     }
+  },
+  watch:{
+      $route(to){//监听路由变化
+        const loginUrl = "/login";
+        if (to.path == loginUrl ) {//进入登陆页面
+            this.isNotLogin = false;//将侧边栏和顶栏隐藏
+        }else {
+            this.isNotLogin = true;
+        } 
+      }
   },
   computed:mapGetters(['loadingShow']),
   methods:{
-  
+    hidebar(){
+      const loginUrl = "/login";
+      if (this.$route.path == loginUrl ) {//进入登陆页面
+          this.isNotLogin = false;//将侧边栏和顶栏隐藏
+      } 
+    }
   },
   components:{
     LeftSide,
     NavBar
   },
   mounted(){
-    
+    //初始为登陆页时隐藏侧边和顶边栏
+    this.hidebar();
   }
 }
 </script>
 
 <style>
+  #app {
+    height: 100%;
+  }
 </style>

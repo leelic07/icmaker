@@ -2,10 +2,10 @@
     <!--切换页面tab组-->
     <div class="col-xs-24 tab">
         <ul class="col-xs-8 tab-box clearfix">
-            <li class="col-xs-12 active pull-left">
+            <li class="col-xs-12 pull-left" :class="{'active':active.prison}" @click = "isActive(0)">
                 <router-link class="col-xs-24 pull-left" to="/crimchange/prison">转监狱</router-link>
             </li>
-            <li class="col-xs-12 pull-left">
+            <li class="col-xs-12 pull-left":class="{'active':active.ward}" @click = "isActive(1)">
                 <router-link class="col-xs-24 pull-left" to="/crimchange/ward">转监区</router-link>   
             </li>
         </ul>
@@ -15,12 +15,24 @@
 <script> 
     export default {
         data(){
-            return {
-                
-            }
-        },
+			return{
+                active:{
+                    "prison" : true,
+                    "ward" : false
+                }
+			}
+		},
         methods:{
-
+            isActive(i){
+                console.log(i);
+                if (i == 0) {//监狱
+                    this.active.ward = false
+                    this.active.prison = true;
+                }else {//监区
+                    this.active.prison = false;
+                    this.active.ward = true;
+                }
+            }
         }
     }
 </script>

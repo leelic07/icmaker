@@ -10,7 +10,7 @@
                                 <label for="name">角色名称 :</label>
                             </div>
                             <div class="col-xs-5 text-box">
-                                <input type="text" class="form-control"/>
+                                <input type="text" class="form-control" id = "roleName" v-model = "roleName"/>
                             </div>
                         </div>
                     </div>
@@ -20,166 +20,27 @@
             <!-- 添加角色-->
             <div id="addRole" class="col-xs-24 add">
                 <div class="col-xs-23">
-                    <div class="pull-left">
-                        <div class="col-xs-20 col-xs-push-2">
+                    <div class="pull-left" v-for = "menu in firstMenuList">
+                        <div class="col-xs-20 col-xs-push-2 role-inner" :pId = "menu.id">
                             <label class="col-xs-24" for="first">
-                                <b class="pull-left">IC卡管理权限</b>
+                                <b class="pull-left">{{menu.menuName}}</b>
                                 <div class="info-check pull-right"></div>
                                 <span class="pull-right">全选</span>
                             </label>
                             <div class="col-xs-24"></div>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">申请IC卡</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">销卡</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">虚拟账号管理</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">发卡</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">IC卡审核</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                        </div>
-                        <div class="right-top-icon"></div>
-                    </div>
-                    <div class="pull-right">
-                        <div class="col-xs-20 col-xs-push-2">
-                            <label class="col-xs-24" for="first">
-                                <b class="pull-left">监狱资金管理权限</b>
-                                <div class="info-check pull-right"></div>
-                                <span class="pull-right">全选</span>
-                            </label>
-                            <div class="col-xs-24"></div>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">新增账户</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">账户管理</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">转账申请</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">转账审核</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">资金明细</span>
-                                <div class="info-check pull-right"></div>
+                            <label class="col-xs-24" for="first" v-for = "subMenu in menu.subMenuList">
+                                <span class="pull-left">{{subMenu.menuName}}</span>
+                                <div class="info-check pull-right role-check"  :id = "subMenu.id"></div>
                             </label>
                         </div>
                         <div class="right-top-icon"></div>
                     </div>
                 </div>
-                <div class="col-xs-23">
-                    <div class="pull-left">
-                        <div class="col-xs-20 col-xs-push-2">
-                            <label class="col-xs-24" for="first">
-                                <b class="pull-left">罪犯资金管理权限</b>
-                                <div class="info-check pull-right"></div>
-                                <span class="pull-right">全选</span>
-                            </label>
-                            <div class="col-xs-24"></div>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">个人罪犯消费限制</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">监狱罪犯消费限制</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">监区罪犯消费限制</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">罪犯资金分配</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">罪犯资金明细查询</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                        </div>
-                        <div class="right-top-icon"></div>
-                    </div>
-                    <div class="pull-right">
-                        <div class="col-xs-20 col-xs-push-2">
-                            <label class="col-xs-24" for="first">
-                                <b class="pull-left">犯罪信息权限</b>
-                                <div class="info-check pull-right"></div>
-                                <span class="pull-right">全选</span>
-                            </label>
-                            <div class="col-xs-24"></div>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">新增犯罪</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">罪犯管理</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">罪犯转监申请</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">罪犯转监审核</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                        </div>
-                        <div class="right-top-icon"></div>
-                    </div>
-                </div>
-                <div class="col-xs-23">
-                    <div class="pull-left">
-                        <div class="col-xs-20 col-xs-push-2">
-                            <label class="col-xs-24" for="first">
-                                <b class="pull-left">系统管理权限</b>
-                                <div class="info-check pull-right"></div>
-                                <span class="pull-right">全选</span>
-                            </label>
-                            <div class="col-xs-24"></div>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">新增菜单</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">菜单管理</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">新增角色</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">角色管理</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">新增用户</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                            <label class="col-xs-24" for="first">
-                                <span class="pull-left">新增用户</span>
-                                <div class="info-check pull-right"></div>
-                            </label>
-                        </div>
-                        <div class="right-top-icon"></div>
-                    </div>
-                </div>
+            </div>
+
+            <!-- 确认添加-->
+            <div id="addButtonBox" class="col-xs-4 col-xs-offset-10 add-roll-button-box">
+                <input type="button" value="确认添加" class="add-button" id = "addRollButton" @click = "addRole">
             </div>
         </div>
 </template>
@@ -188,14 +49,87 @@
 	export default {
 		data(){
 			return {
-
+                firstMenuList:"",
+                secondMenuList:"",
+                roleName:""
 			}
 		},
 		methods:{
+            getFirstMenuList(){//获取菜单列表
+                this.$http.get('role/getMenuHierarchys',{params:{'type':0}}).then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.firstMenuList = res.data.data;
+                        this.getEditInfo();
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
 
+            getEditInfo(){//点击编辑时获取角色原有的权限和信息
+                let id = this.$route.params.id;
+                this.$http.get('/role/getRole',{params:{'roleId':id}}).then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        let editInfo = res.data.data;
+                        this.roleName = editInfo.roleName;//绑定角色名称
+                        let checkbox = $("#addRole .role-check");
+                        for(let i = 0; i < editInfo.roleMenus.length; i++){
+                           let checkedId = editInfo.roleMenus[i].menuId;
+                            for(let j =0 ;j < checkbox.length; j++) {
+                                let listId = checkbox[j].getAttribute("id");
+                                if (checkedId == listId) {
+                                    $(checkbox[j]).addClass("active");//绑定已有权限
+                                }
+                            }
+                        }
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            addRole(){
+                let menuIdsArr = [];
+                let checkedbox = $("#addRole .role-check").filter(".active");//勾选的子类
+                let pCheckedBox =checkedbox.parents(".role-inner");//对应的父类
+                let id = this.$route.params.id;
+                let roleName = $("#roleName").val().replace(/(^\s*)|(\s*$)/g,"");
+                for (let i =0;i < checkedbox.length; i++) {//将勾选的子类ID加入
+                    menuIdsArr.push(checkedbox[i].getAttribute("id"));
+                }
+                for (let i =0;i < pCheckedBox.length; i++) {//将对应的父类ID加入
+                    menuIdsArr.push(pCheckedBox[i].getAttribute("pid"));
+                }
+                let roleData = {
+                    "roleId" : id,
+                    "roleName" : roleName,
+                    "menuIds" : menuIdsArr.join(),
+                }
+                if (roleName == "") {
+                    alert("请填写角色名称");
+                }else if (menuIdsArr.length <=0){
+                    alert("请选择对应的权限");
+                } else {
+                    this.$http.post('role/addOrUpdateRole',$.param(roleData)).then(res=>{
+                        console.log(res);
+                        if (res.data.code == 0) {
+                            alert("角色创建成功");
+                            history.go(0);
+                        } else if (res.data.code == 30003) {
+                            alert("角色已存在");
+                        }
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }
+            }
 		},
+
         mounted(){
             $('#addRole').selectRole();
+            this.getFirstMenuList();
         }
 	}
 </script>
@@ -215,6 +149,27 @@
 
     .label-box label{
         font-weight:normal;
+    }
+    .add-button {
+        color: #fff;
+        font-size: 15px;
+        background: #1aa3ab;
+        width: 90%;
+        height: 40px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        border: 1px solid #1aa3ab;
+    }
+    .add-roll-button-box {
+        margin-bottom: 10px;
+    }
+    .add {
+        >div {
+            >div {
+                margin: 10px;
+            }
+        }
     }
 }
 </style>

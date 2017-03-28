@@ -1,3 +1,4 @@
+import Login from './components/Login.vue'
 import Examine from './components/Examine.vue'
 import Delivery from './components/Delivery.vue'
 import Cancel from './components/Cancel.vue'
@@ -30,6 +31,10 @@ import PrisonLimit from './components/criminalFundManagement/Prison_Limit.vue'
 
 export default [
 	{
+		path:'/login',
+		component:Login
+	},
+	{
 		path:'/examine',
 		component:Examine
 	},
@@ -51,11 +56,19 @@ export default [
 	},
 	{
 		path:'/menu_management',
-		component:MenuManagement
+		component:MenuManagement,
+		children:[{
+			path:'/menu_management/edit/:id',
+			component:MenuAdd
+		}]
 	},
 	{
 		path:'/role_management',
-		component:RoleManagement
+		component:RoleManagement,
+		children:[{
+			path:'/role_management/edit/:id',
+			component:RoleAdd
+		}]
 	},
 	{
 		path:'/trader_management',
@@ -63,7 +76,11 @@ export default [
 	},
 	{
 		path:'/user_management',
-		component:UserManagement
+		component:UserManagement,
+		children:[{
+			path:'/user_management/edit/:id',
+			component:UserAdd
+		}]
 	},
 	{
 		path:'/menu_add',
@@ -83,7 +100,11 @@ export default [
 	},
 	{
 		path:'/crimsearch',
-		component: Criminal_Search
+		component: Criminal_Search,
+		children:[{
+			path:'/crimsearch/edit/:id',
+			component:Criminal_Add
+		}]
 	},
 	{
 		path:'/crimexamine',
@@ -151,6 +172,6 @@ export default [
 	},
 	{
 		path:'*',
-		redirect:'/examine'
+		redirect:'/login'
 	}
 ]

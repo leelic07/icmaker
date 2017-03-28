@@ -6,15 +6,29 @@
                 <div class="col-xs-23 search-inner-box">
                     <div class="row">
                         <div class="col-xs-8 select-box">
-                            <label for="name">所属监狱</label>
-                            <select class="form-control">
-                                <option>长沙女子监狱</option>
+                            <label for="fromPrisonId">所属监狱</label>
+                            <select class="form-control" id="fromPrisonId">
+                                <option value="">全部</option>
+                                <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-8 select-box">
+                            <label for="toPrisonId">转至监狱</label>
+                            <select class="form-control" id="toPrisonId">
+                                <option value="">全部</option>
+                                <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-8 select-box">
+                            <label for="status">审核状态</label>
+                            <select class="form-control" id="status">
+                                <option v-for = "status in examStatus" :value = "status.value">{{status.name}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button">
+                            <input type="button" value="搜索" class="search-button" @click = "applyList(null)">
                         </div>    
                     </div>
                 </div>
@@ -24,10 +38,10 @@
         <!--按钮组部分-->
         <div class="col-xs-24 button">
             <div class="col-xs-2">
-                <input type="button" value="同意转监狱" class="agree-button">
+                <input type="button" value="同意转监狱" class="agree-button" @click = "transferExam(null,2,1)">
             </div>
             <div class="col-xs-2">
-                <input type="button" value="拒绝转监狱" class="reject-button">
+                <input type="button" value="拒绝转监狱" class="reject-button" @click = "transferExam(null,2,2)">
             </div>
         </div>
 
@@ -48,67 +62,185 @@
                             <th>所属监区</th>
                             <th>转至监狱</th>
                             <th>转至监区</th>
-                            <th>罪名</th>
-                            <th>刑期</th>
                             <th>入监日期</th>
+                            <th>审核状态</th>
                             <th colspan="2">操作</th>  
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr v-for = "transfer in transfers">
                             <td><div class="info-check"></div></td>
-                            <td>Tanmay</td>
-                            <td>4307000012</td>
-                            <td>4307000012</td>
-                            <td>4307000012</td>
-                            <td>女子监狱</td>
-                            <td>第七监狱</td>
-                            <td>女子监狱</td>
-                            <td>第七监狱</td>
-                            <td>ftsfdasd</td>
-                            <td>2年3个月</td>
-                            <td>mmm-nn-2</td>
-                            <td><em class="agree-text">同意</em></td>
-                            <td><em class="reject-text">拒绝</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>Tanmay</td>
-                            <td>4307000012</td>
-                            <td>4307000012</td>
-                            <td>4307000012</td>
-                            <td>女子监狱</td>
-                            <td>第七监狱</td>
-                            <td>女子监狱</td>
-                            <td>第七监狱</td>
-                            <td>ftsfdasd</td>
-                            <td>2年3个月</td>
-                            <td>mmm-nn-2</td>
-                            <td><em class="agree-text">同意</em></td>
-                            <td><em class="reject-text">拒绝</em></td>
-                        </tr>    
+                            <td>{{transfer.name}}</td>
+                            <td>{{transfer.number}}</td>
+                            <td>{{transfer.archivesNumber}}</td>
+                            <td>{{transfer.insideArchivesNumber}}</td>
+                            <td>{{transfer.prisonName}}</td>
+                            <td>{{transfer.prisonDepartmentName}}</td>
+                            <td>{{transfer.toPrisonName}}</td>
+                            <td>{{transfer.toPrisonDepartmentName}}</td>
+                            <td>{{transfer.intoPrisonDate | formatDate}}</td>
+                            <td>{{transfer.status | formatExamStatus}}</td>
+                            <td><em class="agree-text" :id="transfer.transferId" @click = "transferExam($event,1,1)" v-show = "transfer.status == 0">同意</em></td>
+                            <td><em class="reject-text" :id="transfer.transferId"  @click = "transferExam($event,1,2)" v-show = "transfer.status == 0">拒绝</em></td>
+                        </tr>  
                     </tbody>
                 </table>
             </div>
             <!-- 表单底部-->
-            <Page></Page>
+            <Page :itemSize = "transferSize" :pageSize = "pageSize"></Page>
+        </div>
+        
+        <!-- 同意确认框-->
+        <div class="modal modal-confirm" id="agreeTransferConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>确认同意转监狱?</h3>
+                        <button class="confirm-button" :id = "currentId" data-dismiss="modal" @click = "transferConfirm($event,1)">确定</button>
+                        <button class="cancel-button" data-dismiss="modal">取消</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <!-- 拒绝确认框-->
+        <div class="modal modal-confirm" id="rejectTransferConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>确认拒绝转监狱?</h3>
+                        <div class="form-group clearfix col-xs-20 input-box col-xs-offset-4">
+                            <label for="verifyNote" class="pull-left col-xs-5">拒绝原因 :</label>
+                            <div class="col-xs-15">
+                                <input type="text" class="form-control pull-left" id="verifyNote">
+                            </div> 
+                        </div>
+                        <button class="confirm-button" :id = "currentId" data-dismiss="modal" @click = "transferConfirm($event,2)">确定</button>
+                        <button class="cancel-button" data-dismiss="modal">取消</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
         </div>
     </div>
 </template>
+<style lang="less" scoped>
+    #rejectTransferConfirm {
+        .input-box {
+            margin-top: 30px;
+            label {
+                height: 34px;
+                line-height: 34px;
+            }
+        }
+    }
+</style>
 <script>
 import Page from '../Paginator.vue'
     export default{
 		data(){
 			return{
-
+                examStatus: "",//审核状态
+                prisons: "",//监狱列表
+                transfers: "",//申请罪犯列表
+                transferSize: "",//申请罪犯列表条数
+                pageSize: 20,//每页显示的条数
+                currentId: "",//当前操作的ID
+                choiseIds: "",//选中的ID列表
+                numType: ""//numType:1-单个审核 2-批量审核
 			}
 		},
-        compoents:{
+        methods:{
+            getExamStatus() {
+                this.examStatus = [{"value":0,"name":"审核中"},{"value":1,"name":"审核成功"},{"value":2,"name":"审核失败"},{"value":" ","name":"全部"}];
+            },
+
+            getPrisonInfo() {//获取监狱信息
+                this.$http.get('prisoner/toAddOrEdit').then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.prisons = res.data.data.prisons;//赋值监狱列表
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            applyList(initStatus) {//搜索得到转监狱审核列表
+                let status = initStatus == null ? $("#status").val() : initStatus;
+                let searchData = {
+                    "type": 1,//类型为转监狱
+                    "fromPrisonId": $("#fromPrisonId").val(),
+                    "toPrisonId": $("#toPrisonId").val(),
+                    "status": status,
+                    "indexPage":1,
+                    "pageSize":this.pageSize
+                };
+                console.log(searchData);
+                this.$http.get('prisoner/getPrisonerTransfers',{params:searchData}).then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.transfers = res.data.data.transfers;//赋值罪犯列表
+                        this.transferSize = res.data.data.transferSize;//赋值罪犯列表数
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            transferExam(e,numType,agreeType) {//对审核操作进行确认 numType:1-单个审核 2-批量审核 agreeType:1-同意 2-拒绝
+                this.numType = numType;
+                if (numType == 1) {//单个审核
+                    this.currentId = e.target.getAttribute("id");
+                } else {//批量审核
+                    
+                    this.choiseIds 
+                }
+                
+                if (agreeType == 1) {//同意
+                    $('#agreeTransferConfirm').modal();
+                } else {//拒绝
+                    $('#rejectTransferConfirm').modal();
+                }
+            },
+
+            transferConfirm(e,type) {//对转监进行审核
+                let transferData = {
+                    "verifyType": type,
+                    "verifyNote": $("#verifyNote").val(),
+                    "prisonerTransferId": e.target.getAttribute("id")
+                };
+                console.log(transferData);
+                this.$http.post('prisoner/transferVerify',$.param(transferData)).then(res=>{
+                    console.log("审核");
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.applyList(0);
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+
+        },
+        components:{
             Page
         },
         mounted(){
             $('#table_id_example').tableHover();
             $('#table_id_example').select();
+            this.getExamStatus();
+            this.getPrisonInfo();
+            this.applyList(0);//默认显示审核中状态的申请
         }
 	}
 </script>
