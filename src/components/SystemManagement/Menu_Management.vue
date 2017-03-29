@@ -161,7 +161,7 @@ import Page from '../Paginator.vue'
                let id = e.target.getAttribute('id');
                const delUrl = 'menu/deleteMenu';
                this.$http.post(delUrl,$.param({'id':id})).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     let status = res.data.code;
                     if (status == 0) {//返回成功
                         this.searchMenu();
