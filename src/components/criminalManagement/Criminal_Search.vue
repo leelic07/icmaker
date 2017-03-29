@@ -44,7 +44,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button" @click = "criminalSearch">
+                                <input type="button" value="搜索" class="search-button" @click = "criminalSearch(1)">
                             </div>    
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                     </table>
                 </div>
                 <!-- 表单底部-->
-                <Page :itemSize = "prisonerSize" :pageSize = "pageSize" ></Page>
+                <Page :itemSize = "prisonerSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "criminalSearch"></Page>
             </div>
 
             <!-- 删除确认框-->
@@ -125,9 +125,10 @@ import Page from '../Paginator.vue'
                 statusList: "",//在监状态列表
                 prisonerList: "",//罪犯信息列表
                 prisonerSize: "",//罪犯信息条数
-                pageSize: 20,//每页显示的条数
+                pageSize: 10,//每页显示的条数
                 currentId: "",//当前操作的罪犯ID
-                isManage: true//是否为管理页
+                isManage: true,//是否为管理页
+                indexPage: 1
             }
         },
         watch:{
@@ -155,7 +156,7 @@ import Page from '../Paginator.vue'
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"离监"},{"value":1,"name":"在监"}]
             },
 
-            getPrisonInfo() {//获取监狱信息
+            getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
@@ -178,7 +179,8 @@ import Page from '../Paginator.vue'
                 });
             },
 
-            criminalSearch(){
+            criminalSearch(index){
+                this.indexPage = index;
                 let searchData = {
                     "prisonId": $("#prisonId").val(),
                     "prisonDepartmentId": $("#prisonDepartmentId").val(),
@@ -186,7 +188,7 @@ import Page from '../Paginator.vue'
                     "name": $("#name").val(),
                     "number": $("#number").val(),
                     "archivesNumber":$("#archivesNumber").val(),
-                    "indexPage":1,
+                    "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
                 console.log(searchData);
@@ -228,7 +230,7 @@ import Page from '../Paginator.vue'
             $('#table_id_example').tableHover();
             this.getPrisonInfo();
             this.getStatusList();
-            this.criminalSearch();
+            this.criminalSearch(1);
             this.hideCriminalList();
         }
     }   

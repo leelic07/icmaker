@@ -22,7 +22,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button" @click = "searchMenu">
+                                <input type="button" value="搜索" class="search-button" @click = "searchMenu(1)">
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                     </table>
                 </div>
                 <!-- 表格底部-->
-                <Page :itemSize = "menuSize" :pageSize = "pageSize" v-on:searchMenu = "searchMenu"></Page>
+                <Page :itemSize = "menuSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "searchMenu"></Page>
             </div>
 
             <!--模态框-->
@@ -95,11 +95,12 @@ import Page from '../Paginator.vue'
 	export default {
 		data(){
 			return {
-                pageSize : 20,//每页的数据条数
+                pageSize : 10,//每页的数据条数
 				menuList : '',//菜单列表信息
                 menuSize: '',//总条数
                 currentId:'',//当前操作的菜单的ID
-                isManage: true
+                isManage: true,
+                indexPage: 1
 			}
 		},
         components:{
@@ -118,30 +119,27 @@ import Page from '../Paginator.vue'
         },
 		methods:{
             //搜索菜单栏列表
-            searchMenu(){
-                // const vue = this;
-                // let menuList = vue => {
-                    const getUrl = 'menu/getMenus';
-                    let page = 1;
-                    let getData = {
-                        'type' : $('#searchMenuType').val(),
-                        'menuName' : $('#searchMenuName').val(),
-                        'indexPage' : page,
-                        'pageSize' : this.pageSize
-                    };
-                    console.log(getData);
-                    this.$http.get(getUrl,{params: getData}).then(res=>{
-                        console.log(res);
-                        let status = res.data.code;
-                        if (status == 0) {//返回成功
-                            this.menuList = res.data.data.menuDtos;//菜单列表赋值
-                            this.menuSize = res.data.data.menuSize;//菜单列表条数
-                        }
-                    }).catch(err=>{
-                        console.log('获取菜单列表服务器异常' + err);
-                    });
-                // }
-                // menuList(vue);
+            searchMenu(index){
+                this.indexPage = index;
+                const getUrl = 'menu/getMenus';
+                let getData = {
+                    'type' : $('#searchMenuType').val(),
+                    'menuName' : $('#searchMenuName').val(),
+                    'indexPage' : this.indexPage,
+                    'pageSize' : this.pageSize
+                };
+                console.log(getData);
+                this.$http.get(getUrl,{params: getData}).then(res=>{
+                    console.log(res);
+                    let status = res.data.code;
+                    if (status == 0) {//返回成功
+                        this.menuList = res.data.data.menuDtos;//菜单列表赋值
+                        this.menuSize = res.data.data.menuSize;//菜单列表条数
+                    }
+                }).catch(err=>{
+                    console.log('获取菜单列表服务器异常' + err);
+                });
+                
            },
            //初始为编辑页时隐藏管理页
            hideMenuList() {
@@ -192,7 +190,7 @@ import Page from '../Paginator.vue'
         mounted(){
             $('#table_id_example').tableHover();
             //加载菜单列表
-            this.searchMenu();
+            this.searchMenu(1);
             //初始为编辑页时隐藏管理页
             this.hideMenuList();
         }

@@ -10,6 +10,19 @@
         </ul>
     </div>
 </template>
+<style lang="less" scoped>
+    .tab {
+        a {
+            color: #666;
+        }
+        .active {
+            a {
+                color: #333;
+                font-weight: bold;
+            }
+        }
+    }
+</style>
 <script>
     export default{
 		data(){
@@ -30,7 +43,19 @@
                     this.active.prison = false;
                     this.active.ward = true;
                 }
+            },
+            currentActive() {
+                if (this.$route.path == "/crimexamine/prison") {//转监狱审核页面
+                    this.active.prison = true;
+                    this.active.ward = false;
+                }else {
+                    this.active.prison = false;
+                    this.active.ward = true;
+                }
             }
+        },
+        mounted(){
+            this.currentActive();
         }
 	}
 </script>

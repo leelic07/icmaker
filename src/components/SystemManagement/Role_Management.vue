@@ -25,7 +25,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-4 col-xs-push-10 button-box">
-                                    <input type="button" value="搜索" class="search-button" @click ="roleListSearch">
+                                    <input type="button" value="搜索" class="search-button" @click ="roleListSearch(1)">
                                 </div>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                         </table>
                     </div>
                     <!-- 表单底部-->
-                    <Page :itemSize = "roleSize" :pageSize = "pageSize"></Page>
+                    <Page :itemSize = "roleSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "roleListSearch"></Page>
                 </div>
 
                 <!-- 删除确认框-->
@@ -96,7 +96,8 @@ import Page from '../Paginator.vue'
                 isManage : true,
                 pageSize : 20,
                 roleSize : "",
-                currentId :""
+                currentId :"",
+                indexPage: 1
 			}
 		},
         components:{
@@ -134,14 +135,14 @@ import Page from '../Paginator.vue'
                     this.isManage = false;//将管理页隐藏
                 }
             },
-            roleListSearch() {
+            roleListSearch(index) {
+                this.indexPage = index;
                 const getUrl = 'role/getRoles';
-                let page = 1;
                 let getData = {
                     'roleName' : $('#roleName').val(),
                     'startDateStr' : $('#startDateStr').val(),
                     'endDateStr' : $('#endDateStr').val(),
-                    'indexPage' : page,
+                    'indexPage' : this.indexPage,
                     'pageSize' : this.pageSize
                 };
                 console.log(getData);
@@ -182,7 +183,7 @@ import Page from '../Paginator.vue'
             //初始为编辑页时隐藏管理页
             this.hideRoleList();
             //加载角色列表
-            this.roleListSearch();
+            this.roleListSearch(1);
 		}
 	}
 </script>
