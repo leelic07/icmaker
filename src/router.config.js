@@ -28,6 +28,11 @@ import TransferExamine from './components/fundManagement/Transfer_Examine.vue'
 import CriminalFundLimit from './components/criminalFundManagement/Criminal_Fund_Limit.vue'
 import PrisonAreaLimit from './components/criminalFundManagement/Prison_Area_Limit.vue'
 import PrisonLimit from './components/criminalFundManagement/Prison_Limit.vue'
+import CriminalFundDetail from './components/criminalFundManagement/Criminal_Fund_Detail.vue'
+import CFD_AddCriminal from './components/criminalFundManagement/CFD_Add_Criminal.vue'
+import CriminalFundDistribution from './components/criminalFundManagement/Criminal_Fund_Distribution.vue'
+import Consumption from './components/consumption/Consumption.vue' 
+
 
 export default [
 	{
@@ -169,6 +174,22 @@ export default [
 	{
 		path:'/prison_limit',
 		component:PrisonLimit
+	},
+	{
+		path:'/criminal_fund_detail',
+		component:CriminalFundDetail
+	},
+	{
+		path:'/cfd_add_criminal',
+		component:CFD_AddCriminal
+	},
+	{
+		path:'/criminal_fund_distribution',
+		component:CriminalFundDistribution
+	},
+	{
+		path:'/consumption',
+		component:Consumption
 	},
 	{
 		path:'*',

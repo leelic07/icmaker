@@ -39,8 +39,8 @@
                         <router-link class="col-xs-24 pull-left" to="/application">申请制卡</router-link>
                     </li>    
                     <li>
-                        <!-- <a class="col-xs-24 pull-left" href="#">个人银行账户</a> -->
-                        <router-link class="col-xs-24 pull-left" to="/examine">个人银行账户</router-link>
+                        
+                    
                     </li>
                 </ul>
             </div>
@@ -106,11 +106,11 @@
                     </li>
                     <li>
                         <!-- <a class="col-xs-24 pull-left" href="#">罪犯资金分配</a> -->
-                        <router-link class="col-xs-24 pull-left" to="">罪犯资金分配</router-link>
+                        <router-link class="col-xs-24 pull-left" to="/criminal_fund_distribution">罪犯资金分配</router-link>
                     </li>
                     <li>
                         <!-- <a class="col-xs-24 pull-left" href="#">罪犯资金明细查询</a> -->
-                        <router-link class="col-xs-24 pull-left" to="">罪犯资金明细查询</router-link>
+                        <router-link class="col-xs-24 pull-left" to="/criminal_fund_detail">罪犯资金明细查询</router-link>
                     </li>
                 </ul>
             </div>
@@ -184,6 +184,19 @@
                     </li>
                 </ul>
             </div>
+            <div class="col-xs-24">
+                <a href="/consumption" class="col-xs-24" :class="{'consumption-active':consumptionActive}" @click="consumptionClick">
+                    <div class="col-xs-6">
+                        <b class="pull-left consumption-icon"></b>
+                    </div>
+                    <div class="col-xs-12">
+                        <span class="pull-left">消费管理</span>
+                    </div>
+                    <!-- <div class="col-xs-6">
+                        <i class="pull-left"></i>
+                    </div> -->
+                </a>
+            </div>
         </div>
 </template>
 <script>
@@ -194,7 +207,8 @@
                 sysActive:false,
                 crimActive:false,
                 fundActive:false,
-                crimFundActive:false
+                crimFundActive:false,
+                consumptionActive:false
             }
         },
         methods:{
@@ -242,6 +256,13 @@
                     this.crimFundActive = true;
                 }else{
                     this.crimFundActive = false;
+                }
+            },
+            consumptionClick(){
+                if(this.consumptionActive == false){
+                    this.consumptionActive = true;
+                }else{
+                    this.consumptionActive = false;
                 }
             }
         },

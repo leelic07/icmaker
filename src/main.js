@@ -19,6 +19,14 @@ Vue.prototype.$http = axios;
 
 axios.interceptors.request.use(function(config){
 	store.dispatch('showLoading');
+	// console.log(config);
+	// console.log(store.state.mutations.token);
+ 	if (store.state.mutations.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+        // config.headers.Authorization = `token ${store.state.mutations.token}`;
+        if(config.params){
+        	config.params.userId = store.state.mutations.userId;
+        }
+    }
 	return config;
 },function(err){
 	return Promise.reject(err);
@@ -31,7 +39,7 @@ axios.interceptors.response.use(function(response){
   	return Promise.reject(err);
 });
 
-axios.defaults.baseURL='http://10.10.10.104:8080/icmaker/'
+axios.defaults.baseURL='http://10.10.10.103:8080/icmaker/';
 
 const router = new VueRouter({
 	routes

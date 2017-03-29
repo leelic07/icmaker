@@ -26,6 +26,7 @@
     </div>   
 </template>
 <script>
+import store from '../store';
 export default {
   name: 'app',
   data () {
@@ -50,6 +51,7 @@ export default {
                 } else if (res.data.code == 0) {//登陆成功
                     this.isWrong =false;
                     let userId = res.data.data.id;
+                    store.state.mutations.userId = userId;
                     //设置cookie
                    // document.cookie = "userId =" +userId;
                    this.$router.push({path:"/examine",query:{userId:userId}});
