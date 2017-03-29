@@ -80,7 +80,7 @@
                                 <td>{{card.archivesNumber}}</td>
                                 <td>{{card.name}}</td>
                                 <td>{{card.virtualAccount}}</td>
-                                <td>{{card.total}}</td>
+                                <td>{{card.total | currency}}</td>
                                 <td>{{card.createdAt | formatDate}}</td>
                                 <td>{{card.status | formatIcStatus}}</td>
                                 <td class="reject-text"><em>销卡</em></td>
