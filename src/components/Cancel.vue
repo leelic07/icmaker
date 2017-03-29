@@ -7,45 +7,47 @@
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
                             <div class="col-xs-8 select-box">
-                                <label for="name">所属监狱</label>
-                                <select class="form-control">
-                                    <option>长沙女子监狱</option>
+                                <label for="prisonId">所属监狱</label>
+                                <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event)">
+                                    <option value="">全部</option>
+                                    <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                                 </select>
                             </div>
                             <div class="col-xs-8 select-box">
-                                <label for="name">所属监区</label>
-                                <select class="form-control">
-                                    <option>第五监区</option>
+                                <label for="departmentId">所属监区</label>
+                                <select class="form-control" id="departmentId">
+                                    <option value="">全部</option>
+                                    <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                                 </select>
                             </div>
                             <div class="col-xs-8 select-box">
-                                <label for="name">状态</label>
-                                <select class="form-control">
-                                    <option>已挂失</option>
+                                <label for="status">状态</label>
+                                <select class="form-control" id="status">
+                                    <option v-for = "status in statusList" :value = "status.value">{{status.name}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-6 text-box">
-                                <label for="name">编号</label>
-                                <input type="text" class="form-control" id="">
+                                <label for="number">编号</label>
+                                <input type="text" class="form-control" id="number">
                             </div>
                             <div class="col-xs-6 text-box">
-                                <label for="name">档案号</label>
-                                <input type="text" class="form-control" id="">
+                                <label for="archivesNumber">档案号</label>
+                                <input type="text" class="form-control" id="archivesNumber">
                             </div>
                             <div class="col-xs-6 text-box">
                                 <label for="name">犯罪名</label>
-                                <input type="text" class="form-control" id="">
+                                <input type="text" class="form-control" id="name">
                             </div>
                             <div class="col-xs-6 text-box">
-                                <label for="name">读卡</label>
-                                <input type="text" class="form-control" id="">
+                                <label for="icCardNo">读卡</label>
+                                <input type="text" class="form-control" id="icCardNo">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button">
+                                <input type="button" value="搜索" class="search-button" @click = "getIcList(1)">
                             </div>
                         </div>
                     </div>
@@ -64,95 +66,23 @@
                                 <th>档案号</th>
                                 <th>罪犯名</th>
                                 <th>虚拟账号</th>
-                                <th>IC卡余额</th>
-                                <th>就业基金</th>
+                                <th>IC卡余额（元）</th>
                                 <th>发卡时间</th>
                                 <th>状态</th>
                                 <th colspan="2">操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>女子监狱</td>
-                                <td>七监区一分区</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>243.00</td>
-                                <td>0</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>正常使用</td>
-                                <td class="reject-text"><em>销卡</em></td>
-                                <td><em class="agree-text" @click="cancel()">挂失</em></td>
-                            </tr>
-                            <tr>
-                                <td>女子监狱</td>
-                                <td>七监区一分区</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>243.00</td>
-                                <td>0</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td class="reject-text">已挂失</td>
-                                <td class="reject-text"><em>解除挂失</em></td>
-                                <td><em class="agree-text">销卡</em></td>
-                            </tr>
-                            <tr>
-                                <td>女子监狱</td>
-                                <td>七监区一分区</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>243.00</td>
-                                <td>0</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>正常使用</td>
-                                <td class="reject-text"><em>销卡</em></td>
-                                <td><em class="agree-text" @click="cancel()">挂失</em></td>
-                            </tr>
-                            <tr>
-                                <td>女子监狱</td>
-                                <td>七监区一分区</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>243.00</td>
-                                <td>0</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>正常使用</td>
-                                <td class="reject-text"><em>销卡</em></td>
-                                <td><em class="agree-text" @click="cancel()">挂失</em></td>
-                            </tr>
-                            <tr>
-                                <td>女子监狱</td>
-                                <td>七监区一分区</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>243.00</td>
-                                <td>0</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td class="reject-text">已挂失</td>
-                                <td class="reject-text"><em>解除挂失</em></td>
-                                <td><em class="agree-text">销卡</em></td>
-                            </tr>
-                            <tr>
-                                <td>女子监狱</td>
-                                <td>七监区一分区</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>243.00</td>
-                                <td>0</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>正常使用</td>
+                            <tr v-for = "card in icCardList">
+                                <td>{{card.prison}}</td>
+                                <td>{{card.prisonDepartment}}</td>
+                                <td>{{card.number}}</td>
+                                <td>{{card.archivesNumber}}</td>
+                                <td>{{card.name}}</td>
+                                <td>{{card.virtualAccount}}</td>
+                                <td>{{card.total}}</td>
+                                <td>{{card.createdAt | formatDate}}</td>
+                                <td>{{card.status}}</td>
                                 <td class="reject-text"><em>销卡</em></td>
                                 <td><em class="agree-text" @click="cancel()">挂失</em></td>
                             </tr>
@@ -190,10 +120,68 @@ import Page from './Paginator.vue'
 	export default{
 		data(){
 			return{
-				
+                statusList: "",//ic卡状态列表
+                prisons: "",//监狱列表
+                prisonDepartments: "",//监区列表
+				icCardList: "",//ic卡列表
+                icCardSize: "",
+                pageSize: 10,
+                indexPage: 1
 			}
 		},
         methods:{
+            getStatusList(){//赋值状态列表
+                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"正常使用"},{"value":1,"name":"已挂失"},{"value":1,"name":"已销卡"}]
+            },
+
+            getPrisonInfo() {//根据用户信息获取监狱信息
+                this.$http.get('prisoner/toAddOrEdit').then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.prisons = res.data.data.prisons;//赋值监狱列表
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            getPrisonDepartInfo (e) {//获取监区信息
+                let prisonId = $(e.target).val();
+                this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.prisonDepartments = res.data.data;//赋值监区列表
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            getIcList(index) {
+                this.indexPage = index;
+                let searchData = {
+                    "prisonId": $("#prisonId").val(),
+                    "departmentId": $("#departmentId").val(),
+                    "status":$("#status").val(),
+                    "name": $("#name").val(),
+                    "icCardNo": $("#icCardNo").val(),
+                    "number": $("#number").val(),
+                    "archivesNumber":$("#archivesNumber").val(),
+                    "indexPage":this.indexPage,
+                    "pageSize":this.pageSize
+                };
+                console.log(searchData);
+                this.$http.get('icCard/prisonerICs',{params:searchData}).then(res=>{
+                    console.log("列表");
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.icCardList = res.data.data.prisonerICs;//赋值罪犯列表
+                        this.icCardSize = res.data.data.icSize;//赋值罪犯列表数
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
             cancel(){
                 $('#cancelConfirm').modal();
             }
@@ -203,6 +191,9 @@ import Page from './Paginator.vue'
         },
         mounted(){
             $('#table_id_example').tableHover();
+            this.getStatusList();
+            this.getPrisonInfo();
+            this.getIcList(1);
         }
 	}
 </script>

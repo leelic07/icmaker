@@ -40,7 +40,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button" @click = "searchUserList">
+                                <input type="button" value="搜索" class="search-button" @click = "searchUserList(1)">
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     </table>
                 </div>
                 <!-- 表单底部-->
-                <Page :itemSize = "userSize" :pageSize = "pageSize"></Page>
+                <Page :itemSize = "userSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "searchUserList"></Page>
             </div>
         </div>
         <router-view></router-view>
@@ -96,8 +96,9 @@ import Page from '../Paginator.vue'
                 prisonList: "",
                 userList: "",
                 userSize: "",
-                pageSize: 20,
-                isManage: true
+                pageSize: 5,
+                isManage: true,
+                indexPage: 1
 			}
 		},
         watch:{
@@ -114,6 +115,9 @@ import Page from '../Paginator.vue'
 		methods:{
             getUserTypeList(){//初始化账号类型列表
                 this.userTypeList = [{
+                    "value": "",
+                    "name": "全部"
+                },{
                     "value": 0,
                     "name": "平台"
                 },{
@@ -137,16 +141,16 @@ import Page from '../Paginator.vue'
                     console.log(err);
                 });
             },
-            searchUserList(){
+            searchUserList(index){
+                this.indexPage = index;
                 const getUrl = 'getUsers';
-                let page = 1;
                 let getData = {
                     'userType' : $('#userType').val(),
                     'startDateStr' : $('#startDateStr').val(),
                     'endDateStr' : $('#endDateStr').val(),
                     'prisonId' : $('#prisonId').val(),
                     'userName' : $('#userName').val(),
-                    'indexPage' : page,
+                    'indexPage' : this.indexPage,
                     'pageSize' : this.pageSize
                 };
                 console.log(getData);
@@ -191,7 +195,7 @@ import Page from '../Paginator.vue'
             $('#table_id_example').tableHover();
             this.getUserTypeList();
             this.getPrisonList();
-            this.searchUserList();
+            this.searchUserList(1);
             this.hideUserList();//初始为编辑页时隐藏管理页
         }
 	}
