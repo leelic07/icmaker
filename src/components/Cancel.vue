@@ -82,7 +82,7 @@
                                 <td>{{card.virtualAccount}}</td>
                                 <td>{{card.total}}</td>
                                 <td>{{card.createdAt | formatDate}}</td>
-                                <td>{{card.status}}</td>
+                                <td>{{card.status | formatIcStatus}}</td>
                                 <td class="reject-text"><em>销卡</em></td>
                                 <td><em class="agree-text" @click="cancel()">挂失</em></td>
                             </tr>
@@ -90,7 +90,7 @@
                     </table>
                 </div>
                 <!-- 表单底部-->
-                <Page></Page>
+                <Page :itemSize = "icCardSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getIcList"></Page>
             </div>
 
             <!--模态框-->
