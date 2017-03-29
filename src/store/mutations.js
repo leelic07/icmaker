@@ -1,7 +1,7 @@
 
 const state = {
 	loading:false,
-	selectAll:true
+	selectAll:true,
 }
 
 const mutations = {

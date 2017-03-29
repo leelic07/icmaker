@@ -1,9 +1,11 @@
 <template>
   <div id="app" class="container-fluid">
-    <loading v-show="false"></loading>
+    <loading v-show="loadingShow"></loading>
     <LeftSide v-show = "isNotLogin"></LeftSide>
     <NavBar v-show = "isNotLogin"></NavBar>
+      <keep-alive>
         <router-view></router-view>
+      </keep-alive>
   </div>
 </template>
 
@@ -11,6 +13,7 @@
 import Vue from 'vue'
 import LeftSide from './components/Left-side.vue'
 import NavBar from './components/NavBar.vue'
+import store from './store'
 import {mapGetters,mapMutations} from 'vuex'
 
 export default {
@@ -30,7 +33,13 @@ export default {
         } 
       }
   },
-  computed:mapGetters(['loadingShow']),
+  computed:{
+    loadingShow:{
+      get(){
+        return store.state.mutations.loading;
+      }
+    }
+  },
   methods:{
     hidebar(){
       const loginUrl = "/login";
