@@ -8,32 +8,34 @@
                         <div class="row">
                             <div class="col-xs-8 select-box">
                                 <label for="name">所属监狱</label>
-                                <select class="form-control">
-                                    <option>长沙女子监狱</option>
+                                <select class="form-control" v-model='prisonId'>
+                                    <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
                                 </select>
                             </div>
                             <div class="col-xs-8 select-box">
                                 <label for="name">所属监区</label>
-                                <select class="form-control">
-                                    <option>第五监区</option>
+                                <select class="form-control" v-model='prisonDepartmentId'>
+                                    <option value=''>请选择</option>
+                                    <option v-for='pdt in prisonDepartmentsTem' v-text='pdt.prisonDepartmentName' :value='pdt.id'></option>
                                 </select>
                             </div>
                             <div class="col-xs-8 select-box">
-                                <label for="name">制卡状态</label>
-                                <select class="form-control">
-                                    <option>正在制卡</option>
+                                <label for="name">账户类型</label>
+                                <select class="form-control" v-model='accountType'>
+                                    <option value='0'>财务账户</option>
+                                    <option value='1'>商户账户</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-7 text-box">
                                 <label for="name">账户名</label>
-                                <input type="text" class="form-control" id="">
+                                <input type="text" class="form-control" id="" v-model='accountName'>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button">
+                                <input type="button" value="搜索" class="search-button" @click='searchAccount()'>
                             </div>
                         </div>
                     </div>
@@ -55,88 +57,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>出入监区</td>
-                            <td>4307000012</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>500.00</td>
-                            <td><em class="agree-text">修改</em></td>
-                            <!-- <td><em class="agree-text">银行账户管理</em></td> -->
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                        </tr>
-                        <tr>
-                            <td>出入监区</td>
-                            <td>4307000012</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>500.00</td>
-                            <td><em class="agree-text">修改</em></td>
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                        </tr>
-                        <tr>
-                            <td>出入监区</td>
-                            <td>4307000012</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>500.00</td>
-                            <td><em class="agree-text">修改</em></td>
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                        </tr>
-                        <tr>
-                            <td>出入监区</td>
-                            <td>4307000012</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>500.00</td>
-                            <td><em class="agree-text">修改</em></td>
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                        </tr>
-                        <tr>
-                            <td>出入监区</td>
-                            <td>4307000012</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>500.00</td>
-                            <td><em class="agree-text">修改</em></td>
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                        </tr>
-                        <tr>
-                            <td>出入监区</td>
-                            <td>4307000012</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>500.00</td>
-                            <td><em class="agree-text">修改</em></td>
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                        </tr>
-                        <tr>
-                            <td>出入监区</td>
-                            <td>4307000012</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>500.00</td>
-                            <td><em class="agree-text">修改</em></td>
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                        </tr>
-                        <tr>
-                            <td>出入监区</td>
-                            <td>4307000012</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>500.00</td>
-                            <td><em class="agree-text">修改</em></td>
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                        </tr>
-                        <tr>
-                            <td>出入监区</td>
-                            <td>4307000012</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>500.00</td>
-                            <td><em class="agree-text">修改</em></td>
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                        </tr>
+                            <tr v-for='pad in prisonAccountDtos'>
+                                <td v-text='pad.prisonName'></td>
+                                <td v-text='pad.prisonDepartmentName'></td>
+                                <td>{{pad.accountType | accountType}}</td>
+                                <td v-text='pad.accountName'></td>
+                                <td>{{pad.total | currency}}</td>
+                                <td><em class="agree-text">修改</em></td>
+                                <!-- <td><em class="agree-text">银行账户管理</em></td> -->
+                                <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -151,14 +81,98 @@ import Page from '../Paginator.vue'
 	export default {
 		data(){
 			return{
-
+                prisonAccountDtos:'',
+                prisonList:'',
+                prisonDepartments:'',
+                prisonDepartmentId:'',
+                prisonId:1,
+                accountType:0,
+                accountName:''
 			}
 		},
+        computed:{
+            prisonDepartmentsTem:{
+                get(){
+                    let pd = this.prisonDepartments;
+                    let pdt = [];
+                    this.prisonAndPrisonDepartment(pd,pdt);
+                    this.prisonDepartmentId = '';
+                    return pdt;
+                }
+            }
+        },
+        watch:{
+            prisonId(){
+                let pd = this.prisonDepartments;
+                let pdt = this.prisonDepartmentsTem;
+                pdt.splice(0,pdt.length);
+                this.prisonAndPrisonDepartment(pd,pdt);
+            }
+        },
+        methods:{
+            //监狱，监区联动
+            prisonAndPrisonDepartment(pd,pdt){
+                 $.each(pd,(index,value)=>{
+                    if(value.prisonId == this.prisonId){
+                        pdt.push(value);
+                    }
+                });
+            },
+            //获取表单数据
+            getFormInfo(){
+                this.$http({
+                    method:'get',
+                    url:'/prisonAccount/getPrisonAccountDtos',
+                    params:{
+                        indexPage:1,
+                        pageSize:20
+                    }
+                }).then(res=>{
+                    this.prisonAccountDtos = res.data.data.prisonAccountDtos;
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+            //查询所有监狱列表
+            getAllPrison(){
+                this.$http({
+                    method:'get',
+                    url:'/prisoner/toAddOrEdit',
+                }).then(res=>{
+                    let data = res.data.data;
+                    this.prisonList = data.prisons;
+                    this.prisonDepartments = data.prisonDepartments;
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+            //点击搜索获取账户列表
+            searchAccount(){
+                this.$http({
+                    method:'get',
+                    url:'/prisonAccount/getPrisonAccountDtos',
+                    params:{
+                        prisonId:this.prisonId,
+                        prisonDepartmentId:this.prisonDepartmentId,
+                        accountType:this.accountType,
+                        accountName:this.accountName,
+                        indexPage:1,
+                        pageSize:20
+                    }
+                }).then(res=>{
+                    this.prisonAccountDtos = res.data.data.prisonAccountDtos;
+                }).catch(err=>{
+                    console.log(err);
+                })
+            }
+        },
         components:{
             Page
         },
         mounted(){
             $('#table_id_example').tableHover();
+            this.getFormInfo();
+            this.getAllPrison();
         }
 	}
 </script>
