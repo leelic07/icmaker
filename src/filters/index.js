@@ -170,5 +170,22 @@ export default{
 			let second=buling(now.getSeconds());
 			return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
 		}
-	}
+	},
+
+	//虚拟账号状态
+	formatAccountType(value) {
+		let accountType = "";
+		switch(Number(value))
+		{
+		case 1 :
+			accountType = "可用";
+			break;
+		case 2 :
+			accountType = "已绑定";
+			break;
+		default :
+			accountType = "";
+		}
+		return accountType;
+	},
 }
