@@ -25,6 +25,7 @@ import BankAccountManagement from './components/fundManagement/Bank_Account_Mana
 import FundDetail from './components/fundManagement/Fund_Detail.vue'
 import TransferApplication from './components/fundManagement/Transfer_Application.vue'
 import TransferExamine from './components/fundManagement/Transfer_Examine.vue'
+import AccountModify from './components/fundManagement/Account_Modify.vue'
 import CriminalFundLimit from './components/criminalFundManagement/Criminal_Fund_Limit.vue'
 import PrisonAreaLimit from './components/criminalFundManagement/Prison_Area_Limit.vue'
 import PrisonLimit from './components/criminalFundManagement/Prison_Limit.vue'
@@ -146,6 +147,10 @@ export default [
 	{
 		path:'/account_add',
 		component:AccountAdd
+	},
+	{
+		path:'/account_modify/:prisonAccountId',
+		component:AccountModify
 	},
 	{
 		path:'/bank_account_management',
