@@ -200,7 +200,9 @@ import Page from './Paginator.vue'
 
             applyCard(){
                 $('#applyConfirm').modal();
-            }
+            },
+
+          //  applyConfirm
         },
         components:{
            Page
