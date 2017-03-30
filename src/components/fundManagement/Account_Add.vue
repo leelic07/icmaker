@@ -83,6 +83,7 @@
         },
         watch:{
             prisonId(){
+                console.log('change');
                 let pd = this.prisonDepartments;
                 let pdt = this.prisonDepartmentsTem;
                 pdt.splice(0,pdt.length);

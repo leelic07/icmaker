@@ -149,7 +149,7 @@ export default [
 		component:AccountAdd
 	},
 	{
-		path:'/account_modify/:prisonAccountId',
+		path:'/account_modify',
 		component:AccountModify
 	},
 	{

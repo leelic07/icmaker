@@ -20,13 +20,13 @@ Vue.prototype.$http = axios;
 //ajax请求拦截器
 axios.interceptors.request.use(function(config){
 	store.dispatch('showLoading');
-	console.log(config);
+	// console.log(config);
         // config.headers.Authorization = `token ${store.state.mutations.token}`;
         if(config.params){
         	config.params.userId = window.localStorage.getItem('userId');
         }
         if(config.method == 'post' && config.url != config.baseURL+'login'){
-        	config.data.userId = window.localStorage.getItem('userId');
+        	config.data += '&userId=' + window.localStorage.getItem('userId');
         }
 	return config;
 },function(err){

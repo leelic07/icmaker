@@ -65,7 +65,7 @@
                             <td>{{pad.accountType | accountType}}</td>
                             <td v-text='pad.accountName'></td>
                             <td>{{pad.total | currency}}</td>
-                            <td><router-link :to="'/account_modify/'+pad.prisonAccountId" class="agree-text">修改</router-link></td>
+                            <td><router-link to='/account_modify' class="agree-text" @click='getPrisonAccount(pad.prisonAccountId)'>修改</router-link></td>
                             <!-- <td><em class="agree-text">银行账户管理</em></td> -->
                             <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
                         </tr>
@@ -173,8 +173,19 @@ import Page from '../Paginator.vue'
                     console.log(err);
                 })
             },
-            modify(){
-
+            //获得修改的账户信息
+            getPrisonAccount(prisonAccountId){
+                this.$http({
+                    method:'get',
+                    url:'prisonAccount/getPrisonAccount',
+                    params:{
+                        'prisonAccountId':prisonAccountId
+                    }
+                }).then(res=>{
+                    this.$emit('prisonAccountList',res.data.data);
+                }).catch(err=>{
+                    console.log(err);
+                })
             }
         },
         components:{

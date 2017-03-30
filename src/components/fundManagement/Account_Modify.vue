@@ -18,7 +18,7 @@
                                 <label class="pull-right" for="name">所属监狱 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
-                                <select class="form-control" v-model='prisonId'>
+                                <select id='prison' class="form-control" v-model='prisonId' @change='getPrisonDepartments($event)'>
                                     <option v-show='prisonList.length>1' value=''>请选择</option>
                                     <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
                                 </select>
@@ -29,9 +29,9 @@
                                 <label class="pull-right" for="name">所属监区 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
-                                <select class="form-control" v-model='prisonDepartmentId'>
+                                <select id='prisonDepartment' v-model='prisonDepartmentId' class="form-control">
                                     <option value=''>请选择</option>
-                                    <option v-for='pdt in prisonDepartmentsTem' v-text='pdt.prisonDepartmentName' :value='pdt.id'></option>
+                                    <option v-for='pdt in prisonDepartments' v-text='pdt.prisonDepartmentName' :value='pdt.id'></option>
                                 </select>
                             </div>
                         </div>
@@ -62,41 +62,40 @@
 	export default {
 		data(){
 			return {
-                accountType:'',
-                accountName:'',
-                prisonId:'',
                 prisonAccountId:'',
                 prisonList:'',
                 prisonDepartments:'',
+                prisonDepartmentsTem:'',
+                accountName:'',
+                accountType:'',
+                prisonId:'',
                 prisonDepartmentId:''
 			}
 		},
         computed:{
-            prisonDepartmentsTem:{
-                get(){
-                    let pd = this.prisonDepartments;
-                    let pdt = [];
-                    this.prisonAndPrisonDepartment(pd,pdt);
-                    this.prisonDepartmentId = '';
-                    return pdt;
-                }
-            }
-        },
-        watch:{
-            prisonId(){
-                let pd = this.prisonDepartments;
-                let pdt = this.prisonDepartmentsTem;
-                pdt.splice(0,pdt.length);
-                this.prisonAndPrisonDepartment(pd,pdt);
-            }
+            // prisonId:{
+            // 	get(){
+            // 		return this.prisonAccountList.prisonId;
+            // 	}
+            // },
+            // prisonDepartmentId:{
+            // 	get(){
+            // 		return this.prisonAccountList.prisonDepartmentId;
+            // 	}
+            // }
         },
         methods:{
-            //监狱，监区联动
-            prisonAndPrisonDepartment(pd,pdt){
-                 $.each(pd,(index,value)=>{
-                    if(value.prisonId == this.prisonId){
-                        pdt.push(value);
-                    }
+            //查询所有监狱列表
+            getAllPrison(){
+                this.$http({
+                    method:'get',
+                    url:'/prisoner/toAddOrEdit',
+                }).then(res=>{
+                    let data = res.data.data;
+                    this.prisonList = data.prisons;
+                    this.prisonDepartments = data.prisonDepartments;
+                }).catch(err=>{
+                    console.log(err);
                 });
             },
           	//获取监狱账户信息
@@ -109,6 +108,16 @@
           			}
           		}).then(res=>{
           			console.log(res.data.data);
+          			let data = res.data.data;
+          			// this.prisonAccountList = res.data.data;
+          			this.accountName = data.accountName;
+          			this.accountType = data.accountType;
+          			$('#prison').prop('value',data.prisonId);
+          			$('#prisonDepartment').prop('value',data.prisonDepartment);
+          			// this.prisonId = data.prisonId;
+          			// this.prisonDepartment = data.prisonDepartmentId;
+          			console.log(data.prisonId);
+          			console.log(data.prisonDepartmentId);
           		}).catch(err=>{
           			console.log(err);
           		});
@@ -129,7 +138,7 @@
                         url:'/prisonAccount/addOrUpdatePrisonAccount',
                         params:params
                     }).then(res=>{
-                        console.log(res.data.code,res.data.msg);
+                        // console.log(res.data.code,res.data.msg);
                         $.each(params,(index,value)=>{
                             value = '';
                         });
@@ -137,12 +146,31 @@
                         console.log(err);
                     });
                 }  
+            },
+            //根据监狱查询监区
+            getPrisonDepartments(e){
+            	this.$http({
+            		method:'get',
+            		url:'prisoner/getDepartments',
+            		params:{
+            			prisonId:e.target.value
+            		}
+            	}).then(res=>{
+            		this.prisonDepartments = res.data.data;
+            	}).catch(err=>{
+            		console.log(err);
+            	});
             }
         },
         mounted(){
             $('#table_id_example').tableHover();
-            this.prisonAccountId = this.$route.params.prisonAccountId;
-            this.getPrisonAccount();
+            this.getAllPrison();
+            let prisonAccountList = this.$on('prisonAccountList');
+            console.log(prisonAccountList);
+            this.prisonId = prisonAccountList.prisonId;
+            this.prisonDepartmentId = prisonAccountList.prisonDepartmentId;
+            this.accountName = prisonAccountList.accountName;
+            this.accountType = prisonAccountList.accountType;
         }
 	}
 </script>
