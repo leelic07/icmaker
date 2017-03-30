@@ -65,9 +65,9 @@
                             <td>{{pad.accountType | accountType}}</td>
                             <td v-text='pad.accountName'></td>
                             <td>{{pad.total | currency}}</td>
-                            <td><router-link to='/account_modify' class="agree-text" @click='getPrisonAccount(pad.prisonAccountId)'>修改</router-link></td>
+                            <td><em class="agree-text" @click='getPrisonAccount(pad.prisonAccountId)'>修改</em></td>
                             <!-- <td><em class="agree-text">银行账户管理</em></td> -->
-                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
+                            <td><router-link :to="'/bank_account_management/'+ pad.prisonAccountId"><em class="agree-text">银行账户管理</em></router-link></td>
                         </tr>
                     </tbody>
                 </table>
@@ -182,7 +182,10 @@ import Page from '../Paginator.vue'
                         'prisonAccountId':prisonAccountId
                     }
                 }).then(res=>{
-                    this.$emit('prisonAccountList',res.data.data);
+                    let data = res.data.data;
+                    this.$router.push({
+                        path:'/account_modify'+'/'+data.prisonId+'/'+data.prisonDepartmentId+'/'+data.accountName+'/'+data.accountType+'/'+prisonAccountId             
+                    });
                 }).catch(err=>{
                     console.log(err);
                 })

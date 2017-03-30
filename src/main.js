@@ -22,9 +22,7 @@ axios.interceptors.request.use(function(config){
 	store.dispatch('showLoading');
 	// console.log(config);
         // config.headers.Authorization = `token ${store.state.mutations.token}`;
-        if(config.params){
-        	config.params.userId = window.localStorage.getItem('userId');
-        }
+      	config.params.userId = window.localStorage.getItem('userId');
         if(config.method == 'post' && config.url != config.baseURL+'login'){
         	config.data += '&userId=' + window.localStorage.getItem('userId');
         }
@@ -42,7 +40,7 @@ axios.interceptors.response.use(function(response){
 });
 
 //ajax url头部设置
-axios.defaults.baseURL='http://10.10.10.104:8080/icmaker/';
+axios.defaults.baseURL='http://10.10.10.103:8080/icmaker/';
 
 //设置路由
 const router = new VueRouter({

@@ -149,11 +149,11 @@ export default [
 		component:AccountAdd
 	},
 	{
-		path:'/account_modify',
+		path:'/account_modify/:prisonId/:prisonDepartmentId/:accountName/:accountType/:prisonAccountId',
 		component:AccountModify
 	},
 	{
-		path:'/bank_account_management',
+		path:'/bank_account_management/:prisonAccountId',
 		component:BankAccountManagement
 	},
 	{
