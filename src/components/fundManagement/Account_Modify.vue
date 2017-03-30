@@ -107,7 +107,9 @@
           			params:{
           				prisonAccountId:this.prisonAccountId
           			}
-          		}).then().catch();
+          		}).then(res=>{
+          			console.log(res.data.data);
+          		}).catch();
           	},
             //新增账户
             addAccount(){
