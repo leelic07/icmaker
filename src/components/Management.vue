@@ -8,19 +8,19 @@
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
                             <div class="col-xs-8 select-box">
-                                <label for="name">状态</label>
-                                <select class="form-control">
-                                    <option>已挂失</option>
+                                <label for="status">状态</label>
+                                <select class="form-control" id="status" v-model = "status">
+                                    <option v-for = "status in statusList" :value = "status.value">{{status.name}}</option>
                                 </select>
                             </div>
                             <div class="col-xs-6 text-box">
-                                <label for="name">虚拟账号</label>
-                                <input type="text" class="form-control" id="">
+                                <label for="accountNo">虚拟账号</label>
+                                <input type="text" class="form-control" id="accountNo" v-model = "accountNo">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button">
+                                <input type="button" value="搜索" class="search-button" @click="accountNoList(1)">
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,6 @@
                     <table class="display table ic-table" id="table_id_example">
                         <thead>
                         <tr>
-                            <th><div class="info-check"></div></th>
                             <th>虚拟账号</th>
                             <th>账号名</th>
                             <th>余额</th>
@@ -43,65 +42,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><div class="info-check" ></div></td>
-                            <td>4307000012</td>
-                            <td>Tanmay</td>
-                            <td>243.00</td>
-                            <td>已绑定</td>
-                            <td>Tanmay</td>
-                            <td><em class="agree-text" @click="detail()">明细</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check" ></div></td>
-                            <td>4307000012</td>
-                            <td>Tanmay</td>
-                            <td>243.00</td>
-                            <td class="reject-text">未绑定</td>
-                            <td>Tanmay</td>
-                            <td><em class="agree-text" @click="detail()">明细</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check" ></div></td>
-                            <td>4307000012</td>
-                            <td>Tanmay</td>
-                            <td>243.00</td>
-                            <td>已绑定</td>
-                            <td>Tanmay</td>
-                            <td><em class="agree-text" @click="detail()">明细</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>4307000012</td>
-                            <td>Tanmay</td>
-                            <td>243.00</td>
-                            <td>已绑定</td>
-                            <td>Tanmay</td>
-                            <td><em class="agree-text" @click="detail()">明细</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check" ></div></td>
-                            <td>4307000012</td>
-                            <td>Tanmay</td>
-                            <td>243.00</td>
-                            <td>已绑定</td>
-                            <td>Tanmay</td>
-                            <td><em class="agree-text" @click="detail()">明细</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check" ></div></td>
-                            <td>4307000012</td>
-                            <td>Tanmay</td>
-                            <td>243.00</td>
-                            <td>已绑定</td>
-                            <td>Tanmay</td>
+                        <tr v-for = "account in accountList">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td><em class="agree-text" @click="detail()">明细</em></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <!-- 表单底部-->
-                <Page></Page>
+                <Page :itemSize = "accountSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "accountNoList"></Page>
             </div>
 
             <!--模态框-->
@@ -118,41 +71,14 @@
                         </div>
                         <div class="modal-body">
                             <table class="table">
-                                <tr>
+                                <tr v-for = "detail in detailList">
                                     <td>
-                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">10072343243342423343</span></p>
-                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">Tanmay</span></p>
-                                        <p class="col-xs-16 pull-left"><span class="pull-right">2015-10-23 09:10:23</span><span class="pull-right">使用日期</span></p>
+                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">{{}}</span></p>
+                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">{{}}</span></p>
+                                        <p class="col-xs-16 pull-left"><span class="pull-right">{{}}</span><span class="pull-right">使用日期</span></p>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">10072343243342423343</span></p>
-                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">Tanmay</span></p>
-                                        <p class="col-xs-16 pull-left"><span class="pull-right">2015-10-23 09:10:23</span><span class="pull-right">使用日期</span></p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">10072343243342423343</span></p>
-                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">Tanmay</span></p>
-                                        <p class="col-xs-16 pull-left"><span class="pull-right">2015-10-23 09:10:23</span><span class="pull-right">使用日期</span></p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">10072343243342423343</span></p>
-                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">Tanmay</span></p>
-                                        <p class="col-xs-16 pull-left"><span class="pull-right">2015-10-23 09:10:23</span><span class="pull-right">使用日期</span></p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">10072343243342423343</span></p>
-                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">Tanmay</span></p>
-                                        <p class="col-xs-16 pull-left"><span class="pull-right">2015-10-23 09:10:23</span><span class="pull-right">使用日期</span></p>
-                                    </td>
-                                </tr>
+                                
                             </table>
                             <button class="detail-button" data-dismiss="modal">确定</button>
                         </div>
@@ -169,14 +95,60 @@ import {mapGetters,mapMutations} from 'vuex'
 	export default {
 		data(){
 			return{
-				
+                statusList: "",//状态列表
+                detailList: "",//明细列表
+                accountNo: "",//虚拟账号
+                status: "",//状态
+                accountList: "",//虚拟账号信息列表
+                accountSize: "",//虚拟账号信息总条数
+                pageSize: 10,
+                indexPage: 1
 			}
 		},
         computed:mapGetters(['selectAll']),
         methods:{
+            getStatusList(){//赋值状态列表
+                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"可用"},{"value":1,"name":"已绑定"}]
+            },
+
+            accountNoList(index) {
+                this.indexPage = index;
+                let searchData = {
+                    "accountNo": this.accountNo,
+                    "status": this.status,
+                    "indexPage":this.indexPage,
+                    "pageSize":this.pageSize
+                };
+                console.log(searchData);
+                this.$http.get('icCard/accountList',{params:searchData}).then(res=>{
+                    console.log("列表");
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        //this.accountList = res.data.data.prisonerICs;//赋值罪犯列表
+                        //this.accountSize = res.data.data.icSize;//赋值罪犯列表数
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
             detail(){
                 $('#detailConfirm').modal();
-            }
+                let detailData = {
+                    "accountNo": this.accountNo
+                };
+                console.log(detailData);
+                this.$http.get('icCard/accountDetail',{params:detailData}).then(res=>{
+                    console.log("列表");
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        //this.detailList = res.data.data.prisonerICs;//赋值罪犯列表
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
         },
         components:{
            Page
@@ -184,6 +156,8 @@ import {mapGetters,mapMutations} from 'vuex'
         mounted(){
             $('#table_id_example').tableHover();
             $('#table_id_example').select(); 
+            this.getStatusList();
+            this.accountNoList(1);
         }
 	}
 </script>

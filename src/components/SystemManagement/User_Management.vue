@@ -70,7 +70,7 @@
                             <td>{{user.userName}}</td>
                             <td>{{user.roleName}}</td>
                             <td>{{user.prisonName}}</td>
-                            <td>{{user.createdUserName}}</td>
+                            <td>{{user.createdUserName | currency}}</td>
                             <td>{{user.createdAt | formatDate}}</td>
                             <td>{{user.updatedAt | formatDate}}</td>
                             <td>{{user.updatedUserName}}</td>

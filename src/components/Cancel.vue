@@ -8,21 +8,21 @@
                         <div class="row">
                             <div class="col-xs-8 select-box">
                                 <label for="prisonId">所属监狱</label>
-                                <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event)">
+                                <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event)" v-model = "prisonId">
                                     <option value="">全部</option>
                                     <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                                 </select>
                             </div>
                             <div class="col-xs-8 select-box">
                                 <label for="departmentId">所属监区</label>
-                                <select class="form-control" id="departmentId">
+                                <select class="form-control" id="departmentId" v-model = "departmentId">
                                     <option value="">全部</option>
                                     <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                                 </select>
                             </div>
                             <div class="col-xs-8 select-box">
                                 <label for="status">状态</label>
-                                <select class="form-control" id="status">
+                                <select class="form-control" id="status" v-model = "status">
                                     <option v-for = "status in statusList" :value = "status.value">{{status.name}}</option>
                                 </select>
                             </div>
@@ -30,19 +30,19 @@
                         <div class="row">
                             <div class="col-xs-6 text-box">
                                 <label for="number">编号</label>
-                                <input type="text" class="form-control" id="number">
+                                <input type="text" class="form-control" id="number" v-model = "number">
                             </div>
                             <div class="col-xs-6 text-box">
                                 <label for="archivesNumber">档案号</label>
-                                <input type="text" class="form-control" id="archivesNumber">
+                                <input type="text" class="form-control" id="archivesNumber" v-model = "archivesNumber">
                             </div>
                             <div class="col-xs-6 text-box">
                                 <label for="name">犯罪名</label>
-                                <input type="text" class="form-control" id="name">
+                                <input type="text" class="form-control" id="name" v-model = "name">
                             </div>
                             <div class="col-xs-6 text-box">
                                 <label for="icCardNo">读卡</label>
-                                <input type="text" class="form-control" id="icCardNo">
+                                <input type="text" class="form-control" id="icCardNo" v-model = "icCardNo">
                             </div>
                         </div>
                         <div class="row">
@@ -83,8 +83,10 @@
                                 <td>{{card.total | currency}}</td>
                                 <td>{{card.createdAt | formatDate}}</td>
                                 <td>{{card.status | formatIcStatus}}</td>
-                                <td class="reject-text"><em>销卡</em></td>
-                                <td><em class="agree-text" @click="cancel()">挂失</em></td>
+                                <td v-if = "card.status == 2" colspan="2"></td>
+                                <td v-if = "card.status != 2"><em class="reject-text" @click="cancellation($event)" :icId = "card.id">销卡</em></td>
+                                <td v-if = "card.status == 0"><em class="agree-text" @click="loss($event)" :icId = "card.id">挂失</em></td>
+                                <td v-if = "card.status == 1"><em class="agree-text" @click="cancelLoss($event)" :icId = "card.id">解挂</em></td>
                             </tr>
                         </tbody>
                     </table>
@@ -96,7 +98,7 @@
             <!--模态框-->
 
             <!-- 挂失-->
-            <div class="modal modal-confirm" id="cancelConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+            <div class="modal modal-confirm" id="lossConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -106,7 +108,41 @@
                         </div>
                         <div class="modal-body">
                             <h3>确定挂失此卡？</h3>
-                            <button class="confirm-button" data-dismiss="modal">确定</button>
+                            <button class="confirm-button" data-dismiss="modal" @click = "lossConfirm">确定</button>
+                            <button class="cancel-button" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!-- 解挂-->
+            <div class="modal modal-confirm" id="cancelConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>确定解挂此卡？</h3>
+                            <button class="confirm-button" data-dismiss="modal" @click = "cancelConfirm">确定</button>
+                            <button class="cancel-button" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!-- 销卡-->
+            <div class="modal modal-confirm" id="cancellationConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>确定注销此卡？</h3>
+                            <button class="confirm-button" data-dismiss="modal" @click = "cancellationConfirm">确定</button>
                             <button class="cancel-button" data-dismiss="modal">取消</button>
                         </div>
                     </div><!-- /.modal-content -->
@@ -124,14 +160,22 @@ import Page from './Paginator.vue'
                 prisons: "",//监狱列表
                 prisonDepartments: "",//监区列表
 				icCardList: "",//ic卡列表
-                icCardSize: "",
+                icCardSize: "",//IC卡列表总条数
+                prisonId: "",//监狱ID
+                departmentId: "",//监区ID
+                status: "",//状态
+                name: "",
+                icCardNo: "",
+                number: "",//编号
+                archivesNumber: "",//档案号
+                currentIcId: "",
                 pageSize: 10,
                 indexPage: 1
 			}
 		},
         methods:{
             getStatusList(){//赋值状态列表
-                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"正常使用"},{"value":1,"name":"已挂失"},{"value":1,"name":"已销卡"}]
+                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"正常使用"},{"value":1,"name":"已挂失"},{"value":2,"name":"已销卡"}]
             },
 
             getPrisonInfo() {//根据用户信息获取监狱信息
@@ -160,13 +204,13 @@ import Page from './Paginator.vue'
             getIcList(index) {
                 this.indexPage = index;
                 let searchData = {
-                    "prisonId": $("#prisonId").val(),
-                    "departmentId": $("#departmentId").val(),
-                    "status":$("#status").val(),
-                    "name": $("#name").val(),
-                    "icCardNo": $("#icCardNo").val(),
-                    "number": $("#number").val(),
-                    "archivesNumber":$("#archivesNumber").val(),
+                    "prisonId": this.prisonId,
+                    "departmentId": this.departmentId,
+                    "status":this.status,
+                    "name": this.name,
+                    "icCardNo": this.icCardNo,
+                    "number": this.number,
+                    "archivesNumber":this.archivesNumber,
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
@@ -182,9 +226,71 @@ import Page from './Paginator.vue'
                     console.log(err);
                 });
             },
-            cancel(){
+
+            loss(e){//挂失
+                this.currentIcId = e.target.getAttribute("icId");
+                console.log(this.currentIcId);
+                $('#lossConfirm').modal();
+            },
+
+
+            lossConfirm() {
+                let cancelData = {
+                    "prisonerICId": this.currentIcId
+                };
+                this.$http.post("icCard/reportLossIC",$.param(cancelData)).then(res=>{
+                    console.log(res);
+                    let status = res.data.code;
+                    if (status == 0) {//返回成功
+                        this.getIcList(1);
+                    }
+                }).catch(err=>{
+                    console.log('挂失服务器异常' + err);
+                });
+            },
+
+            cancelLoss(e) {//解挂
+                this.currentIcId = e.target.getAttribute("icId");
+                console.log(this.currentIcId);
                 $('#cancelConfirm').modal();
-            }
+            },
+
+            cancelConfirm() {
+                let cancelData = {
+                    "prisonerICId": this.currentIcId
+                };
+                this.$http.post("icCard/releaseReport",$.param(cancelData)).then(res=>{
+                    console.log(res);
+                    let status = res.data.code;
+                    if (status == 0) {//返回成功
+                        this.getIcList(1);
+                    }
+                }).catch(err=>{
+                    console.log('解挂服务器异常' + err);
+                });
+            },
+
+            cancellation(e) {//注销
+                this.currentIcId = e.target.getAttribute("icId");
+                console.log(this.currentIcId);
+                $('#cancellationConfirm').modal();
+            },
+
+            cancellationConfirm() {
+                let cancelData = {
+                    "prisonerICId": this.currentIcId
+                };
+                this.$http.post("icCard/pinCard",$.param(cancelData)).then(res=>{
+                    console.log(res);
+                    let status = res.data.code;
+                    if (status == 0) {//返回成功
+                        this.getIcList(1);
+                    }
+                }).catch(err=>{
+                    console.log('注销服务器异常' + err);
+                });
+            },
+
         },
         components:{
            Page
