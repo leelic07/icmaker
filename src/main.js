@@ -22,7 +22,9 @@ axios.interceptors.request.use(function(config){
 	store.dispatch('showLoading');
 	// console.log(config);
         // config.headers.Authorization = `token ${store.state.mutations.token}`;
-      	config.params.userId = window.localStorage.getItem('userId');
+        if(config.method == 'get'){
+          config.params.userId = window.localStorage.getItem('userId');
+        }	
         if(config.method == 'post' && config.url != config.baseURL+'login'){
         	config.data += '&userId=' + window.localStorage.getItem('userId');
         }
