@@ -3,9 +3,7 @@
     <loading v-show="loadingShow"></loading>
     <LeftSide v-show = "isNotLogin"></LeftSide>
     <NavBar v-show = "isNotLogin"></NavBar>
-      <keep-alive>
         <router-view></router-view>
-      </keep-alive>
   </div>
 </template>
 

@@ -20,12 +20,10 @@ Vue.prototype.$http = axios;
 //ajax请求拦截器
 axios.interceptors.request.use(function(config){
 	store.dispatch('showLoading');
- 	if (store.state.mutations.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
         // config.headers.Authorization = `token ${store.state.mutations.token}`;
         if(config.params){
         	config.params.userId = store.state.mutations.userId;
         }
-    }
 	return config;
 },function(err){
 	return Promise.reject(err);

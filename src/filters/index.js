@@ -10,7 +10,7 @@ export default{
 
 	//账户类型过滤器
 	accountType(accountType){
-		if(accountType == 0){
+		if(accountType && accountType == 0){
 			return '财务账户'
 		}else{
 			return '商户账户'

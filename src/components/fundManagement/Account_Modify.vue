@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" v-model='accountType'>
-                                    <option value=''>请选择</option>
+                                	<option value=''>请选择</option>
                                     <option value='0'>财务账户</option>
                                     <option value='1'>商户账户</option>
                                 </select>
@@ -49,7 +49,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 col-xs-push-3 button-box">
-                                <input type="button" value="确认添加" class="search-button"@click='addAccount()'>
+                                <input type="button" value="确认修改" class="search-button"@click='addAccount()'>
                             </div>
                         </div>
                     </div>
@@ -63,8 +63,9 @@
 		data(){
 			return {
                 accountType:'',
-                prisonId:'',
                 accountName:'',
+                prisonId:'',
+                prisonAccountId:'',
                 prisonList:'',
                 prisonDepartments:'',
                 prisonDepartmentId:''
@@ -98,19 +99,16 @@
                     }
                 });
             },
-            //查询所有监狱列表
-            getAllPrison(){
-                this.$http({
-                    method:'get',
-                    url:'/prisoner/toAddOrEdit',
-                }).then(res=>{
-                    let data = res.data.data;
-                    this.prisonList = data.prisons;
-                    this.prisonDepartments = data.prisonDepartments;
-                }).catch(err=>{
-                    console.log(err);
-                });
-            },
+          	//获取监狱账户信息
+          	getPrisonAccount(){
+          		this.$http({
+          			method:'get',
+          			url:'prisonAccount/getPrisonAccount',
+          			params:{
+          				prisonAccountId:this.prisonAccountId
+          			}
+          		}).then().catch();
+          	},
             //新增账户
             addAccount(){
                 let params = {
@@ -140,6 +138,7 @@
         mounted(){
             $('#table_id_example').tableHover();
             this.getAllPrison();
+            this.prisonAccountId = this.$route.params.prisonAccountId;
         }
 	}
 </script>

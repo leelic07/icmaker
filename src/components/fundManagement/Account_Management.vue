@@ -1,79 +1,81 @@
 <template>
-	<!-- 右侧内容-->
-        <div id="right-side" class="col-xs-20 pull-right">
-            <!--搜索框部分-->
-            <div class="col-xs-24 search">
-                <div class="col-xs-23 search-box">
-                    <div class="col-xs-23 search-inner-box">
-                        <div class="row">
-                            <div class="col-xs-8 select-box">
-                                <label for="name">所属监狱</label>
-                                <select class="form-control" v-model='prisonId'>
-                                    <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
-                                </select>
-                            </div>
-                            <div class="col-xs-8 select-box">
-                                <label for="name">所属监区</label>
-                                <select class="form-control" v-model='prisonDepartmentId'>
-                                    <option value=''>请选择</option>
-                                    <option v-for='pdt in prisonDepartmentsTem' v-text='pdt.prisonDepartmentName' :value='pdt.id'></option>
-                                </select>
-                            </div>
-                            <div class="col-xs-8 select-box">
-                                <label for="name">账户类型</label>
-                                <select class="form-control" v-model='accountType'>
-                                    <option value='0'>财务账户</option>
-                                    <option value='1'>商户账户</option>
-                                </select>
-                            </div>
+    <!-- 右侧内容-->
+    <div id="right-side" class="col-xs-20 pull-right">
+        <!--搜索框部分-->
+        <div class="col-xs-24 search">
+            <div class="col-xs-23 search-box">
+                <div class="col-xs-23 search-inner-box">
+                    <div class="row">
+                        <div class="col-xs-8 select-box">
+                            <label for="name">所属监狱</label>
+                            <select class="form-control" v-model='prisonId'>
+                                <option v-show='prisonList.length>1'>请选择</option>
+                                <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
+                            </select>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-7 text-box">
-                                <label for="name">账户名</label>
-                                <input type="text" class="form-control" id="" v-model='accountName'>
-                            </div>
+                        <div class="col-xs-8 select-box">
+                            <label for="name">所属监区</label>
+                            <select class="form-control" v-model='prisonDepartmentId'>
+                                <option value=''>请选择</option>
+                                <option v-for='pdt in prisonDepartmentsTem' v-text='pdt.prisonDepartmentName' :value='pdt.id'></option>
+                            </select>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button" @click='searchAccount()'>
-                            </div>
+                        <div class="col-xs-8 select-box">
+                            <label for="name">账户类型</label>
+                            <select class="form-control" v-model='accountType'>
+                                <option value=''>请选择</option>
+                                <option value='0'>财务账户</option>
+                                <option value='1'>商户账户</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-7 text-box">
+                            <label for="name">账户名</label>
+                            <input type="text" class="form-control" id="" v-model='accountName'>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-xs-push-10 button-box">
+                            <input type="button" value="搜索" class="search-button" @click='searchAccount()'>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!--表格部分-->
-            <div class="col-xs-24 form">
-                <div class="col-xs-23">
-                    <table class="display table ic-table" id="table_id_example">
-                        <thead>
-                            <tr>
-                                <th>所属监狱</th>
-                                <th>所属监区</th>
-                                <th>账户类型</th>
-                                <th>账户名</th>
-                                <th>账户余额</th>
-                                <th colspan="2">操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for='pad in prisonAccountDtos'>
-                                <td v-text='pad.prisonName'></td>
-                                <td v-text='pad.prisonDepartmentName'></td>
-                                <td>{{pad.accountType | accountType}}</td>
-                                <td v-text='pad.accountName'></td>
-                                <td>{{pad.total | currency}}</td>
-                                <td><em class="agree-text">修改</em></td>
-                                <!-- <td><em class="agree-text">银行账户管理</em></td> -->
-                                <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- 表单底部-->
-                <Page></Page>
-            </div>
         </div>
+
+        <!--表格部分-->
+        <div class="col-xs-24 form">
+            <div class="col-xs-23">
+                <table class="display table ic-table" id="table_id_example">
+                    <thead>
+                        <tr>
+                            <th>所属监狱</th>
+                            <th>所属监区</th>
+                            <th>账户类型</th>
+                            <th>账户名</th>
+                            <th>账户余额</th>
+                            <th colspan="2">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for='pad in prisonAccountDtos'>
+                            <td v-text='pad.prisonName'></td>
+                            <td v-text='pad.prisonDepartmentName'></td>
+                            <td>{{pad.accountType | accountType}}</td>
+                            <td v-text='pad.accountName'></td>
+                            <td>{{pad.total | currency}}</td>
+                            <td><router-link :to="'/account_modify/'+pad.prisonAccountId" class="agree-text">修改</router-link></td>
+                            <!-- <td><em class="agree-text">银行账户管理</em></td> -->
+                            <td><router-link to="/bank_account_management"><em class="agree-text">银行账户管理</em></router-link></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 表单底部-->
+            <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchAccount'></Page>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -86,8 +88,11 @@ import Page from '../Paginator.vue'
                 prisonDepartments:'',
                 prisonDepartmentId:'',
                 prisonId:1,
-                accountType:0,
-                accountName:''
+                accountType:'',
+                accountName:'',
+                pageSize:20,
+                indexPage:1,
+                menuSize:''
 			}
 		},
         computed:{
@@ -125,10 +130,12 @@ import Page from '../Paginator.vue'
                     url:'/prisonAccount/getPrisonAccountDtos',
                     params:{
                         indexPage:1,
-                        pageSize:20
+                        pageSize:this.pageSize
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
+                    console.log(this.prisonAccountDtos);
+                    this.menuSize = this.prisonAccountDtos.length;
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -147,7 +154,8 @@ import Page from '../Paginator.vue'
                 });
             },
             //点击搜索获取账户列表
-            searchAccount(){
+            searchAccount(index){
+                this.indexPage = index;
                 this.$http({
                     method:'get',
                     url:'/prisonAccount/getPrisonAccountDtos',
@@ -156,14 +164,17 @@ import Page from '../Paginator.vue'
                         prisonDepartmentId:this.prisonDepartmentId,
                         accountType:this.accountType,
                         accountName:this.accountName,
-                        indexPage:1,
-                        pageSize:20
+                        indexPage:this.indexPage,
+                        pageSize:this.pageSize
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
                 }).catch(err=>{
                     console.log(err);
                 })
+            },
+            modify(){
+
             }
         },
         components:{
