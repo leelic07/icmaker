@@ -47,7 +47,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button">
+                                <input type="button" value="搜索" class="search-button" @click = "getApplyList(1)">
                             </div>
                         </div>
                     </div>
@@ -184,12 +184,12 @@ import Page from './Paginator.vue'
                     "pageSize":this.pageSize
                 };
                 console.log(searchData);
-                this.$http.get('icCard/prisonerICs',{params:searchData}).then(res=>{
+                this.$http.get('icCard/prisonerCards',{params:searchData}).then(res=>{
                     console.log("列表");
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.icCardList = res.data.data.prisonerICs;//赋值罪犯列表
-                        this.icCardSize = res.data.data.icSize;//赋值罪犯列表数
+                        // this.icCardList = res.data.data.prisonerICs;//赋值罪犯列表
+                        // this.icCardSize = res.data.data.icSize;//赋值罪犯列表数
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -208,7 +208,7 @@ import Page from './Paginator.vue'
             $('#table_id_example').select();
             this.getStatusList();
             this.getPrisonInfo();
-            this.getApplyList();
+            this.getApplyList(1);
         }
 	}
 </script>

@@ -35,7 +35,7 @@
                         <tr>
                             <th>虚拟账号</th>
                             <th>账号名</th>
-                            <th>余额</th>
+                            <th>余额(元)</th>
                             <th>状态</th>
                             <th>最近绑定日期</th>
                             <th>操作</th>
@@ -43,12 +43,12 @@
                         </thead>
                         <tbody>
                         <tr v-for = "account in accountList">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><em class="agree-text" @click="detail()">明细</em></td>
+                            <td>{{account.virtualAccountNo}}</td>
+                            <td>{{account.virtualAccountName}}</td>
+                            <td>{{account.total | currency}}</td>
+                            <td>{{account.status | formatAccountType}}</td>
+                            <td>{{account.recentBindingDate | formatDate}}</td>
+                            <td><em class="agree-text" :id = "account.virtualAccountId" @click="detail($event)">明细</em></td>
                         </tr>
                         </tbody>
                     </table>
@@ -73,9 +73,9 @@
                             <table class="table">
                                 <tr v-for = "detail in detailList">
                                     <td>
-                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">{{}}</span></p>
-                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">{{}}</span></p>
-                                        <p class="col-xs-16 pull-left"><span class="pull-right">{{}}</span><span class="pull-right">使用日期</span></p>
+                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">{{detail.virtualAccount.virtualAccountNo}}</span></p>
+                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">{{detail.details.virtualAccountName}}</span></p>
+                                        <p class="col-xs-16 pull-left"><span class="pull-right">{{detail.details.updatedAt | formatDate}}</span><span class="pull-right">使用日期</span></p>
                                     </td>
                                 </tr>
                                 
@@ -98,6 +98,7 @@ import {mapGetters,mapMutations} from 'vuex'
                 statusList: "",//状态列表
                 detailList: "",//明细列表
                 accountNo: "",//虚拟账号
+                accountId: "",//虚拟账号ID
                 status: "",//状态
                 accountList: "",//虚拟账号信息列表
                 accountSize: "",//虚拟账号信息总条数
@@ -124,25 +125,26 @@ import {mapGetters,mapMutations} from 'vuex'
                     console.log("列表");
                     console.log(res);
                     if (res.data.code == 0) {
-                        //this.accountList = res.data.data.prisonerICs;//赋值罪犯列表
-                        //this.accountSize = res.data.data.icSize;//赋值罪犯列表数
+                        this.accountList = res.data.data.accounts;//赋值虚拟账户列表
+                        this.accountSize = res.data.data.accountSize;//赋值虚拟账户列表数
                     }
                 }).catch(err=>{
                     console.log(err);
                 });
             },
 
-            detail(){
+            detail(e){
+                this.accountId = e.target.getAttribute("id");
                 $('#detailConfirm').modal();
                 let detailData = {
-                    "accountNo": this.accountNo
+                    "accountId": this.accountId
                 };
                 console.log(detailData);
                 this.$http.get('icCard/accountDetail',{params:detailData}).then(res=>{
                     console.log("列表");
                     console.log(res);
                     if (res.data.code == 0) {
-                        //this.detailList = res.data.data.prisonerICs;//赋值罪犯列表
+                        this.detailList = res.data.data;//赋值罪犯列表
                     }
                 }).catch(err=>{
                     console.log(err);
