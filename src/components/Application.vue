@@ -7,34 +7,42 @@
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
                             <div class="col-xs-8 select-box">
-                                <label for="name">所属监区</label>
-                                <select class="form-control">
-                                    <option>第五监区</option>
+                                <label for="prisonId">所属监狱</label>
+                                <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event)" v-model = "prisonId">
+                                    <option value="">全部</option>
+                                    <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                                 </select>
                             </div>
-                            <div class="col-xs-6 text-box">
-                                <label for="name">虚拟账号</label>
-                                <input type="text" class="form-control" id="">
+                            <div class="col-xs-8 select-box">
+                                <label for="departmentId">所属监区</label>
+                                <select class="form-control" id="departmentId" v-model = "departmentId">
+                                    <option value="">全部</option>
+                                    <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
+                                </select>
                             </div>
                             <div class="col-xs-8 select-box">
-                                <label for="name">制卡状态</label>
-                                <select class="form-control">
-                                    <option>正在制卡</option>
+                                <label for="status">状态</label>
+                                <select class="form-control" id="status" v-model = "status">
+                                    <option v-for = "status in statusList" :value = "status.value">{{status.name}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-6 text-box">
-                                <label for="name">编号</label>
-                                <input type="text" class="form-control" id="">
+                                <label for="virtualAccount">虚拟账号</label>
+                                <input type="text" class="form-control" id="virtualAccount" v-model = "virtualAccount">
                             </div>
                             <div class="col-xs-6 text-box">
-                                <label for="name">档案号</label>
-                                <input type="text" class="form-control" id="">
+                                <label for="number">编号</label>
+                                <input type="text" class="form-control" id="number" v-model = "number">
+                            </div>
+                            <div class="col-xs-6 text-box">
+                                <label for="archivesNumber">档案号</label>
+                                <input type="text" class="form-control" id="archivesNumber" v-model = "archivesNumber">
                             </div>
                             <div class="col-xs-6 text-box">
                                 <label for="name">罪犯名</label>
-                                <input type="text" class="form-control" id="">
+                                <input type="text" class="form-control" id="name" v-model = "name">
                             </div>
                         </div>
                         <div class="row">
@@ -86,76 +94,6 @@
                                 <td class="reject-text">拒绝制卡</td>
                                 <td><em class="agree-text" @click="applyCard()">申请制卡</em></td>
                             </tr>
-                            <tr>
-                                <td><div class="info-check"></div></td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>女子监狱</td>
-                                <td>第七监狱</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>正在制卡</td>
-                                <td><em class="disabled-text">申请制卡</em></td>
-                            </tr>
-                            <tr>
-                                <td><div class="info-check"></div></td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>女子监狱</td>
-                                <td>第七监狱</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>已制卡</td>
-                                <td><em class="agree-text" @click="applyCard()">申请制卡</em></td>
-                            </tr>
-                            <tr>
-                                <td><div class="info-check"></div></td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>女子监狱</td>
-                                <td>第七监狱</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>未制卡</td>
-                                <td><em class="agree-text" @click="applyCard()">申请制卡</em></td>
-                            </tr>
-                            <tr>
-                                <td><div class="info-check"></div></td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>女子监狱</td>
-                                <td>第七监狱</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>已制卡</td>
-                                <td><em class="agree-text" @click="applyCard()">申请制卡</em></td>
-                            </tr>
-                            <tr>
-                                <td><div class="info-check"></div></td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>女子监狱</td>
-                                <td>第七监狱</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>未制卡</td>
-                                <td><em class="agree-text" @click="applyCard()">申请制卡</em></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -190,10 +128,74 @@ import Page from './Paginator.vue'
 	export default {
 		data(){
 			return{
-
+                prisons: "",//监狱列表
+                prisonDepartments: "",//监区列表
+                statusList: "",//申请状态列表
+                prisonId: "",//监狱ID
+                departmentId: "",//监区ID
+                status: "",//状态
+                archivesNumber: "",//档案号
+                virtualAccount: "",//虚拟账号
+                number: "",//编号
+                name: "",//罪犯名
+                pageSize: 10,
+                indexPage: 1
 			}
 		},
         methods:{
+            getStatusList(){//赋值状态列表
+                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"未制卡"},{"value":1,"name":"正在制卡"},{"value":2,"name":"拒绝制卡"}]
+            },
+
+            getPrisonInfo() {//根据用户信息获取监狱信息
+                this.$http.get('prisoner/toAddOrEdit').then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.prisons = res.data.data.prisons;//赋值监狱列表
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            getPrisonDepartInfo (e) {//获取监区信息
+                let prisonId = $(e.target).val();
+                this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.prisonDepartments = res.data.data;//赋值监区列表
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            getApplyList(index) {
+                this.indexPage = index;
+                let searchData = {
+                    "prisonId": this.prisonId,
+                    "departmentId": this.departmentId,
+                    "status":this.status,
+                    "name": this.name,
+                    "icCardNo": this.icCardNo,
+                    "number": this.number,
+                    "archivesNumber":this.archivesNumber,
+                    "indexPage":this.indexPage,
+                    "pageSize":this.pageSize
+                };
+                console.log(searchData);
+                this.$http.get('icCard/prisonerICs',{params:searchData}).then(res=>{
+                    console.log("列表");
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.icCardList = res.data.data.prisonerICs;//赋值罪犯列表
+                        this.icCardSize = res.data.data.icSize;//赋值罪犯列表数
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
             applyCard(){
                 $('#applyConfirm').modal();
             }
@@ -204,6 +206,9 @@ import Page from './Paginator.vue'
         mounted(){
             $('#table_id_example').tableHover();
             $('#table_id_example').select();
+            this.getStatusList();
+            this.getPrisonInfo();
+            this.getApplyList();
         }
 	}
 </script>
