@@ -80,25 +80,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr v-for = "apply in applyList">
                                 <td><div class="info-check"></div></td>
-                                <td>Tanmay</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>4307000012</td>
-                                <td>女子监狱</td>
-                                <td>第七监狱</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td>2015-03-10 09:10:54</td>
-                                <td class="reject-text">拒绝制卡</td>
+                                <!--<td>{{apply.}}</td>
+                                <td>{{apply.}}</td>
+                                <td>{{apply.}}</td>
+                                <td>{{apply.}}</td>
+                                <td>{{apply.}}</td>
+                                <td>{{apply.}}</td>
+                                <td>{{apply.}}</td>
+                                <td>{{apply.}}</td>
+                                <td>{{apply.}}</td>-->
+                                <td><em class="reject-text" @click="rejectCard()">拒绝制卡</em></td>
                                 <td><em class="agree-text" @click="applyCard()">申请制卡</em></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <!-- 表单底部-->
-                <Page></Page>
+                <Page :itemSize = "applySize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getApplyList"></Page>
             </div>
 
             <!--模态框-->
@@ -131,6 +131,8 @@ import Page from './Paginator.vue'
                 prisons: "",//监狱列表
                 prisonDepartments: "",//监区列表
                 statusList: "",//申请状态列表
+                applyList: "",//申请列表
+                applySize: "",//申请数据条数
                 prisonId: "",//监狱ID
                 departmentId: "",//监区ID
                 status: "",//状态
@@ -188,8 +190,8 @@ import Page from './Paginator.vue'
                     console.log("列表");
                     console.log(res);
                     if (res.data.code == 0) {
-                        // this.icCardList = res.data.data.prisonerICs;//赋值罪犯列表
-                        // this.icCardSize = res.data.data.icSize;//赋值罪犯列表数
+                        // this.applyList = res.data.data.prisonerICs;//赋值申请列表
+                        // this.applySize = res.data.data.icSize;//赋值申请列表数
                     }
                 }).catch(err=>{
                     console.log(err);
