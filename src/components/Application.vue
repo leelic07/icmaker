@@ -56,7 +56,7 @@
             <!--按钮组部分-->
             <div class="col-xs-24 button">
                 <div class="col-xs-2">
-                    <input type="button" value="申请制卡" class="reject-button" @click="applyCard()">
+                    <input type="button" value="申请制卡" class="reject-button" @click="applyAllCard">
                 </div>
             </div>
             <!--表格部分-->
@@ -76,23 +76,25 @@
                                 <th>申请日期</th>
                                 <th>制卡日期</th>
                                 <th>状态</th>
-                                <th>操作</th>
+                                <th colspan="2">操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for = "apply in applyList">
-                                <td><div class="info-check"></div></td>
-                                <!--<td>{{apply.}}</td>
-                                <td>{{apply.}}</td>
-                                <td>{{apply.}}</td>
-                                <td>{{apply.}}</td>
-                                <td>{{apply.}}</td>
-                                <td>{{apply.}}</td>
-                                <td>{{apply.}}</td>
-                                <td>{{apply.}}</td>
-                                <td>{{apply.}}</td>-->
-                                <td><em class="reject-text" @click="rejectCard()">拒绝制卡</em></td>
-                                <td><em class="agree-text" @click="applyCard()">申请制卡</em></td>
+                                <td><div class="info-check info-list-check" :id = "apply.prisonerId" v-if = "apply.cardStatus == 0 || apply.cardStatus == 3"></div></td>
+                                <td>{{apply.name}}</td>
+                                <td>{{apply.number}}</td>
+                                <td>{{apply.archivesNumber}}</td>
+                                <td>{{apply.virtualAccount}}</td>
+                                <td>{{apply.cardNo}}</td>
+                                <td>{{apply.prisonName}}</td>
+                                <td>{{apply.prisonDepartmentName}}</td>
+                                <td>{{apply.cardAt | formatDate}}</td>
+                                <td>{{apply.createdAt| formatDate}}</td>
+                                <td>{{apply.cardStatus | formatApplyStatus}}</td>
+                                <td colspan = "2" v-if = "apply.cardStatus == 1"></td>
+                                <td v-if = "apply.cardStatus == 2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,1)">申请补卡</em></td>
+                                <td v-if = "apply.cardStatus == 0 || apply.cardStatus == 3"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,0)">申请制卡</em></td>
                             </tr>
                         </tbody>
                     </table>
@@ -103,7 +105,7 @@
 
             <!--模态框-->
 
-            <!-- 申请制卡-->
+            <!-- 单个申请制补卡-->
             <div class="modal modal-confirm" id="applyConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -113,8 +115,27 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <h3>提交制卡申请</h3>
-                            <button class="confirm-button" data-dismiss="modal">确定</button>
+                            <h3 v-if = "type == 0">提交制卡申请</h3>
+                            <h3 v-else>提交补卡申请</h3>
+                            <button class="confirm-button" data-dismiss="modal" @click = "applyConfirm">确定</button>
+                            <button class="cancel-button" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+            <!-- 批量申请制卡-->
+            <div class="modal modal-confirm" id="applyAllConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>提交批量制卡申请</h3>
+                            <button class="confirm-button" data-dismiss="modal" @click = "applyAllConfirm">确定</button>
                             <button class="cancel-button" data-dismiss="modal">取消</button>
                         </div>
                     </div><!-- /.modal-content -->
@@ -140,6 +161,9 @@ import Page from './Paginator.vue'
                 virtualAccount: "",//虚拟账号
                 number: "",//编号
                 name: "",//罪犯名
+                prisonerId: "",//当前处理的罪犯ID
+                ids: "",//当前批量处理的罪犯ID列表
+                type: "",//当前处理的IC卡类型 （0-制卡，1-补卡）
                 pageSize: 10,
                 indexPage: 1
 			}
@@ -190,19 +214,62 @@ import Page from './Paginator.vue'
                     console.log("列表");
                     console.log(res);
                     if (res.data.code == 0) {
-                        // this.applyList = res.data.data.prisonerICs;//赋值申请列表
-                        // this.applySize = res.data.data.icSize;//赋值申请列表数
+                         this.applyList = res.data.data.prisonerICRecords;//赋值申请列表
+                         this.applySize = res.data.data.recordSize;//赋值申请列表数
                     }
                 }).catch(err=>{
                     console.log(err);
                 });
             },
 
-            applyCard(){
+            applyCard(e,type){
+                this.prisonerId = e.target.getAttribute("id");
+                this.type = type;
                 $('#applyConfirm').modal();
             },
 
-          //  applyConfirm
+            applyConfirm() {
+                let applyData = {
+                    "prisonerId": this.prisonerId,
+                    "type": this.type
+                };
+                this.$http.post("icCard/applyForCard",$.param(applyData)).then(res=>{
+                    console.log(res);
+                    let status = res.data.code;
+                    if (status == 0) {//返回成功
+                        this.getApplyList(1);
+                    }
+                }).catch(err=>{
+                    console.log('申请服务器异常' + err);
+                });
+            },
+
+            applyAllCard() {
+                let checkedInfo = $(".info-list-check").filter(".active");
+                let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
+                for (let i = 0;i < checkedInfo.length; i ++) {
+                    prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                }
+                this.ids = prisonerIds.join(',');
+                $('#applyAllConfirm').modal();   
+            },
+
+            applyAllConfirm() {
+                let applyData = {
+                    "ids": this.ids,
+                    "type": 0
+                };
+                this.$http.post("icCard/applyCards",$.param(applyData)).then(res=>{
+                    console.log(res);
+                    let status = res.data.code;
+                    if (status == 0) {//返回成功
+                        this.getApplyList(1);
+                    }
+                }).catch(err=>{
+                    console.log('申请服务器异常' + err);
+                });
+            },
+
         },
         components:{
            Page

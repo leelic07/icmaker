@@ -188,4 +188,49 @@ export default{
 		}
 		return accountType;
 	},
+
+	//申请状态
+	formatApplyStatus(value) {
+		let applyType = "";
+		switch(Number(value))
+		{
+		case 0 :
+			applyType = "未制卡";
+			break;
+		case 1 :
+			applyType = "正在制卡";
+			break;
+		case 2 :
+			applyType = "已制卡";
+			break;
+		case 3 :
+			applyType = "拒绝制卡";
+			break;
+		default :
+			applyType = "";
+		}
+		return applyType;
+	},
+
+	//发卡状态
+	formatDeliveryStatus(value) {
+		let deliveryType = "";
+		switch(Number(value))
+		{
+		case 0 :
+			deliveryType = "未绑定";
+			break;
+		case 1 :
+			deliveryType = "已绑定虚拟账户";
+			break;
+		case 2 :
+			deliveryType = "已绑定IC卡";
+			break;
+		default :
+			deliveryType = "";
+		}
+		return deliveryType;
+	},
+
+
 }
