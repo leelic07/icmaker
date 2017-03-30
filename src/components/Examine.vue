@@ -56,10 +56,10 @@
         <!--按钮组部分-->
         <div class="col-xs-24 button">
             <div class="col-xs-2">
-                <input type="button" @click="receive()" value="同意制卡" class="agree-button">
+                <input type="button" @click="receive(null,1,2)" value="同意" class="agree-button">
             </div>
             <div class="col-xs-2">
-                <input type="button" value="拒绝制卡" class="reject-button">
+                <input type="button" @click="receive(null,2,2)" value="拒绝" class="reject-button">
             </div>
         </div>
         <!--表格部分-->
@@ -93,14 +93,14 @@
                             <td>{{exam.departmentName}}</td>
                             <td>{{exam.type}}</td>
                             <td>{{exam.userName}}</td>
-                            <td><em class="agree-text" @click="receive()">同意制卡</em></td>
-                            <td><em class="reject-text">拒绝制卡</em></td>
+                            <td><em class="agree-text" @click="receive($event,1,1)" :id = "exam.applyId">同意</em></td>
+                            <td><em class="reject-text" @click="receive($event,2,1)" :id = "exam.applyId">拒绝</em></td>
                         </tr>   
                     </tbody>
                 </table>
             </div>
             <!-- 表单底部-->
-            <Page></Page>
+            <Page :itemSize = "examSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getExamList"></Page>
         </div>
 
 
@@ -116,13 +116,15 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h3>确认同意制卡</h3>
-                        <button class="confirm-button" data-dismiss="modal">确定</button>
+                        <h3 v-if = "verifyType == 1">确认同意制卡</h3>
+                        <h3 v-else>确认拒绝制卡</h3>
+                        <button class="confirm-button" data-dismiss="modal" @click = "receiveConfirm(verifyType,examType)">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
+
     </div>
 </template>
 
@@ -143,6 +145,9 @@ export default{
             virtualAccount: "",//虚拟账号
             number: "",//编号
             archivesNumber: "",//档案号
+            recordId: "",//审核选中的ID
+            ids: "",//批量审核选中ID
+            verifyType: "",//审核类型 1-同意 2-拒绝
             pageSize: 10,
             indexPage: 1
 		}
@@ -201,9 +206,54 @@ export default{
             });
         },
 
-        receive(){
+        receive(e,verifyType,examType){//verifyType 1-同意 2-拒绝 examType 1-单条 2-批量
+            this.verifyType = verifyType;
+            this.examType = examType;
+            if (examType == 1) {
+                this.recordId = e.target.getAttribute("id");
+            }else if (examType == 2) {
+                let checkedInfo = $(".info-list-check").filter(".active");
+                let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
+                for (let i = 0;i < checkedInfo.length; i ++) {
+                    prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                }
+                this.ids = prisonerIds.join(',');
+            }
             $('#examConfirm').modal();
-        }
+        },
+
+        receiveConfirm(verifyType,examType) {
+            console.log(examType);
+            if (examType == 1) {
+                let receiveData = {
+                    "recordId": this.recordId,
+                    "verifyType": this.verifyType
+                };
+                this.$http.post("icCard/cardApplyVerify",$.param(receiveData)).then(res=>{
+                    console.log(res);
+                    let status = res.data.code;
+                    if (status == 0) {//返回成功
+                        this.getExamList(1);
+                    }
+                }).catch(err=>{
+                    console.log('审核服务器异常' + err);
+                });
+            }else if (examType == 2) {
+                let receiveData = {
+                    "ids": this.ids,
+                    "verifyType": this.verifyType
+                };
+                this.$http.post("icCard/applyVerifies",$.param(receiveData)).then(res=>{
+                    console.log(res);
+                    let status = res.data.code;
+                    if (status == 0) {//返回成功
+                        this.getExamList(1);
+                    }
+                }).catch(err=>{
+                    console.log('审核服务器异常' + err);
+                });
+            }
+        },
     },
     components:{
         Page
