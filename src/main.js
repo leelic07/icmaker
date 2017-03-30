@@ -25,7 +25,7 @@ axios.interceptors.request.use(function(config){
         if(config.params){
         	config.params.userId = window.localStorage.getItem('userId');
         }
-        if(config.method == 'post'){
+        if(config.method == 'post' && config.url != config.baseURL+'login'){
         	config.data.userId = window.localStorage.getItem('userId');
         }
 	return config;

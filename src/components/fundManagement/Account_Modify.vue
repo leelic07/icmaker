@@ -109,7 +109,9 @@
           			}
           		}).then(res=>{
           			console.log(res.data.data);
-          		}).catch();
+          		}).catch(err=>{
+          			console.log(err);
+          		});
           	},
             //新增账户
             addAccount(){
@@ -139,8 +141,8 @@
         },
         mounted(){
             $('#table_id_example').tableHover();
-            this.getAllPrison();
             this.prisonAccountId = this.$route.params.prisonAccountId;
+            this.getPrisonAccount();
         }
 	}
 </script>
