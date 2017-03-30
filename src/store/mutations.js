@@ -2,7 +2,6 @@
 const state = {
 	loading:false,
 	selectAll:true,
-	userId:''
 }
 
 const mutations = {

@@ -22,7 +22,7 @@ axios.interceptors.request.use(function(config){
 	store.dispatch('showLoading');
         // config.headers.Authorization = `token ${store.state.mutations.token}`;
         if(config.params){
-        	config.params.userId = store.state.mutations.userId;
+        	config.params.userId = window.localStorage.getItem('userId');
         }
 	return config;
 },function(err){
