@@ -232,5 +232,20 @@ export default{
 		return deliveryType;
 	},
 
-
+	//补卡状态
+	formatExmineStatus(value) {
+		let exmineType = "";
+		switch(Number(value))
+		{
+		case 0 :
+			exmineType = "制卡";
+			break;
+		case 1 :
+			exmineType = "补卡";
+			break;
+		default :
+			exmineType = "";
+		}
+		return exmineType;
+	},
 }
