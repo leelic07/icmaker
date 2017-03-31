@@ -118,6 +118,7 @@
 }
 </style>
 <script>
+    import Util from '../../../static/js/util.js'
     export default {
         data (){
             return{
@@ -151,28 +152,10 @@
             },
             getImgUrl() {
                 let self = this;
-                $("#imgUrlBtn").on("change",function(e){
+                $("#imgUrlBtn").on("change",function (e) {
                     let file = e.target.files[0];
-                    let fileData = {
-                        "file":file
-                    }
-                    console.log(fileData);
-                    let oMyForm = new FormData();
-                    oMyForm.append("file", file);
-                    let oReq = new XMLHttpRequest();
-                    oReq.open("POST", "http://10.10.10.104:8080/icmaker/fileUpload");
-                    oReq.send(oMyForm);
-                    oReq.onload = function(oEvent) {
-                        if (oReq.status == 200) {
-                            let response = $.parseJSON(this.response);
-                            if (response.code == 0) {//图片上传成功
-                                self.imgUrl = response.data.imgUrl;
-                            }
-                        } else {
-                            console.log("上传图片错误，错误码：" + oReq.status);
-                        }
-                    };
-                })
+                    Util.readImgUrl(file,self,'imgUrl');
+                });
             },
             getEditInfo() {
                 let prisonerId = this.$route.params.id;
@@ -270,6 +253,8 @@
             this.dateInit();
             this.getImgUrl();
             this.getPrisonInfo();
+            console.log(Util.readImgUrl);
+           
         }
     }
 </script>

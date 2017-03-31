@@ -263,4 +263,50 @@ export default{
 		return deliveryType;
 	},
 
+	//补卡状态
+	formatExmineStatus(value) {
+		let exmineType = "";
+		switch(Number(value))
+		{
+		case 0 :
+			exmineType = "制卡";
+			break;
+		case 1 :
+			exmineType = "补卡";
+			break;
+		default :
+			exmineType = "";
+		}
+		return exmineType;
+	},
+
+	//类型过滤器
+	isSameBank(isSame){
+		if(isSame == '0'){
+			return '跨行';
+		}else if(isSame == '1'){
+			return '同行';
+		}
+	},
+	
+	//公私标识过滤器
+	isPublic(isPublic){
+		if(isPublic == '0'){
+			return '对公付款';
+		}else if(isPublic == '1'){
+			return '对私付款';
+		}
+	},
+
+	//银行过滤器
+	bank(bankId){
+		if(bankId == '1'){
+			return '建设银行';
+		}else if(bankId == '2'){
+			return '平安银行';
+		}else if(bankId == '3'){
+			return '招商银行';
+		}
+	}
+
 }

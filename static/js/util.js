@@ -95,3 +95,24 @@ let setCookie = (name,value,time) => {
     document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
 }
 
+export default {
+    //上传读取图片路径
+    readImgUrl(file,_this,dataName){
+        console.log(dataName);
+        let oMyForm = new FormData();
+        oMyForm.append("file", file);
+        let oReq = new XMLHttpRequest();
+        oReq.open("POST", "http://10.10.10.103:8080/icmaker/fileUpload");
+        oReq.send(oMyForm);
+        oReq.onload = function(oEvent) {
+            if (oReq.status == 200) {
+                let response = $.parseJSON(this.response);
+                if (response.code == 0) {//图片上传成功
+                    _this[dataName] = response.data.imgUrl;
+                }
+            } else {
+                console.log("上传图片错误，错误码：" + oReq.status);
+            }
+        };
+    }
+}

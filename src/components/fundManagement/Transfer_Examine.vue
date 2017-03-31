@@ -23,8 +23,8 @@
                                 <label for="name">转账类型</label>
                                 <select class="form-control" v-model='type'>
                                     <option value=''>请选择</option>
-                                    <option value='3'>内部转账</option>
-                                    <option value='4'>外部转账</option>
+                                    <option value='4'>内部转账</option>
+                                    <option value='5'>外部转账</option>
                                 </select>
                             </div>
                         </div>
@@ -49,10 +49,10 @@
             <!--按钮组部分-->
             <div class="col-xs-24 button">
                 <div class="col-xs-2">
-                    <input type="button" value="同意" class="agree-button"></input>
+                    <input type="button" value="同意" class="agree-button" @click="agree()"></input>
                 </div>
                 <div class="col-xs-2">
-                    <input type="button" value="拒绝" class="reject-button">
+                    <input type="button" value="拒绝" class="reject-button" @click="reject()">
                 </div>
             </div>
 
@@ -76,7 +76,7 @@
                         </thead>
                         <tbody>
                             <tr v-for='pct in prisonCapitalTransfers'>
-                                <td><div class="info-check"></div></td>
+                                <td><div class="info-check info-list-check" :id='pct.prisonCapitalDetailId'></div></td>
                                 <td v-text='pct.prisonName'>出入监区</td>
                                 <td v-text='pct.prisonDepartmetName'></td>
                                 <td v-text='pct.accountName'></td>
@@ -94,6 +94,46 @@
                 <!-- 表单底部-->
                 <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchRecord'></Page>
             </div>
+
+            <!--模态框-->
+
+            <!--拒绝理由-->
+            <div class="modal modal-confirm" id="rejectConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>拒绝理由</h3>
+                            <textarea class="form-control" rows="5" v-model='remark' placeholder="拒绝理由..."></textarea>
+                            <button class="confirm-button" @click='rejectExamine()'>提交</button>
+                            <button class="cancel-button" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+            <!-- 单个申请制补卡-->
+            <div class="modal modal-confirm" id="agreeConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>同意审核？</h3>
+                            <button class="confirm-button" @click="agreeExamine()">确定</button>
+                            <button class="cancel-button" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
         </div>
 </template>
 
@@ -110,7 +150,9 @@ import Page from '../Paginator.vue'
                 type:'',
                 prisonId:'',
                 prisonList:[],
-                prisonCapitalTransfers:[]
+                prisonCapitalTransfers:[],
+                ids:'',
+                remark:''
 			}
 		},
         methods:{
@@ -167,6 +209,70 @@ import Page from '../Paginator.vue'
                     console.log(err);
                 });
             },
+
+            //获取选中的项目
+            applyAllCard() {
+                let checkedInfo = $(".info-list-check").filter(".active");
+                let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
+                for (let i = 0;i < checkedInfo.length; i ++) {
+                    prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                }
+                this.ids = prisonerIds.join(','); 
+            },
+
+            //点击同意按钮
+            agree(){
+                $('#agreeConfirm').modal();
+                this.applyAllCard();
+            },
+
+            //点击拒绝按钮
+            reject(){
+                $('#rejectConfirm').modal();
+                this.applyAllCard();
+            },
+
+
+            //转账审核同意
+            agreeExamine(){
+                if(this.ids == ''){
+                    return;
+                }
+                this.$http({
+                    method:'post',
+                    url:'/prisonCapital/reviewCapitalTransfers',
+                    params:{
+                        reviewStatus:1,
+                        prisonCapitalDetailId:this.ids,
+                    }
+                }).then(res=>{
+                    console.log(res.data.code,res.data.msg);
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            //转账审核拒绝
+            rejectExamine(){
+                if(this.ids == '' || this.remark == ''){
+                    return;
+                }
+                this.$http({
+                    method:'post',
+                    url:'/prisonCapital/reviewCapitalTransfers',
+                    params:{
+                        reviewStatus:2,
+                        prisonCapitalDetailId:this.ids,
+                        remark:this.remark
+                    }
+                }).then(res=>{
+                    console.log(res.data.code,res.data.msg);
+                }).catch(err=>{
+                    console.log(err);
+                });
+
+                $('#rejectConfirm').modal();
+            }
         },
         components:{
             Page
@@ -185,5 +291,11 @@ import Page from '../Paginator.vue'
 		.select-box{
         	padding:20px 50px 20px 40px;
     	}
+
+        #rejectConfirm{
+            textarea{
+                margin-top:30px;
+            }
+        }
 	}
 </style>

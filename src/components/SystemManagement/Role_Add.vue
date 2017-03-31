@@ -95,7 +95,7 @@
                 let checkedbox = $("#addRole .role-check").filter(".active");//勾选的子类
                 let pCheckedBox =checkedbox.parents(".role-inner");//对应的父类
                 let id = this.$route.params.id;
-                let roleName = $("#roleName").val().replace(/(^\s*)|(\s*$)/g,"");
+                let roleName = this.roleName.replace(/(^\s*)|(\s*$)/g,"");
                 for (let i =0;i < checkedbox.length; i++) {//将勾选的子类ID加入
                     menuIdsArr.push(checkedbox[i].getAttribute("id"));
                 }
@@ -112,7 +112,9 @@
                 }else if (menuIdsArr.length <=0){
                     alert("请选择对应的权限");
                 } else {
+                    console.log(roleData);
                     this.$http.post('role/addOrUpdateRole',$.param(roleData)).then(res=>{
+                        console.log("角色新增");
                         console.log(res);
                         if (res.data.code == 0) {
                             alert("角色创建成功");

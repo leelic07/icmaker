@@ -91,7 +91,7 @@
                             <td>{{exam.cardNo}}</td>
                             <td>{{exam.prisonName}}</td>
                             <td>{{exam.departmentName}}</td>
-                            <td>{{exam.type}}</td>
+                            <td>{{exam.type | formatExmineStatus}}</td>
                             <td>{{exam.userName}}</td>
                             <td><em class="agree-text" @click="receive($event,1,1)" :id = "exam.applyId">同意</em></td>
                             <td><em class="reject-text" @click="receive($event,2,1)" :id = "exam.applyId">拒绝</em></td>
@@ -250,6 +250,7 @@ export default{
                     let status = res.data.code;
                     if (status == 0) {//返回成功
                         this.getExamList(1);
+                        $(".info-check").removeClass("active");
                     }
                 }).catch(err=>{
                     console.log('审核服务器异常' + err);

@@ -141,6 +141,7 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
             </div>
+            
         </div>
 </template>
 
@@ -246,6 +247,8 @@ import Page from './Paginator.vue'
                 });
             },
 
+
+            //获取选中的项目
             applyAllCard() {
                 let checkedInfo = $(".info-list-check").filter(".active");
                 let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
@@ -255,6 +258,7 @@ import Page from './Paginator.vue'
                 this.ids = prisonerIds.join(',');
                 $('#applyAllConfirm').modal();   
             },
+
 
             applyAllConfirm() {
                 let applyData = {

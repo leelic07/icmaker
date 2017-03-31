@@ -26,7 +26,7 @@
                                 <label class="pull-right" for="password"><em class="text-danger">*</em> 密码 :</label>
                             </div>
                             <div class="col-xs-6 text-box">
-                                <input type="password" class="form-control" id="password">
+                                <input type="password" class="form-control" id="password" v-model = "userInfo.password">
                             </div>
                         </div>
                         <div class="row">
@@ -94,6 +94,9 @@
                 userTypeChoise: 0,
                 prisonChoise:"",
                 userInfo: {
+                    "userName": "",
+                    "realName": "",
+                    "password": "", 
                     "userType":0,
                     "prisonId":"",
                     "prisonAccountId":"",
@@ -161,6 +164,7 @@
             prisonChange(e,prisonAccountId){//获取商户列表
                 let prisonId = this.userInfo.prisonId;
                 this.$http.get('prisonAccount/getPrisonAccountsByPrisonId',{params:{'prisonId':prisonId}}).then(res=>{
+                    console.log("商户：");
                     console.log(res);
                     if (res.data.code == 0) {
                         this.shopList = res.data.data;
@@ -192,7 +196,7 @@
                 let id = this.$route.params.id;
                 if (id != undefined) {//为编辑状态
                     this.isAdd = false;
-                    this.$http.get('getUser',{params:{'userId':id}}).then(res=>{
+                    this.$http.get('getUser',{params:{'sysUserId':id}}).then(res=>{
                         console.log ('编辑信息：');
                         console.log(res);
                         console.log("shenmegui");
@@ -202,7 +206,8 @@
                             let prisonAccountId = this.userInfo.prisonAccountId;
                             let roleId = this.userInfo.roleId;
                             console.log(this.userInfo);  
-                            this.userTypeChange(null,prisonId,prisonAccountId);  
+                            this.userTypeChange(null,prisonId,prisonAccountId);
+                            console.log("prisonAccount" + prisonAccountId);
                             this.getRoleList(roleId);        
                         }
                     }).catch(err=>{
@@ -215,20 +220,21 @@
             },
 
             userAdd () {//新增/编辑用户
-                let userName = $("#userName").val().replace(/(^\s*)|(\s*$)/g,"");
-                let password = $("#password").val().replace(/(^\s*)|(\s*$)/g,"");
+                let userName = this.userInfo.userName.replace(/(^\s*)|(\s*$)/g,"");
+                let password = this.userInfo.password.replace(/(^\s*)|(\s*$)/g,"");
                 let id = this.$route.params.id;
-                if (userName != "" && password != "" ) {
+                console.log(userName);
+                if (userName != "" ) {
                     let addUrl = "addOrUpdateUser";
                     let addData = {
                         "id": id,
                         "userName": userName,
-                        "realName": $("#realName").val(),
+                        "realName": this.userInfo.realName,
                         "password": password,
-                        "userType": $("#userType").val(),
-                        "prisonId": $("#prisonId").val(),
-                        "prisonAccountId": $("#accountId").val(),
-                        "roleId": $("#roleId").val()
+                        "userType": this.userInfo.userType,
+                        "prisonId": this.userInfo.prisonId,
+                        "prisonAccountId": this.userInfo.prisonAccountId,
+                        "roleId": this.userInfo.roleId
                     }
                     console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
