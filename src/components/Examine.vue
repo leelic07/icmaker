@@ -169,6 +169,8 @@ export default{
         },
 
         getPrisonDepartInfo (e) {//获取监区信息
+            this.prisonDepartments = "";
+            this.prisonDepartmentId = "";
             let prisonId = $(e.target).val();
             this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
                 console.log(res);

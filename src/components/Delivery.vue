@@ -252,6 +252,8 @@ import Page from './Paginator.vue'
             },
 
             getPrisonDepartInfo (e) {//获取监区信息
+                this.prisonDepartments = "";
+                this.prisonDepartmentId = "";
                 let prisonId = $(e.target).val();
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
                     console.log(res);
@@ -313,8 +315,8 @@ import Page from './Paginator.vue'
             },
 
             bindIcConfirm() {
-                if (this.type == 1 && this.cardCost == "") {//选了收费却未填金额
-                    alert ("请填写收费金额");
+                if (this.icCardNo == "" || (this.type == 1 && this.cardCost == "")) {//选了收费却未填金额
+                    alert ("请填写完整再进行提交");
                 } else {
                     let deliveryData = {
                         "prisonerId": this.prisonerId,

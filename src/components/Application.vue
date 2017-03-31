@@ -185,6 +185,8 @@ import Page from './Paginator.vue'
             },
 
             getPrisonDepartInfo (e) {//获取监区信息
+                this.prisonDepartments = "";
+                this.departmentId = "";
                 let prisonId = $(e.target).val();
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
                     console.log(res);
@@ -203,7 +205,7 @@ import Page from './Paginator.vue'
                     "departmentId": this.departmentId,
                     "status":this.status,
                     "name": this.name,
-                    "icCardNo": this.icCardNo,
+                    "virtualAccount": this.virtualAccount,
                     "number": this.number,
                     "archivesNumber":this.archivesNumber,
                     "indexPage":this.indexPage,

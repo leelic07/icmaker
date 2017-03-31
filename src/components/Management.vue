@@ -110,7 +110,7 @@ import {mapGetters,mapMutations} from 'vuex'
         computed:mapGetters(['selectAll']),
         methods:{
             getStatusList(){//赋值状态列表
-                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"可用"},{"value":1,"name":"已绑定"}]
+                this.statusList = [{"value":"","name":"全部"},{"value":1,"name":"可用"},{"value":2,"name":"已绑定"}]
             },
 
             accountNoList(index) {
