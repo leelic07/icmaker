@@ -44,6 +44,7 @@
                                     <option value=''>请选择</option>
                                     <option value='0'>财务账户</option>
                                     <option value='1'>商户账户</option>
+                                    <option value='2'>监狱总账户</option>
                                 </select>
                             </div>
                         </div>

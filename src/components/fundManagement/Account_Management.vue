@@ -26,6 +26,7 @@
                                 <option value=''>请选择</option>
                                 <option value='0'>财务账户</option>
                                 <option value='1'>商户账户</option>
+                                <option value='3'>监狱总账户</option>
                             </select>
                         </div>
                     </div>
@@ -123,8 +124,8 @@ import Page from '../Paginator.vue'
                     }
                 });
             },
-            //获取表单数据
-            getFormInfo(){
+            //获取监狱账户信息
+            getPrisonAccountDtos(){
                 this.$http({
                     method:'get',
                     url:'/prisonAccount/getPrisonAccountDtos',
@@ -134,7 +135,6 @@ import Page from '../Paginator.vue'
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
-                    console.log(this.prisonAccountDtos);
                     this.menuSize = this.prisonAccountDtos.length;
                 }).catch(err=>{
                     console.log(err);
@@ -173,7 +173,7 @@ import Page from '../Paginator.vue'
                     console.log(err);
                 })
             },
-            //获得修改的账户信息
+            //点击修改获得修改的账户信息
             getPrisonAccount(prisonAccountId){
                 this.$http({
                     method:'get',
@@ -196,7 +196,7 @@ import Page from '../Paginator.vue'
         },
         mounted(){
             $('#table_id_example').tableHover();
-            this.getFormInfo();
+            this.getPrisonAccountDtos();
             this.getAllPrison();
         }
 	}
