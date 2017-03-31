@@ -46,7 +46,7 @@ axios.interceptors.response.use(function(response){
 });
 
 //ajax url头部设置
-axios.defaults.baseURL='http://10.10.10.103:8080/icmaker/';
+axios.defaults.baseURL='http://10.10.10.101:8080/icmaker/';
 
 //设置路由
 const router = new VueRouter({

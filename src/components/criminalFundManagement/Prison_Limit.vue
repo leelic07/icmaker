@@ -1,39 +1,6 @@
 <template>
 	<!-- 右侧内容-->
         <div id="right-side" class="col-xs-20 pull-right">
-            <div id="nav-bar" class="col-xs-20">
-                <div class="col-xs-2">
-                    <a class="col-xs-24" href="#">
-                        <i class="col-xs-8 col-xs-push-9 glyphicon glyphicon-menu-hamburger"></i>
-                    </a>
-                </div>
-                <div class="col-xs-13">
-                    <a class="col-xs-2 pull-right" href="#">
-                        <span class="col-xs-15 col-xs-push-9 badge">8</span>
-                        <i class="col-xs-21 col-xs-push-3 glyphicon glyphicon-bell"></i>
-                    </a>
-                </div>
-                <div class="col-xs-2">
-                    <a class="col-xs-8 col-xs-push-9" href="#">
-                        <span class="col-xs-24 col-xs-push-9 badge">8</span>
-                        <i class="glyphicon glyphicon-envelope"></i>
-                    </a>
-                </div>
-                <div class="col-xs-5">
-                    <i class="pull-left"></i>
-                    <a class="col-xs-16 pull-right" href="#">
-                        <span class="col-xs-18">超级管理员</span>
-                        <P class="col-xs-6">
-                            <i class="col-xs-5"></i>
-                        </P>
-                    </a>
-                </div>
-                <div class="col-xs-2">
-                    <a class="col-xs-8 col-xs-push-8" href="#">
-                        <i class="glyphicon glyphicon-off"></i>
-                    </a>
-                </div>
-            </div>
             <!--搜索框部分-->
             <div class="col-xs-24 search">
                 <div class="col-xs-23 search-box">
