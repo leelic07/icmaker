@@ -191,6 +191,35 @@ export default{
 		return accountType;
 	},
 
+	//类型过滤器
+	isSameBank(isSame){
+		if(isSame == '0'){
+			return '跨行';
+		}else if(isSame == '1'){
+			return '同行';
+		}
+	},
+	
+	//公私标识过滤器
+	isPublic(isPublic){
+		if(isPublic == '0'){
+			return '对公付款';
+		}else if(isPublic == '1'){
+			return '对私付款';
+		}
+	},
+
+	//银行过滤器
+	bank(bankId){
+		if(bankId == '1'){
+			return '建设银行';
+		}else if(bankId == '2'){
+			return '平安银行';
+		}else if(bankId == '3'){
+			return '招商银行';
+		}
+	},
+
 	//申请状态
 	formatApplyStatus(value) {
 		let applyType = "";
@@ -232,5 +261,6 @@ export default{
 			deliveryType = "";
 		}
 		return deliveryType;
-	}
+	},
+
 }
