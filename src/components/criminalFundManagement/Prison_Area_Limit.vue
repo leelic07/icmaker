@@ -82,7 +82,7 @@
                             <td>一监区</td>
                             <td>220.0</td>
                             <td>220.0</td>
-                            <td><em class="agree-text">设置</em></td>
+                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
                         </tr>
                         <tr>
                             <td><div class="info-check"></div></td>
@@ -90,7 +90,7 @@
                             <td>一监区</td>
                             <td>220.0</td>
                             <td>220.0</td>
-                            <td><em class="agree-text">设置</em></td>
+                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
                         </tr>
                         <tr>
                             <td><div class="info-check"></div></td>
@@ -98,7 +98,7 @@
                             <td>一监区</td>
                             <td>220.0</td>
                             <td>220.0</td>
-                            <td><em class="agree-text">设置</em></td>
+                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
                         </tr>
                         <tr>
                             <td><div class="info-check"></div></td>
@@ -106,7 +106,7 @@
                             <td>一监区</td>
                             <td>220.0</td>
                             <td>220.0</td>
-                            <td><em class="agree-text">设置</em></td>
+                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
                         </tr>
                         <tr>
                             <td><div class="info-check"></div></td>
@@ -114,7 +114,7 @@
                             <td>一监区</td>
                             <td>220.0</td>
                             <td>220.0</td>
-                            <td><em class="agree-text">设置</em></td>
+                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
                         </tr>
                         <tr>
                             <td><div class="info-check"></div></td>
@@ -122,7 +122,7 @@
                             <td>一监区</td>
                             <td>220.0</td>
                             <td>220.0</td>
-                            <td><em class="agree-text">设置</em></td>
+                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
                         </tr>
                     </tbody>
                 </table>
@@ -173,7 +173,9 @@ import Page from '../Paginator.vue'
 			}
 		},
 		methods:{
-
+            setConfirm(){
+                $('#setConfirm').modal();
+            }
 		},
 		components:{
 			Page
@@ -184,3 +186,40 @@ import Page from '../Paginator.vue'
 		}
 	}
 </script>
+
+<style lang='less' scoped>
+    #setConfirm{
+        h3{
+            font-weight:bold;
+        }
+
+        .bind-info-list{
+            width:100%;
+        }
+
+        .modal-dialog{
+            width:36%;
+        }
+
+        .bind-info{
+            margin-top:40px;
+        }
+
+        .info-label{
+            color:#B1B1B1;
+        }
+
+        .confirm-button{
+            width:44%;
+            margin-left:0;
+        }
+
+        .cancel-button{
+            width:44%;
+        }
+
+        .modal-body{
+            padding:0 80px;
+        }
+    }
+</style>
