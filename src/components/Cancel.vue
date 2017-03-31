@@ -37,7 +37,7 @@
                                 <input type="text" class="form-control" id="archivesNumber" v-model = "archivesNumber">
                             </div>
                             <div class="col-xs-6 text-box">
-                                <label for="name">犯罪名</label>
+                                <label for="name">罪犯名</label>
                                 <input type="text" class="form-control" id="name" v-model = "name">
                             </div>
                             <div class="col-xs-6 text-box">
@@ -190,6 +190,8 @@ import Page from './Paginator.vue'
             },
 
             getPrisonDepartInfo (e) {//获取监区信息
+                this.prisonDepartments = "";
+                this.departmentId = "";
                 let prisonId = $(e.target).val();
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
                     console.log(res);

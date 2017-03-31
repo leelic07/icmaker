@@ -70,16 +70,16 @@
                             <h3>查看明细</h3>
                         </div>
                         <div class="modal-body">
-                            <table class="table">
+                            <table class="table" v-if = "detailList.length > 0">
                                 <tr v-for = "detail in detailList">
                                     <td>
-                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">{{detail.virtualAccount.virtualAccountNo}}</span></p>
-                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">{{detail.details.virtualAccountName}}</span></p>
-                                        <p class="col-xs-16 pull-left"><span class="pull-right">{{detail.details.updatedAt | formatDate}}</span><span class="pull-right">使用日期</span></p>
+                                        <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">{{virtualAccount.virtualAccountNo}}</span></p>
+                                        <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">{{detail.virtualAccountName}}</span></p>
+                                        <p class="col-xs-16 pull-left"><span class="pull-right">{{detail.updatedAt | formatDate}}</span><span class="pull-right">使用日期</span></p>
                                     </td>
                                 </tr>
-                                
                             </table>
+                            <p v-else class ="description">暂无使用明细</p>
                             <button class="detail-button" data-dismiss="modal">确定</button>
                         </div>
                     </div><!-- /.modal-content -->
@@ -97,6 +97,7 @@ import {mapGetters,mapMutations} from 'vuex'
 			return{
                 statusList: "",//状态列表
                 detailList: "",//明细列表
+                virtualAccount: "",//明细列表里的虚拟账户
                 accountNo: "",//虚拟账号
                 accountId: "",//虚拟账号ID
                 status: "",//状态
@@ -109,7 +110,7 @@ import {mapGetters,mapMutations} from 'vuex'
         computed:mapGetters(['selectAll']),
         methods:{
             getStatusList(){//赋值状态列表
-                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"可用"},{"value":1,"name":"已绑定"}]
+                this.statusList = [{"value":"","name":"全部"},{"value":1,"name":"可用"},{"value":2,"name":"已绑定"}]
             },
 
             accountNoList(index) {
@@ -144,7 +145,8 @@ import {mapGetters,mapMutations} from 'vuex'
                     console.log("列表");
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.detailList = res.data.data;//赋值罪犯列表
+                        this.detailList = res.data.data.details;//赋值虚拟账号详情列表
+                        this.virtualAccount = res.data.data.virtualAccount;//赋值虚拟账号详情列表
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -177,9 +179,11 @@ import {mapGetters,mapMutations} from 'vuex'
             }
             .modal-body{
                 padding:0;
+                
                 table{
                     margin-top:25px;
                     font-size:12px;
+                    border-bottom: 1px solid #ddd;
                     tr{
                         border-top:1px solid #ddd;
                         td{
@@ -215,6 +219,12 @@ import {mapGetters,mapMutations} from 'vuex'
                             }
                         }
                     }
+                }
+                .description {
+                    color: #666;
+                    height: 80px;
+                    line-height: 80px;
+                    font-size: 18px;
                 }
             }
         }
