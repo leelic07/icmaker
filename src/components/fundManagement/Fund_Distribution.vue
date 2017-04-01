@@ -134,6 +134,7 @@
 			//点击确定分配
 			distributionConfirm(){
 				let isNull = true;
+				let total = 0;
 				let distributionItemsTem = this.distributionItems;
 				$.each(distributionItemsTem,(index,value)=>{
 					if(value.type == '' || value.money == ''){
@@ -156,6 +157,7 @@
 					}).then(res=>{
 						console.log(res.data.code,res.data.msg);
 						$.each(this.distributionItems,(index,value)=>{
+							total += value.money;
 							$.each(this.prisonCapitalAssignsList,(i,v)=>{
 								if(v.type == value.type){
 									v.money += value.money
@@ -164,6 +166,8 @@
 							value.money = '';
 							value.type = '';
 						});	
+
+						this.avilableTotal -= total;
 					}).catch(err=>{
 						console.log(err);
 					});

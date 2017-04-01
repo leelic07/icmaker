@@ -309,13 +309,56 @@ export default{
 		}
 	},
 
-	//资金分配类别过滤器
+	//监狱资金分配类别过滤器
 	distributionType(type){
 		if(type == 0){
 			return '低报酬';
 		}else if(type == 1){
 			return 'IC卡资金'
 		}
-	}
+	},
 
+
+   //资金明细类别
+	formatFundType(value) {
+		let fundType = "";
+		switch(Number(value))
+		{
+		case 0 :
+			fundType = "刷卡消费";
+			break;
+		case 1 :
+			fundType = "取现";
+			break;
+		case 2 :
+			fundType = "家属汇款";
+			break;
+		case 3 :
+			fundType = "低报酬";
+			break;
+		case 4 :
+			fundType = "IC卡资金";
+			break;
+		default :
+			fundType = "";
+		}
+		return fundType;
+	},
+
+	//罪犯资金分配类别过滤器
+	locationType(type){
+		let locationTye = '';
+		switch(type){
+			case 0 :
+				locationTye =  '家属汇款';
+				break;
+			case 1 :
+				locationTye = '低报酬';
+				break;
+			case 2 :
+				locationTye = 'IC卡资金'
+				break;
+		}
+		return locationTye;
+	}
 }

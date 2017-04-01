@@ -65,23 +65,23 @@
         },
         methods:{
             getSideList(){
-                this.$http.get('getIndex').then(res=>{
-                    console.log("侧边栏");
-                    console.log(res);
-                    if (res.data.code == 0) {
-                       this.sideInfo = res.data.data.menuHierarchyDtos;
-                       for (let i = 0; i < this.sideInfo.length; i++) {
-                           this.sideInfo[i].isActive = false;
-                           console.log(this.sideInfo[i].isActive);
-                           this.collapsed.push(true);
-                       }
-                       console.log(this.sideInfo);
-                       console.log(this.collapsed);
-                       this.userInfo = res.data.data.user
-                    }
-                }).catch(err=>{
-                    console.log(err);
-                });
+                if (this.$route.path != "/login") {
+                    this.$http.get('getIndex').then(res=>{
+                        console.log("侧边栏");
+                        console.log(res);
+                        if (res.data.code == 0) {
+                        this.sideInfo = res.data.data.menuHierarchyDtos;
+                        for (let i = 0; i < this.sideInfo.length; i++) {
+                            this.sideInfo[i].isActive = false;
+                            console.log(this.sideInfo[i].isActive);
+                            this.collapsed.push(true);
+                        }
+                        this.userInfo = res.data.data.user;
+                        }
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }
             },
 
             changeActive(e) {

@@ -8,20 +8,24 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="name">所属监狱</label>
-                            <select class="form-control">
-                                <option>长沙女子监狱</option>
+                            <select class="form-control" v-model='prisonId'>
+                                <option value=''>请选择</option>
+                                <option v-for='prison in prisonList' :value='prison.id' v-text='prison.prisonName'></option>
                             </select>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="name">资金分配类型</label>
-                            <select class="form-control">
-                                <option>全部</option>
+                            <select class="form-control" v-model='type'>
+                                <option value=''>请选择</option>
+                                <option value='0'>家属汇款</option>
+                                <option value='1'>低报酬</option>
+                                <option value='2'>IC卡资金</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-push-10 button-box">
-                            <input type="button" value="搜索" class="search-button">
+                            <input type="button" value="搜索" class="search-button" @click='searchLocation()'>
                         </div>
                     </div>
                 </div>
@@ -42,68 +46,100 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td>出入监监区</td>
-                            <td>IC卡资金分配</td>
-                            <td>220.0</td>
-                            <td><router-link to="/cfd_add_criminal" class="agree-text">选择罪犯</router-link></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>出入监监区</td>
-                            <td>IC卡资金分配</td>
-                            <td>220.0</td>
-                            <td><router-link to="/cfd_add_criminal" class="agree-text">选择罪犯</router-link></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>出入监监区</td>
-                            <td>IC卡资金分配</td>
-                            <td>220.0</td>
-                            <td><router-link to="/cfd_add_criminal" class="agree-text">选择罪犯</router-link></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>出入监监区</td>
-                            <td>IC卡资金分配</td>
-                            <td>220.0</td>
-                            <td><router-link to="/cfd_add_criminal" class="agree-text">选择罪犯</router-link></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>出入监监区</td>
-                            <td>IC卡资金分配</td>
-                            <td>220.0</td>
-                            <td><router-link to="/cfd_add_criminal" class="agree-text">选择罪犯</router-link></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>出入监监区</td>
-                            <td>IC卡资金分配</td>
-                            <td>220.0</td>
-                            <td><router-link to="/cfd_add_criminal" class="agree-text">选择罪犯</router-link></td>
+                        <tr v-for='cfal in criminalFundAllocationList'>
+                            <td :id='cfal.prison_id'></td>
+                            <td v-text='cfal.prison_name'></td>
+                            <td>{{cfal.type | locationType}}</td>
+                            <td>{{cfal.money | currency}}</td>
+                            <td><router-link :to="'/cfd_add_criminal/'+ cfal.prison_id + '/' + cfal.id"class="agree-text">选择罪犯</router-link></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <!-- 表单底部-->
-            <div class="col-xs-23 form-footer">
-                <p class="pull-left">共有3333条信息</p>
-                <div id="page" class="col-xs-18 pull-right">
-                </div>
+            <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchLocation'></Page>
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Page from '../Paginator.vue'
 	export default{
 		data(){
 			return{
-
+                indexPage:1,
+                pageSize:20,
+                menuSize:'',
+                prisonId:'',
+                type:'',
+                prisonList:[],
+                criminalFundAllocationList:[]
 			}
-		}
+		},
+        methods:{
+            //查询所有监狱列表
+            getAllPrison(){
+                this.$http({
+                    method:'get',
+                    url:'/prisoner/toAddOrEdit',
+                }).then(res=>{
+                    let data = res.data.data;
+                    this.prisonList = data.prisons;
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            //查询罪犯资金分配列表
+            getLocationList(){
+                this.$http({
+                    method:'get',
+                    url:'/criminalFundAllocationList',
+                    params:{
+                        indexPage:this.indexPage,
+                        pageSize:this.pageSize
+                    }
+                }).then(res=>{
+                    let data = res.data.data;
+                    this.criminalFundAllocationList = data.criminalFundAllocationList;
+                    this.menuSize = data.criminalFundAllocationListSize; 
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+
+            //点击搜索查询罪犯资金分配列表
+            searchLocation(index){
+                this.indexPage = index;
+                this.$http({
+                    method:'get',
+                    url:'/criminalFundAllocationList',
+                    params:{
+                        prison_id:this.prisonId,
+                        type:this.type,
+                        indexPage:this.indexPage,
+                        pageSize:this.pageSize
+                    }
+                }).then(res=>{
+                    let data = res.data.data;
+                    this.criminalFundAllocationList = data.criminalFundAllocationList;
+                    this.menuSize = data.criminalFundAllocationListSize; 
+                }).catch(err=>{
+                    console.log(err);
+                });
+            }
+        },
+        components:{
+            Page
+        },
+        mounted(){
+            this.getAllPrison();
+            this.getLocationList();
+            $('#table_id_example').tableHover();
+        }
 	}
 </script>
 

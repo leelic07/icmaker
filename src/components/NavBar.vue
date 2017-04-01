@@ -6,7 +6,7 @@
                 <i class="col-xs-8 col-xs-push-9 glyphicon glyphicon-menu-hamburger"></i>
             </a>
         </div>
-        <div class="col-xs-13">
+        <div class="col-xs-11">
             <a class="col-xs-2 pull-right" href="">
                 <span class="col-xs-15 col-xs-push-9 badge">8</span>
                 <i class="col-xs-21 col-xs-push-3 glyphicon glyphicon-bell"></i>
@@ -18,11 +18,11 @@
                 <i class="glyphicon glyphicon-envelope"></i>
             </a>
         </div>
-        <div class="col-xs-5">
+        <div class="col-xs-6">
             <i class="pull-left"></i>
             <a class="col-xs-16 pull-right" href="">
-                <span class="col-xs-12">{{userInfo.roleName}}</span>
-                <span class="col-xs-12">{{userInfo.userName}}</span>
+                <span class="col-xs-10">{{userInfo.roleName}}</span>
+                <span class="col-xs-14">{{userInfo.userName}}</span>
             </a>
         </div>
         <div class="col-xs-2">
@@ -42,15 +42,17 @@
 		},
         methods:{
             getNavInfo(){
-                this.$http.get('getIndex').then(res=>{
-                    console.log("nav栏");
-                    console.log(res);
-                    if (res.data.code == 0) {
-                       this.userInfo = res.data.data.user
-                    }
-                }).catch(err=>{
-                    console.log(err);
-                });
+                if (this.$route.path != "/login") {
+                    this.$http.get('getIndex').then(res=>{
+                        console.log("nav栏");
+                        console.log(res);
+                        if (res.data.code == 0) {
+                        this.userInfo = res.data.data.user
+                        }
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }
             },
 
             loginOut() {

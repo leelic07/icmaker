@@ -160,7 +160,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h3>确认绑定虚拟账号</h3>
+                        <h3 v-if = "bindType == 2">确认绑定全部虚拟账号</h3>
+                        <h3 v-else>确认绑定虚拟账号</h3>
                         <button class="confirm-button" data-dismiss="modal" @click = "bindAccountConfirm(bindType)">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
                     </div>
@@ -231,6 +232,7 @@ import Page from './Paginator.vue'
                 type: 0,//绑定时是否扣费  1-扣费 0-不扣费
                 cardCost: "",//卡费
                 ids: "",//当前批量处理的罪犯ID列表
+                lastSearchData: "",
                 pageSize: 10,
                 indexPage: 1
 			}
@@ -279,6 +281,7 @@ import Page from './Paginator.vue'
                     "pageSize":this.pageSize
                 };
                 console.log(searchData);
+                this.lastSearchData = searchData;
                 this.$http.get('icCard/cardPrisoners',{params:searchData}).then(res=>{
                     console.log("列表");
                     console.log(res);
@@ -335,6 +338,7 @@ import Page from './Paginator.vue'
                             this.icCardNo = "";
                             this.prisonerId = "";
                         }
+                        alert(res.data.msg);
                     }).catch(err=>{
                         console.log('申请服务器异常' + err);
                     });
@@ -352,8 +356,6 @@ import Page from './Paginator.vue'
                         prisonerIds.push(checkedInfo[i].getAttribute("id"));
                     }
                     this.ids = prisonerIds.join(',');
-                }else if (bindType == 2) {//全部绑定
-
                 }
                 $('#examConfirm').modal();
             },
@@ -370,6 +372,7 @@ import Page from './Paginator.vue'
                         if (status == 0) {//返回成功
                             this.getDeliveryList(1);
                         }
+                        alert(res.data.msg);
                     }).catch(err=>{
                         console.log('申请服务器异常' + err);
                     });
@@ -383,11 +386,30 @@ import Page from './Paginator.vue'
                         if (status == 0) {//返回成功
                             this.getDeliveryList(1);
                         }
+                        alert(res.data.msg);
                     }).catch(err=>{
                         console.log('申请服务器异常' + err);
                     });
                 }else if (bindType == 2) {//全部绑定
-
+                    let bindAllData = {
+                        "prisonId": this.lastSearchData.prisonId,
+                        "prisonDepartmentId": this.lastSearchData.prisonDepartmentId,
+                        "name": this.lastSearchData.name,
+                        "virtualAccount": this.lastSearchData.virtualAccount,
+                        "number": this.lastSearchData.number,
+                        "archivesNumber":this.lastSearchData.archivesNumber
+                    };
+                    console.log(bindAllData);
+                    this.$http.post("icCard/bindingAllAccounts",$.param(bindAllData)).then(res=>{
+                        console.log(res);
+                        let status = res.data.code;
+                        if (status == 0) {//返回成功
+                            alert("成功");
+                            this.getDeliveryList(1);
+                        }
+                    }).catch(err=>{
+                        console.log('申请服务器异常' + err);
+                    });
                 }
                 
             },
@@ -407,6 +429,7 @@ import Page from './Paginator.vue'
                     if (status == 0) {//返回成功
                         this.getDeliveryList(1);
                     }
+                    alert(res.data.msg);
                 }).catch(err=>{
                     console.log('申请服务器异常' + err);
                 });
@@ -427,6 +450,7 @@ import Page from './Paginator.vue'
                     if (status == 0) {//返回成功
                         this.getDeliveryList(1);
                     }
+                    alert(res.data.msg);
                 }).catch(err=>{
                     console.log('申请服务器异常' + err);
                 });

@@ -1,74 +1,43 @@
 <template>
 <!-- 右侧内容-->
     <div id="right-side" class="col-xs-20 pull-right">
-        <div id="nav-bar" class="col-xs-20">
-            <div class="col-xs-2">
-                <a class="col-xs-24" href="#">
-                    <i class="col-xs-8 col-xs-push-9 glyphicon glyphicon-menu-hamburger"></i>
-                </a>
-            </div>
-            <div class="col-xs-13">
-                <a class="col-xs-2 pull-right" href="#">
-                    <span class="col-xs-15 col-xs-push-9 badge">8</span>
-                    <i class="col-xs-21 col-xs-push-3 glyphicon glyphicon-bell"></i>
-                </a>
-            </div>
-            <div class="col-xs-2">
-                <a class="col-xs-8 col-xs-push-9" href="#">
-                    <span class="col-xs-24 col-xs-push-9 badge">8</span>
-                    <i class="glyphicon glyphicon-envelope"></i>
-                </a>
-            </div>
-            <div class="col-xs-5">
-                <i class="pull-left"></i>
-                <a class="col-xs-16 pull-right" href="#">
-                    <span class="col-xs-18">超级管理员</span>
-                    <P class="col-xs-6">
-                        <i class="col-xs-5"></i>
-                    </P>
-                </a>
-            </div>
-            <div class="col-xs-2">
-                <a class="col-xs-8 col-xs-push-8" href="#">
-                    <i class="glyphicon glyphicon-off"></i>
-                </a>
-            </div>
-        </div>
         <!--搜索框部分-->
         <div class="col-xs-24 search">
             <div class="col-xs-23 search-box">
                 <div class="col-xs-23 search-inner-box">
                     <div class="row">
                         <div class="col-xs-8 select-box">
-                            <label for="name">所属监狱</label>
-                            <select class="form-control">
-                                <option>长沙女子监狱</option>
+                            <label for="prisonId">所属监狱</label>
+                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event)" v-model = "prisonId">
+                                <option value="">全部</option>
+                                <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                             </select>
                         </div>
                         <div class="col-xs-8 select-box">
-                            <label for="name">所属监区</label>
-                            <select class="form-control">
-                                <option>第五监区</option>
+                            <label for="prisonDepartmentId">所属监区</label>
+                            <select class="form-control" id="prisonDepartmentId" v-model = "prisonDepartmentId">
+                                <option value="">全部</option>
+                                <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-6 text-box">
-                            <label for="name">姓名</label>
-                            <input type="text" class="form-control" id="">
+                            <label for="name">罪犯名</label>
+                            <input type="text" class="form-control" id="name" v-model = "name">
                         </div>
                         <div class="col-xs-6 text-box">
-                            <label for="name">档案号</label>
-                            <input type="text" class="form-control" id="">
+                            <label for="archivesNumber">档案号</label>
+                            <input type="text" class="form-control" id="archivesNumber" v-model = "archivesNumber">
                         </div>
                         <div class="col-xs-6 text-box">
-                            <label for="name">读卡</label>
-                            <input type="text" class="form-control" id="">
+                            <label for="idCardNo">读卡</label>
+                            <input type="text" class="form-control" id="idCardNo" v-model = "idCardNo">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-push-10 button-box">
-                            <input type="button" value="搜索" class="search-button">
+                            <input type="button" value="搜索" class="search-button" @click = "getFundList(1)">
                         </div>
                     </div>
                 </div>
@@ -77,7 +46,7 @@
         <!--按钮组部分-->
         <div class="col-xs-24 button">
             <div class="col-xs-2">
-                <input type="button" value="配置消费额度" class="reject-button">
+                <input type="button" value="配置消费额度" class="reject-button" @click = "setFund(null,2)">
             </div>
         </div>
         <!--表格部分-->
@@ -92,104 +61,213 @@
                             <th>档案号</th>
                             <th>姓名</th>
                             <th>虚拟账号</th>
-                            <th>金额</th>
+                            <th>金额（元）</th>
                             <th>日限额</th>
                             <th>月限额</th>
                             <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>430700001200120012</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text">配置消费额度</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>430700001200120012</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text">配置消费额度</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>430700001200120012</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text">配置消费额度</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>430700001200120012</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text">配置消费额度</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>430700001200120012</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text">配置消费额度</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>0843432</td>
-                            <td>Tanmay</td>
-                            <td>430700001200120012</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text">配置消费额度</em></td>
+                        <tr v-for = "fund in fundList">
+                            <td><div class="info-check info-list-check" :prisonerId = "fund.prisoner_id" :id="fund.id"></div></td>
+                            <td>{{fund.prison_name}}</td>
+                            <td>{{fund.prison_department_name}}</td>
+                            <td>{{fund.archives_number}}</td>
+                            <td>{{fund.name}}</td>
+                            <td>{{fund.virtual_account_no}}</td>
+                            <td>{{fund.total | currency}}</td>
+                            <td>{{fund.day_money | currency}}</td>
+                            <td>{{fund.month_money | currency}}</td>
+                            <td><em class="agree-text" :prisonerId = "fund.prisoner_id" :id="fund.id" :prisonerName = "fund.name" @click = "setFund($event,1)">配置消费额度</em></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <!-- 表单底部-->
-            <Page></Page>
+            <Page :itemSize = "fundSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getFundList"></Page>
         </div>
+
+        <!--模态框-->
+
+        <!--设置限额 -->
+        <div class="modal modal-confirm modal-bind" id="setConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>设置罪犯限额</h3>
+                        <div class="clearfix bind-info">
+                            <ul class="pull-left clearfix bind-info-list" v-if = "setType == 1">
+                                <li class="clearfix"><span class="pull-left info-label">罪犯名称</span><span class="pull-right">{{prisonerName}}</span></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-24">
+                            <input type="text" class="form-control fee-input" id="monthMoney" placeholder="输入日限额" v-model = "monthMoney">
+                            <input type="text" class="form-control" id="dayMoney" placeholder="输入月限额" v-model = "dayMoney">
+                        </div>
+                        <button class="confirm-button" data-dismiss="modal" @click = "setFundConfirm">保存</button>
+                        <button class="cancel-button" data-dismiss="modal">取消</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
     </div>
 </template>
-
+<style lang="less" scoped>
+    button[disabled]{
+       background: #999 !important ;
+       border: 1px solid #999;
+    }
+</style>
 <script>
 import Page from '../Paginator.vue'
 	export default {
 		data(){
 			return{
-
+                prisons: "",//监狱列表
+                prisonDepartments: "",//监区列表
+                fundList: "",//个人罪犯消费列表
+                fundSize: "",//个人罪犯消费列表总条数
+                prisonId: "",//监狱ID
+                prisonDepartmentId: "",//监区ID
+                name: "",//罪犯名
+                archivesNumber: "",//档案号
+                idCardNo: "",//IC卡号
+                prisonerId: "",//当前操作的罪犯ID
+                id: "",//新增时候为-999 修改时候为具体数字
+                prisonerName: "",//当前操作的罪犯姓名
+                prisonerIds: "",//当前操作的罪犯ID数组
+                ids: "",//新增时候为-999 修改时候为具体数字（批量）
+                dayMoney: "",//日限制额度
+                monthMoney: "",//月限制额度
+                setType: "",//setType 配置方式 1-单个 2-批量
+                legal: false,//是否具备提交或者操作的权限
+                pageSize: 10,
+                indexPage: 1
 			}
 		},
 		methods:{
+            getPrisonInfo() {//根据用户信息获取监狱信息
+                this.$http.get('prisoner/toAddOrEdit').then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.prisons = res.data.data.prisons;//赋值监狱列表
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
 
+            getPrisonDepartInfo (e) {//获取监区信息
+                this.prisonDepartments = "";
+                this.prisonDepartmentId = "";
+                let prisonId = $(e.target).val();
+                this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.prisonDepartments = res.data.data;//赋值监区列表
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            getFundList (index) {
+                console.log("dd");
+                this.indexPage = index;
+                let searchData = {
+                    "prisonId": this.prisonId,
+                    "prisonDepartmentId": this.prisonDepartmentId,
+                    "name": this.name,
+                    "archivesNumber": this.archivesNumber,
+                    "idCardNo": this.idCardNo,
+                    "indexPage":this.indexPage,
+                    "pageSize":this.pageSize
+                };
+                console.log(searchData);
+                this.$http.get('personalCrimeConsumptionRestrictList',{params:searchData}).then(res=>{
+                    console.log("列表");
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.fundList = res.data.data.personalCrimeConsumptionRestrictList;//赋值个人犯罪消费资金列表
+                        this.fundSize = res.data.data.personalCrimeConsumptionRestrictListSize;//赋值个人犯罪消费资金列表数
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            setFund (e,setType) {//setType 配置方式 1-单个 2-批量
+                this.monthMoney = "";
+                this.dayMoney = "";
+                this.setType =setType;
+                if(setType == 1) {
+                    this.prisonerId = e.target.getAttribute("prisonerId");
+                    this.id = e.target.getAttribute("id");
+                    this.prisonerName = e.target.getAttribute("prisonerName");
+                }else if (setType == 2) {
+                    let checkedInfo = $(".info-list-check").filter(".active");
+                    let prisonerIds = new Array();//批量资金分配的罪犯ID数组
+                    let ids = new Array();//批量资金分配的id数组
+                    for (let i = 0;i < checkedInfo.length; i ++) {
+                        prisonerIds.push(checkedInfo[i].getAttribute("prisonerId"));
+                        ids.push(checkedInfo[i].getAttribute("id"));
+                    }
+                    this.prisonerIds = prisonerIds.join(',');
+                    this.ids = ids.join(',');
+                }
+                $('#setConfirm').modal();
+            },
+
+            setFundConfirm () {//setType 配置方式 1-单个 2-批量
+                if(this.setType == 1) {
+                    if (this.monthMoney != "" && this.dayMoney != "") {
+                        let setData = {
+                            "id": this.id,
+                            "prisonerId": this.prisonerId,
+                            "monthMoney": this.monthMoney*100,
+                            "dayMoney": this.dayMoney*100
+                        };
+                        this.$http.post("consumptionQuota",$.param(setData)).then(res=>{
+                            console.log(res);
+                            let status = res.data.code;
+                            if (status == 0) {//返回成功
+                                this.getFundList(1);
+                            }
+                        }).catch(err=>{
+                            console.log('配置资金服务器异常' + err);
+                        });
+                    }else {
+                        alert("请填写完整再进行提交");
+                    }
+                }else if (this.setType == 2) {
+                    if (this.monthMoney != "" && this.dayMoney != "") {
+                        let setData = {
+                            "id": this.ids,
+                            "prisonerId": this.prisonerIds,
+                            "monthMoney": this.monthMoney*100,
+                            "dayMoney": this.dayMoney*100
+                        };
+                        this.$http.post("batchConsumptionQuota",$.param(setData)).then(res=>{
+                            console.log(res);
+                            let status = res.data.code;
+                            if (status == 0) {//返回成功
+                                this.getFundList(1);
+                                $(".info-check").removeClass("active");
+                            }
+                        }).catch(err=>{
+                            console.log('批量配置资金服务器异常' + err);
+                        });
+                    }else {
+                        alert("请填写完整再进行提交");
+                    }
+                }
+            }
 		},
 		components:{
 			Page
@@ -197,6 +275,8 @@ import Page from '../Paginator.vue'
 		mounted(){
 			$('#table_id_example').tableHover();
 			$('#table_id_example').select();
+            this.getPrisonInfo();
+            this.getFundList(1);
 		}
 	}
 </script>
