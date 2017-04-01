@@ -307,6 +307,31 @@ export default{
 		}else if(bankId == '3'){
 			return '招商银行';
 		}
-	}
+	},
 
+   //资金明细类别
+	formatFundType(value) {
+		let fundType = "";
+		switch(Number(value))
+		{
+		case 0 :
+			fundType = "刷卡消费";
+			break;
+		case 1 :
+			fundType = "取现";
+			break;
+		case 2 :
+			fundType = "家属汇款";
+			break;
+		case 3 :
+			fundType = "低报酬";
+			break;
+		case 4 :
+			fundType = "IC卡资金";
+			break;
+		default :
+			fundType = "";
+		}
+		return fundType;
+	}
 }

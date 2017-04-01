@@ -7,7 +7,7 @@
                 <div class="col-xs-23 search-inner-box">
                     <div class="row">
                         <div class="col-xs-7 text-box">
-                            <input type="text" class="form-control" placeholder="读取IC卡"/>
+                            <input type="text" class="form-control" placeholder="读取IC卡" v-model = "icCardNo" id="icCardNo">
                         </div>
                     </div>
                 </div>
@@ -69,9 +69,14 @@
 	export default{
 		data(){
 			return{
-
+                icCardNo: ""
 			}
-		}
+		},
+        methods:{
+            getPrisonerInfo () {
+
+            }
+        }
 	}
 </script>
 

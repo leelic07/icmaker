@@ -42,15 +42,17 @@
 		},
         methods:{
             getNavInfo(){
-                this.$http.get('getIndex').then(res=>{
-                    console.log("nav栏");
-                    console.log(res);
-                    if (res.data.code == 0) {
-                       this.userInfo = res.data.data.user
-                    }
-                }).catch(err=>{
-                    console.log(err);
-                });
+                if (this.$route.path != "/login") {
+                    this.$http.get('getIndex').then(res=>{
+                        console.log("nav栏");
+                        console.log(res);
+                        if (res.data.code == 0) {
+                        this.userInfo = res.data.data.user
+                        }
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }
             },
 
             loginOut() {

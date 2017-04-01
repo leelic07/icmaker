@@ -1,16 +1,11 @@
 <template>
   <div id="app" class="container-fluid">
     <loading v-show="loadingShow"></loading>
-    <LeftSide v-show = "isNotLogin"></LeftSide>
-    <NavBar v-show = "isNotLogin"></NavBar>
+    <LeftSide v-if = "isNotLogin"></LeftSide>
+    <NavBar v-if = "isNotLogin"></NavBar>
         <router-view></router-view>
   </div>
 </template>
-<style lang="less" scoped>
-    button[disabled]{
-       background: #ccc !important ;
-    }
-</style>
 <script>
 import Vue from 'vue'
 import LeftSide from './components/Left-side.vue'

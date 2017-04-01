@@ -27,8 +27,8 @@
                             <input type="text" class="form-control" id="name" v-model = "name">
                         </div>
                         <div class="col-xs-6 text-box">
-                            <label for="archives_number">档案号</label>
-                            <input type="text" class="form-control" id="archives_number" v-model = "archives_number">
+                            <label for="archivesNumber">档案号</label>
+                            <input type="text" class="form-control" id="archivesNumber" v-model = "archivesNumber">
                         </div>
                         <div class="col-xs-6 text-box">
                             <label for="idCardNo">读卡</label>
@@ -136,7 +136,7 @@ import Page from '../Paginator.vue'
                 prisonId: "",//监狱ID
                 prisonDepartmentId: "",//监区ID
                 name: "",//罪犯名
-                archives_number: "",//档案号
+                archivesNumber: "",//档案号
                 idCardNo: "",//IC卡号
                 prisonerId: "",//当前操作的罪犯ID
                 id: "",//新增时候为-999 修改时候为具体数字
@@ -178,12 +178,13 @@ import Page from '../Paginator.vue'
             },
 
             getFundList (index) {
+                console.log("dd");
                 this.indexPage = index;
                 let searchData = {
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
                     "name": this.name,
-                    "archives_number": this.archives_number,
+                    "archivesNumber": this.archivesNumber,
                     "idCardNo": this.idCardNo,
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
