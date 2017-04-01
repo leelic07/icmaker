@@ -86,7 +86,7 @@
                         <div class="row add-row">
                             <div class="row">
                                 <div class="input-group date form_date col-xs-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="16" type="text" placeholder="入监日期" readonly id="intoPrisonDate" v-model = "prisonerInfo.intoPrisonDate" value = "2017-03-16 15:09:31">
+                                    <input class="form-control" size="16" type="text" placeholder="入监日期" readonly id="intoPrisonDate" v-model = "prisonerInfo.intoPrisonDate">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
                             </div>

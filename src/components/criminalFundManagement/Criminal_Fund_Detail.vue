@@ -55,14 +55,14 @@
                     <div class="row">
                         <div class="col-xs-4 col-xs-push-1 text-box">
                             <label for="name">创建时间</label>
-                            <input class="date form-control" size="16" type="text" placeholder="开始日期" id = "startTime">
+                            <input class="date form-control" size="16" type="text" placeholder="开始日期" id = "startTime" v-model = "startTime">
                         </div>
                         <div class="col-xs-1 col-xs-push-1 mdash-box">
                             <div class="col-xs-24 col-xs-push-7">&mdash;</div>
                         </div>
                         <div class="col-xs-4 col-xs-push-1 text-box">
                             <label style="visibility:hidden" for="name">结束时间</label>
-                            <input class="date form-control" size="16" type="text" placeholder="结束日期" id="endTime">
+                            <input class="date form-control" size="16" type="text" placeholder="结束日期" id="endTime" v-model = "endTime">
                         </div>
                     </div>
                     <div class="row">
@@ -137,6 +137,8 @@
                 idCardNo: "",//IC卡号
 				type: "",//类型
 				acount: "",//场所
+                startTime: "",//开始时间
+                endTime: "",//结束时间
 				pageSize: 10,
                 indexPage: 1
 			}
@@ -199,8 +201,8 @@
 					"number": this.number,
                     "type": this.type,
 					"acount": this.acount,
-                    "startTime": this.startTime,
-					"endTime": this.endTime,
+                    "startTime": $("#startTime").val(),
+					"endTime":  $("#endTime").val(),
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };

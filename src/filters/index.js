@@ -333,5 +333,24 @@ export default{
 			fundType = "";
 		}
 		return fundType;
+	},
+
+	formatInteger(value) {
+		if (value != "") {
+			let  integer = Math.floor(value/100);
+			return integer;
+		}else {
+			return '0';
+		}
+	},
+
+	formatDecimal(value) {
+		if (value != "") {
+			let decimal = (value/100 - Math.floor(value/100)).toFixed(2).split(".");
+		    return '.' + decimal[1];
+		}else {
+			return '.00';
+		}
+		
 	}
 }
