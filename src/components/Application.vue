@@ -171,7 +171,7 @@ import Page from './Paginator.vue'
 		},
         methods:{
             getStatusList(){//赋值状态列表
-                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"未制卡"},{"value":1,"name":"正在制卡"},{"value":2,"name":"拒绝制卡"}]
+                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"未制卡"},{"value":1,"name":"正在制卡"},{"value":2,"name":"已制卡"},{"value":3,"name":"拒绝制卡"}]
             },
 
             getPrisonInfo() {//根据用户信息获取监狱信息
