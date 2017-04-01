@@ -34,7 +34,6 @@
                 <table class="display table ic-table" id="table_id_example">
                     <thead>
                         <tr>
-                            <th><div class="info-check"></div></th>
                             <th>所属监狱</th>
                             <th>所属监区</th>
                             <th>日限额</th>
@@ -44,47 +43,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
-                            <td>出入监监区</td>
-                            <td>一监区</td>
-                            <td>220.0</td>
-                            <td>220.0</td>
-                            <td><em class="agree-text" @click='setConfirm()'>设置</em></td>
-                        </tr>
-                        <tr>
-                            <td><div class="info-check"></div></td>
                             <td>出入监监区</td>
                             <td>一监区</td>
                             <td>220.0</td>

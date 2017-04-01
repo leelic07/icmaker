@@ -6,7 +6,11 @@
         <router-view></router-view>
   </div>
 </template>
-
+<style lang="less" scoped>
+    button[disabled]{
+       background: #ccc !important ;
+    }
+</style>
 <script>
 import Vue from 'vue'
 import LeftSide from './components/Left-side.vue'
