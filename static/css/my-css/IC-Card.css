@@ -7812,13 +7812,14 @@ ol {
 }
 #right-side .criminal-info .information {
   background-color: #fff;
+  border: 1px solid #EAEAEA;
+  border-top: 0;
 }
 #right-side .criminal-info .information > div {
   padding: 30px 3%;
 }
 #right-side .criminal-info .information > div:first-child {
-  border: 1px solid #EAEAEA;
-  border-top: 0;
+  border-right: 1px solid #EAEAEA;
 }
 #right-side .criminal-info .information ul {
   margin-top: 10px;
@@ -7855,6 +7856,42 @@ ol {
   color: #A6A6A6;
   font-size: 15px;
   margin-top: 10px;
+}
+#right-side .distribution .distribution-innerbox {
+  background-color: #fff;
+  border: 1px solid #EAEAEA;
+  border-top: 0;
+  margin-left: 2%;
+}
+#right-side .distribution .distribution-innerbox > div {
+  padding: 18px 0;
+}
+#right-side .distribution .distribution-innerbox > div.distributionItem {
+  border-top: 1px solid #ECECEC;
+}
+#right-side .distribution .distribution-innerbox label {
+  margin-left: 45%;
+  margin-top: 7px;
+}
+#right-side .distribution .distribution-innerbox .addDistribution a {
+  margin-top: 7px;
+}
+#right-side .distribution .distribution-innerbox .addDistribution a span:first-child {
+  width: 23%;
+  background-color: #FF6600;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+}
+#right-side .distribution .distribution-innerbox .addDistribution a span:nth-child(2) {
+  color: #FF6600;
+}
+#right-side .distribution .distribution-innerbox .confirmDistribution {
+  padding-left: 6%;
+}
+#right-side .distribution .distribution-innerbox .confirmDistribution .search-button {
+  margin-top: 50px;
 }
 @media screen and (max-width: 1018px) {
   #nav-bar div:nth-child(4) a {

@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select id='prison' class="form-control" v-model='prisonId' @change='getPrisonDepartments($event.target.value)'>
-                                    <option v-show='prisonList.length>1' value=''>请选择</option>
+                                    <option value=''>请选择</option>
                                     <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
                                 </select>
                             </div>

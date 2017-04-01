@@ -307,6 +307,15 @@ export default{
 		}else if(bankId == '3'){
 			return '招商银行';
 		}
+	},
+
+	//资金分配类别过滤器
+	distributionType(type){
+		if(type == 0){
+			return '低报酬';
+		}else if(type == 1){
+			return 'IC卡资金'
+		}
 	}
 
 }
