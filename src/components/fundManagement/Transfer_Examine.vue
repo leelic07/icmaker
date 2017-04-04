@@ -211,7 +211,7 @@ import Page from '../Paginator.vue'
             },
 
             //获取选中的项目
-            applyAllCard() {
+            getAllRecords() {
                 let checkedInfo = $(".info-list-check").filter(".active");
                 let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
                 for (let i = 0;i < checkedInfo.length; i ++) {
@@ -223,13 +223,13 @@ import Page from '../Paginator.vue'
             //点击同意按钮
             agree(){
                 $('#agreeConfirm').modal();
-                this.applyAllCard();
+                this.getAllRecords();
             },
 
             //点击拒绝按钮
             reject(){
                 $('#rejectConfirm').modal();
-                this.applyAllCard();
+                this.getAllRecords();
             },
 
 

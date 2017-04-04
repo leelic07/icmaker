@@ -1,32 +1,46 @@
-
+import getters from './getters'
+//状态参数
 const state = {
 	loading:false,
-	selectAll:true,
+	remind:false
 }
 
+//设置状态
 const mutations = {
+	//显示loading
 	showLoading(state){
 		state.loading = true;
 	},
+
+	//隐藏loading
 	hideLoading(state){
 		state.loading = false;
 	},
-	confirmSelectAll(state){
-		state.selectAll = true;
+
+	//显示remind
+	showRemind(state){
+		state.remind = true;
 	},
-	cancelSelectAll(state){
-		state.selectAll = false;
+
+	//隐藏remind
+	hideRemind(state){
+		state.remind = false;
 	}
 }
 
-const getters = {
-	loadingShow(state){
-		return state.loading;
-	},
-	selectAll(state){
-		return state.selectAll;
-	}
-}
+
+// //获取状态
+// const getters = {
+// 	//返回loading的状态
+// 	loadingShow(state){
+// 		return state.loading;
+// 	},
+
+// 	//返回remind的状态
+// 	remindShow(state){
+// 		return state.remind;
+// 	}
+// }
 
 export default {
 	state,

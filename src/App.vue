@@ -33,7 +33,7 @@ export default {
   computed:{
     loadingShow:{
       get(){
-        return store.state.mutations.loading;
+        return store.getters.loadingShow;
       }
     }
   },

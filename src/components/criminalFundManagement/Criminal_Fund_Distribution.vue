@@ -58,14 +58,13 @@
             </div>
             <!-- 表单底部-->
             <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchLocation'></Page>
-
-            </div>
         </div>
-    </div>
+    </div>   
 </template>
 
 <script>
 import Page from '../Paginator.vue'
+
 	export default{
 		data(){
 			return{
@@ -75,7 +74,11 @@ import Page from '../Paginator.vue'
                 prisonId:'',
                 type:'',
                 prisonList:[],
-                criminalFundAllocationList:[]
+                criminalFundAllocationList:[],
+                remind:{
+                    status:'',
+                    msg:''
+                }
 			}
 		},
         methods:{
@@ -131,6 +134,7 @@ import Page from '../Paginator.vue'
                     console.log(err);
                 });
             }
+
         },
         components:{
             Page

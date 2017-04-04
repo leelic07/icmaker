@@ -5,7 +5,10 @@ export default {
 	hideLoading:({commit})=>{
 		commit('hideLoading');
 	},
-	cancelSelectAll:({commit})=>{
-		commit('cancelSelectAll');
+	showRemind:({commit})=>{
+		commit('showRemind');
+	},
+	hideRemind:({commit})=>{
+		commit('hideRemind');
 	}
 }

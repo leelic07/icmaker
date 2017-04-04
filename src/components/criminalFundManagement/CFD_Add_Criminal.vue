@@ -34,7 +34,7 @@
         <!--按钮组部分-->
         <div class="col-xs-24 button">
             <div class="col-xs-2">
-                <input type="button" value="确认添加" class="reject-button">
+                <input type="button" value="确认添加" class="reject-button" @click='addCriminal()'>
             </div>
         </div>
         <!--表格部分-->
@@ -51,8 +51,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr v-for='p in prisoners'>
-                            <td><div class="info-check" :id='p.prisonerId'></div></td>
+                        <tr v-for='p,index in prisoners'>
+                            <td><div class="info-check info-list-check" :id='p.prisonerId' :index='index'></div></td>
                             <td v-text='p.name'></td>
                             <td v-text='p.archivesNumber'></td>
                             <td v-text='p.prisonName'></td>
@@ -69,32 +69,24 @@
             <div class="col-xs-23">
                 <table class="display table ic-table" id="table_id_example1">
                     <thead>
-                    <tr>
-                        <th></th>
-                        <th>罪犯名</th>
-                        <th>档案号</th>
-                        <th>所属监狱</th>
-                        <th>所属监区</th>
-                        <th class="text-center">分配金额</th>
-                    </tr>
+                        <tr>
+                            <th></th>
+                            <th>罪犯名</th>
+                            <th>档案号</th>
+                            <th>所属监狱</th>
+                            <th>所属监区</th>
+                            <th class="text-center">分配金额</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td></td>
-                        <td>Tanmay</td>
-                        <td>41679161648</td>
-                        <td>长沙监狱</td>
-                        <td>第一监区</td>
-                        <td><input type="text" class="form-control"  placeholder="输入分配金额"/></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>Tanmay</td>
-                        <td>41679161648</td>
-                        <td>长沙监狱</td>
-                        <td>第一监区</td>
-                        <td><input type="text" class="form-control"  placeholder="输入分配金额"/></td>
-                    </tr>
+                        <tr v-for='ap in addPrisoners'>
+                            <td :id='ap.prisonerId'></td>
+                            <td v-text='ap.name'></td>
+                            <td v-text='ap.archivesNumber'></td>
+                            <td v-text='ap.prisonName'></td>
+                            <td v-text='ap.prisonDepartmentName'></td>
+                            <td><input type="text" class="form-control"  placeholder="输入分配金额"/></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -103,7 +95,7 @@
         <div class="col-xs-24 submit-box">
             <div class="col-xs-23">
                 <div class="col-xs-4 col-xs-push-10 button-box">
-                    <input type="button" value="提交" class="search-button">
+                    <input type="button" value="提交" class="search-button" @click='submit()'>
                 </div>
             </div>
         </div>
@@ -134,11 +126,15 @@
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
 		</div>
+        <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 
 <script>
 import Page from '../Paginator.vue'
+import Remind from '../Remind.vue'
+import store from '../../store'
+
 	export default{
 		data(){
 			return{
@@ -151,9 +147,23 @@ import Page from '../Paginator.vue'
                 prisonDepartments:[],
                 prisoners:[],
                 prisonCapitalAssignId:this.$route.params.prisonCapitalAssignId,
-                prisonId:this.$route.params.prisonId
+                prisonId:this.$route.params.prisonId,
+                remind:{
+                    status:'',
+                    msg:''
+                },
+                ids:'',
+                prisonerIndex:[],
+                addPrisoners:[]
 			}
 		},
+        computed:{
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             //根据监狱查询监区
             getPrisonDepartments(prisonId){
@@ -208,10 +218,55 @@ import Page from '../Paginator.vue'
                 }).catch(err=>{
                     console.log(err);
                 });
-            }
+            },
+
+            //获取选中的罪犯
+            getAllCriminal() {
+                this.prisonerIndex.splice(0,this.prisonerIndex.length);
+                let checkedInfo = $(".info-list-check").filter(".active");
+                let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
+                for (let i = 0;i < checkedInfo.length; i ++) {
+                    prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                    this.prisonerIndex.push(checkedInfo[i].getAttribute("index"));
+                }
+                this.ids = prisonerIds.join(',');
+            },
+
+            //点击确认添加按钮
+            addCriminal(){
+                let addPrisoners = this.addPrisoners;
+                this.getAllCriminal();
+                $.each(this.prisonerIndex,(index,value)=>{
+                    addPrisoners.push(this.prisoners[value]);
+                }); 
+
+                //去掉addPrisoners重复的元素
+                $.each(addPrisoners,(index,value)=>{
+                    for (let i = index+1;i < addPrisoners.length;i++){
+                        if(value.prisonerId == addPrisoners[i].prisonerId){
+                            addPrisoners.splice(i,1);
+                        }
+                    }
+                });
+
+                console.log(this.addPrisoners);          
+            },
+
+            //点击提交执行的方法
+            submit(){
+                this.remind = {
+                    status:'success',
+                    msg:'提交成功'
+                };
+
+                store.dispatch('showRemind');
+            },
+
+            
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').select();
@@ -219,6 +274,16 @@ import Page from '../Paginator.vue'
             $('#table_id_example1').tableHover();
             this.getPrisonDepartments(this.prisonId);
             this.getPrisoners();
+            
+            for(let i=1 ; i<5 ; i++){
+                this.prisoners.push({
+                    prisonerId:i,
+                    prisonName:i,
+                    prisonDepartmentName:i,
+                    name:i,
+                    archivesNumber:i
+                });
+            }  
         }
 	}
 </script>
