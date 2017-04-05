@@ -72,7 +72,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 col-xs-push-3 button-box">
-                                <input type="button" value="确认添加" class="search-button" @click = "userAdd">
+                                <input type="button" value="确认" class="search-button" @click = "userAdd">
                             </div>
                         </div>
                     </div>
@@ -241,7 +241,7 @@
                         console.log(res);
                         let status = res.data.code;
                         if (status == 0) {//返回成功 
-                            alert("添加成功");
+                            alert(res.data.msg);
                             this.$router.go(0);
                         }
                     }).catch(err=>{

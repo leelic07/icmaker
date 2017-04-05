@@ -269,12 +269,16 @@ import Page from '../Paginator.vue'
                     this.getAllPrisonInfo(null);//获取监狱列表
                     let prisonerIds = new Array();//批量转监狱罪犯的ID数组
                     let checkedInfo = $(".info-list-check").filter(".active");
-                    for (let i = 0;i < checkedInfo.length; i ++) {
-                        prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                    if (checkedInfo.length > 0) {
+                        for (let i = 0;i < checkedInfo.length; i ++) {
+                            prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                        }
+                        console.log(prisonerIds);
+                        this.ids = prisonerIds;//将选中的罪犯ID赋值
+                        $("#changeAllPrisonConfirm").modal();
+                    } else {
+                        alert("请先选择转监的罪犯");
                     }
-                    console.log(prisonerIds);
-                    this.ids = prisonerIds;//将选中的罪犯ID赋值
-                    $("#changeAllPrisonConfirm").modal();
                 } else {//单个转监狱
                     let prisonId = e.target.getAttribute("prisonId");//获取监狱ID
                     this.currentId = e.target.getAttribute("id");//获取犯人ID

@@ -210,9 +210,9 @@ import Page from '../Paginator.vue'
             },
 
             deleteConfirm(e) {//点击确认删除
-                const delUrl = 'prisoner/deletePrisoners';
+                const delUrl = 'prisoner/deletePrisoner';
                 let id = e.target.getAttribute("id");
-                this.$http.post(delUrl,$.param({'prisonersId':id})).then(res=>{
+                this.$http.post(delUrl,$.param({'prisonerId':id})).then(res=>{
                     console.log(res);
                     let status = res.data.code;
                     if (status == 0) {//返回成功

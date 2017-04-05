@@ -60,7 +60,7 @@
                                     <label for="prisonId" class="col-xs-6 control-label"><i class="important">*</i>服刑监狱：</label>
                                     <div class="col-xs-12">
                                         <input type="text" class="form-control" disabled id="prisonId" v-if = "prisons.length == 1" v-model = "prisons.prisonName">
-                                        <select class="form-control" id="prisonId" v-model = "prisonerInfo.prisonId" @change = "getPrisonDepartInfo($event)" v-else>
+                                        <select class="form-control" id="prisonId" :disabled = "prisonerId != undefined" v-model = "prisonerInfo.prisonId" @change = "getPrisonDepartInfo($event)" v-else>
                                             <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                                         </select>
                                     </div>
@@ -76,7 +76,7 @@
                                 <div class="form-group">
                                     <label for="prisonerDepartmentId" class="col-xs-6 control-label"><i class="important">*</i>监区：</label>
                                     <div class="col-xs-12">
-                                        <select class="form-control" id="prisonerDepartmentId" v-model = "prisonerInfo.prisonDepartmentId">
+                                        <select class="form-control" id="prisonerDepartmentId" :disabled = "prisonerId != undefined" v-model = "prisonerInfo.prisonDepartmentId">
                                             <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                                         </select>
                                     </div>
@@ -91,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-6 col-xs-push-9">
-                                <input type="button" value="确认添加" class="add-button" @click = "commitPrisonerInfo">
+                                <input type="button" value="确认" class="add-button" @click = "commitPrisonerInfo">
                             </div>    
                         </div>
                     </form>
@@ -122,8 +122,9 @@
     export default {
         data (){
             return{
-                imgUrl:"../../../static/img/add.jpg",
+                imgUrl:"./static/img/add.jpg",
                 prisons: "",
+                prisonerId: "",
                 prisonerInfo: {
                     sex: 0,
                     prisonId: "",
@@ -159,6 +160,8 @@
             },
             getEditInfo() {
                 let prisonerId = this.$route.params.id;
+                this.prisonerId = prisonerId;
+                console.log(this.prisonerId);
                 if (prisonerId != undefined) {//编辑页面
                     this.$http.get('prisoner/getPrisoner',{params: {"prisonerId":prisonerId}}).then(res=>{
                         console.log("editInfo:");
@@ -212,20 +215,26 @@
             commitPrisonerInfo () {
                 let prisonerInfo = this.prisonerInfo;
                 if (this.imgUrl != "../../../static/img/add.jpg" && prisonerInfo.prisonId != "" && prisonerInfo.prisonDepartmentId != "" && prisonerInfo.name != "" && prisonerInfo.archivesNumber != "" && prisonerInfo.number != "") {//必填项都有值
-                    prisonerInfo.prisonerId = this.$route.params.id;
-                    prisonerInfo.imgUrl = this.imgUrl;
-                    prisonerInfo.intoPrisonDate = $("#intoPrisonDate").val();
-                    console.log(prisonerInfo);
-                    console.log(this.prisonerInfo);
-                    this.$http.post("prisoner/addOrEditPrisoner",$.param(prisonerInfo)).then(res=>{
-                        console.log(res);
-                        if (res.data.code == 0) {
-                            this.imgUrl = " ";
-                            this.prisonerInfo = " ";
-                        }
-                    }).catch(err=>{
-                        console.log('新增服务器异常' + err);
-                    });
+                    let numReg = new RegExp("^[0-9]*$");// 数值
+                    let cardReg = new RegExp("^\\d{17}(\\d|x)$");//身份证号
+                    if(!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||!numReg.test(prisonerInfo.insideArchivesNumber)) {
+                        alert('输入不合法');
+                    }else{
+                        prisonerInfo.prisonerId = this.$route.params.id;
+                        prisonerInfo.imgUrl = this.imgUrl;
+                        prisonerInfo.intoPrisonDate = $("#intoPrisonDate").val();
+                        console.log(prisonerInfo);
+                        console.log(this.prisonerInfo);
+                        this.$http.post("prisoner/addOrEditPrisoner",$.param(prisonerInfo)).then(res=>{
+                            console.log(res);
+                            if (res.data.code == 0) {
+                                this.imgUrl = " ";
+                                this.prisonerInfo = " ";
+                            }
+                        }).catch(err=>{
+                            console.log('新增服务器异常' + err);
+                        });
+                    }
                 }else {
                     alert("请填写完整后再进行提交");
                 }

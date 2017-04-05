@@ -29,7 +29,7 @@ import '../../static/js/jquery.pagination.min.js'
 						endPage: '末页',
 						prevContent: '上一页',
 						nextContent: '下一页',
-						count: 2,
+						count: 5,
 						totalData: this.itemSize,
 						showData: this.pageSize,
 						current: this.indexPage,

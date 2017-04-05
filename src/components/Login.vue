@@ -54,14 +54,18 @@ export default {
                     window.localStorage.setItem('userId',userId);
                     //设置cookie
                    // document.cookie = "userId =" +userId;
+
                    // this.$router.push({path:"/examine",query:{userId:userId}});
-                   let nextPath = this.$route.query.redirect;
-                   if(!nextPath){
-                        this.$router.push({path:"/examine"});
-                   }else{
-                        this.$router.push({path:nextPath});
-                   }
+                   // let nextPath = this.$route.query.redirect;
+                   // if(!nextPath){
+                   //      this.$router.push({path:"/examine"});
+                   // }else{
+                   //      this.$router.push({path:nextPath});
+                   // }
                    
+
+                   this.$router.push({path:"/welcome",query:{userId:userId}});
+
                 }
             }).catch(err=>{
                 console.log('新增服务器异常' + err);
@@ -83,4 +87,8 @@ export default {
     html,body,.login-box {
         height: 100%;
     }
+    #loginManage .footer {
+        background-color:#f4f8fb;
+    }
+    
 </style>

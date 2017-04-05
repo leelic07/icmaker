@@ -40,7 +40,7 @@
                                 <td>{{fund.prison_name}}</td>
                                 <td>{{fund.day_money | currency}}</td>
                                 <td>{{fund.month_money | currency}}</td>
-                                <td><em class="agree-text" :prisonId = "fund.prison_id" :id="fund.id" :prisonName = "fund.prison_name" @click = "setFund($event)">设置</em></td>
+                                <td><em class="agree-text" :monthMoney = "fund.month_money" :dayMoney = "fund.day_money" :prisonId = "fund.prison_id" :id="fund.id" :prisonName = "fund.prison_name" @click = "setFund($event)">设置</em></td>
                             </tr>
                         </tbody>
                     </table>
@@ -138,27 +138,38 @@ import Page from '../Paginator.vue'
                 this.currentPrisonId = e.target.getAttribute("prisonId");
                 this.id = e.target.getAttribute("id");
                 this.currentPrisonName = e.target.getAttribute("prisonName");
+                this.dayMoney = e.target.getAttribute("dayMoney")/100;
+                this.monthMoney = e.target.getAttribute("monthMoney")/100;
                 $('#setConfirm').modal();
             },
 
             setFundConfirm () {
-                if (this.monthMoney != "" && this.dayMoney != "") {
-                    let setData = {
-                        "id": this.id,
-                        "prisonId": this.currentPrisonId,
-                        "monthMoney": this.monthMoney*100,
-                        "dayMoney": this.dayMoney*100,
-                        "typeId": this.typeId
-                    };
-                    this.$http.post("prisionOrAreaConsumptionQuota",$.param(setData)).then(res=>{
-                        console.log(res);
-                        let status = res.data.code;
-                        if (status == 0) {//返回成功
-                            this.getFundList(1);
-                        }
-                    }).catch(err=>{
-                        console.log('配置资金服务器异常' + err);
-                    });
+                let monthMoney = this.monthMoney == "" ? "" : this.monthMoney*100;
+                let dayMoney = this.dayMoney == "" ? "" : this.dayMoney*100;
+                let numReg = new RegExp("^[0-9]*$");// 数值
+                console.log("monthMoney" + monthMoney);
+                console.log("dayMoney" + dayMoney);
+                if (monthMoney != "" || dayMoney != "") {
+                    if (!numReg.test(monthMoney) || !numReg.test(dayMoney)) {
+                        alert("输入不合法");
+                    }else {
+                        let setData = {
+                            "id": this.id,
+                            "prisonId": this.currentPrisonId,
+                            "monthMoney": monthMoney,
+                            "dayMoney": dayMoney,
+                            "typeId": this.typeId
+                        };
+                        this.$http.post("prisionOrAreaConsumptionQuota",$.param(setData)).then(res=>{
+                            console.log(res);
+                            let status = res.data.code;
+                            if (status == 0) {//返回成功
+                                this.getFundList(1);
+                            }
+                        }).catch(err=>{
+                            console.log('配置资金服务器异常' + err);
+                        });
+                    }
                 }else {
                     alert("请填写完整再进行提交");
                 }
