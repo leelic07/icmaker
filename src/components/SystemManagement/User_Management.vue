@@ -70,7 +70,7 @@
                             <td>{{user.userName}}</td>
                             <td>{{user.roleName}}</td>
                             <td>{{user.prisonName}}</td>
-                            <td>{{user.createdUserName | currency}}</td>
+                            <td>{{user.createdUserName}}</td>
                             <td>{{user.createdAt | formatDate}}</td>
                             <td>{{user.updatedAt | formatDate}}</td>
                             <td>{{user.updatedUserName}}</td>
@@ -96,7 +96,7 @@ import Page from '../Paginator.vue'
                 prisonList: "",
                 userList: "",
                 userSize: "",
-                pageSize: 5,
+                pageSize: 10,
                 isManage: true,
                 indexPage: 1
 			}

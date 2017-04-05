@@ -19,8 +19,8 @@
 
             <!-- 添加角色-->
             <div id="addRole" class="col-xs-24 add">
-                <div class="col-xs-23">
-                    <div class="pull-left" v-for = "menu in firstMenuList">
+                <div class="col-xs-23 menu-box-list">
+                    <div class="menu-box clearfix" v-for = "menu in firstMenuList">
                         <div class="col-xs-20 col-xs-push-2 role-inner" :pId = "menu.id">
                             <label class="col-xs-24" for="first">
                                 <b class="pull-left">{{menu.menuName}}</b>
@@ -44,7 +44,26 @@
             </div>
         </div>
 </template>
+<style lang="less" scoped>
+    #right-side {
+        .menu-box-list {
+            -moz-column-count:2; /* Firefox */
+            -webkit-column-count:2; /* Safari 和 Chrome */
+            column-count:2;
+            -moz-column-gap: 1em;
+            -webkit-column-gap: 1em;
+            column-gap: 1em;
+        }
+        .menu-box {
+            -moz-page-break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            break-inside: avoid;
+            width: 100%;
 
+        }
+    }
+   
+</style>
 <script>
 	export default {
 		data(){
@@ -117,7 +136,7 @@
                         console.log("角色新增");
                         console.log(res);
                         if (res.data.code == 0) {
-                            alert("角色创建成功");
+                            alert(res.data.msg);
                             history.go(0);
                         } else if (res.data.code == 30003) {
                             alert("角色已存在");

@@ -277,15 +277,19 @@ import Page from '../Paginator.vue'
                     }
                 } else {//批量审核
                     let checkedInfo = $(".info-list-check").filter(".active");
-                    let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
-                    for (let i = 0;i < checkedInfo.length; i ++) {
-                        prisonerIds.push(checkedInfo[i].getAttribute("id"));
-                    }
-                    this.choiseIds = prisonerIds;
-                    if (agreeType == 1) {//同意
-                        $('#agreeAllTransferConfirm').modal();
-                    } else {//拒绝
-                        $('#rejectAllTransferConfirm').modal();
+                    if (checkedInfo.length > 0) {
+                        let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
+                        for (let i = 0;i < checkedInfo.length; i ++) {
+                            prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                        }
+                        this.choiseIds = prisonerIds;
+                        if (agreeType == 1) {//同意
+                            $('#agreeAllTransferConfirm').modal();
+                        } else {//拒绝
+                            $('#rejectAllTransferConfirm').modal();
+                        }
+                    } else {
+                        alert("请先选择审核转监的罪犯");
                     }
                 } 
             },

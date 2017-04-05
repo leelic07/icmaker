@@ -78,7 +78,7 @@
                             <td>{{fund.total | currency}}</td>
                             <td>{{fund.day_money | currency}}</td>
                             <td>{{fund.month_money | currency}}</td>
-                            <td><em class="agree-text" :prisonerId = "fund.prisoner_id" :id="fund.id" :prisonerName = "fund.name" @click = "setFund($event,1)">配置消费额度</em></td>
+                            <td><em class="agree-text" :prisonerId = "fund.prisoner_id" :id="fund.id" :prisonerName = "fund.name" :monthMoney = "fund.month_money" :dayMoney = "fund.day_money" @click = "setFund($event,1)">配置消费额度</em></td>
                         </tr>
                     </tbody>
                 </table>
@@ -106,8 +106,8 @@
                             </ul>
                         </div>
                         <div class="col-xs-24">
-                            <input type="text" class="form-control fee-input" id="monthMoney" placeholder="输入日限额" v-model = "monthMoney">
-                            <input type="text" class="form-control" id="dayMoney" placeholder="输入月限额" v-model = "dayMoney">
+                            <input type="text" class="form-control" id="dayMoney" placeholder="输入日限额" v-model = "dayMoney">
+                            <input type="text" class="form-control fee-input" id="monthMoney" placeholder="输入月限额" v-model = "monthMoney">
                         </div>
                         <button class="confirm-button" data-dismiss="modal" @click = "setFundConfirm">保存</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
@@ -210,6 +210,8 @@ import Page from '../Paginator.vue'
                     this.prisonerId = e.target.getAttribute("prisonerId");
                     this.id = e.target.getAttribute("id");
                     this.prisonerName = e.target.getAttribute("prisonerName");
+                    this.dayMoney = e.target.getAttribute("dayMoney")/100;
+                    this.monthMoney = e.target.getAttribute("monthMoney")/100;
                 }else if (setType == 2) {
                     let checkedInfo = $(".info-list-check").filter(".active");
                     let prisonerIds = new Array();//批量资金分配的罪犯ID数组
@@ -225,47 +227,50 @@ import Page from '../Paginator.vue'
             },
 
             setFundConfirm () {//setType 配置方式 1-单个 2-批量
-                if(this.setType == 1) {
-                    if (this.monthMoney != "" && this.dayMoney != "") {
-                        let setData = {
-                            "id": this.id,
-                            "prisonerId": this.prisonerId,
-                            "monthMoney": this.monthMoney*100,
-                            "dayMoney": this.dayMoney*100
-                        };
-                        this.$http.post("consumptionQuota",$.param(setData)).then(res=>{
-                            console.log(res);
-                            let status = res.data.code;
-                            if (status == 0) {//返回成功
-                                this.getFundList(1);
-                            }
-                        }).catch(err=>{
-                            console.log('配置资金服务器异常' + err);
-                        });
+                let monthMoney = this.monthMoney == "" ? "" : this.monthMoney*100;
+                let dayMoney = this.dayMoney == "" ? "" : this.dayMoney*100;
+                let numReg = new RegExp("^[0-9]*$");// 数值
+                if (monthMoney != "" || dayMoney != "") {
+                    if (!numReg.test(monthMoney) || !numReg.test(dayMoney)) {
+                        alert("输入不合法");
                     }else {
-                        alert("请填写完整再进行提交");
+                        if(this.setType == 1) {
+                            let setData = {
+                                "id": this.id,
+                                "prisonerId": this.prisonerId,
+                                "monthMoney": monthMoney,
+                                "dayMoney": dayMoney
+                            };
+                            this.$http.post("consumptionQuota",$.param(setData)).then(res=>{
+                                console.log(res);
+                                let status = res.data.code;
+                                if (status == 0) {//返回成功
+                                    this.getFundList(1);
+                                }
+                            }).catch(err=>{
+                                console.log('配置资金服务器异常' + err);
+                            });
+                        }else if (this.setType == 2) {
+                            let setData = {
+                                "id": this.ids,
+                                "prisonerId": this.prisonerIds,
+                                "monthMoney": monthMoney,
+                                "dayMoney": dayMoney
+                            };
+                            this.$http.post("batchConsumptionQuota",$.param(setData)).then(res=>{
+                                console.log(res);
+                                let status = res.data.code;
+                                if (status == 0) {//返回成功
+                                    this.getFundList(1);
+                                    $(".info-check").removeClass("active");
+                                }
+                            }).catch(err=>{
+                                console.log('批量配置资金服务器异常' + err);
+                            });
+                        }
                     }
-                }else if (this.setType == 2) {
-                    if (this.monthMoney != "" && this.dayMoney != "") {
-                        let setData = {
-                            "id": this.ids,
-                            "prisonerId": this.prisonerIds,
-                            "monthMoney": this.monthMoney*100,
-                            "dayMoney": this.dayMoney*100
-                        };
-                        this.$http.post("batchConsumptionQuota",$.param(setData)).then(res=>{
-                            console.log(res);
-                            let status = res.data.code;
-                            if (status == 0) {//返回成功
-                                this.getFundList(1);
-                                $(".info-check").removeClass("active");
-                            }
-                        }).catch(err=>{
-                            console.log('批量配置资金服务器异常' + err);
-                        });
-                    }else {
-                        alert("请填写完整再进行提交");
-                    }
+                }else {
+                    alert("请填写完整再进行提交");
                 }
             }
 		},

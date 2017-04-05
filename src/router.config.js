@@ -1,4 +1,5 @@
 import Login from './components/Login.vue'
+import Welcome from './components/Welcome.vue'
 import Examine from './components/Examine.vue'
 import Delivery from './components/Delivery.vue'
 import Cancel from './components/Cancel.vue'
@@ -40,6 +41,10 @@ export default [
 	{
 		path:'/login',
 		component:Login
+	},
+	{
+		path:'/welcome',
+		component: Welcome
 	},
 	{
 		path:'/examine',

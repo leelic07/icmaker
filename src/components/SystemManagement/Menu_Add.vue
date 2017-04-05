@@ -21,8 +21,8 @@
                             <div class="col-xs-3 label-box">
                                 <label for="name" :id = "$route.params.id"><em class="text-danger">*</em> 菜单名称 :</label>
                             </div>
-                            <div class="col-xs-6 select-box" v-if = "isSecondMenu" v-model = "menuInfo.pId">
-                                <select class="form-control" id = 'pId'>
+                            <div class="col-xs-6 select-box" v-if = "isSecondMenu">
+                                <select class="form-control" id = 'pId' v-model = "menuInfo.pId">
                                     <option v-for ="firMenu in firstMenuList" :value = 'firMenu.id'>{{firMenu.menuName}}</option>
                                 </select>
                             </div>
@@ -104,8 +104,8 @@
 	export default {
 		data(){
 			return {
-                imgUrl1:"../../../static/img/add.jpg",
-                imgUrl2:"../../../static/img/add.jpg",
+                imgUrl1:"./static/img/add.jpg",
+                imgUrl2:"./static/img/add.jpg",
                 isSecondMenu:false,//新增类型是否为二级菜单
                 firstMenuList:'',//一级菜单列表
                 menuInfo:{
@@ -145,7 +145,7 @@
                 this.$http.get('menu/getMenu',{params:{'id':id}}).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.menuInfo = res.data.data;//赋值单个菜单信息
+                         this.menuInfo = res.data.data;//赋值单个菜单信息
                          this.imgUrl1 =this.menuInfo.menuIconUrl;
                          this.imgUrl2 =this.menuInfo.menuActiveIconUrl;
                         console.log(this.menuInfo);

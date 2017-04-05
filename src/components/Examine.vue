@@ -47,7 +47,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-push-10 button-box">
-                            <input type="button" value="搜索" class="search-button" @click = "getDeliveryList(1)">
+                            <input type="button" value="搜索" class="search-button" @click = "getExamList(1)">
                         </div>
                     </div>
                 </div>
@@ -186,7 +186,7 @@ export default{
             this.indexPage = index;
             let searchData = {
                 "prisonId": this.prisonId,
-                "prisonDepartmentId": this.departmentId,
+                "prisonDepartmentId": this.prisonDepartmentId,
                 "status":this.status,
                 "name": this.name,
                 "virtualAccount": this.virtualAccount,
@@ -213,15 +213,21 @@ export default{
             this.examType = examType;
             if (examType == 1) {
                 this.recordId = e.target.getAttribute("id");
+                $('#examConfirm').modal();
             }else if (examType == 2) {
                 let checkedInfo = $(".info-list-check").filter(".active");
-                let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
-                for (let i = 0;i < checkedInfo.length; i ++) {
-                    prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                if (checkedInfo.length > 0) {
+                    let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
+                    for (let i = 0;i < checkedInfo.length; i ++) {
+                        prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                    }
+                    this.ids = prisonerIds.join(',');
+                    $('#examConfirm').modal();
+                } else {
+                    alert("请先勾选审核的制卡数据");
                 }
-                this.ids = prisonerIds.join(',');
             }
-            $('#examConfirm').modal();
+           
         },
 
         receiveConfirm(verifyType,examType) {

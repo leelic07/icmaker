@@ -196,7 +196,7 @@ import Page from '../Paginator.vue'
                 prisons: "",//监狱列表
                 transfers: "",//申请罪犯列表
                 transferSize: "",//申请罪犯列表条数
-                pageSize: 2,//每页显示的条数
+                pageSize: 10,//每页显示的条数
                 currentId: "",//当前操作的ID
                 choiseIds: "",//选中的ID列表
                 numType: "",//numType:1-单个审核 2-批量审核
@@ -254,16 +254,21 @@ import Page from '../Paginator.vue'
                     }
                 } else {//批量审核
                     let checkedInfo = $(".info-list-check").filter(".active");
-                    let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
-                    for (let i = 0;i < checkedInfo.length; i ++) {
-                        prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                    if (checkedInfo.length > 0) {
+                        let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
+                        for (let i = 0;i < checkedInfo.length; i ++) {
+                            prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                        }
+                        this.choiseIds = prisonerIds;
+                        if (agreeType == 1) {//同意
+                            $('#agreeAllTransferConfirm').modal();
+                        } else {//拒绝
+                            $('#rejectAllTransferConfirm').modal();
+                        }
+                    } else {
+                        alert("请先选择审核转监的罪犯");
                     }
-                    this.choiseIds = prisonerIds;
-                    if (agreeType == 1) {//同意
-                        $('#agreeAllTransferConfirm').modal();
-                    } else {//拒绝
-                        $('#rejectAllTransferConfirm').modal();
-                    }
+                    
                 } 
             },
 
@@ -278,7 +283,7 @@ import Page from '../Paginator.vue'
                     console.log("审核");
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.applyList(0);
+                        this.applyList(1);
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -295,7 +300,8 @@ import Page from '../Paginator.vue'
                     console.log("审核");
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.applyList(0);
+                        this.applyList(1);
+                        $(".info-list-check").removeClass("active");
                     }
                 }).catch(err=>{
                     console.log(err);
