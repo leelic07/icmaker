@@ -217,6 +217,8 @@ export default{
 			return '平安银行';
 		}else if(bankId == '3'){
 			return '招商银行';
+		}else if(bankId == '4'){
+			return '邮储储蓄银行';
 		}
 	},
 

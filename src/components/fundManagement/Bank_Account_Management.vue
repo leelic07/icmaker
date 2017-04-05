@@ -99,15 +99,16 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for='bal in bankAccountList'>
-                                        <td></td>
+                                        <td :id='bal.bankAccountId'></td>
                                         <td v-text='bal.bankAccountName'></td>
                                         <td v-text='bal.bankAccountNo'></td>
                                         <td v-text='bal.bankNo'></td>
-                                        <td v-text='bal.bankName'></td>
+                                        <td v-if='bal.bankName' v-text='bal.bankName'></td>
+                                        <td v-else>{{bal.bankId | bank}}</td>
                                         <td>{{bal.isSameBank | isSameBank}}</td>
                                         <td>{{bal.isPublic | isPublic}}</td>
-                                        <td><em class="agree-text">修改</em></td>
-                                        <td><em class="reject-text">删除</em></td>
+                                        <td><em class="agree-text" @click='modifyAccount(bal.prisonBankAccountId,bal.bankAccountId)'>修改</em></td>
+                                        <td><em class="reject-text" @click='deleteAccount(bal.prisonBankAccountId,bal.bankAccountId)'>删除</em></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -115,10 +116,14 @@
                     </div>
                 </div>
             </div>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
+
 	export default {
 		data(){
 			return {
@@ -132,15 +137,28 @@
                 prisonAccountId:'',
                 banks:[],
                 prisonAccountId:this.$route.params.prisonAccountId,
-                bankAccountList:[]
+                bankAccountList:[],
+                remind:{
+                    status:'',
+                    msg:''
+                }
 			}
 		},
+        computed:{
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
+
             //保存银行账户
             saveAccount(){
                 if(this.bankId == '' || this.bankNo == '' || this.bankAccountName == '' || this.bankAccountNo == '' || this.isSameBank == '' || this.isPublic == ''){
                     return;
-                }
+                };
+
                 let bankAccount = {
                         bankId:this.bankId,
                         bankNo:this.bankNo,
@@ -149,18 +167,37 @@
                         isSameBank:this.isSameBank,
                         isPublic:this.isPublic,
                         prisonAccountId:this.prisonAccountId
-                    }
+                };
+                
                 this.$http({
                     method:'post',
                     url:'/prisonBankAccount/addOrUpdatePrisonBankAccount',
                     params:bankAccount
                 }).then(res=>{
-                    console.log(res.data.code,res.data.msg);
-                    this.bankAccountList.push(bankAccount);
+                    if(res.data.code == 0){
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        };
+                        this.getPrisonBankAccounts();
+                        this.bankId = '',
+                        this.bankNo = '',
+                        this.bankAccountName = '',
+                        this.bankAccountNo = '',
+                        this.isSameBank = '',
+                        this.isPublic = ''
+                    }else{
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        };
+                    }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log(err);
                 });
             },
+
             //获取所有银行
             getBanks(){
                 this.$http({
@@ -172,6 +209,7 @@
                     console.log(err);
                 });
             },
+
             //获取监狱银行账户列表
             getPrisonBankAccounts(){
                 this.$http({
@@ -181,12 +219,59 @@
                         prisonAccountId:this.prisonAccountId
                     }
                 }).then(res=>{
-                    console.log(res.data.data);
-                    this.bankAccountList = res.data.data;
+                    if(res.data.code == 0){
+                        this.bankAccountList = res.data.data;
+                    }else{
+                        console.log(res.data.data);
+                    }                   
                 }).catch(err=>{
                     console.log(err);
                 });
+            },
+
+            //点击修改银行账户
+            modifyAccount(prisonBankAccountId,bankAccountId){
+                this.$router.push({
+                    path:'/bank_account_modify' + '/' + bankAccountId + '/' + prisonBankAccountId + '/' + this.prisonAccountId
+                });
+            },
+
+            //点击删除银行账户
+            deleteAccount(prisonBankAccountId,bankAccountId){
+                console.log(prisonBankAccountId,bankAccountId);
+                this.$http({
+                    method:'post',
+                    url:'/prisonBankAccount/deletePrisonBankAccount',
+                    params:{
+                        'prisonBankAccountId':prisonBankAccountId,
+                    }
+                }).then(res=>{
+                    if(res.data.code == 0){
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        };
+                        // $.each(this.bankAccountList,(index,value)=>{
+                        //     if(value.prisonBankAccountId == prisonBankAccountId){
+                        //         this.bankAccountList.splice(index,1);
+                        //     }
+                        // });
+                        this.getPrisonBankAccounts();
+                    }else{
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
+                    }
+                    store.dispatch('showRemind');
+                }).catch(err=>{
+                    console.log('error');
+                    console.log(err);
+                });
             }
+        },
+        components:{
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

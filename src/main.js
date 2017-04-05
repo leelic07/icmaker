@@ -13,6 +13,12 @@ import '../static/css/datepicker/bootstrap-datetimepicker.zh-CN.js'
 import '../static/js/util.js'
 
 Object.keys(Filters).forEach((key)=>Vue.filter(key,Filters[key]));
+Object.keys(routes).forEach((key)=>routes[key].meta={
+  requireAuth: true,
+});
+
+routes[0].meta = {requireAuth: false};
+
 Vue.use(VueRouter);
 Vue.use(Loading);
 Vue.prototype.$http = axios;
@@ -46,12 +52,37 @@ axios.interceptors.response.use(function(response){
 });
 
 //ajax url头部设置
-axios.defaults.baseURL='http://10.10.10.101:8080/icmaker/';
+axios.defaults.baseURL='http://10.10.10.103:8080/icmaker/';
+
+// axios.defaults.baseURL='http://10.10.10.130:8080/icmaker/';
+
+// axios.defaults.baseURL='http://10.10.10.104:8080/icmaker/';
+
+// axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 //设置路由
 const router = new VueRouter({
 	routes
 });
+
+//判断是否已经登录
+router.beforeEach((to, from, next) => {
+    if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+        if (window.localStorage.getItem('userId')) {  // 通过vuex state获取当前的token是否存在
+            next();
+        }
+        else {
+            next({
+                path: '/login',
+                query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+            })
+        }
+    }
+    else {
+        next();
+    }
+});
+
 
 new Vue({
 	router,

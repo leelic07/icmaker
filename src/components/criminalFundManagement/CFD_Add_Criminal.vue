@@ -85,7 +85,7 @@
                             <td v-text='ap.archivesNumber'></td>
                             <td v-text='ap.prisonName'></td>
                             <td v-text='ap.prisonDepartmentName'></td>
-                            <td><input type="text" class="form-control"  placeholder="输入分配金额"/></td>
+                            <td><input type="text" class="form-control"  placeholder="输入分配金额" v-model='ap.money'/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -148,6 +148,7 @@ import store from '../../store'
                 prisoners:[],
                 prisonCapitalAssignId:this.$route.params.prisonCapitalAssignId,
                 prisonId:this.$route.params.prisonId,
+                type:this.$route.params.type,
                 remind:{
                     status:'',
                     msg:''
@@ -238,6 +239,7 @@ import store from '../../store'
                 this.getAllCriminal();
                 $.each(this.prisonerIndex,(index,value)=>{
                     addPrisoners.push(this.prisoners[value]);
+                    addPrisoners[index].money = '';
                 }); 
 
                 //去掉addPrisoners重复的元素
@@ -247,19 +249,47 @@ import store from '../../store'
                             addPrisoners.splice(i,1);
                         }
                     }
-                });
-
-                console.log(this.addPrisoners);          
+                });        
             },
 
             //点击提交执行的方法
             submit(){
-                this.remind = {
-                    status:'success',
-                    msg:'提交成功'
-                };
-
-                store.dispatch('showRemind');
+                let prisonerId = [];
+                let money = [];
+                let status = [];
+                $.each(this.addPrisoners,(index,value)=>{
+                    prisonerId.push(value.prisonerId);
+                    money.push(value.money * 100);
+                    status.push(0);
+                });
+                this.$http({
+                    method:'post',
+                    url:'/criminalFundAllocation',
+                    params:{
+                        'prisonerId':prisonerId.join(','),
+                        'prisonId':this.prisonId,
+                        'money':money.join(','),
+                        'status':status.join(','),
+                        prisonCapitalAssignId:this.prisonCapitalAssignId,
+                        type:this.type
+                    }
+                }).then(res=>{
+                    if(res.data.code == 0){
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        };
+                    }else if(res.data.code == -1){
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        };
+                    }
+                    store.dispatch('showRemind');
+                    console.log(res.data.code,res.data.msg);
+                }).catch(err=>{
+                    console.log(err);
+                });
             },
 
             
@@ -275,15 +305,15 @@ import store from '../../store'
             this.getPrisonDepartments(this.prisonId);
             this.getPrisoners();
             
-            for(let i=1 ; i<5 ; i++){
-                this.prisoners.push({
-                    prisonerId:i,
-                    prisonName:i,
-                    prisonDepartmentName:i,
-                    name:i,
-                    archivesNumber:i
-                });
-            }  
+            // for(let i=1 ; i<5 ; i++){
+            //     this.prisoners.push({
+            //         prisonerId:i,
+            //         prisonName:i,
+            //         prisonDepartmentName:i,
+            //         name:i,
+            //         archivesNumber:i
+            //     });
+            // }  
         }
 	}
 </script>

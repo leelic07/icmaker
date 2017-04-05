@@ -22,6 +22,7 @@ import Criminal_Change_Prison from './components/criminalManagement/Criminal_Cha
 import AccountManagement from './components/fundManagement/Account_Management.vue'
 import AccountAdd from './components/fundManagement/Account_Add.vue'
 import BankAccountManagement from './components/fundManagement/Bank_Account_Management.vue'
+import BankAccountModify from './components/fundManagement/Bank_Account_Modify.vue'
 import FundDetail from './components/fundManagement/Fund_Detail.vue'
 import TransferApplication from './components/fundManagement/Transfer_Application.vue'
 import TransferExamine from './components/fundManagement/Transfer_Examine.vue'
@@ -158,6 +159,10 @@ export default [
 		component:BankAccountManagement
 	},
 	{
+		path:'/bank_account_modify/:bankAccountId/:prisonBankAccountId/:prisonAccountId',
+		component:BankAccountModify
+	},
+	{
 		path:'/fund_detail',
 		component:FundDetail
 	},
@@ -190,7 +195,7 @@ export default [
 		component:CriminalFundDetail
 	},
 	{
-		path:'/cfd_add_criminal/:prisonId/:prisonCapitalAssignId',
+		path:'/cfd_add_criminal/:prisonId/:prisonCapitalAssignId/:type',
 		component:CFD_AddCriminal
 	},
 	{

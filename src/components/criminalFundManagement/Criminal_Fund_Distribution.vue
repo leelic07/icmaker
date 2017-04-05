@@ -51,7 +51,7 @@
                             <td v-text='cfal.prison_name'></td>
                             <td>{{cfal.type | locationType}}</td>
                             <td>{{cfal.money | currency}}</td>
-                            <td><router-link :to="'/cfd_add_criminal/'+ cfal.prison_id + '/' + cfal.id"class="agree-text">选择罪犯</router-link></td>
+                            <td><router-link :to="'/cfd_add_criminal/'+ cfal.prison_id + '/' + cfal.id + '/' + cfal.type"class="agree-text">选择罪犯</router-link></td>
                         </tr>
                     </tbody>
                 </table>

@@ -267,6 +267,7 @@ export default{
         this.getStatusList();
         this.getPrisonInfo();
         this.getExamList();
+        // window.localStorage.clear();
     }
 }
 </script>
