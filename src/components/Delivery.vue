@@ -276,10 +276,10 @@ import Page from './Paginator.vue'
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
                     "status":this.status,
-                    "name": this.name,
-                    "virtualAccount": this.virtualAccount,
-                    "number": this.number,
-                    "archivesNumber":this.archivesNumber,
+                    "name": this.name.replace(/(^\s*)|(\s*$)/g,""),
+                    "virtualAccount": this.virtualAccount.replace(/(^\s*)|(\s*$)/g,""),
+                    "number": this.number.replace(/(^\s*)|(\s*$)/g,""),
+                    "archivesNumber":this.archivesNumber.replace(/(^\s*)|(\s*$)/g,""),
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
@@ -324,10 +324,10 @@ import Page from './Paginator.vue'
                 if (this.icCardNo == "" || (this.type == 1 && this.cardCost == "")) {//选了收费却未填金额
                     alert ("请填写完整再进行提交");
                 } else {
-                    let cardCost = this.type == 0 ? 0 : this.cardCost;
+                    let cardCost = this.type == 0 ? 0 : this.cardCost.replace(/(^\s*)|(\s*$)/g,"");
                     let deliveryData = {
                         "prisonerId": this.prisonerId,
-                        "icCardNo": this.icCardNo,
+                        "icCardNo": this.icCardNo.replace(/(^\s*)|(\s*$)/g,""),
                         "type": this.type,
                         "cardCost": cardCost*100
                     };

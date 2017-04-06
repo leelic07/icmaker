@@ -187,9 +187,9 @@ import Page from '../Paginator.vue'
                 let searchData = {
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
-                    "name": this.name,
-                    "archivesNumber": this.archivesNumber,
-                    "idCardNo": this.idCardNo,
+                    "name": this.name.replace(/(^\s*)|(\s*$)/g,""),
+                    "archivesNumber": this.archivesNumber.replace(/(^\s*)|(\s*$)/g,""),
+                    "idCardNo": this.idCardNo.replace(/(^\s*)|(\s*$)/g,""),
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };

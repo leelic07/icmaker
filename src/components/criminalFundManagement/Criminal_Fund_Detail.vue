@@ -27,7 +27,7 @@
                             </select>
                         </div>
                         <div class="col-xs-6 select-box">
-                            <label for="acount">场所</label>
+                            <label for="acount">商户</label>
                             <select class="form-control" id = "acount" v-model = "acount">
 								<option value="">全部</option>
                                 <option v-for = "account in accountList" :value = "account.id">{{account.account_name}}</option>
@@ -87,7 +87,7 @@
 							<th>编号</th>
 	                        <th>姓名</th>
 	                        <th>类别</th>
-	                        <th>场所</th>
+	                        <th>商户</th>
 	                        <th>交易金额</th>
 	                        <th>余额</th>
 	                        <th>交易时间</th>
@@ -200,10 +200,10 @@
                 let searchData = {
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
-                    "name": this.name,
-                    "archivesNumber": this.archivesNumber,
-                    "idCardNo": this.idCardNo,
-					"number": this.number,
+                    "name": this.name.replace(/(^\s*)|(\s*$)/g,""),
+                    "archivesNumber": this.archivesNumber.replace(/(^\s*)|(\s*$)/g,""),
+                    "idCardNo": this.idCardNo.replace(/(^\s*)|(\s*$)/g,""),
+					"number": this.number.replace(/(^\s*)|(\s*$)/g,""),
                     "type": this.type,
 					"acount": this.acount,
                     "startTime": $("#startTime").val(),
