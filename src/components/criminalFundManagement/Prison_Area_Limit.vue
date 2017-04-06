@@ -8,8 +8,8 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="prisonId">所属监狱</label>
-                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event)" v-model = "prisonId">
-                                <option value="">全部</option>
+                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo" :disabled = "prisons.length == 1" v-model = "prisonId">
+                                <option value="" v-if = "prisons.length >1">全部</option>
                                 <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                             </select>
                         </div>
@@ -120,17 +120,21 @@ import Page from '../Paginator.vue'
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
+                        if (this.prisons.length == 1) {
+                            this.prisonId = this.prisons[0].id;
+                            this.getPrisonDepartInfo();
+                        }
+                        this.getFundList(1);
                     }
                 }).catch(err=>{
                     console.log(err);
                 });
             },
 
-            getPrisonDepartInfo (e) {//获取监区信息
+            getPrisonDepartInfo () {//获取监区信息
                 this.prisonDepartments = "";
                 this.prisonDepartmentId = "";
-                let prisonId = $(e.target).val();
-                this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
+                this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
@@ -212,7 +216,6 @@ import Page from '../Paginator.vue'
 			$('#table_id_example').tableHover();
 			$('#table_id_example').select();
             this.getPrisonInfo();
-            this.getFundList(1);
 		}
 	}
 </script>

@@ -8,8 +8,8 @@
                     <div class="row">
                         <div class="col-xs-6 select-box">
                             <label for="prisonId">所属监狱</label>
-                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo" v-model = "prisonId">
-                                <option value="">全部</option>
+                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo" :disabled = "prisons.length == 1" v-model = "prisonId">
+                                <option value="" v-if = "prisons.length >1">全部</option>
                                 <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                             </select>
                         </div>
@@ -149,6 +149,11 @@
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
+                        if (this.prisons.length == 1) {
+                            this.prisonId = this.prisons[0].id;
+                            this.getPrisonDepartInfo();
+                        }
+			            this.getDetailList(1);
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -244,7 +249,6 @@
 			$('#table_id_example').tableHover();	
             this.getTypeList();
 			this.getPrisonInfo();
-			this.getDetailList(1);
 		}
 	}
 </script>
