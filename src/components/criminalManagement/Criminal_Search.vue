@@ -138,13 +138,16 @@ import Page from '../Paginator.vue'
             }
         },
         watch:{
-            $route(to){//监听路由变化
+            $route(to,from){//监听路由变化
                 const editUrl = "/crimsearch/edit/2";
                 const index = editUrl.lastIndexOf('/');
                 if (to.path.substring(0,index) == "/crimsearch/edit" ){//进入编辑页面
                     this.isManage = false;//将管理页隐藏
                 } else {
                     this.isManage = true;
+                }
+                if (from.path.substring(0,index) == "/crimsearch/edit" || from.path == '/crimadd') {//从新增或者编辑页进入
+                   // this.criminalSearch(1); 
                 }
             }
         },
