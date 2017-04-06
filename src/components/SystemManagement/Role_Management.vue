@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="col-xs-5 col-xs-push-3 text-box">
                                     <label for="name">角色名</label>
-                                    <input type="text" class="form-control" id="roleName">
+                                    <input type="text" class="form-control" id="roleName" v-model = "roleName">
                                 </div>
                             </div>
                             <div class="row">
@@ -97,6 +97,7 @@ import Page from '../Paginator.vue'
                 pageSize : 20,
                 roleSize : "",
                 currentId :"",
+                roleName : "",
                 indexPage: 1
 			}
 		},
@@ -139,7 +140,7 @@ import Page from '../Paginator.vue'
                 this.indexPage = index;
                 const getUrl = 'role/getRoles';
                 let getData = {
-                    'roleName' : $('#roleName').val(),
+                    'roleName' : this.roleName.replace(/(^\s*)|(\s*$)/g,""),
                     'startDateStr' : $('#startDateStr').val(),
                     'endDateStr' : $('#endDateStr').val(),
                     'indexPage' : this.indexPage,

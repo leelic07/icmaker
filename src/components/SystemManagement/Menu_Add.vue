@@ -169,18 +169,19 @@
             },
             //新增菜单
             addMenu(){
-                let menuName = $('#menuName').val().replace(/(^\s*)|(\s*$)/g,"");
-                let pageUrl = $('#pageUrl').val();
-                if (menuName!="") {
+                let menuName = this.menuInfo.menuName.replace(/(^\s*)|(\s*$)/g,"");
+                let pageUrl = this.menuInfo.pageUrl.replace(/(^\s*)|(\s*$)/g,"");
+                let type = this.menuInfo.type;
+                if (menuName != "" && (type != 1 || pageUrl != "")) {
                     if (!this.isSecondMenu||pageUrl!= "") {
                         const addUrl = 'menu/addOrUpdateMenu';
                         let addData = {
                             'id' : this.$route.params.id,
                             'pId' : this.menuInfo.pId,
-                            'type' : this.menuInfo.type,
-                            'menuName' : this.menuInfo.menuName,
+                            'type' : type,
+                            'menuName' : menuName,
                             'isEnable' : this.menuInfo.isEnable,
-                            'pageUrl' : this.menuInfo.pageUrl,
+                            'pageUrl' : pageUrl,
                             'menuIconUrl':this.imgUrl1,
                             'menuActiveIconUrl':this.imgUrl2
                         };

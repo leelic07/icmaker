@@ -156,7 +156,7 @@ import Page from '../Paginator.vue'
                     'startDateStr' : $('#startDateStr').val(),
                     'endDateStr' : $('#endDateStr').val(),
                     'prisonId' : this.prisonId,
-                    'userName' : this.userName,
+                    'userName' : this.userName.replace(/(^\s*)|(\s*$)/g,""),
                     'indexPage' : this.indexPage,
                     'pageSize' : this.pageSize
                 };
