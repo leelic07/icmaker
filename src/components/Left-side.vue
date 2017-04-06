@@ -12,10 +12,10 @@
             <div class="col-xs-24 menuList" v-for = "(menu,index) in sideInfo">
                 <a class="col-xs-24 collapsed" data-toggle="collapse" :href = "'#menu'+menu.id" @click = "isCollapse(index)">
                     <div class="col-xs-6" v-if = "collapsed[index] == true">
-                        <b class="pull-left"><img :src="menu.menuIconUrl" v-if = "menu.menuIconUrl != null"><img src="../../static/img/ICka.png" v-else></b>
+                        <b class="pull-left"><img :src="menu.menuIconUrl" v-if = "menu.menuIconUrl != null && menu.menuIconUrl != ''"><img src="../../static/img/ICka.png" v-else></b>
                     </div>
                     <div class="col-xs-6" v-else>
-                        <b class="pull-left"><img :src="menu.menuActiveIconUrl" v-if = "menu.menuActiveIconUrl != null"><img src="../../static/img/ICka-click.png" v-else></b>
+                        <b class="pull-left"><img :src="menu.menuActiveIconUrl" v-if = "menu.menuActiveIconUrl != null && menu.menuActiveIconUrl != ''"><img src="../../static/img/ICka-click.png" v-else></b>
                     </div>
                     <div class="col-xs-12">
                         <span class="pull-left">{{menu.menuName}}</span>
