@@ -7,6 +7,13 @@
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
                             <div class="col-xs-8 select-box">
+                                <label for="name">所属监狱</label>
+                                <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
+                                    <option v-if='prisonList.length > 1' value=''>请选择</option>
+                                    <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
+                                </select>
+                            </div>
+                            <div class="col-xs-8 select-box">
                                 <label for="name">账户类型</label>
                                 <select class="form-control" v-model='accountType'>
                                     <option value=''>请选择</option>
@@ -142,7 +149,9 @@ import store from '../../store'
                 bankShow:true,
                 type:'',
                 transferMoney:'',
-                remark:''
+                remark:'',
+                prisonId:'',
+                prisonList:[]
 			}
 		},
         computed:{
@@ -160,7 +169,8 @@ import store from '../../store'
                     url:'/prisonAccount/getPrisonAccountDtos',
                     params:{
                         indexPage:1,
-                        pageSize:this.pageSize
+                        pageSize:this.pageSize,
+                        prisonId:this.prisonId
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
@@ -179,7 +189,8 @@ import store from '../../store'
                         accountType:this.accountType,
                         accountName:this.accountName,
                         indexPage:this.indexPage,
-                        pageSize:this.pageSize
+                        pageSize:this.pageSize,
+                        prisonId:this.prisonId
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
@@ -309,6 +320,24 @@ import store from '../../store'
                     });
                 }
 
+            },
+
+            //查询所有监狱列表
+            getAllPrison(){
+                this.$http({
+                    method:'get',
+                    url:'/prisoner/toAddOrEdit',
+                }).then(res=>{
+                    let data = res.data.data;
+                    this.prisonList = data.prisons;
+                    console.log(this.prisonList);
+                    if(this.prisonList.length == 1){
+                        this.prisonId = this.prisonList[0].id;
+                    }
+                    this.getPrisonAccountDtos();
+                }).catch(err=>{
+                    console.log(err);
+                });
             }
         },
         components:{
@@ -317,7 +346,7 @@ import store from '../../store'
         },
         mounted(){
             $('#table_id_example').tableHover();
-            this.getPrisonAccountDtos();
+            this.getAllPrison();
         }
 	}
 </script>

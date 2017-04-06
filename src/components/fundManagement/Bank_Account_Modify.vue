@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
         </div>
 </template>
 
@@ -100,10 +100,11 @@ import store from '../../store'
     			prisonAccountId:this.$route.params.prisonAccountId,
                 banks:[],
                 bankAccount:'',
-                remind:{
-                	status:'',
-                	msg:''
-                }
+                // remind:{
+                // 	status:'',
+                // 	msg:'',
+                //     back:''
+                // }
 			}
 		},
 		computed:{
@@ -153,9 +154,12 @@ import store from '../../store'
             //点击确认修改银行账户
             modifyConfirm(){
             	let bankAccount =  this.bankAccount;
-            	console.log(bankAccount);
-            	console.log(typeof bankAccount.isSameBank);
-            	if(bankAccount.bankId == '' || bankAccount.bankNo == '' || bankAccount.bankAccountName == '' || bankAccount.bankAccountNo == '' || bankAccount.isSameBank == '' || bankAccount.isPublic == ''){
+            	if(bankAccount.bankId == '' || bankAccount.bankNo == '' || bankAccount.bankAccountName == '' || bankAccount.bankAccountNo == '' || bankAccount.isSameBank != '0' && bankAccount.isSameBank != '1' || bankAccount.isPublic != '0' && bankAccount.isPublic != '1'){
+                    this.remind = {
+                        status:'warn',
+                        msg:'选项不能为空'
+                    }
+                    store.dispatch('showRemind');
                     return;
                 };
             	this.$http({
@@ -176,13 +180,17 @@ import store from '../../store'
             		if(res.data.code == 0){
             			this.remind = {
             				status:'success',
-            				msg:'修改成功'
+            				msg:res.data.msg,
+                            back:true
             			};
-            			store.dispatch('showRemind');
             		}else{
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        };
             			console.log(res.data.code,res.data.msg);
             		}
-            		
+            		store.dispatch('showRemind');
             	}).catch(err=>{
             		console.log(err);
             	});

@@ -26,7 +26,7 @@
                                 <option value=''>请选择</option>
                                 <option value='0'>财务账户</option>
                                 <option value='1'>商户账户</option>
-                                <option value='3'>监狱总账户</option>
+                                <option value='2'>监狱总账户</option>
                             </select>
                         </div>
                     </div>
@@ -191,7 +191,7 @@ import Page from '../Paginator.vue'
                 }).then(res=>{
                     let data = res.data.data;
                     this.$router.push({
-                        path:'/account_modify'+'/'+data.prisonId+'/'+data.prisonDepartmentId+'/'+data.accountName+'/'+data.accountType+'/'+prisonAccountId             
+                        path:'/account_modify'+'/'+data.prisonId+'/'+data.prisonDepartmentId +'/'+data.accountName+'/'+data.accountType+'/'+prisonAccountId    
                     });
                 }).catch(err=>{
                     console.log(err);

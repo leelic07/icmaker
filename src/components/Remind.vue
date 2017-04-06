@@ -55,7 +55,7 @@ import store from '../store'
 
 			}
 		},
-		props:['status','msg'],
+		props:['status','msg','back'],
 		methods:{
 			//显示模态框
 			remindInit(){
@@ -66,6 +66,9 @@ import store from '../store'
 			remindDestroy(){
 				$('.bs-example-modal-sm').on('hidden.bs.modal',()=>{
 					store.dispatch('hideRemind');
+					if(this.back == true){
+						window.history.go(-1);
+					}
 				});
 			}
 		},
