@@ -129,7 +129,8 @@
                     sex: 0,
                     prisonId: "",
                     prisonDepartmentId: "",
-                    cardNo: ""
+                    cardNo: "",
+                    insideArchivesNumber: ""
                 },
                 prisonDepartments: ""
             }
@@ -141,7 +142,7 @@
             dateInit(){
                 $('.date').datetimepicker({
                     language:'zh-CN',
-                    format:'yyyy-mm-dd hh:ii:ss',
+                    format:'yyyy-mm-dd',
                     weekStart: 1,
                     todayBtn:  1,
                     autoclose: 1,
@@ -218,21 +219,18 @@
                 if (this.imgUrl != "../../../static/img/add.jpg" && prisonerInfo.prisonId != "" && prisonerInfo.prisonDepartmentId != "" && prisonerInfo.name != "" && prisonerInfo.archivesNumber != "" && prisonerInfo.number != "") {//必填项都有值
                     let numReg = new RegExp("^[0-9]*$");// 数值
                     let cardReg = new RegExp("^\\d{17}(\\d|x)$");//身份证号
-                    console.log(prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo));
-                    if(prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo)||!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||!numReg.test(prisonerInfo.insideArchivesNumber)) {
+                    if(prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo)||!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||(prisonerInfo.insideArchivesNumber != "" && !numReg.test(prisonerInfo.insideArchivesNumber))) {
                         alert('输入不合法');
                     }else{
                         prisonerInfo.prisonerId = this.$route.params.id;
                         prisonerInfo.imgUrl = this.imgUrl;
                         prisonerInfo.intoPrisonDate = $("#intoPrisonDate").val();
-                        console.log(prisonerInfo);
                         console.log(this.prisonerInfo);
                         this.$http.post("prisoner/addOrEditPrisoner",$.param(prisonerInfo)).then(res=>{
                             console.log(res);
                             alert(res.data.msg);
                             if (res.data.code == 0) {
-                                this.imgUrl = " ";
-                                this.prisonerInfo = " ";
+                                this.$router.push({path:"/crimsearch"});
                             }
                         }).catch(err=>{
                             console.log('新增服务器异常' + err);
@@ -255,10 +253,7 @@
                 let year=now.getFullYear();     
                 let month=buling(now.getMonth()+1);     
                 let date=buling(now.getDate()); 
-                let hour=buling(now.getHours());
-                let minute=buling(now.getMinutes());
-                let second=buling(now.getSeconds());
-                return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+                return year+"-"+month+"-"+date+" ";
             }
         },
         mounted(){

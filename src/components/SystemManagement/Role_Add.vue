@@ -133,13 +133,10 @@
                 } else {
                     console.log(roleData);
                     this.$http.post('role/addOrUpdateRole',$.param(roleData)).then(res=>{
-                        console.log("角色新增");
                         console.log(res);
+                        alert(res.data.msg);
                         if (res.data.code == 0) {
-                            alert(res.data.msg);
-                            history.go(0);
-                        } else if (res.data.code == 30003) {
-                            alert("角色已存在");
+                            this.$router.push({path:"/role_management"});    
                         }
                     }).catch(err=>{
                         console.log(err);

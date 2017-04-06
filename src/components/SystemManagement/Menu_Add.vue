@@ -188,18 +188,9 @@
                         this.$http.post(addUrl,$.param(addData)).then(res=>{
                             console.log(res);
                             let status = res.data.code;
+                            alert(res.data.msg);
                             if (status == 0) {//返回成功
-                                alert("成功");
-                                if (this.$route.params.id != null) {//编辑状态成功后返回上一级并刷新
-                                    history.go(-1);
-                                    setTimeout(()=>{
-                                        location.reload();                
-                                    },100);
-                                }else {
-                                    location.reload();
-                                }        
-                            }else if (status == 30001) {//插入重复数据
-                                alert('该菜单已存在，请不要重复添加。');
+                               this.$router.push({path:"/menu_management"});      
                             }
                         }).catch(err=>{
                             console.log('新增服务器异常' + err);

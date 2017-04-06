@@ -87,7 +87,7 @@
                             <td>{{transfer.prisonDepartmentName}}</td>
                             <td>{{transfer.toPrisonName}}</td>
                             <td>{{transfer.toPrisonDepartmentName}}</td>
-                            <td>{{transfer.intoPrisonDate | formatDate}}</td>
+                            <td>{{transfer.intoPrisonDate | formatPrisonDate}}</td>
                             <td>{{transfer.status | formatExamStatus}}</td>
                             <td><em class="agree-text" :id="transfer.transferId" @click = "transferExam($event,1,1)" v-show = "transfer.status == 0">同意</em></td>
                             <td><em class="reject-text" :id="transfer.transferId"  @click = "transferExam($event,1,2)" v-show = "transfer.status == 0">拒绝</em></td>

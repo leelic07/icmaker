@@ -251,16 +251,20 @@ import Page from './Paginator.vue'
                 });
             },
 
-
             //获取选中的项目
             applyAllCard() {
                 let checkedInfo = $(".info-list-check").filter(".active");
-                let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
-                for (let i = 0;i < checkedInfo.length; i ++) {
-                    prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                if (checkedInfo.length > 0) {
+                    let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
+                    for (let i = 0;i < checkedInfo.length; i ++) {
+                        prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                    }
+                    this.ids = prisonerIds.join(',');
+                    $('#applyAllConfirm').modal();  
+                }else {
+                     alert("请先选择要申请的制卡数据");
                 }
-                this.ids = prisonerIds.join(',');
-                $('#applyAllConfirm').modal();   
+                 
             },
 
 

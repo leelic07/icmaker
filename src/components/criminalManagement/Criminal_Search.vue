@@ -79,7 +79,7 @@
                                 <td>{{prisoner.prisonName}}</td>
                                 <td>{{prisoner.prisonDepartmentName}}</td>
                                 <td>{{prisoner.status | formatStatus}}</td>
-                                <td>{{prisoner.intoPrisonDate | formatDate}}</td>
+                                <td>{{prisoner.intoPrisonDate | formatPrisonDate}}</td>
                                 <td><router-link class="agree-text" :to = '"/crimsearch/edit/"+prisoner.prisonerId'>修改</router-link></td>
                                 <td><em class="reject-text" :id = "prisoner.prisonerId" @click = "deletePrisoner($event)">删除</em></td>
                             </tr>    

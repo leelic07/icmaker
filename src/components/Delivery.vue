@@ -324,11 +324,12 @@ import Page from './Paginator.vue'
                 if (this.icCardNo == "" || (this.type == 1 && this.cardCost == "")) {//选了收费却未填金额
                     alert ("请填写完整再进行提交");
                 } else {
+                    let cardCost = this.type == 0 ? 0 : this.cardCost;
                     let deliveryData = {
                         "prisonerId": this.prisonerId,
                         "icCardNo": this.icCardNo,
                         "type": this.type,
-                        "cardCost": this.cardCost*100
+                        "cardCost": cardCost*100
                     };
                     console.log(deliveryData);
                     this.$http.post("icCard/bindingCard",$.param(deliveryData)).then(res=>{
@@ -352,15 +353,23 @@ import Page from './Paginator.vue'
                 this.bindType = bindType;
                 if (bindType == 0) {//单个绑定
                     this.prisonerId = e.target.getAttribute("id");
+                    $('#examConfirm').modal();
                 }else if (bindType == 1) {//批量绑定
                     let checkedInfo = $(".info-list-check").filter(".active");
-                    let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
-                    for (let i = 0;i < checkedInfo.length; i ++) {
-                        prisonerIds.push(checkedInfo[i].getAttribute("id"));
-                    }
-                    this.ids = prisonerIds.join(',');
+                    if (checkedInfo.length > 0) {
+                        let prisonerIds = new Array();//批量绑定虚拟账号的ID数组
+                        for (let i = 0;i < checkedInfo.length; i ++) {
+                            prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                        }
+                        this.ids = prisonerIds.join(',');
+                        $('#examConfirm').modal();
+                    }else {
+                        alert("请先选择要绑定的虚拟账号数据");
+                    } 
+                }else {
+                    $('#examConfirm').modal();
                 }
-                $('#examConfirm').modal();
+                
             },
 
             bindAccountConfirm(bindType) {
