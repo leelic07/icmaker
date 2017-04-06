@@ -8,8 +8,8 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="prisonId">所属监狱</label>
-                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event)" v-model = "prisonId">
-                                <option value="">全部</option>
+                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo" :disabled = "prisons.length == 1" v-model = "prisonId">
+                                <option value="" v-if = "prisons.length >1">全部</option>
                                 <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                             </select>
                         </div>
@@ -157,17 +157,21 @@ import Page from '../Paginator.vue'
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
+                        if (this.prisons.length == 1) {
+                            this.prisonId = this.prisons[0].id;
+                            this.getPrisonDepartInfo();
+                        }
+                        this.getFundList(1);
                     }
                 }).catch(err=>{
                     console.log(err);
                 });
             },
 
-            getPrisonDepartInfo (e) {//获取监区信息
+            getPrisonDepartInfo () {//获取监区信息
                 this.prisonDepartments = "";
                 this.prisonDepartmentId = "";
-                let prisonId = $(e.target).val();
-                this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
+                this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
@@ -212,18 +216,23 @@ import Page from '../Paginator.vue'
                     this.prisonerName = e.target.getAttribute("prisonerName");
                     this.dayMoney = e.target.getAttribute("dayMoney")/100;
                     this.monthMoney = e.target.getAttribute("monthMoney")/100;
+                    $('#setConfirm').modal();
                 }else if (setType == 2) {
                     let checkedInfo = $(".info-list-check").filter(".active");
-                    let prisonerIds = new Array();//批量资金分配的罪犯ID数组
-                    let ids = new Array();//批量资金分配的id数组
-                    for (let i = 0;i < checkedInfo.length; i ++) {
-                        prisonerIds.push(checkedInfo[i].getAttribute("prisonerId"));
-                        ids.push(checkedInfo[i].getAttribute("id"));
+                    if (checkedInfo.length > 0) {
+                        let prisonerIds = new Array();//批量资金分配的罪犯ID数组
+                        let ids = new Array();//批量资金分配的id数组
+                        for (let i = 0;i < checkedInfo.length; i ++) {
+                            prisonerIds.push(checkedInfo[i].getAttribute("prisonerId"));
+                            ids.push(checkedInfo[i].getAttribute("id"));
+                        }
+                        this.prisonerIds = prisonerIds.join(',');
+                        this.ids = ids.join(',');
+                        $('#setConfirm').modal();
+                    }else {
+                        alert("请先选择进行消费额度配置的数据");
                     }
-                    this.prisonerIds = prisonerIds.join(',');
-                    this.ids = ids.join(',');
                 }
-                $('#setConfirm').modal();
             },
 
             setFundConfirm () {//setType 配置方式 1-单个 2-批量
@@ -281,7 +290,6 @@ import Page from '../Paginator.vue'
 			$('#table_id_example').tableHover();
 			$('#table_id_example').select();
             this.getPrisonInfo();
-            this.getFundList(1);
 		}
 	}
 </script>

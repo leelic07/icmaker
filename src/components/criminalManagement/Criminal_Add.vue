@@ -59,7 +59,7 @@
                                 <div class="form-group">
                                     <label for="prisonId" class="col-xs-6 control-label"><i class="important">*</i>服刑监狱：</label>
                                     <div class="col-xs-12">
-                                        <input type="text" class="form-control" disabled id="prisonId" v-if = "prisons.length == 1" v-model = "prisons.prisonName">
+                                        <input type="text" class="form-control" disabled id="prisonId" v-if = "prisons.length == 1" v-model = "prisons[0].prisonName">
                                         <select class="form-control" id="prisonId" :disabled = "prisonerId != undefined" v-model = "prisonerInfo.prisonId" @change = "getPrisonDepartInfo($event)" v-else>
                                             <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                                         </select>
@@ -128,7 +128,8 @@
                 prisonerInfo: {
                     sex: 0,
                     prisonId: "",
-                    prisonDepartmentId: ""
+                    prisonDepartmentId: "",
+                    cardNo: ""
                 },
                 prisonDepartments: ""
             }
@@ -217,7 +218,8 @@
                 if (this.imgUrl != "../../../static/img/add.jpg" && prisonerInfo.prisonId != "" && prisonerInfo.prisonDepartmentId != "" && prisonerInfo.name != "" && prisonerInfo.archivesNumber != "" && prisonerInfo.number != "") {//必填项都有值
                     let numReg = new RegExp("^[0-9]*$");// 数值
                     let cardReg = new RegExp("^\\d{17}(\\d|x)$");//身份证号
-                    if(!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||!numReg.test(prisonerInfo.insideArchivesNumber)) {
+                    console.log(prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo));
+                    if(prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo)||!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||!numReg.test(prisonerInfo.insideArchivesNumber)) {
                         alert('输入不合法');
                     }else{
                         prisonerInfo.prisonerId = this.$route.params.id;
@@ -227,6 +229,7 @@
                         console.log(this.prisonerInfo);
                         this.$http.post("prisoner/addOrEditPrisoner",$.param(prisonerInfo)).then(res=>{
                             console.log(res);
+                            alert(res.data.msg);
                             if (res.data.code == 0) {
                                 this.imgUrl = " ";
                                 this.prisonerInfo = " ";

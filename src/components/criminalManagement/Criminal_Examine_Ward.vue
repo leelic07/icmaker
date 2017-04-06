@@ -7,21 +7,21 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="fromPrisonId">所属监狱</label>
-                            <select class="form-control" id="fromPrisonId" @change = "getPrisonDepartInfo ($event)">
-                                <option value="">全部</option>
+                            <select class="form-control" id="fromPrisonId" @change = "getPrisonDepartInfo ($event,null,null)" :disabled = "prisons.length == 1" v-model = "fromPrisonId">
+                                <option value="" v-if = "prisons.length >1">全部</option>
                                 <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                             </select>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="fromDepartmentId">所属监区</label>
-                            <select class="form-control" id="fromDepartmentId">
+                            <select class="form-control" id="fromDepartmentId" v-model = "fromDepartmentId">
                                 <option value="">全部</option>
                                 <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="toPrisonDepartmentId">转至监区</label>
-                            <select class="form-control" id="toPrisonDepartmentId">
+                            <select class="form-control" id="toPrisonDepartmentId" v-model = "toPrisonDepartmentId">
                                 <option value="">全部</option>
                                 <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
@@ -30,7 +30,7 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="status">审核状态</label>
-                            <select class="form-control" id="status">
+                            <select class="form-control" id="status" v-model = "status">
                                 <option v-for = "status in examStatus" :value = "status.value">{{status.name}}</option>
                             </select>
                         </div>
@@ -210,6 +210,10 @@ import Page from '../Paginator.vue'
                 currentId: "",//当前操作的ID
                 choiseIds: "",//选中的ID列表
                 numType: "",//numType:1-单个审核 2-批量审核
+                fromPrisonId: "",//所属监狱ID
+                fromDepartmentId: "",//所属监区ID
+                toPrisonDepartmentId: "",//转至监区ID
+                status: 0,//审核状态
                 initStatus: 0,
                 indexPage: 1
 			}
@@ -224,6 +228,11 @@ import Page from '../Paginator.vue'
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
+                        if (this.prisons.length == 1) {
+                            this.fromPrisonId = this.prisons[0].id;
+                            this.getPrisonDepartInfo(null,this.fromPrisonId);
+                        }
+                        this.applyList(1);
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -245,12 +254,11 @@ import Page from '../Paginator.vue'
 
             applyList(index) {//搜索得到转监区审核列表
                 this.indexPage = index;
-                let status = $("#status").val() == null ? this.initStatus : $("#status").val();
                 let searchData = {
                     "type": 0,//类型为转监区
-                    "fromPrisonId": $("#fromPrisonId").val(),
-                    "toPrisonId": $("#toPrisonId").val(),
-                    "status": status,
+                    "fromPrisonId": this.fromPrisonId,
+                    "toPrisonId": this.toPrisonId,
+                    "status": this.status,
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
@@ -338,7 +346,6 @@ import Page from '../Paginator.vue'
             $('#table_id_example').select();
             this.getExamStatus();
             this.getPrisonInfo();
-            this.applyList(1);//默认显示审核中状态的申请
         }
 	}
 </script>

@@ -9,7 +9,7 @@
                         <div class="row">
                             <div class="col-xs-7 select-box">
                                 <label for="userType">账号类型</label>
-                                <select class="form-control" id = "userType">
+                                <select class="form-control" id = "userType" v-model = "userType">
                                     <option v-for = "userType in userTypeList" :value = "userType.value">{{userType.name}}</option>
                                 </select>
                             </div>
@@ -28,14 +28,14 @@
                         <div class="row">
                             <div class="col-xs-7 select-box">
                                 <label for="prisonId">所属监狱</label>
-                                <select class="form-control" id="prisonId">
-                                    <option value="">全部</option>
-                                    <option v-for = "prison in prisonList" :value="prison.id">{{prison.prisonName}}</option>
+                                <select class="form-control" id="prisonId" :disabled = "prisonList.length == 1" v-model = "prisonId">
+                                    <option value="" v-if = "prisonList.length >1">全部</option>
+                                    <option v-for = "prison in prisonList" :value = "prison.id">{{prison.prisonName}}</option>
                                 </select>
                             </div>
                             <div class="col-xs-5  text-box">
                                 <label for="userName">用户名</label>
-                                <input type="text" class="form-control" id="userName">
+                                <input type="text" class="form-control" id="userName" v-model = "userName">
                             </div>
                         </div>
                         <div class="row">
@@ -97,6 +97,9 @@ import Page from '../Paginator.vue'
                 userList: "",
                 userSize: "",
                 pageSize: 10,
+                userType: "",
+                userName: "",
+                prisonId: "",
                 isManage: true,
                 indexPage: 1
 			}
@@ -136,6 +139,10 @@ import Page from '../Paginator.vue'
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisonList = res.data.data.prisons;
+                         if (this.prisonList.length == 1) {
+                            this.prisonId = this.prisonList[0].id;
+                        }
+                        this.searchUserList(1);
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -145,11 +152,11 @@ import Page from '../Paginator.vue'
                 this.indexPage = index;
                 const getUrl = 'getUsers';
                 let getData = {
-                    'userType' : $('#userType').val(),
+                    'userType' : this.userType,
                     'startDateStr' : $('#startDateStr').val(),
                     'endDateStr' : $('#endDateStr').val(),
-                    'prisonId' : $('#prisonId').val(),
-                    'userName' : $('#userName').val(),
+                    'prisonId' : this.prisonId,
+                    'userName' : this.userName,
                     'indexPage' : this.indexPage,
                     'pageSize' : this.pageSize
                 };
@@ -195,7 +202,6 @@ import Page from '../Paginator.vue'
             $('#table_id_example').tableHover();
             this.getUserTypeList();
             this.getPrisonList();
-            this.searchUserList(1);
             this.hideUserList();//初始为编辑页时隐藏管理页
         }
 	}
