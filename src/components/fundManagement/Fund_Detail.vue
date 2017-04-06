@@ -8,8 +8,8 @@
                         <div class="row">
                             <div class="col-xs-8 select-box">
                                 <label for="name">所属监狱</label>
-                                <select class="form-control" v-model='prisonId'>
-                                    <option value=''>请选择</option>
+                                <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
+                                    <option v-if='prisonList.length > 1' value=''>请选择</option>
                                     <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
                                 </select>
                             </div>
@@ -124,6 +124,10 @@ import Page from '../Paginator.vue'
                 }).then(res=>{
                     let data = res.data.data;
                     this.prisonList = data.prisons;
+                    if(this.prisonList.length == 1){
+                        this.prisonId = this.prisonList[0].id;
+                    }
+                    this.getPrisonCapitalDetails();
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -156,7 +160,6 @@ import Page from '../Paginator.vue'
         },
         mounted(){
             $('#table_id_example').tableHover();
-            this.getPrisonCapitalDetails();
             this.getAllPrison();
         }
 	}

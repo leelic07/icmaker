@@ -97,7 +97,7 @@
                                                 <option value=''>请选择</option>
                                                 <option v-for='pbad in prisonBankAccountDtos' :value='pbad.bankAccountId' v-text='pbad.bankAccountName'></option>
                                             </select>
-                                            <select class="form-control" v-model='toPrisonAccountId' v-show='!bankShow'>
+                                            <select class="form-control" v-model='toPrisonAccountId' v-if='!bankShow'>
                                                 <option value=''>请选择</option>
                                                 <option v-for='pa in prisonAccounts' :value='pa.id' v-text='pa.accountName'></option>
                                             </select>
@@ -115,11 +115,14 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
             </div>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
 import Page from '../Paginator.vue'
+import Remind from '../Remind.vue'
+import store from '../../store'
 	export default {
 		data(){
 			return {
@@ -142,6 +145,13 @@ import Page from '../Paginator.vue'
                 remark:''
 			}
 		},
+        computed:{
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             //获取监狱账户信息
             getPrisonAccountDtos(){
@@ -246,8 +256,21 @@ import Page from '../Paginator.vue'
                             money:this.transferMoney * 100,
                             remark:this.remark
                         }
-                    }).then(res=>{
-                        console.log(res.data.code,res.data.msg);
+                    }).then(res=>{    
+                        if(res.data.code == 0){
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                        }else{
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
+                            console.log(res.data.code,res.data.msg);
+                        }
+
+                        store.dispatch('showRemind');
                     }).catch(err=>{
                         console.log(err);
                     });
@@ -267,16 +290,30 @@ import Page from '../Paginator.vue'
                             remark:this.remark
                         }
                     }).then(res=>{
-                        console.log(res.data.code,res.data.msg);
+                        if(res.data.code == 0){
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                        }else{
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
+                            console.log(res.data.code,res.data.msg);
+                        }
+
+                        store.dispatch('showRemind');
                     }).catch(err=>{
                         console.log(err);
                     });
                 }
-                // $('#transferApplication').dismiss();
+
             }
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

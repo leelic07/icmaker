@@ -31,8 +31,8 @@
                         <div class='row'>
                             <div class="col-xs-8 select-box">
                                 <label for="name">所属监狱</label>
-                                <select class="form-control" v-model='prisonId'>
-                                    <option value=''>请选择</option>
+                                <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
+                                    <option v-if='prisonList.length > 1' value=''>请选择</option>
                                     <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
                                 </select>
                             </div>
@@ -127,18 +127,20 @@
                         </div>
                         <div class="modal-body">
                             <h3>同意审核？</h3>
-                            <button class="confirm-button" @click="agreeExamine()">确定</button>
+                            <button class="confirm-button" @click="agreeExamine()" data-dismiss='modal'>确定</button>
                             <button class="cancel-button" data-dismiss="modal">取消</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
             </div>
-
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
 import Page from '../Paginator.vue'
+import Remind from '../Remind.vue'
+import store from '../../store'
 	export default {
 		data(){
 			return {
@@ -148,13 +150,24 @@ import Page from '../Paginator.vue'
                 accountName:'',
                 accountType:'',
                 type:'',
-                prisonId:'',
                 prisonList:[],
+                prisonId:'',
                 prisonCapitalTransfers:[],
                 ids:'',
-                remark:''
+                remark:'',
+                remind:{
+                    status:'',
+                    msg:''
+                }
 			}
 		},
+        computed:{
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             //获取所有转账记录
             getTransferRecords(){
@@ -205,6 +218,9 @@ import Page from '../Paginator.vue'
                 }).then(res=>{
                     let data = res.data.data;
                     this.prisonList = data.prisons;
+                    if(this.prisonList.length == 1){
+                        this.prisonId = this.prisonList[0].id;
+                    }
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -222,22 +238,37 @@ import Page from '../Paginator.vue'
 
             //点击同意按钮
             agree(){
-                $('#agreeConfirm').modal();
                 this.getAllRecords();
+                if(this.ids == ''){
+                    this.remind = {
+                        status:'warn',
+                        msg:'请选择'
+                    }
+                    store.dispatch('showRemind');
+                    return;
+                }else{
+                    $('#agreeConfirm').modal();
+                }
             },
 
             //点击拒绝按钮
             reject(){
-                $('#rejectConfirm').modal();
                 this.getAllRecords();
+                if(this.ids == ''){
+                    this.remind = {
+                        status:'warn',
+                        msg:'请选择'
+                    }
+                    store.dispatch('showRemind');
+                    return;
+                }else{
+                    $('#rejectConfirm').modal();
+                }
             },
 
 
             //转账审核同意
             agreeExamine(){
-                if(this.ids == ''){
-                    return;
-                }
                 this.$http({
                     method:'post',
                     url:'/prisonCapital/reviewCapitalTransfers',
@@ -246,7 +277,22 @@ import Page from '../Paginator.vue'
                         prisonCapitalDetailId:this.ids,
                     }
                 }).then(res=>{
-                    console.log(res.data.code,res.data.msg);
+                    
+                    if(res.data.code == 0){
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.searchRecord(this.indexPage);
+                    }else{
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
+                        console.log(res.data.code,res.data.msg);
+                    }
+
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -254,7 +300,12 @@ import Page from '../Paginator.vue'
 
             //转账审核拒绝
             rejectExamine(){
-                if(this.ids == '' || this.remark == ''){
+                if(this.remark == ''){
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写拒绝理由'
+                    };
+                    store.dispatch('showRemind');
                     return;
                 }
                 this.$http({
@@ -266,16 +317,30 @@ import Page from '../Paginator.vue'
                         remark:this.remark
                     }
                 }).then(res=>{
-                    console.log(res.data.code,res.data.msg);
+                    if(res.data.code == 0){
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.searchRecord(this.indexPage);
+                    }else{
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
+                        console.log(res.data.code,res.data.msg);
+                    }
+                    store.dispatch('showRemind');
+                    $('#rejectConfirm').modal('hide');
+                    this.remark = '';
                 }).catch(err=>{
                     console.log(err);
                 });
-
-                $('#rejectConfirm').modal();
             }
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

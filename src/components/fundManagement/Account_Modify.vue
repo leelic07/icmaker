@@ -56,10 +56,13 @@
                     </div>
                 </div>
             </div>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 	export default {
 		data(){
 			return {
@@ -69,10 +72,22 @@
                 accountName:this.$route.params.accountName,
                 accountType:this.$route.params.accountType,
                 prisonId:this.$route.params.prisonId,
-                prisonDepartmentId:this.$route.params.prisonDepartmentId
+                prisonDepartmentId:this.$route.params.prisonDepartmentId,
+                remind:{
+                    status:'',
+                    msg:''
+                }
 			}
 		},
+        computed:{
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
+
             //查询所有监狱列表
             getAllPrison(){
                 this.$http({
@@ -85,6 +100,7 @@
                     console.log(err);
                 });
             },
+
             //新增账户
             addAccount(){
                 let params = {
@@ -109,6 +125,7 @@
                     });
                 }  
             },
+
             //根据监狱查询监区
             getPrisonDepartments(prisonId){
             	this.$http({
@@ -126,6 +143,8 @@
             		console.log(err);
             	});
             },
+
+            //点击确认修改银行账户信息
             modifyAccount(){
             	if(this.prisonId == '' || this.accountType == '' || this.accountName == ''){
             		return;
@@ -141,11 +160,28 @@
             			accountName:this.accountName
             		}
             	}).then(res=>{
-            		console.log(res.data.code,res.data.msg);
+            		
+                    if(res.data.code == 0){
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                    }else{
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
+                        console.log(res.data.code,res.data.msg);
+                    }
+
+                    store.dispatch('showRemind');
             	}).catch(err=>{
             		console.log(err);
             	});
             }
+        },
+        components:{
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();
@@ -158,10 +194,6 @@
 
 <style lang="less" scoped>
 #right-side{
-	position:fixed;
-	bottom:0;
-	right:0;
-	top:0;
 	background-color:#f5f5f5;
 
 	.select-box{
