@@ -174,6 +174,26 @@ export default{
 		}
 	},
 
+	formatPrisonDate(value) {
+		//日期中补零函数
+		let buling = value => {
+			value = 1*value;
+			if (value < 10){
+				value = '0' + value;
+			}
+			return value;
+		};
+		if (value == null) {
+			return null;
+		}else {
+			let now=new Date(value);
+			let year=now.getFullYear();     
+			let month=buling(now.getMonth()+1);     
+			let date=buling(now.getDate());
+			return year+"-"+month+"-"+date+" ";
+		}
+	},
+
 	//虚拟账号状态
 	formatAccountType(value) {
 		let accountType = "";

@@ -239,10 +239,10 @@
                     console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
                         console.log(res);
+                        alert(res.data.msg);
                         let status = res.data.code;
                         if (status == 0) {//返回成功 
-                            alert(res.data.msg);
-                            this.$router.go(0);
+                            this.$router.push({path:"/user_management"});
                         }
                     }).catch(err=>{
                         console.log(err);

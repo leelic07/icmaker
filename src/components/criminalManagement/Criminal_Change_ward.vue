@@ -84,7 +84,7 @@
                             <td>{{prisoner.prisonName}}</td>
                             <td>{{prisoner.prisonDepartmentName}}</td>
                             <td>{{prisoner.status | formatStatus}}</td>
-                            <td>{{prisoner.intoPrisonDate | formatDate}}</td>
+                            <td>{{prisoner.intoPrisonDate | formatPrisonDate}}</td>
                             <td><em class="agree-text" :id = "prisoner.prisonerId" :prisonId = "prisoner.prisonId" :departId = "prisoner.prisonDepartmentId" @click = "changeWard($event)" v-show = "prisoner.enabled != 0">转监区</em></td>
                         </tr>    
                     </tbody>
