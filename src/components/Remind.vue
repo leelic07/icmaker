@@ -23,6 +23,16 @@
 				</div>
 			</div>
 
+			<!--警告-->
+			<div v-else-if="status == 'warn'" class="panel panel-warning">
+			  	<div class="panel-heading">
+				    <h3 class="panel-title text-center">警告</h3>
+			  	</div>
+		  		<div class="panel-body text-center" v-text='msg'>
+	    			
+				</div>
+			</div>
+
 			<!--默认-->
 			<div v-else class="panel panel-default">
 			  	<div class="panel-heading">

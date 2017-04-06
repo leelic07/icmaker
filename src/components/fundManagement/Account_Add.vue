@@ -56,10 +56,13 @@
                     </div>
                 </div>
             </div>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 	export default {
 		data(){
 			return {
@@ -68,7 +71,11 @@
                 accountName:'',
                 prisonList:'',
                 prisonDepartments:'',
-                prisonDepartmentId:''
+                prisonDepartmentId:'',
+                remind:{
+                    status:'',
+                    msg:''
+                }
 			}
 		},
         computed:{
@@ -79,6 +86,12 @@
                     this.prisonAndPrisonDepartment(pd,pdt);
                     this.prisonDepartmentId = '';
                     return pdt;
+                }
+            },
+
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
                 }
             }
         },
@@ -113,6 +126,7 @@
                     console.log(err);
                 });
             },
+
             //新增账户
             addAccount(){
                 let params = {
@@ -121,7 +135,12 @@
                     prisonDepartmentId:this.prisonDepartmentId,
                     accountName:this.accountName
                 };
-                if(this.accountName == ''){
+                if(this.accountName == '' || this.prisonId == '' || this.accountType == ''){
+                    this.remind = {
+                        status:'warn',
+                        msg:'选项不能为空'
+                    }
+                    store.dispatch('showRemind');
                     return;
                 }else{
                     this.$http({
@@ -130,14 +149,37 @@
                         params:params
                     }).then(res=>{
                         console.log(res.data.code,res.data.msg);
-                        $.each(params,(index,value)=>{
-                            value = '';
-                        });
+                        if(res.data.code == 0){
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            };
+
+                            $.each(params,(index,value)=>{
+                                value = '';
+                            });
+                        }else{
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
+                        }
+
+                        store.dispatch('showRemind');
+
+                        this.accountType = '',
+                        this.prisonId = '',
+                        this.prisonDepartmentId = '',
+                        this.accountName = ''
+
                     }).catch(err=>{
                         console.log(err);
                     });
                 }  
             }
+        },
+        components:{
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();
@@ -148,10 +190,6 @@
 
 <style lang="less" scoped>
 #right-side{
-	position:fixed;
-	bottom:0;
-	right:0;
-	top:0;
 	background-color:#f5f5f5;
 
 	.select-box{

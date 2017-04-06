@@ -2,7 +2,9 @@
 export default{
 	//金钱过滤器
 	currency(total){
-		if(total){
+		if(total == null || total == undefined){
+			return 0;
+		}else{
 			total = total/100;
 			return total;
 		}

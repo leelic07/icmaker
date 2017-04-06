@@ -8,8 +8,8 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="name">所属监狱</label>
-                            <select class="form-control" v-model='prisonId'>
-                                <option value=''>请选择</option>
+                            <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
+                                <option v-if='prisonList.length > 1' value=''>请选择</option>
                                 <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
                             </select>
                         </div>
@@ -55,6 +55,7 @@
                             <th>所属监区</th>
                             <th>账户类型</th>
                             <th>账户名</th>
+                            <th>虚拟账户号</th>
                             <th>账户余额</th>
                             <th colspan="2">操作</th>
                         </tr>
@@ -65,6 +66,7 @@
                             <td v-text='pad.prisonDepartmentName'></td>
                             <td>{{pad.accountType | accountType}}</td>
                             <td v-text='pad.accountName'></td>
+                            <td v-text='pad.virtualAccountNo'></td>
                             <td>{{pad.total | currency}}</td>
                             <td><em class="agree-text" @click='getPrisonAccount(pad.prisonAccountId)'>修改</em></td>
                             <!-- <td><em class="agree-text">银行账户管理</em></td> -->
@@ -85,10 +87,10 @@ import Page from '../Paginator.vue'
 		data(){
 			return{
                 prisonAccountDtos:'',
-                prisonList:'',
-                prisonDepartments:'',
-                prisonDepartmentId:'',
+                prisonList:[],
                 prisonId:'',
+                prisonDepartments:[],
+                prisonDepartmentId:'',
                 accountType:'',
                 accountName:'',
                 pageSize:20,
@@ -130,8 +132,9 @@ import Page from '../Paginator.vue'
                     method:'get',
                     url:'/prisonAccount/getPrisonAccountDtos',
                     params:{
-                        indexPage:1,
-                        pageSize:this.pageSize
+                        indexPage:this.indexPage,
+                        pageSize:this.pageSize,
+                        prisonId:this.prisonId
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
@@ -149,6 +152,10 @@ import Page from '../Paginator.vue'
                     let data = res.data.data;
                     this.prisonList = data.prisons;
                     this.prisonDepartments = data.prisonDepartments;
+                    if(this.prisonList.length == 1){
+                        this.prisonId = this.prisonList[0].id;
+                    }
+                    this.getPrisonAccountDtos();
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -196,7 +203,6 @@ import Page from '../Paginator.vue'
         },
         mounted(){
             $('#table_id_example').tableHover();
-            this.getPrisonAccountDtos();
             this.getAllPrison();
         }
 	}
