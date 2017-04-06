@@ -55,14 +55,14 @@
                     <div class="row">
                         <div class="col-xs-4 col-xs-push-1 text-box">
                             <label for="name">创建时间</label>
-                            <input class="date form-control" size="16" type="text" placeholder="开始日期" id = "startTime" v-model = "startTime">
+                            <input class="date form-control" size="16" type="text" placeholder="开始日期" id = "startTime">
                         </div>
                         <div class="col-xs-1 col-xs-push-1 mdash-box">
                             <div class="col-xs-24 col-xs-push-7">&mdash;</div>
                         </div>
                         <div class="col-xs-4 col-xs-push-1 text-box">
                             <label style="visibility:hidden" for="name">结束时间</label>
-                            <input class="date form-control" size="16" type="text" placeholder="结束日期" id="endTime" v-model = "endTime">
+                            <input class="date form-control" size="16" type="text" placeholder="结束日期" id="endTime">
                         </div>
                     </div>
                     <div class="row">

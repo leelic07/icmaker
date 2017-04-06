@@ -212,18 +212,23 @@ import Page from '../Paginator.vue'
                     this.prisonerName = e.target.getAttribute("prisonerName");
                     this.dayMoney = e.target.getAttribute("dayMoney")/100;
                     this.monthMoney = e.target.getAttribute("monthMoney")/100;
+                    $('#setConfirm').modal();
                 }else if (setType == 2) {
                     let checkedInfo = $(".info-list-check").filter(".active");
-                    let prisonerIds = new Array();//批量资金分配的罪犯ID数组
-                    let ids = new Array();//批量资金分配的id数组
-                    for (let i = 0;i < checkedInfo.length; i ++) {
-                        prisonerIds.push(checkedInfo[i].getAttribute("prisonerId"));
-                        ids.push(checkedInfo[i].getAttribute("id"));
+                    if (checkedInfo.length > 0) {
+                        let prisonerIds = new Array();//批量资金分配的罪犯ID数组
+                        let ids = new Array();//批量资金分配的id数组
+                        for (let i = 0;i < checkedInfo.length; i ++) {
+                            prisonerIds.push(checkedInfo[i].getAttribute("prisonerId"));
+                            ids.push(checkedInfo[i].getAttribute("id"));
+                        }
+                        this.prisonerIds = prisonerIds.join(',');
+                        this.ids = ids.join(',');
+                        $('#setConfirm').modal();
+                    }else {
+                        alert("请先选择进行消费额度配置的数据");
                     }
-                    this.prisonerIds = prisonerIds.join(',');
-                    this.ids = ids.join(',');
                 }
-                $('#setConfirm').modal();
             },
 
             setFundConfirm () {//setType 配置方式 1-单个 2-批量

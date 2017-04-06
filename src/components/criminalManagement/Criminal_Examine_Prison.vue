@@ -7,21 +7,21 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="fromPrisonId">所属监狱</label>
-                            <select class="form-control" id="fromPrisonId">
+                            <select class="form-control" id="fromPrisonId" v-model = "fromPrisonId">
                                 <option value="">全部</option>
-                                <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
+                                <option v-for = "prison in allPrisons" :value = "prison.id">{{prison.prisonName}}</option>
                             </select>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="toPrisonId">转至监狱</label>
-                            <select class="form-control" id="toPrisonId">
-                                <option value="">全部</option>
+                            <select class="form-control" id="toPrisonId" :disabled = "prisons.length == 1" v-model = "toPrisonId">
+                                <option value="" v-if = "prisons.length >1">全部</option>
                                 <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                             </select>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="status">审核状态</label>
-                            <select class="form-control" id="status">
+                            <select class="form-control" id="status" v-model = "status">
                                 <option v-for = "status in examStatus" :value = "status.value">{{status.name}}</option>
                             </select>
                         </div>
@@ -193,13 +193,17 @@ import Page from '../Paginator.vue'
 		data(){
 			return{
                 examStatus: "",//审核状态
-                prisons: "",//监狱列表
+                prisons: "",//监狱列表（权限）
+                allPrisons: "",//所有的监狱列表
                 transfers: "",//申请罪犯列表
                 transferSize: "",//申请罪犯列表条数
                 pageSize: 10,//每页显示的条数
                 currentId: "",//当前操作的ID
                 choiseIds: "",//选中的ID列表
                 numType: "",//numType:1-单个审核 2-批量审核
+                fromPrisonId: "",//所属监狱id
+                toPrisonId: "",//转至监狱ID
+                status: 0,//审核状态
                 initStatus: 0,
                 indexPage: 1
 			}
@@ -214,6 +218,21 @@ import Page from '../Paginator.vue'
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
+                         if (this.prisons.length == 1) {
+                            this.toPrisonId = this.prisons[0].id;
+                        }
+                        this.applyList(1);
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            getAllPrisonInfo() {//获取所有的监狱列表
+                this.$http.get('prisoner/getAllPrison').then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.allPrisons = res.data.data;//赋值全部的监狱列表
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -222,12 +241,11 @@ import Page from '../Paginator.vue'
 
             applyList(index) {//搜索得到转监狱审核列表
                 this.indexPage = index;
-                let status = $("#status").val() == null ? this.initStatus : $("#status").val();
                 let searchData = {
                     "type": 1,//类型为转监狱
-                    "fromPrisonId": $("#fromPrisonId").val(),
-                    "toPrisonId": $("#toPrisonId").val(),
-                    "status": status,
+                    "fromPrisonId": this.fromPrisonId,
+                    "toPrisonId": this.toPrisonId,
+                    "status": this.status,
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
@@ -317,7 +335,7 @@ import Page from '../Paginator.vue'
             $('#table_id_example').select();
             this.getExamStatus();
             this.getPrisonInfo();
-            this.applyList(1);//默认显示审核中状态的申请
+            this.getAllPrisonInfo();
         }
 	}
 </script>

@@ -7,21 +7,21 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="prisonId">所属监狱</label>
-                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event)">
-                                <option value="">全部</option>
+                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event,null,null)" :disabled = "prisons.length == 1" v-model = "prisonId">
+                                <option value="" v-if = "prisons.length >1">全部</option>
                                 <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
                             </select>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="prisonDepartmentId">所属监区</label>
-                            <select class="form-control" id="prisonDepartmentId">
+                            <select class="form-control" id="prisonDepartmentId" v-model = "prisonDepartmentId">
                                 <option value="">全部</option>
                                 <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="status">在监状态</label>
-                            <select class="form-control" id="status">
+                            <select class="form-control" id="status" v-model = "status">
                                 <option v-for = "status in statusList" :value = "status.value">{{status.name}}</option>
                             </select>
                         </div>
@@ -29,20 +29,20 @@
                     <div class="row">
                         <div class="col-xs-6 text-box">
                             <label for="number">编号</label>
-                            <input type="text" class="form-control" id="number">
+                            <input type="text" class="form-control" id="number" v-model = "number">
                         </div>
                         <div class="col-xs-6 text-box">
                             <label for="archivesNumber">档案号</label>
-                            <input type="text" class="form-control" id="archivesNumber">
+                            <input type="text" class="form-control" id="archivesNumber" v-model = "archivesNumber">
                         </div>
                         <div class="col-xs-6 text-box">
                             <label for="name">罪犯名</label>
-                            <input type="text" class="form-control" id="name">
+                            <input type="text" class="form-control" id="name" v-model = "name">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-push-10 button-box">
-                              <input type="button" value="搜索" class="search-button" @click = "criminalSearch(1)">
+                            <input type="button" value="搜索" class="search-button" @click = "criminalSearch(1)">
                         </div>    
                     </div>
                 </div>
@@ -177,6 +177,12 @@ import Page from '../Paginator.vue'
                 ids: "",//批量转监狱选中的罪犯
                 isManage: true,//是否为管理页
                 initPrisonId:"",//默认选中的转至监狱ID
+                prisonId: "",//所属监狱ID
+                prisonDepartmentId: "",//所属监区ID
+                status: "",//在监状态
+                number: "",//编号
+                archivesNumber: "",//档案号
+                name: "",//罪犯名
                 indexPage: 1
             }
 		},
@@ -190,6 +196,11 @@ import Page from '../Paginator.vue'
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
+                        if (this.prisons.length == 1) {
+                            this.prisonId = this.prisons[0].id;
+                            this.getPrisonDepartInfo(null,this.prisonId);
+                        }
+                        this.criminalSearch(1); 
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -243,12 +254,12 @@ import Page from '../Paginator.vue'
             criminalSearch(index){//罪犯搜索
                 this.indexPage = index;
                 let searchData = {
-                    "prisonId": $("#prisonId").val(),
-                    "prisonDepartmentId": $("#prisonDepartmentId").val(),
-                    "status":$("#status").val(),
-                    "name": $("#name").val(),
-                    "number": $("#number").val(),
-                    "archivesNumber":$("#archivesNumber").val(),
+                    "prisonId": this.prisonId,
+                    "prisonDepartmentId": this.prisonDepartmentId,
+                    "status": this.status,
+                    "name": this.name,
+                    "number": this.number,
+                    "archivesNumber":this.archivesNumber,
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
@@ -331,7 +342,6 @@ import Page from '../Paginator.vue'
             $('#table_id_example').select();
             this.getPrisonInfo();
             this.getStatusList();
-            this.criminalSearch(1);
         }
 	}
 </script>
