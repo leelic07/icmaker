@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
         </div>
 </template>
 
@@ -72,10 +72,10 @@ import store from '../../store'
                 accountName:this.$route.params.accountName,
                 accountType:this.$route.params.accountType,
                 prisonId:this.$route.params.prisonId,
-                prisonDepartmentId:this.$route.params.prisonDepartmentId,
                 remind:{
                     status:'',
-                    msg:''
+                    msg:'',
+                    back:''
                 }
 			}
 		},
@@ -159,12 +159,12 @@ import store from '../../store'
             			prisonDepartmentId:this.prisonDepartmentId,
             			accountName:this.accountName
             		}
-            	}).then(res=>{
-            		
+            	}).then(res=>{         		
                     if(res.data.code == 0){
                         this.remind = {
                             status:'success',
-                            msg:res.data.msg
+                            msg:res.data.msg,
+                            back:true
                         }
                     }else{
                         this.remind = {
@@ -173,7 +173,6 @@ import store from '../../store'
                         }
                         console.log(res.data.code,res.data.msg);
                     }
-
                     store.dispatch('showRemind');
             	}).catch(err=>{
             		console.log(err);
@@ -186,8 +185,14 @@ import store from '../../store'
         mounted(){
             $('#table_id_example').tableHover();
             this.getAllPrison();
-            let prisonId = this.$route.params.prisonId;
             this.getPrisonDepartments(this.prisonId,'Init');
+            //判断参数 prisonDepartmentId 是否为null
+            let prisonDepartmentId = this.$route.params.prisonDepartmentId;
+            if(this.$route.params.prisonDepartmentId == 'null'){
+                this.prisonDepartmentId = '';
+            }else{
+                this.prisonDepartmentId = this.$route.params.prisonDepartmentId;
+            }
         }
 	}
 </script>

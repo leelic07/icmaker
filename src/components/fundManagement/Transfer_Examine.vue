@@ -153,7 +153,7 @@ import store from '../../store'
                 prisonList:[],
                 prisonId:'',
                 prisonCapitalTransfers:[],
-                ids:'',
+                ids:[],
                 remark:'',
                 remind:{
                     status:'',
@@ -227,19 +227,19 @@ import store from '../../store'
             },
 
             //获取选中的项目
-            getAllRecords() {
+            getAllSelectedRecords() {
                 let checkedInfo = $(".info-list-check").filter(".active");
                 let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
                 for (let i = 0;i < checkedInfo.length; i ++) {
                     prisonerIds.push(checkedInfo[i].getAttribute("id"));
                 }
-                this.ids = prisonerIds.join(','); 
+                this.ids = prisonerIds; 
             },
 
             //点击同意按钮
             agree(){
-                this.getAllRecords();
-                if(this.ids == ''){
+                this.getAllSelectedRecords();
+                if(this.ids.length == 0){
                     this.remind = {
                         status:'warn',
                         msg:'请选择'
@@ -253,8 +253,8 @@ import store from '../../store'
 
             //点击拒绝按钮
             reject(){
-                this.getAllRecords();
-                if(this.ids == ''){
+                this.getAllSelectedRecords();
+                if(this.ids.length == 0){
                     this.remind = {
                         status:'warn',
                         msg:'请选择'
@@ -269,13 +269,26 @@ import store from '../../store'
 
             //转账审核同意
             agreeExamine(){
+                let params = {};
+                let url = '';
+                if(this.ids.length > 1){
+                    params = {
+                        reviewStatus:1,
+                        prisonCapitalDetailIds:this.ids.join(',')
+                    }
+                    url = '/prisonCapital/batchReviewCapitalTransfers';
+                }else if(this.ids.length == 1){
+                    params = {
+                        reviewStatus:1,
+                        prisonCapitalDetailId:this.ids.join(',')
+                    }
+                    url = '/prisonCapital/reviewCapitalTransfers';
+                }
+
                 this.$http({
                     method:'post',
-                    url:'/prisonCapital/reviewCapitalTransfers',
-                    params:{
-                        reviewStatus:1,
-                        prisonCapitalDetailId:this.ids,
-                    }
+                    'url':url,
+                    'params':params
                 }).then(res=>{
                     
                     if(res.data.code == 0){
@@ -300,6 +313,8 @@ import store from '../../store'
 
             //转账审核拒绝
             rejectExamine(){
+                let params = {};
+                let url = '';
                 if(this.remark == ''){
                     this.remind = {
                         status:'warn',
@@ -308,14 +323,27 @@ import store from '../../store'
                     store.dispatch('showRemind');
                     return;
                 }
-                this.$http({
-                    method:'post',
-                    url:'/prisonCapital/reviewCapitalTransfers',
-                    params:{
+
+                if(this.ids.length > 1){
+                    params = {
                         reviewStatus:2,
-                        prisonCapitalDetailId:this.ids,
+                        prisonCapitalDetailIds:this.ids.join(','),
                         remark:this.remark
                     }
+                    url = '/prisonCapital/batchReviewCapitalTransfers';
+                }else if(this.ids.length == 1){
+                    params = {
+                        reviewStatus:2,
+                        prisonCapitalDetailId:this.ids.join(','),
+                        remark:this.remark
+                    }
+                    url = '/prisonCapital/reviewCapitalTransfers';
+                }
+
+                this.$http({
+                    method:'post',
+                    'url':url,
+                    'params':params
                 }).then(res=>{
                     if(res.data.code == 0){
                         this.remind = {

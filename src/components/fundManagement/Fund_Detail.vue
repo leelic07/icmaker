@@ -54,6 +54,7 @@
                             <th>对方账号</th>
                             <th>金额</th>
                             <th>交易时间</th>
+                            <th>状态</th>
                             <th>备注</th>
                         </tr>
                         </thead>
@@ -70,6 +71,7 @@
                                 <td v-if='pcdd.capitalType == 1'>{{'+' + pcdd.money | currency}}</td>
                                 <td v-if='pcdd.capitalType == 2'>{{'-' + pcdd.money | currency}}</td>
                                 <td>{{pcdd.createdAt | formatDate}}</td>
+                                <td>{{pcdd.status | fundDetailStatus}}</td>
                                 <td v-text='pcdd.remark'></td>
                             </tr>
                         </tbody>

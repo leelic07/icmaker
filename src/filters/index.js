@@ -403,5 +403,28 @@ export default{
 			return '.00';
 		}
 		
+	},
+
+	//监狱资金管理--资金明细--状态过滤器
+	fundDetailStatus(status){
+		let fundStatus = '';
+		switch(status){
+			case 0 :
+				fundStatus =  '审核中';
+				break;
+			case 1 :
+				fundStatus = '处理中';
+				break;
+			case 2 :
+				fundStatus = '审核拒绝';
+				break;
+			case 3 :
+				fundStatus = '交易成功';
+				break;
+			case -1 :
+				fundStatus = '交易失败';
+				break;
+		}
+		return fundStatus;
 	}
 }
