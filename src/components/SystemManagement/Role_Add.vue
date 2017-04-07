@@ -40,7 +40,7 @@
 
             <!-- 确认添加-->
             <div id="addButtonBox" class="col-xs-4 col-xs-offset-10 add-roll-button-box">
-                <input type="button" value="确认添加" class="add-button" id = "addRollButton" @click = "addRole">
+                <input type="button" value="确认" class="add-button" id = "addRollButton" @click = "addRole">
             </div>
         </div>
 </template>

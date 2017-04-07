@@ -147,7 +147,7 @@ import Page from '../Paginator.vue'
                     this.isManage = true;
                 }
                 if (from.path.substring(0,index) == "/crimsearch/edit" || from.path == '/crimadd') {//从新增或者编辑页进入
-                   // this.criminalSearch(1); 
+                    this.criminalSearch(this.indexPage); 
                 }
             }
         },

@@ -117,7 +117,7 @@ import Page from '../Paginator.vue'
                     this.isManage = true;
                 }
                 if (from.path.substring(0,index) == "/menu_management/edit" || from.path == '/menu_add') {//从新增或者编辑页进入
-                   // this.searchMenu(1); 
+                    this.searchMenu(this.indexPage); 
                 }
             }
         },

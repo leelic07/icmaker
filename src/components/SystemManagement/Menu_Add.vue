@@ -131,7 +131,9 @@
                         let status = res.data.code;
                         if (status == 0) {//返回成功
                             this.firstMenuList = res.data.data;//一级菜单赋值
-                            this.menuInfo.pId = this.firstMenuList[0].id;
+                            if (this.$route.params.id == undefined) {
+                                this.menuInfo.pId = this.firstMenuList[0].id;
+                            }
                             console.log(this.firstMenuList);
                         }
                     }).catch(err=>{
@@ -139,6 +141,7 @@
                     });
                 }
             },
+
             //点击编辑时获取角色原有的权限和信息
             getEditInfo(){
                 let id = this.$route.params.id;
@@ -146,8 +149,8 @@
                     console.log(res);
                     if (res.data.code == 0) {
                          this.menuInfo = res.data.data;//赋值单个菜单信息
-                         this.imgUrl1 =this.menuInfo.menuIconUrl;
-                         this.imgUrl2 =this.menuInfo.menuActiveIconUrl;
+                         this.imgUrl1 =this.menuInfo.menuIconUrl == null ? this.imgUrl1 : this.menuInfo.menuIconUrl;
+                         this.imgUrl2 =this.menuInfo.menuActiveIconUrl == null ? this.imgUrl2 : this.menuInfo.menuActiveIconUrl;
                         console.log(this.menuInfo);
                         this.changeMenuType();//调用控制第一级菜单下拉列表是否显示的函数
                     }
@@ -155,6 +158,7 @@
                     console.log(err);
                 });
             },
+
             //获取图标地址
             getImgUrl() {
                 let self = this;
@@ -167,40 +171,37 @@
                     Util.readImgUrl(file,self,'imgUrl2');
                 });
             },
+
             //新增菜单
             addMenu(){
                 let menuName = this.menuInfo.menuName.replace(/(^\s*)|(\s*$)/g,"");
                 let pageUrl = this.menuInfo.pageUrl.replace(/(^\s*)|(\s*$)/g,"");
                 let type = this.menuInfo.type;
                 if (menuName != "" && (type != 1 || pageUrl != "")) {
-                    if (!this.isSecondMenu||pageUrl!= "") {
-                        const addUrl = 'menu/addOrUpdateMenu';
-                        let addData = {
-                            'id' : this.$route.params.id,
-                            'pId' : this.menuInfo.pId,
-                            'type' : type,
-                            'menuName' : menuName,
-                            'isEnable' : this.menuInfo.isEnable,
-                            'pageUrl' : pageUrl,
-                            'menuIconUrl':this.imgUrl1,
-                            'menuActiveIconUrl':this.imgUrl2
-                        };
-                        console.log(addData);
-                        this.$http.post(addUrl,$.param(addData)).then(res=>{
-                            console.log(res);
-                            let status = res.data.code;
-                            alert(res.data.msg);
-                            if (status == 0) {//返回成功
-                               this.$router.push({path:"/menu_management"});      
-                            }
-                        }).catch(err=>{
-                            console.log('新增服务器异常' + err);
-                        });
-                    }else {
-                        alert("请填写菜单路径再提交");
-                    }       
+                    const addUrl = 'menu/addOrUpdateMenu';
+                    let addData = {
+                        'id' : this.$route.params.id,
+                        'pId' : this.menuInfo.pId,
+                        'type' : type,
+                        'menuName' : menuName,
+                        'isEnable' : this.menuInfo.isEnable,
+                        'pageUrl' : pageUrl,
+                        'menuIconUrl':this.imgUrl1,
+                        'menuActiveIconUrl':this.imgUrl2
+                    };
+                    console.log(addData);
+                    this.$http.post(addUrl,$.param(addData)).then(res=>{
+                        console.log(res);
+                        let status = res.data.code;
+                        alert(res.data.msg);
+                        if (status == 0) {//返回成功
+                            this.$router.push({path:"/menu_management"});      
+                        }
+                    }).catch(err=>{
+                        console.log('新增服务器异常' + err);
+                    });      
                 }else{
-                    alert("请填写菜单名称再提交");
+                    alert("请填写完整再提交");
                 }    
             }
 		},
