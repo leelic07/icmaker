@@ -78,10 +78,14 @@
                     </div>
                 </div>
             </div>
+
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
+    import Remind from '../Remind.vue'
+    import store from '../../store'
 	export default {
 		data(){
 			return {
@@ -102,9 +106,20 @@
                     "prisonAccountId":"",
                     "roleId":""
                 },
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 isAdd: true //默认是编辑状态
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
 		methods:{
             getUserTypeList(){//初始化账号类型列表
                 this.userTypeList = [{
@@ -248,11 +263,17 @@
                         console.log(err);
                     });
                 }else {
-                    alert("请填写完整再提交");
-                }
-                              
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整后再进行提交'
+                    }
+                    store.dispatch('showRemind');
+                }              
             }
 		},
+        components:{
+            Remind
+        },
         mounted(){
             this.getUserTypeList();//获取账户类型列表
             this.getEditInfo();//获取单条编辑信息
@@ -262,10 +283,6 @@
 
 <style lang="less" scoped>
 #right-side{
-    position:fixed;
-    bottom:0;
-    right:0;
-    top:0;
     background-color:#f5f5f5;
     .select-box{
         padding:10px;

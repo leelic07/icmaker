@@ -116,6 +116,7 @@
             </div><!-- /.modal -->
         </div>
 
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 <style lang="less" scoped>
@@ -125,6 +126,8 @@
     }
 </style>
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 import Page from '../Paginator.vue'
 	export default {
 		data(){
@@ -147,10 +150,21 @@ import Page from '../Paginator.vue'
                 monthMoney: "",//月限制额度
                 setType: "",//setType 配置方式 1-单个 2-批量
                 legal: false,//是否具备提交或者操作的权限
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 pageSize: 10,
                 indexPage: 1
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
 		methods:{
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
@@ -230,7 +244,11 @@ import Page from '../Paginator.vue'
                         this.ids = ids.join(',');
                         $('#setConfirm').modal();
                     }else {
-                        alert("请先选择进行消费额度配置的数据");
+                        this.remind = {
+                            status:'warn',
+                            msg:'请先选择进行消费额度配置的数据'
+                        }
+                        store.dispatch('showRemind');
                     }
                 }
             },
@@ -284,7 +302,8 @@ import Page from '../Paginator.vue'
             }
 		},
 		components:{
-			Page
+			Page,
+            Remind
 		},
 		mounted(){
 			$('#table_id_example').tableHover();

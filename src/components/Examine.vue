@@ -125,10 +125,13 @@
             </div><!-- /.modal -->
         </div>
 
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 
 <script>
+import Remind from './Remind.vue'
+import store from './../store'
 import Page from './Paginator.vue'
 export default{
 	data(){
@@ -148,10 +151,21 @@ export default{
             recordId: "",//审核选中的ID
             ids: "",//批量审核选中ID
             verifyType: "",//审核类型 1-同意 2-拒绝
+            remind:{
+                status:'',
+                msg:''
+            },
             pageSize: 10,
             indexPage: 1
 		}
 	},
+    computed: {
+        remindShow:{
+            get(){
+                return store.getters.remindShow;
+            }
+        }
+    },
     methods:{
         getStatusList(){//赋值状态列表
             this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"制卡"},{"value":1,"name":"补卡"}]
@@ -228,7 +242,11 @@ export default{
                     this.ids = prisonerIds.join(',');
                     $('#examConfirm').modal();
                 } else {
-                    alert("请先勾选审核的制卡数据");
+                    this.remind = {
+                        status:'warn',
+                        msg:'请先勾选审核的制卡数据'
+                     }
+                     store.dispatch('showRemind');
                 }
             }
            
@@ -269,7 +287,8 @@ export default{
         },
     },
     components:{
-        Page
+        Page,
+        Remind
     },
     mounted(){
         $('#table_id_example').tableHover();

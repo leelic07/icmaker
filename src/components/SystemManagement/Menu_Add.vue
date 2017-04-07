@@ -72,34 +72,14 @@
                     </div>
                 </div>
             </div>
+
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
-<style lang="less" scoped>
-    .upload-box {
-        position: relative;
-        .upload-btn {
-            opacity: 0;
-            z-index: 1000;
-            position: absolute; 
-            left: 0;
-            top: 0;
-            width: 120px;
-            height: 120px;
-            padding: 10px 20px;
-        }
-        .preview-img {
-            width: 120px;
-            height: 120px;
-            padding: 10px 20px;
-        }
-        .icon-desc {
-            font-size: 14px;
-            color: #666;
-            text-indent: 1em;
-        }
-    }
-</style>
+
 <script>
+    import Remind from '../Remind.vue'
+    import store from '../../store'
     import Util from '../../../static/js/util.js'
 	export default {
 		data(){
@@ -108,6 +88,10 @@
                 imgUrl2:"./static/img/add.jpg",
                 isSecondMenu:false,//新增类型是否为二级菜单
                 firstMenuList:'',//一级菜单列表
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 menuInfo:{
                     pId: "",
                     menuName: "",
@@ -117,6 +101,13 @@
                 }
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
 		methods:{
             //切换新增菜单类型
 			changeMenuType(){
@@ -201,10 +192,17 @@
                         console.log('新增服务器异常' + err);
                     });      
                 }else{
-                    alert("请填写完整再提交");
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整后再进行提交'
+                    }
+                    store.dispatch('showRemind');
                 }    
             }
 		},
+        components:{
+            Remind
+        },
         mounted(){
             this.getEditInfo();
             this.getImgUrl();
@@ -214,10 +212,6 @@
 
 <style lang="less" scoped>
     #right-side{
-        position:fixed;
-        bottom:0;
-        right:0;
-        top:0;
         background-color:#f5f5f5; 
         .select-box{
             padding:10px;
@@ -239,6 +233,29 @@
         label{
             font-weight:normal;
             color:#696969;
+        }
+        .upload-box {
+            position: relative;
+            .upload-btn {
+                opacity: 0;
+                z-index: 1000;
+                position: absolute; 
+                left: 0;
+                top: 0;
+                width: 120px;
+                height: 120px;
+                padding: 10px 20px;
+            }
+            .preview-img {
+                width: 120px;
+                height: 120px;
+                padding: 10px 20px;
+            }
+            .icon-desc {
+                font-size: 14px;
+                color: #666;
+                text-indent: 1em;
+            }
         }
     }
 </style>

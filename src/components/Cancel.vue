@@ -222,7 +222,6 @@ import Page from './Paginator.vue'
                 };
                 console.log(searchData);
                 this.$http.get('icCard/prisonerICs',{params:searchData}).then(res=>{
-                    console.log("列表");
                     console.log(res);
                     if (res.data.code == 0) {
                         this.icCardList = res.data.data.prisonerICs;//赋值罪犯列表
@@ -235,7 +234,6 @@ import Page from './Paginator.vue'
 
             loss(e){//挂失
                 this.currentIcId = e.target.getAttribute("icId");
-                console.log(this.currentIcId);
                 $('#lossConfirm').modal();
             },
 
@@ -245,7 +243,6 @@ import Page from './Paginator.vue'
                     "prisonerICId": this.currentIcId
                 };
                 this.$http.post("icCard/reportLossIC",$.param(cancelData)).then(res=>{
-                    console.log(res);
                     let status = res.data.code;
                     if (status == 0) {//返回成功
                         this.getIcList(1);

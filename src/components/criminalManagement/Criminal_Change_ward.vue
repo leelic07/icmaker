@@ -141,6 +141,7 @@
             </div><!-- /.modal -->
         </div>
         
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 <style lang="less" scoped>
@@ -154,6 +155,8 @@
     }
 </style>
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 import Page from '../Paginator.vue'
     export default{
 		data(){
@@ -173,10 +176,21 @@ import Page from '../Paginator.vue'
                 status: "",//在监状态
                 number: "",//编号
                 archivesNumber: "",//档案号
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 name: "",//罪犯名
                 indexPage: 1
             }
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods: {
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"离监"},{"value":1,"name":"在监"}]
@@ -232,9 +246,17 @@ import Page from '../Paginator.vue'
                         }
                     }
                     if (prisonIds.length > 1) {//选取了多个监狱
-                        alert("请不要同时选中多个监狱进行操作");
+                        this.remind = {
+                            status:'warn',
+                            msg:'请不要同时选中多个监狱进行操作'
+                        }
+                        store.dispatch('showRemind');
                     }else if (prisonIds.length < 1){
-                        alert("请先选择进行转监狱的罪犯");
+                        this.remind = {
+                            status:'warn',
+                            msg:'请先选择进行转监狱的罪犯'
+                        }
+                        store.dispatch('showRemind');
                     }else {
                         for (let i = 0;i < checkedInfo.length; i ++) {
                             prisonerIds.push(checkedInfo[i].getAttribute("id"));
@@ -313,7 +335,8 @@ import Page from '../Paginator.vue'
             }
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

@@ -205,10 +205,14 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
+
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 
 <script>
+import Remind from './Remind.vue'
+import store from './../store'
 import Page from './Paginator.vue'
 	export default {
 		data(){
@@ -233,10 +237,21 @@ import Page from './Paginator.vue'
                 cardCost: "",//卡费
                 ids: "",//当前批量处理的罪犯ID列表
                 lastSearchData: "",
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 pageSize: 10,
                 indexPage: 1
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"未绑定"},{"value":1,"name":"已绑定虚拟账户"},{"value":2,"name":"已绑定IC卡"}]
@@ -305,7 +320,6 @@ import Page from './Paginator.vue'
                         this.bindIcInfo = res.data.data;
                         console.log(this.bindIcInfo);
                         $('#bindConfirm').modal();
-
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -322,7 +336,11 @@ import Page from './Paginator.vue'
 
             bindIcConfirm() {
                 if (this.icCardNo == "" || (this.type == 1 && this.cardCost == "")) {//选了收费却未填金额
-                    alert ("请填写完整再进行提交");
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整再进行提交'
+                    }
+                    store.dispatch('showRemind');
                 } else {
                     let cardCost = this.type == 0 ? 0 : this.cardCost.replace(/(^\s*)|(\s*$)/g,"");
                     let deliveryData = {
@@ -364,7 +382,11 @@ import Page from './Paginator.vue'
                         this.ids = prisonerIds.join(',');
                         $('#examConfirm').modal();
                     }else {
-                        alert("请先选择要绑定的虚拟账号数据");
+                        this.remind = {
+                            status:'warn',
+                            msg:'请先选择要绑定的虚拟账号数据'
+                        }
+                        store.dispatch('showRemind');
                     } 
                 }else {
                     $('#examConfirm').modal();
@@ -415,8 +437,8 @@ import Page from './Paginator.vue'
                     this.$http.post("icCard/bindingAllAccounts",$.param(bindAllData)).then(res=>{
                         console.log(res);
                         let status = res.data.code;
+                        alert(res.data.msg);
                         if (status == 0) {//返回成功
-                            alert("成功");
                             this.getDeliveryList(1);
                         }
                     }).catch(err=>{
@@ -470,7 +492,8 @@ import Page from './Paginator.vue'
 
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

@@ -42,6 +42,8 @@
             <div id="addButtonBox" class="col-xs-4 col-xs-offset-10 add-roll-button-box">
                 <input type="button" value="确认" class="add-button" id = "addRollButton" @click = "addRole">
             </div>
+
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 <style lang="less" scoped>
@@ -65,14 +67,27 @@
    
 </style>
 <script>
+    import Remind from '../Remind.vue'
+    import store from '../../store'
 	export default {
 		data(){
 			return {
                 firstMenuList:"",
                 secondMenuList:"",
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 roleName:""
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
 		methods:{
             getFirstMenuList(){//获取菜单列表
                 this.$http.get('role/getMenuHierarchys',{params:{'type':0}}).then(res=>{
@@ -127,9 +142,17 @@
                     "menuIds" : menuIdsArr.join(),
                 }
                 if (roleName == "") {
-                    alert("请填写角色名称");
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写角色名称'
+                    }
+                    store.dispatch('showRemind');
                 }else if (menuIdsArr.length <=0){
-                    alert("请选择对应的权限");
+                    this.remind = {
+                        status:'warn',
+                        msg:'请选择对应的权限'
+                    }
+                    store.dispatch('showRemind');
                 } else {
                     console.log(roleData);
                     this.$http.post('role/addOrUpdateRole',$.param(roleData)).then(res=>{
@@ -144,7 +167,9 @@
                 }
             }
 		},
-
+        components:{
+            Remind
+        },
         mounted(){
             $('#addRole').selectRole();
             this.getFirstMenuList();

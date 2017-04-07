@@ -142,10 +142,13 @@
                 </div><!-- /.modal -->
             </div>
             
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
+import Remind from './Remind.vue'
+import store from './../store'
 import Page from './Paginator.vue'
 	export default {
 		data(){
@@ -165,10 +168,21 @@ import Page from './Paginator.vue'
                 prisonerId: "",//当前处理的罪犯ID
                 ids: "",//当前批量处理的罪犯ID列表
                 type: "",//当前处理的IC卡类型 （0-制卡，1-补卡）
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 pageSize: 10,
                 indexPage: 1
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"未制卡"},{"value":1,"name":"正在制卡"},{"value":2,"name":"已制卡"},{"value":3,"name":"拒绝制卡"}]
@@ -262,11 +276,13 @@ import Page from './Paginator.vue'
                     this.ids = prisonerIds.join(',');
                     $('#applyAllConfirm').modal();  
                 }else {
-                     alert("请先选择要申请的制卡数据");
-                }
-                 
+                     this.remind = {
+                        status:'warn',
+                        msg:'请先选择要申请的制卡数据'
+                     }
+                     store.dispatch('showRemind');
+                }  
             },
-
 
             applyAllConfirm() {
                 let applyData = {
@@ -286,7 +302,8 @@ import Page from './Paginator.vue'
 
         },
         components:{
-           Page
+           Page,
+           Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

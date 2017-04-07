@@ -148,6 +148,7 @@
             </div><!-- /.modal -->
         </div>
 
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 <style lang="less" scoped>
@@ -161,6 +162,8 @@
     }
 </style>
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 import Page from '../Paginator.vue'
     export default{
 		data(){
@@ -182,10 +185,21 @@ import Page from '../Paginator.vue'
                 status: "",//在监状态
                 number: "",//编号
                 archivesNumber: "",//档案号
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 name: "",//罪犯名
                 indexPage: 1
             }
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods: {
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"离监"},{"value":1,"name":"在监"}]
@@ -288,7 +302,11 @@ import Page from '../Paginator.vue'
                         this.ids = prisonerIds;//将选中的罪犯ID赋值
                         $("#changeAllPrisonConfirm").modal();
                     } else {
-                        alert("请先选择转监的罪犯");
+                        this.remind = {
+                            status:'warn',
+                            msg:'请先选择转监的罪犯'
+                        }
+                        store.dispatch('showRemind');
                     }
                 } else {//单个转监狱
                     let prisonId = e.target.getAttribute("prisonId");//获取监狱ID
@@ -335,7 +353,8 @@ import Page from '../Paginator.vue'
 
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

@@ -1,103 +1,105 @@
 <template>
 <!-- 右侧内容-->
-        <div id="right-side" class="col-xs-20 pull-right">
-            <div class="col-xs-24 crim-add">
-                <div class="col-xs-23 add-box">
-                    <form class="form-horizontal" role="form">
-                        <div class="row add-row">
-                            <div class="col-xs-3 upload-box">
-                                <img :src="imgUrl" alt="上传照片" id = "previewImg" class="preview-img">
-                                <input type="file" class="upload-btn" id="imgUrlBtn">
-                            </div>
-                            <div class="col-xs-8">
-                                <div class="form-group">
-                                    <label for="name" class="col-xs-7 control-label"><i class="important">*</i>真实姓名：</label>
-                                    <div class="col-xs-14">
-                                        <input type="text" class="form-control" id="name" v-model = "prisonerInfo.name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="archivesNumber" class="col-xs-7 control-label"><i class="important">*</i>档案号：</label>
-                                    <div class="col-xs-14">
-                                        <input type="text" class="form-control" id="archivesNumber" v-model = "prisonerInfo.archivesNumber">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="insideArchivesNumber" class="col-xs-7 control-label">内部档案号：</label>
-                                    <div class="col-xs-14">
-                                        <input type="text" class="form-control" id="insideArchivesNumber" v-model = "prisonerInfo.insideArchivesNumber">
-                                    </div>
+    <div id="right-side" class="col-xs-20 pull-right">
+        <div class="col-xs-24 crim-add">
+            <div class="col-xs-23 add-box">
+                <form class="form-horizontal" role="form">
+                    <div class="row add-row">
+                        <div class="col-xs-3 upload-box">
+                            <img :src="imgUrl" alt="上传照片" id = "previewImg" class="preview-img">
+                            <input type="file" class="upload-btn" id="imgUrlBtn">
+                        </div>
+                        <div class="col-xs-8">
+                            <div class="form-group">
+                                <label for="name" class="col-xs-7 control-label"><i class="important">*</i>真实姓名：</label>
+                                <div class="col-xs-14">
+                                    <input type="text" class="form-control" id="name" v-model = "prisonerInfo.name">
                                 </div>
                             </div>
-                            <div class="col-xs-8">
-                                <div class="form-group">
-                                    <label for="sex" class="col-xs-7 control-label">性别：</label>
-                                    <div class="col-xs-14">
-                                        <select class="form-control" id="sex" v-model = "prisonerInfo.sex">
-                                            <option value="0">全部</option>
-                                            <option value="1">男</option>
-                                            <option value="2">女</option>
-                                        </select>
-                                    </div>
+                            <div class="form-group">
+                                <label for="archivesNumber" class="col-xs-7 control-label"><i class="important">*</i>档案号：</label>
+                                <div class="col-xs-14">
+                                    <input type="text" class="form-control" id="archivesNumber" v-model = "prisonerInfo.archivesNumber">
                                 </div>
-                                <div class="form-group">
-                                    <label for="number" class="col-xs-7 control-label"><i class="important">*</i>编号：</label>
-                                    <div class="col-xs-14">
-                                        <input type="text" class="form-control" id="number" v-model = "prisonerInfo.number">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="cardNo" class="col-xs-7 control-label">身份证号：</label>
-                                    <div class="col-xs-14">
-                                        <input type="text" class="form-control" id="cardNo" v-model = "prisonerInfo.cardNo">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="insideArchivesNumber" class="col-xs-7 control-label">内部档案号：</label>
+                                <div class="col-xs-14">
+                                    <input type="text" class="form-control" id="insideArchivesNumber" v-model = "prisonerInfo.insideArchivesNumber">
                                 </div>
                             </div>
                         </div>
-                        <div class="row add-row">
-                            <div class="col-xs-10">
-                                <div class="form-group">
-                                    <label for="prisonId" class="col-xs-6 control-label"><i class="important">*</i>服刑监狱：</label>
-                                    <div class="col-xs-12">
-                                        <input type="text" class="form-control" disabled id="prisonId" v-if = "prisons.length == 1" v-model = "prisons[0].prisonName">
-                                        <select class="form-control" id="prisonId" :disabled = "prisonerId != undefined" v-model = "prisonerInfo.prisonId" @change = "getPrisonDepartInfo($event)" v-else>
-                                            <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="firstname" class="col-xs-6 control-label">户籍住址：</label>
-                                    <div class="col-xs-18">
-                                        <input type="text" class="form-control" id="address" v-model = "prisonerInfo.address">
-                                    </div>
+                        <div class="col-xs-8">
+                            <div class="form-group">
+                                <label for="sex" class="col-xs-7 control-label">性别：</label>
+                                <div class="col-xs-14">
+                                    <select class="form-control" id="sex" v-model = "prisonerInfo.sex">
+                                        <option value="0">全部</option>
+                                        <option value="1">男</option>
+                                        <option value="2">女</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-xs-10">
-                                <div class="form-group">
-                                    <label for="prisonerDepartmentId" class="col-xs-6 control-label"><i class="important">*</i>监区：</label>
-                                    <div class="col-xs-12">
-                                        <select class="form-control" id="prisonerDepartmentId" :disabled = "prisonerId != undefined" v-model = "prisonerInfo.prisonDepartmentId">
-                                            <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
-                                        </select>
-                                    </div>
+                            <div class="form-group">
+                                <label for="number" class="col-xs-7 control-label"><i class="important">*</i>编号：</label>
+                                <div class="col-xs-14">
+                                    <input type="text" class="form-control" id="number" v-model = "prisonerInfo.number">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardNo" class="col-xs-7 control-label">身份证号：</label>
+                                <div class="col-xs-14">
+                                    <input type="text" class="form-control" id="cardNo" v-model = "prisonerInfo.cardNo">
                                 </div>
                             </div>
                         </div>
-                        <div class="row add-row">
-                            <div class="row">
-                                <div class="input-group date form_date col-xs-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="16" type="text" placeholder="入监日期" readonly id="intoPrisonDate" v-model = "prisonerInfo.intoPrisonDate">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                    <div class="row add-row">
+                        <div class="col-xs-10">
+                            <div class="form-group">
+                                <label for="prisonId" class="col-xs-6 control-label"><i class="important">*</i>服刑监狱：</label>
+                                <div class="col-xs-12">
+                                    <input type="text" class="form-control" disabled id="prisonId" v-if = "prisons.length == 1" v-model = "prisons[0].prisonName">
+                                    <select class="form-control" id="prisonId" :disabled = "prisonerId != undefined" v-model = "prisonerInfo.prisonId" @change = "getPrisonDepartInfo($event)" v-else>
+                                        <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-xs-6 col-xs-push-9">
-                                <input type="button" value="确认" class="add-button" @click = "commitPrisonerInfo">
-                            </div>    
+                            <div class="form-group">
+                                <label for="firstname" class="col-xs-6 control-label">户籍住址：</label>
+                                <div class="col-xs-18">
+                                    <input type="text" class="form-control" id="address" v-model = "prisonerInfo.address">
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-xs-10">
+                            <div class="form-group">
+                                <label for="prisonerDepartmentId" class="col-xs-6 control-label"><i class="important">*</i>监区：</label>
+                                <div class="col-xs-12">
+                                    <select class="form-control" id="prisonerDepartmentId" :disabled = "prisonerId != undefined" v-model = "prisonerInfo.prisonDepartmentId">
+                                        <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row add-row">
+                        <div class="row">
+                            <div class="input-group date form_date col-xs-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" placeholder="入监日期" readonly id="intoPrisonDate" v-model = "prisonerInfo.intoPrisonDate">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-xs-push-9">
+                            <input type="button" value="确认" class="add-button" @click = "commitPrisonerInfo">
+                        </div>    
+                    </div>
+                </form>
             </div>
         </div>
+
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+    </div>
 </template>
 <style lang="less" scoped>
 .upload-box {
@@ -118,6 +120,8 @@
 }
 </style>
 <script>
+    import Remind from '../Remind.vue'
+    import store from '../../store'
     import Util from '../../../static/js/util.js'
     export default {
         data (){
@@ -125,18 +129,29 @@
                 imgUrl:"./static/img/add.jpg",
                 prisons: "",
                 prisonerId: "",
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 prisonerInfo: {
+                    name: "",
                     sex: 0,
                     prisonId: "",
                     prisonDepartmentId: "",
                     cardNo: "",
-                    insideArchivesNumber: ""
+                    insideArchivesNumber: "",
+                    archivesNumber: "",
+                    number: ""
                 },
                 prisonDepartments: ""
             }
         },
         computed: {
-            
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
         },
         methods:{
             dateInit(){
@@ -216,11 +231,16 @@
             },
             commitPrisonerInfo () {
                 let prisonerInfo = this.prisonerInfo;
-                if (this.imgUrl != "../../../static/img/add.jpg" && prisonerInfo.prisonId != "" && prisonerInfo.prisonDepartmentId != "" && prisonerInfo.name != "" && prisonerInfo.archivesNumber != "" && prisonerInfo.number != "") {//必填项都有值
+                console.log('prisonerInfo.name'+prisonerInfo.name);
+                if (this.imgUrl != "./static/img/add.jpg" && prisonerInfo.prisonId != "" && prisonerInfo.prisonDepartmentId != "" && prisonerInfo.name != "" && prisonerInfo.archivesNumber != "" && prisonerInfo.number != "") {//必填项都有值
                     let numReg = new RegExp("^[0-9]*$");// 数值
                     let cardReg = new RegExp("^\\d{17}(\\d|x)$");//身份证号
                     if(prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo)||!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||(prisonerInfo.insideArchivesNumber != "" && !numReg.test(prisonerInfo.insideArchivesNumber))) {
-                        alert('输入不合法');
+                        this.remind = {
+                            status:'warn',
+                            msg:'输入不合法'
+                        }
+                        store.dispatch('showRemind');
                     }else{
                         prisonerInfo.prisonerId = this.$route.params.id;
                         prisonerInfo.imgUrl = this.imgUrl;
@@ -237,7 +257,11 @@
                         });
                     }
                 }else {
-                    alert("请填写完整后再进行提交");
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整后再进行提交'
+                    }
+                    store.dispatch('showRemind');
                 }
                     
             },
@@ -255,6 +279,9 @@
                 let date=buling(now.getDate()); 
                 return year+"-"+month+"-"+date+" ";
             }
+        },
+        components:{
+            Remind
         },
         mounted(){
             this.dateInit();
