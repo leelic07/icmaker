@@ -63,6 +63,8 @@
                     <Page :itemSize = "roleSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "roleListSearch"></Page>
                 </div>
 
+                <!--模态框-->
+
                 <!-- 删除确认框-->
                 <div class="modal modal-confirm" id="delRoleConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
                     <div class="modal-dialog">

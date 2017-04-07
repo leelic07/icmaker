@@ -79,7 +79,7 @@ export default {
     
   },
   mounted(){
-    window.localStorage.setItem('userId','');
+    
   }
 }
 </script>

@@ -2,7 +2,8 @@ import getters from './getters'
 //状态参数
 const state = {
 	loading:false,
-	remind:false
+	remind:false,
+	logout:false
 }
 
 //设置状态
@@ -25,22 +26,18 @@ const mutations = {
 	//隐藏remind
 	hideRemind(state){
 		state.remind = false;
+	},
+
+	//显示logout
+	showLogout(state){
+		state.logout = true;
+	},
+
+	//隐藏logout
+	hideLogout(state){
+		state.logout = false;
 	}
 }
-
-
-// //获取状态
-// const getters = {
-// 	//返回loading的状态
-// 	loadingShow(state){
-// 		return state.loading;
-// 	},
-
-// 	//返回remind的状态
-// 	remindShow(state){
-// 		return state.remind;
-// 	}
-// }
 
 export default {
 	state,

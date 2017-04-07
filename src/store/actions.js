@@ -10,5 +10,11 @@ export default {
 	},
 	hideRemind:({commit})=>{
 		commit('hideRemind');
+	},
+	showLogout:({commit})=>{
+		commit('showLogout');
+	},
+	hideLogout:({commit})=>{
+		commit('hideLogout');
 	}
 }
