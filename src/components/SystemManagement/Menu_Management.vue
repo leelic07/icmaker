@@ -145,6 +145,7 @@ import Page from '../Paginator.vue'
                 });
                 
            },
+
            //初始为编辑页时隐藏管理页
            hideMenuList() {
                 const editUrl = "/menu_management/edit/2";
@@ -153,11 +154,13 @@ import Page from '../Paginator.vue'
                     this.isManage = false;//将管理页隐藏
                 }
            },
+
            //点击删除
            deleteMenu(e){
                $('#delMenuConfirm').modal();
                this.currentId = e.target.getAttribute("id");
            },
+
            //确认删除菜单
            deleteConfirm(e){
                let id = e.target.getAttribute('id');
@@ -172,6 +175,7 @@ import Page from '../Paginator.vue'
                     console.log('删除菜单列表服务器异常' + err);
                 });
            },
+
            //菜单是否启用配置
            enubleMenu(e,option){
                let id = e.target.getAttribute('id');
@@ -190,6 +194,7 @@ import Page from '../Paginator.vue'
                     console.log('启用停用菜单列表服务器异常' + err);
                 });
            }
+           
 		},
         mounted(){
             $('#table_id_example').tableHover();

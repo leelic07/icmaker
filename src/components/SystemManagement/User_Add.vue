@@ -7,7 +7,7 @@
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="userName"><em class="text-danger">*</em> 账户登录名 :</label>
+                                <label class="pull-right" for="userName"><em class="important">*</em> 账户登录名 :</label>
                             </div>
                             <div class="col-xs-6 text-box">
                                 <input type="text" class="form-control" id="userName" v-model = "userInfo.userName">
@@ -23,7 +23,7 @@
                         </div>
                         <div class="row" v-show = "isAdd">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="password"><em class="text-danger">*</em> 密码 :</label>
+                                <label class="pull-right" for="password"><em class="important">*</em> 密码 :</label>
                             </div>
                             <div class="col-xs-6 text-box">
                                 <input type="password" class="form-control" id="password" v-model = "userInfo.password">
@@ -31,7 +31,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="userType"><em class="text-danger">*</em> 账号类型 :</label>
+                                <label class="pull-right" for="userType"><em class="important">*</em> 账号类型 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control"  id="userType" @change = "userTypeChange($event)" v-model = "userInfo.userType">
@@ -42,7 +42,7 @@
                         
                         <div class="row" v-show = "prisonShow">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="prisonId"><em class="text-danger">*</em> 所属监狱 :</label>
+                                <label class="pull-right" for="prisonId"><em class="important">*</em> 所属监狱 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" id="prisonId" @change = "prisonChange($event)" v-model = "userInfo.prisonId">
@@ -52,7 +52,7 @@
                         </div>
                         <div class="row" v-show = "shopShow">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="accountId"><em class="text-danger">*</em> 所属商户 :</label>
+                                <label class="pull-right" for="accountId"><em class="important">*</em> 所属商户 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" id="accountId" v-model = "userInfo.prisonAccountId">
@@ -62,7 +62,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="roleId"><em class="text-danger">*</em> 角色 :</label>
+                                <label class="pull-right" for="roleId"><em class="important">*</em> 角色 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" id="roleId" v-model = "userInfo.roleId">

@@ -19,7 +19,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label for="name" :id = "$route.params.id"><em class="text-danger">*</em> 菜单名称 :</label>
+                                <label for="name" :id = "$route.params.id"><em class="important">*</em> 菜单名称 :</label>
                             </div>
                             <div class="col-xs-6 select-box" v-if = "isSecondMenu">
                                 <select class="form-control" id = 'pId' v-model = "menuInfo.pId">
@@ -32,7 +32,7 @@
                         </div>
                         <div class="row" v-if = "isSecondMenu">
                             <div class="col-xs-3 label-box">
-                                <label for="name"><em class="text-danger">*</em> 菜单路径 :</label>
+                                <label for="name"><em class="important">*</em> 菜单路径 :</label>
                             </div>
                             <div class="col-xs-6 text-box">
                                 <input type="text" class="form-control" id="pageUrl" v-model = "menuInfo.pageUrl">
