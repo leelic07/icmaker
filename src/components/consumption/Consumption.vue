@@ -62,10 +62,14 @@
                 </div>
             </div>
         </div>
+
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 
 <script>
+    import Remind from '../Remind.vue'
+    import store from '../../store'
 	export default{
 		data(){
 			return{
@@ -74,13 +78,25 @@
                 code: 9999,
                 prisonerId: "",
                 money: "",
-                remark: ""
+                remark: "",
+                remind:{
+                    status:'',
+                    msg:''
+                }
 			}
 		},
         watch: {
             icCardNo(val){
                 console.log(val);
                 this.getPrisonerInfo ();
+            }
+        },
+
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
             }
         },
 
@@ -91,7 +107,6 @@
                     "icCardNo": this.icCardNo
                 };
                 this.$http.get('prisonerConsumer/getPrisoner',{params:prisonerData}).then(res=>{
-                    console.log('刷卡');
                     console.log(res);
                     this.code = res.data.code;
                     if (res.data.code == 0) {
@@ -118,20 +133,40 @@
                                 this.getPrisonerInfo();
                                 this.money = "";
                                 this.remark = "";
+                                this.remind = {
+                                    status:'success',
+                                    msg:res.data.msg
+                                }
+                            }else {
+                                this.remind = {
+                                    status:'failed',
+                                    msg:res.data.msg
+                                }
                             }
-                            alert(res.data.msg);
+                            store.dispatch('showRemind');
+                            
                         }).catch(err=>{
                             console.log('新增服务器异常' + err);
                         });
                     }else {
-                        alert("余额不足");
+                        this.remind = {
+                            status:'warn',
+                            msg:'余额不足'
+                        }
+                        store.dispatch('showRemind');
                     }
                 }else {
-                    alert("请输入消费金额");
+                    this.remind = {
+                        status:'warn',
+                        msg:'请输入消费金额'
+                    }
+                    store.dispatch('showRemind');
                 }
             }
         },
-
+        components:{
+            Remind
+        },
         mounted(){
             this.getPrisonerInfo();
 		}
@@ -140,12 +175,7 @@
 
 <style lang="less" scoped>
     #right-side{
-    	position:fixed;
-        bottom:0;
-        right:0;
-        top:0;
         background-color:#f5f5f5;
-        
         .search-box{
         	.search-inner-box{
         		background-color:#fff;

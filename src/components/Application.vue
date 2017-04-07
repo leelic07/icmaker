@@ -256,10 +256,19 @@ import Page from './Paginator.vue'
                 };
                 this.$http.post("icCard/applyForCard",$.param(applyData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getApplyList(1);
+                    if (res.data.code == 0) {
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getApplyList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('申请服务器异常' + err);
                 });
@@ -291,10 +300,20 @@ import Page from './Paginator.vue'
                 };
                 this.$http.post("icCard/applyCards",$.param(applyData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getApplyList(1);
+                    if (res.data.code == 0) {
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getApplyList(this.indexPage);
+                        $(".info-check").removeClass("active");
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('申请服务器异常' + err);
                 });

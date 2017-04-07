@@ -111,11 +111,13 @@
 
         <!--点击编辑路由入口-->
     <router-view></router-view>
-</div>
 
-    
+    <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+</div>
 </template>
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 import Page from '../Paginator.vue'
     export default {
         data(){
@@ -133,8 +135,19 @@ import Page from '../Paginator.vue'
                 status: "",//在监状态
                 number: "",//编号
                 archivesNumber: "",//档案号
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 name: "",//罪犯名
                 indexPage: 1
+            }
+        },
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
             }
         },
         watch:{
@@ -230,16 +243,27 @@ import Page from '../Paginator.vue'
                 this.$http.post(delUrl,$.param({'prisonerId':id})).then(res=>{
                     console.log(res);
                     let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.criminalSearch();
+                    if (status == 0) {
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.criminalSearch(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('删除菜单列表服务器异常' + err);
                 });
             }
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

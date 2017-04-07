@@ -318,8 +318,18 @@ import Page from '../Paginator.vue'
                 this.$http.post('prisoner/transferVerify',$.param(transferData)).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.applyList(1);
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.applyList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -334,14 +344,23 @@ import Page from '../Paginator.vue'
                 this.$http.post('prisoner/transferVerifyByIds',$.param(transferAllData)).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.applyList(1);
-                        $(".info-list-check").removeClass("active");
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.applyList(this.indexPage);
+                        $(".info-check").removeClass("active");
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log(err);
                 });
             },
-
         },
         components:{
             Page,

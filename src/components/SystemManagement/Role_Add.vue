@@ -46,26 +46,6 @@
             <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
-<style lang="less" scoped>
-    #right-side {
-        .menu-box-list {
-            -moz-column-count:2; /* Firefox */
-            -webkit-column-count:2; /* Safari 和 Chrome */
-            column-count:2;
-            -moz-column-gap: 1em;
-            -webkit-column-gap: 1em;
-            column-gap: 1em;
-        }
-        .menu-box {
-            -moz-page-break-inside: avoid;
-            -webkit-column-break-inside: avoid;
-            break-inside: avoid;
-            width: 100%;
-
-        }
-    }
-   
-</style>
 <script>
     import Remind from '../Remind.vue'
     import store from '../../store'
@@ -157,9 +137,14 @@
                     console.log(roleData);
                     this.$http.post('role/addOrUpdateRole',$.param(roleData)).then(res=>{
                         console.log(res);
-                        alert(res.data.msg);
                         if (res.data.code == 0) {
                             this.$router.push({path:"/role_management"});    
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
+                            store.dispatch('showRemind');
                         }
                     }).catch(err=>{
                         console.log(err);
@@ -210,9 +195,23 @@
     .add {
         >div {
             >div {
-                margin: 10px;
+                margin-bottom: 10px;
             }
         }
+    }
+    .menu-box-list {
+        -moz-column-count:2; /* Firefox */
+        -webkit-column-count:2; /* Safari 和 Chrome */
+        column-count:2;
+        -moz-column-gap: 1em;
+        -webkit-column-gap: 1em;
+        column-gap: 1em;
+    }
+    .menu-box {
+        -moz-page-break-inside: avoid;
+        -webkit-column-break-inside: avoid;
+        break-inside: avoid;
+        width: 100%;
     }
 }
 </style>

@@ -148,10 +148,14 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
             </div>
+
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
+import Remind from './Remind.vue'
+import store from './../store'
 import Page from './Paginator.vue'
 	export default{
 		data(){
@@ -169,10 +173,21 @@ import Page from './Paginator.vue'
                 number: "",//编号
                 archivesNumber: "",//档案号
                 currentIcId: "",
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 pageSize: 10,
                 indexPage: 1
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"正常使用"},{"value":1,"name":"已挂失"},{"value":2,"name":"已销卡"}]
@@ -243,10 +258,19 @@ import Page from './Paginator.vue'
                     "prisonerICId": this.currentIcId
                 };
                 this.$http.post("icCard/reportLossIC",$.param(cancelData)).then(res=>{
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getIcList(1);
+                    if (res.data.code == 0) {
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getIcList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('挂失服务器异常' + err);
                 });
@@ -264,10 +288,19 @@ import Page from './Paginator.vue'
                 };
                 this.$http.post("icCard/releaseReport",$.param(cancelData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getIcList(1);
+                    if (res.data.code == 0) {
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getIcList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('解挂服务器异常' + err);
                 });
@@ -285,10 +318,19 @@ import Page from './Paginator.vue'
                 };
                 this.$http.post("icCard/pinCard",$.param(cancelData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getIcList(1);
+                    if (res.data.code == 0) {
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getIcList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('注销服务器异常' + err);
                 });
@@ -296,7 +338,8 @@ import Page from './Paginator.vue'
 
         },
         components:{
-           Page
+           Page,
+           Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

@@ -179,7 +179,6 @@
             prisonChange(e,prisonAccountId){//获取商户列表
                 let prisonId = this.userInfo.prisonId;
                 this.$http.get('prisonAccount/getPrisonAccountsByPrisonId',{params:{'prisonId':prisonId}}).then(res=>{
-                    console.log("商户：");
                     console.log(res);
                     if (res.data.code == 0) {
                         this.shopList = res.data.data;
@@ -212,9 +211,7 @@
                 if (id != undefined) {//为编辑状态
                     this.isAdd = false;
                     this.$http.get('getUser',{params:{'sysUserId':id}}).then(res=>{
-                        console.log ('编辑信息：');
                         console.log(res);
-                        console.log("shenmegui");
                         if (res.data.code == 0) {
                             this.userInfo = res.data.data;
                             let prisonId = this.userInfo.prisonId;
@@ -254,10 +251,15 @@
                     console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
                         console.log(res);
-                        alert(res.data.msg);
                         let status = res.data.code;
                         if (status == 0) {//返回成功 
                             this.$router.push({path:"/user_management"});
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
+                            store.dispatch('showRemind');
                         }
                     }).catch(err=>{
                         console.log(err);

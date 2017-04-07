@@ -43,7 +43,7 @@
                                 <th>创建时间</th>
                                 <th>最后修改时间</th>
                                 <th>修改人</th>
-                                <th colspan="3">操作</th>
+                                <th colspan="2">操作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -84,10 +84,14 @@
 
         <!--点击编辑路由入口-->
         <router-view></router-view>
+
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 import Page from '../Paginator.vue'
 	export default {
 		data(){
@@ -97,12 +101,24 @@ import Page from '../Paginator.vue'
                 pageSize : 20,
                 roleSize : "",
                 currentId :"",
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 roleName : "",
                 indexPage: 1
 			}
 		},
         components:{
-            Page
+            Page,
+            Remind
+        },
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
         },
         watch:{
             $route(to,from){//监听路由变化
@@ -114,6 +130,7 @@ import Page from '../Paginator.vue'
                     this.isManage = true;
                 }
                 if (from.path.substring(0,index) == "/role_management/edit" || from.path == '/role_add') {//从新增或者编辑页进入
+                    this.indexPage = 1;
                     this.roleListSearch(this.indexPage); 
                 }
             }
@@ -171,11 +188,19 @@ import Page from '../Paginator.vue'
                const delUrl = 'role/deleteRole';
                let id = e.target.getAttribute("id");
                this.$http.post(delUrl,$.param({'roleId':id})).then(res=>{
-                    console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.roleListSearch();
+                    if (res.data.code == 0) {//返回成功
+                        this.roleListSearch(this.indexPage);
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('删除菜单列表服务器异常' + err);
                 });

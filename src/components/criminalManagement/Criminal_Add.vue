@@ -248,9 +248,14 @@
                         console.log(this.prisonerInfo);
                         this.$http.post("prisoner/addOrEditPrisoner",$.param(prisonerInfo)).then(res=>{
                             console.log(res);
-                            alert(res.data.msg);
                             if (res.data.code == 0) {
                                 this.$router.push({path:"/crimsearch"});
+                            } else {
+                                this.remind = {
+                                    status:'failed',
+                                    msg:res.data.msg
+                                }
+                                store.dispatch('showRemind');
                             }
                         }).catch(err=>{
                             console.log('新增服务器异常' + err);

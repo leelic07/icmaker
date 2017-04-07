@@ -261,10 +261,19 @@ export default{
                 };
                 this.$http.post("icCard/cardApplyVerify",$.param(receiveData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getExamList(1);
+                    if (res.data.code == 0) {//返回成功
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getExamList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('审核服务器异常' + err);
                 });
@@ -275,11 +284,20 @@ export default{
                 };
                 this.$http.post("icCard/applyVerifies",$.param(receiveData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getExamList(1);
+                    if (res.data.code == 0) {//返回成功
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getExamList(this.indexPage);
                         $(".info-check").removeClass("active");
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('审核服务器异常' + err);
                 });

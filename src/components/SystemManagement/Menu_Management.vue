@@ -41,7 +41,7 @@
                             <th>菜单路径</th>
                             <th>是否启用</th>
                             <th>创建时间</th>
-                            <th colspan="4">操作</th>
+                            <th colspan="3">操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -87,10 +87,14 @@
 
         <!--点击编辑路由入口-->
         <router-view></router-view>
+
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 import Page from '../Paginator.vue'
 	export default {
 		data(){
@@ -100,12 +104,24 @@ import Page from '../Paginator.vue'
                 menuSize: '',//总条数
                 currentId:'',//当前操作的菜单的ID
                 searchMenuName: '',
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 isManage: true,
                 indexPage: 1
 			}
 		},
         components:{
-            Page
+            Page,
+            Remind
+        },
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
         },
         watch:{
             $route(to,from){//监听路由变化
@@ -135,10 +151,9 @@ import Page from '../Paginator.vue'
                 console.log(getData);
                 this.$http.get(getUrl,{params: getData}).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.menuList = res.data.data.menuDtos;//菜单列表赋值
-                        this.menuSize = res.data.data.menuSize;//菜单列表条数
+                    if (res.data.code == 0) {
+                        this.menuList = res.data.data.menuDtos;
+                        this.menuSize = res.data.data.menuSize;
                     }
                 }).catch(err=>{
                     console.log('获取菜单列表服务器异常' + err);
@@ -166,11 +181,19 @@ import Page from '../Paginator.vue'
                let id = e.target.getAttribute('id');
                const delUrl = 'menu/deleteMenu';
                this.$http.post(delUrl,$.param({'id':id})).then(res=>{
-                    // console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.searchMenu();
+                    if (res.data.code == 0) {//返回成功
+                        this.searchMenu(this.indexPage);
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('删除菜单列表服务器异常' + err);
                 });
@@ -186,10 +209,19 @@ import Page from '../Paginator.vue'
                const enubleUrl = 'menu/updateMenuEnuble';
                this.$http.post(enubleUrl,$.param(enubleData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.searchMenu();
+                    if (res.data.code == 0) {//返回成功
+                        this.searchMenu(this.indexPage);
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('启用停用菜单列表服务器异常' + err);
                 });

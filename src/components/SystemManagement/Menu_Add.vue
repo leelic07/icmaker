@@ -118,9 +118,7 @@
                     this.isSecondMenu = true;
                     const getUrl = 'menu/getFirstLevelMenus';
                     this.$http.get(getUrl).then(res=>{
-                        console.log(res);
-                        let status = res.data.code;
-                        if (status == 0) {//返回成功
+                        if (res.data.code == 0) {//返回成功
                             this.firstMenuList = res.data.data;//一级菜单赋值
                             if (this.$route.params.id == undefined) {
                                 this.menuInfo.pId = this.firstMenuList[0].id;
@@ -183,11 +181,15 @@
                     console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
                         console.log(res);
-                        let status = res.data.code;
-                        alert(res.data.msg);
-                        if (status == 0) {//返回成功
+                        if (res.data.code == 0) {//返回成功
                             this.$router.push({path:"/menu_management"});      
-                        }
+                        } else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
+                            store.dispatch('showRemind');
+                       }  
                     }).catch(err=>{
                         console.log('新增服务器异常' + err);
                     });      

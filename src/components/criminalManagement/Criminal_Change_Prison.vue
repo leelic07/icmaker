@@ -326,9 +326,18 @@ import Page from '../Paginator.vue'
                 this.$http.post('prisoner/transferByIds',$.param(prisonerData)).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.criminalSearch();
-                        alert("成功");
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.criminalSearch(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -344,8 +353,18 @@ import Page from '../Paginator.vue'
                 this.$http.post('prisoner/changePrison',$.param(prisonData)).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.criminalSearch();
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.criminalSearch(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log(err);
                 });
