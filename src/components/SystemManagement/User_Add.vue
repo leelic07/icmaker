@@ -224,12 +224,12 @@
                 let password = this.userInfo.password.replace(/(^\s*)|(\s*$)/g,"");
                 let id = this.$route.params.id;
                 console.log(userName);
-                if (userName != "" ) {
+                if (userName != "" && (id != undefined || password != "")) {
                     let addUrl = "addOrUpdateUser";
                     let addData = {
                         "id": id,
                         "userName": userName,
-                        "realName": this.userInfo.realName,
+                        "realName": this.userInfo.realName.replace(/(^\s*)|(\s*$)/g,""),
                         "password": password,
                         "userType": this.userInfo.userType,
                         "prisonId": this.userInfo.prisonId,

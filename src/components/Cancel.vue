@@ -213,10 +213,10 @@ import Page from './Paginator.vue'
                     "prisonId": this.prisonId,
                     "departmentId": this.departmentId,
                     "status":this.status,
-                    "name": this.name,
-                    "icCardNo": this.icCardNo,
-                    "number": this.number,
-                    "archivesNumber":this.archivesNumber,
+                    "name": this.name.replace(/(^\s*)|(\s*$)/g,""),
+                    "icCardNo": this.icCardNo.replace(/(^\s*)|(\s*$)/g,""),
+                    "number": this.number.replace(/(^\s*)|(\s*$)/g,""),
+                    "archivesNumber":this.archivesNumber.replace(/(^\s*)|(\s*$)/g,""),
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };

@@ -261,9 +261,9 @@ import Page from '../Paginator.vue'
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
                     "status": this.status,
-                    "name": this.name,
-                    "number": this.number,
-                    "archivesNumber":this.archivesNumber,
+                    "name": this.name.replace(/(^\s*)|(\s*$)/g,""),
+                    "number": this.number.replace(/(^\s*)|(\s*$)/g,""),
+                    "archivesNumber":this.archivesNumber.replace(/(^\s*)|(\s*$)/g,""),
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };

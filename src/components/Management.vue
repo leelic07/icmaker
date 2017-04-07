@@ -116,7 +116,7 @@ import {mapGetters,mapMutations} from 'vuex'
             accountNoList(index) {
                 this.indexPage = index;
                 let searchData = {
-                    "accountNo": this.accountNo,
+                    "accountNo": this.accountNo.replace(/(^\s*)|(\s*$)/g,""),
                     "status": this.status,
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize

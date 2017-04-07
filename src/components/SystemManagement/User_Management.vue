@@ -105,13 +105,16 @@ import Page from '../Paginator.vue'
 			}
 		},
         watch:{
-            $route(to){//监听路由变化
+            $route(to,from){//监听路由变化
                 const editUrl = "/user_management/edit/1";
                 const index = editUrl.lastIndexOf('/');
                 if (to.path.substring(0,index) == "/user_management/edit" ){//进入编辑页面
                     this.isManage = false;//将管理页隐藏
                 } else {
                     this.isManage = true;
+                }
+                if (from.path.substring(0,index) == "/user_management/edit" || from.path == '/user_add') {//从新增或者编辑页进入
+                    this.searchUserList(this.indexPage); 
                 }
             }
         },
@@ -156,7 +159,7 @@ import Page from '../Paginator.vue'
                     'startDateStr' : $('#startDateStr').val(),
                     'endDateStr' : $('#endDateStr').val(),
                     'prisonId' : this.prisonId,
-                    'userName' : this.userName,
+                    'userName' : this.userName.replace(/(^\s*)|(\s*$)/g,""),
                     'indexPage' : this.indexPage,
                     'pageSize' : this.pageSize
                 };
