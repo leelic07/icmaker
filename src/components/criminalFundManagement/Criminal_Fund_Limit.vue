@@ -106,8 +106,8 @@
                             </ul>
                         </div>
                         <div class="col-xs-24">
-                            <input type="text" class="form-control" id="dayMoney" placeholder="输入日限额" v-model = "dayMoney">
-                            <input type="text" class="form-control fee-input" id="monthMoney" placeholder="输入月限额" v-model = "monthMoney">
+                            <input type="text" class="form-control" id="dayMoney" placeholder="输入月限额" v-model = "dayMoney">
+                            <input type="text" class="form-control fee-input" id="monthMoney" placeholder="输入日限额" v-model = "monthMoney">
                         </div>
                         <button class="confirm-button" data-dismiss="modal" @click = "setFundConfirm">保存</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
@@ -116,6 +116,7 @@
             </div><!-- /.modal -->
         </div>
 
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 <style lang="less" scoped>
@@ -125,6 +126,8 @@
     }
 </style>
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 import Page from '../Paginator.vue'
 	export default {
 		data(){
@@ -147,10 +150,21 @@ import Page from '../Paginator.vue'
                 monthMoney: "",//月限制额度
                 setType: "",//setType 配置方式 1-单个 2-批量
                 legal: false,//是否具备提交或者操作的权限
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 pageSize: 10,
                 indexPage: 1
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
 		methods:{
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
@@ -230,7 +244,11 @@ import Page from '../Paginator.vue'
                         this.ids = ids.join(',');
                         $('#setConfirm').modal();
                     }else {
-                        alert("请先选择进行消费额度配置的数据");
+                        this.remind = {
+                            status:'warn',
+                            msg:'请先选择进行消费额度配置的数据'
+                        }
+                        store.dispatch('showRemind');
                     }
                 }
             },
@@ -241,7 +259,11 @@ import Page from '../Paginator.vue'
                 let numReg = new RegExp("^[0-9]*$");// 数值
                 if (monthMoney != "" || dayMoney != "") {
                     if (!numReg.test(monthMoney) || !numReg.test(dayMoney)) {
-                        alert("输入不合法");
+                        this.remind = {
+                            status:'warn',
+                            msg:'输入不合法'
+                        }
+                        store.dispatch('showRemind');
                     }else {
                         if(this.setType == 1) {
                             let setData = {
@@ -252,10 +274,19 @@ import Page from '../Paginator.vue'
                             };
                             this.$http.post("consumptionQuota",$.param(setData)).then(res=>{
                                 console.log(res);
-                                let status = res.data.code;
-                                if (status == 0) {//返回成功
-                                    this.getFundList(1);
+                                if (res.data.code == 0) {//返回成功
+                                    this.remind = {
+                                        status:'success',
+                                        msg:res.data.msg
+                                    }
+                                    this.getFundList(this.indexPage);
+                                }else {
+                                    this.remind = {
+                                        status:'failed',
+                                        msg:res.data.msg
+                                    }
                                 }
+                                store.dispatch('showRemind');
                             }).catch(err=>{
                                 console.log('配置资金服务器异常' + err);
                             });
@@ -268,23 +299,37 @@ import Page from '../Paginator.vue'
                             };
                             this.$http.post("batchConsumptionQuota",$.param(setData)).then(res=>{
                                 console.log(res);
-                                let status = res.data.code;
-                                if (status == 0) {//返回成功
-                                    this.getFundList(1);
+                                if (res.data.code == 0) {
+                                    this.remind = {
+                                        status:'success',
+                                        msg:res.data.msg
+                                    }
+                                    this.getFundList(this.indexPage);
                                     $(".info-check").removeClass("active");
+                                }else {
+                                    this.remind = {
+                                        status:'failed',
+                                        msg:res.data.msg
+                                    }
                                 }
+                                store.dispatch('showRemind');
                             }).catch(err=>{
                                 console.log('批量配置资金服务器异常' + err);
                             });
                         }
                     }
                 }else {
-                    alert("请填写完整再进行提交");
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整再进行提交'
+                    }
+                    store.dispatch('showRemind');
                 }
             }
 		},
 		components:{
-			Page
+			Page,
+            Remind
 		},
 		mounted(){
 			$('#table_id_example').tableHover();

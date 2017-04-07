@@ -93,8 +93,8 @@
                                 <td>{{apply.createdAt| formatDate}}</td>
                                 <td>{{apply.cardStatus | formatApplyStatus}}</td>
                                 <td colspan = "2" v-if = "apply.cardStatus == 1"></td>
-                                <td v-if = "apply.cardStatus == 2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,1)">申请补卡</em></td>
-                                <td v-if = "apply.cardStatus == 0 || apply.cardStatus == 3"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,0)">申请制卡</em></td>
+                                <td v-if = "apply.cardStatus == 2" colspan = "2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,1)">申请补卡</em></td>
+                                <td v-if = "apply.cardStatus == 0 || apply.cardStatus == 3" colspan = "2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,0)">申请制卡</em></td>
                             </tr>
                         </tbody>
                     </table>
@@ -142,10 +142,13 @@
                 </div><!-- /.modal -->
             </div>
             
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
+import Remind from './Remind.vue'
+import store from './../store'
 import Page from './Paginator.vue'
 	export default {
 		data(){
@@ -165,10 +168,21 @@ import Page from './Paginator.vue'
                 prisonerId: "",//当前处理的罪犯ID
                 ids: "",//当前批量处理的罪犯ID列表
                 type: "",//当前处理的IC卡类型 （0-制卡，1-补卡）
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 pageSize: 10,
                 indexPage: 1
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"未制卡"},{"value":1,"name":"正在制卡"},{"value":2,"name":"已制卡"},{"value":3,"name":"拒绝制卡"}]
@@ -242,10 +256,19 @@ import Page from './Paginator.vue'
                 };
                 this.$http.post("icCard/applyForCard",$.param(applyData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getApplyList(1);
+                    if (res.data.code == 0) {
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getApplyList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('申请服务器异常' + err);
                 });
@@ -262,11 +285,13 @@ import Page from './Paginator.vue'
                     this.ids = prisonerIds.join(',');
                     $('#applyAllConfirm').modal();  
                 }else {
-                     alert("请先选择要申请的制卡数据");
-                }
-                 
+                     this.remind = {
+                        status:'warn',
+                        msg:'请先选择要申请的制卡数据'
+                     }
+                     store.dispatch('showRemind');
+                }  
             },
-
 
             applyAllConfirm() {
                 let applyData = {
@@ -275,10 +300,20 @@ import Page from './Paginator.vue'
                 };
                 this.$http.post("icCard/applyCards",$.param(applyData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getApplyList(1);
+                    if (res.data.code == 0) {
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getApplyList(this.indexPage);
+                        $(".info-check").removeClass("active");
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('申请服务器异常' + err);
                 });
@@ -286,7 +321,8 @@ import Page from './Paginator.vue'
 
         },
         components:{
-           Page
+           Page,
+           Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

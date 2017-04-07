@@ -205,10 +205,14 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
+
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 
 <script>
+import Remind from './Remind.vue'
+import store from './../store'
 import Page from './Paginator.vue'
 	export default {
 		data(){
@@ -233,10 +237,21 @@ import Page from './Paginator.vue'
                 cardCost: "",//卡费
                 ids: "",//当前批量处理的罪犯ID列表
                 lastSearchData: "",
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 pageSize: 10,
                 indexPage: 1
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"未绑定"},{"value":1,"name":"已绑定虚拟账户"},{"value":2,"name":"已绑定IC卡"}]
@@ -305,7 +320,6 @@ import Page from './Paginator.vue'
                         this.bindIcInfo = res.data.data;
                         console.log(this.bindIcInfo);
                         $('#bindConfirm').modal();
-
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -321,28 +335,48 @@ import Page from './Paginator.vue'
             },
 
             bindIcConfirm() {
-                if (this.icCardNo == "" || (this.type == 1 && this.cardCost == "")) {//选了收费却未填金额
-                    alert ("请填写完整再进行提交");
-                } else {
-                    let cardCost = this.type == 0 ? 0 : this.cardCost.replace(/(^\s*)|(\s*$)/g,"");
+                let numReg = new RegExp("^[0-9]*$");
+                let cardCost = this.type == 0 ? 0 : this.cardCost.replace(/(^\s*)|(\s*$)/g,"");
+                let icCardNo = this.icCardNo.replace(/(^\s*)|(\s*$)/g,"");
+                if (icCardNo == "" || (this.type == 1 && cardCost == "")) {//选了收费却未填金额
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整再进行提交'
+                    }
+                    store.dispatch('showRemind');
+                } else if (!numReg.test(icCardNo) || (this.type == 1 && !numReg.test(cardCost))) {
+                    this.remind = {
+                        status:'warn',
+                        msg:'输入不合法'
+                    }
+                    store.dispatch('showRemind');
+                }else{
                     let deliveryData = {
                         "prisonerId": this.prisonerId,
-                        "icCardNo": this.icCardNo.replace(/(^\s*)|(\s*$)/g,""),
+                        "icCardNo": icCardNo,
                         "type": this.type,
                         "cardCost": cardCost*100
                     };
                     console.log(deliveryData);
                     this.$http.post("icCard/bindingCard",$.param(deliveryData)).then(res=>{
                         console.log(res);
-                        let status = res.data.code;
-                        if (status == 0) {//返回成功
-                            this.getDeliveryList(1);
+                        if (res.data.code == 0) {//返回成功
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                            this.getDeliveryList(this.indexPage);
                             this.type = 0;//进行绑定IC模态框的重置
                             this.cardCost = "";
                             this.icCardNo = "";
                             this.prisonerId = "";
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
                         }
-                        alert(res.data.msg);
+                        store.dispatch('showRemind');
                     }).catch(err=>{
                         console.log('申请服务器异常' + err);
                     });
@@ -364,7 +398,11 @@ import Page from './Paginator.vue'
                         this.ids = prisonerIds.join(',');
                         $('#examConfirm').modal();
                     }else {
-                        alert("请先选择要绑定的虚拟账号数据");
+                        this.remind = {
+                            status:'warn',
+                            msg:'请先选择要绑定的虚拟账号数据'
+                        }
+                        store.dispatch('showRemind');
                     } 
                 }else {
                     $('#examConfirm').modal();
@@ -380,11 +418,19 @@ import Page from './Paginator.vue'
                     };
                     this.$http.post("icCard/bindingVirtualAccount",$.param(deliveryData)).then(res=>{
                         console.log(res);
-                        let status = res.data.code;
-                        if (status == 0) {//返回成功
-                            this.getDeliveryList(1);
+                        if (res.data.code == 0) {//返回成功
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                            this.getDeliveryList(this.indexPage);
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
                         }
-                        alert(res.data.msg);
+                        store.dispatch('showRemind');
                     }).catch(err=>{
                         console.log('申请服务器异常' + err);
                     });
@@ -394,11 +440,19 @@ import Page from './Paginator.vue'
                     };
                     this.$http.post("icCard/bindingAccounts",$.param(deliveryData)).then(res=>{
                         console.log(res);
-                        let status = res.data.code;
-                        if (status == 0) {//返回成功
-                            this.getDeliveryList(1);
+                        if (res.data.code == 0) {//返回成功
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                            this.getDeliveryList(this.indexPage);
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
                         }
-                        alert(res.data.msg);
+                        store.dispatch('showRemind');
                     }).catch(err=>{
                         console.log('申请服务器异常' + err);
                     });
@@ -414,11 +468,19 @@ import Page from './Paginator.vue'
                     console.log(bindAllData);
                     this.$http.post("icCard/bindingAllAccounts",$.param(bindAllData)).then(res=>{
                         console.log(res);
-                        let status = res.data.code;
-                        if (status == 0) {//返回成功
-                            alert("成功");
-                            this.getDeliveryList(1);
+                        if (res.data.code == 0) {//返回成功
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                            this.getDeliveryList(this.indexPage);
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
                         }
+                        store.dispatch('showRemind');
                     }).catch(err=>{
                         console.log('申请服务器异常' + err);
                     });
@@ -437,11 +499,19 @@ import Page from './Paginator.vue'
                 };
                 this.$http.post("icCard/unbindingPrisoner",$.param(deliveryData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getDeliveryList(1);
+                    if (res.data.code == 0) {//返回成功
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getDeliveryList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
-                    alert(res.data.msg);
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('申请服务器异常' + err);
                 });
@@ -458,11 +528,19 @@ import Page from './Paginator.vue'
                 };
                 this.$http.post("icCard/unbindingCard",$.param(deliveryData)).then(res=>{
                     console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {//返回成功
-                        this.getDeliveryList(1);
+                    if (res.data.code == 0) {//返回成功
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.getDeliveryList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
-                    alert(res.data.msg);
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log('申请服务器异常' + err);
                 });
@@ -470,7 +548,8 @@ import Page from './Paginator.vue'
 
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

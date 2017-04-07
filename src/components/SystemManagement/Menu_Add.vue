@@ -19,7 +19,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label for="name" :id = "$route.params.id"><em class="text-danger">*</em> 菜单名称 :</label>
+                                <label for="name" :id = "$route.params.id"><em class="important">*</em> 菜单名称 :</label>
                             </div>
                             <div class="col-xs-6 select-box" v-if = "isSecondMenu">
                                 <select class="form-control" id = 'pId' v-model = "menuInfo.pId">
@@ -32,7 +32,7 @@
                         </div>
                         <div class="row" v-if = "isSecondMenu">
                             <div class="col-xs-3 label-box">
-                                <label for="name"><em class="text-danger">*</em> 菜单路径 :</label>
+                                <label for="name"><em class="important">*</em> 菜单路径 :</label>
                             </div>
                             <div class="col-xs-6 text-box">
                                 <input type="text" class="form-control" id="pageUrl" v-model = "menuInfo.pageUrl">
@@ -72,34 +72,14 @@
                     </div>
                 </div>
             </div>
+
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
-<style lang="less" scoped>
-    .upload-box {
-        position: relative;
-        .upload-btn {
-            opacity: 0;
-            z-index: 1000;
-            position: absolute; 
-            left: 0;
-            top: 0;
-            width: 120px;
-            height: 120px;
-            padding: 10px 20px;
-        }
-        .preview-img {
-            width: 120px;
-            height: 120px;
-            padding: 10px 20px;
-        }
-        .icon-desc {
-            font-size: 14px;
-            color: #666;
-            text-indent: 1em;
-        }
-    }
-</style>
+
 <script>
+    import Remind from '../Remind.vue'
+    import store from '../../store'
     import Util from '../../../static/js/util.js'
 	export default {
 		data(){
@@ -108,6 +88,10 @@
                 imgUrl2:"./static/img/add.jpg",
                 isSecondMenu:false,//新增类型是否为二级菜单
                 firstMenuList:'',//一级菜单列表
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 menuInfo:{
                     pId: "",
                     menuName: "",
@@ -117,6 +101,13 @@
                 }
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
 		methods:{
             //切换新增菜单类型
 			changeMenuType(){
@@ -127,9 +118,7 @@
                     this.isSecondMenu = true;
                     const getUrl = 'menu/getFirstLevelMenus';
                     this.$http.get(getUrl).then(res=>{
-                        console.log(res);
-                        let status = res.data.code;
-                        if (status == 0) {//返回成功
+                        if (res.data.code == 0) {//返回成功
                             this.firstMenuList = res.data.data;//一级菜单赋值
                             if (this.$route.params.id == undefined) {
                                 this.menuInfo.pId = this.firstMenuList[0].id;
@@ -192,19 +181,30 @@
                     console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
                         console.log(res);
-                        let status = res.data.code;
-                        alert(res.data.msg);
-                        if (status == 0) {//返回成功
+                        if (res.data.code == 0) {//返回成功
                             this.$router.push({path:"/menu_management"});      
-                        }
+                        } else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
+                            store.dispatch('showRemind');
+                       }  
                     }).catch(err=>{
                         console.log('新增服务器异常' + err);
                     });      
                 }else{
-                    alert("请填写完整再提交");
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整后再进行提交'
+                    }
+                    store.dispatch('showRemind');
                 }    
             }
 		},
+        components:{
+            Remind
+        },
         mounted(){
             this.getEditInfo();
             this.getImgUrl();
@@ -214,10 +214,6 @@
 
 <style lang="less" scoped>
     #right-side{
-        position:fixed;
-        bottom:0;
-        right:0;
-        top:0;
         background-color:#f5f5f5; 
         .select-box{
             padding:10px;
@@ -239,6 +235,29 @@
         label{
             font-weight:normal;
             color:#696969;
+        }
+        .upload-box {
+            position: relative;
+            .upload-btn {
+                opacity: 0;
+                z-index: 1000;
+                position: absolute; 
+                left: 0;
+                top: 0;
+                width: 120px;
+                height: 120px;
+                padding: 10px 20px;
+            }
+            .preview-img {
+                width: 120px;
+                height: 120px;
+                padding: 10px 20px;
+            }
+            .icon-desc {
+                font-size: 14px;
+                color: #666;
+                text-indent: 1em;
+            }
         }
     }
 </style>

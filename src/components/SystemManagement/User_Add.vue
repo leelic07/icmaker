@@ -7,7 +7,7 @@
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="userName"><em class="text-danger">*</em> 账户登录名 :</label>
+                                <label class="pull-right" for="userName"><em class="important">*</em> 账户登录名 :</label>
                             </div>
                             <div class="col-xs-6 text-box">
                                 <input type="text" class="form-control" id="userName" v-model = "userInfo.userName">
@@ -23,7 +23,7 @@
                         </div>
                         <div class="row" v-show = "isAdd">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="password"><em class="text-danger">*</em> 密码 :</label>
+                                <label class="pull-right" for="password"><em class="important">*</em> 密码 :</label>
                             </div>
                             <div class="col-xs-6 text-box">
                                 <input type="password" class="form-control" id="password" v-model = "userInfo.password">
@@ -31,7 +31,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="userType"><em class="text-danger">*</em> 账号类型 :</label>
+                                <label class="pull-right" for="userType"><em class="important">*</em> 账号类型 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control"  id="userType" @change = "userTypeChange($event)" v-model = "userInfo.userType">
@@ -42,7 +42,7 @@
                         
                         <div class="row" v-show = "prisonShow">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="prisonId"><em class="text-danger">*</em> 所属监狱 :</label>
+                                <label class="pull-right" for="prisonId"><em class="important">*</em> 所属监狱 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" id="prisonId" @change = "prisonChange($event)" v-model = "userInfo.prisonId">
@@ -52,7 +52,7 @@
                         </div>
                         <div class="row" v-show = "shopShow">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="accountId"><em class="text-danger">*</em> 所属商户 :</label>
+                                <label class="pull-right" for="accountId"><em class="important">*</em> 所属商户 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" id="accountId" v-model = "userInfo.prisonAccountId">
@@ -62,7 +62,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="roleId"><em class="text-danger">*</em> 角色 :</label>
+                                <label class="pull-right" for="roleId"><em class="important">*</em> 角色 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" id="roleId" v-model = "userInfo.roleId">
@@ -78,10 +78,14 @@
                     </div>
                 </div>
             </div>
+
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
+    import Remind from '../Remind.vue'
+    import store from '../../store'
 	export default {
 		data(){
 			return {
@@ -102,9 +106,20 @@
                     "prisonAccountId":"",
                     "roleId":""
                 },
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 isAdd: true //默认是编辑状态
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
 		methods:{
             getUserTypeList(){//初始化账号类型列表
                 this.userTypeList = [{
@@ -164,7 +179,6 @@
             prisonChange(e,prisonAccountId){//获取商户列表
                 let prisonId = this.userInfo.prisonId;
                 this.$http.get('prisonAccount/getPrisonAccountsByPrisonId',{params:{'prisonId':prisonId}}).then(res=>{
-                    console.log("商户：");
                     console.log(res);
                     if (res.data.code == 0) {
                         this.shopList = res.data.data;
@@ -197,9 +211,7 @@
                 if (id != undefined) {//为编辑状态
                     this.isAdd = false;
                     this.$http.get('getUser',{params:{'sysUserId':id}}).then(res=>{
-                        console.log ('编辑信息：');
                         console.log(res);
-                        console.log("shenmegui");
                         if (res.data.code == 0) {
                             this.userInfo = res.data.data;
                             let prisonId = this.userInfo.prisonId;
@@ -239,20 +251,31 @@
                     console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
                         console.log(res);
-                        alert(res.data.msg);
                         let status = res.data.code;
                         if (status == 0) {//返回成功 
                             this.$router.push({path:"/user_management"});
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
+                            store.dispatch('showRemind');
                         }
                     }).catch(err=>{
                         console.log(err);
                     });
                 }else {
-                    alert("请填写完整再提交");
-                }
-                              
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整后再进行提交'
+                    }
+                    store.dispatch('showRemind');
+                }              
             }
 		},
+        components:{
+            Remind
+        },
         mounted(){
             this.getUserTypeList();//获取账户类型列表
             this.getEditInfo();//获取单条编辑信息
@@ -262,10 +285,6 @@
 
 <style lang="less" scoped>
 #right-side{
-    position:fixed;
-    bottom:0;
-    right:0;
-    top:0;
     background-color:#f5f5f5;
     .select-box{
         padding:10px;

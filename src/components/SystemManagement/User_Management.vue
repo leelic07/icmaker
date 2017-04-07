@@ -100,6 +100,10 @@ import Page from '../Paginator.vue'
                 userType: "",
                 userName: "",
                 prisonId: "",
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 isManage: true,
                 indexPage: 1
 			}
@@ -114,6 +118,7 @@ import Page from '../Paginator.vue'
                     this.isManage = true;
                 }
                 if (from.path.substring(0,index) == "/user_management/edit" || from.path == '/user_add') {//从新增或者编辑页进入
+                    this.indexPage = 1;
                     this.searchUserList(this.indexPage); 
                 }
             }

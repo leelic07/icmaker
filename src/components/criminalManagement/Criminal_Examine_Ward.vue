@@ -183,6 +183,7 @@
             </div><!-- /.modal -->
         </div>
 
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 <style lang="less" scoped>
@@ -197,6 +198,8 @@
     }
 </style>
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 import Page from '../Paginator.vue'
     export default{
 		data(){
@@ -214,10 +217,21 @@ import Page from '../Paginator.vue'
                 fromDepartmentId: "",//所属监区ID
                 toPrisonDepartmentId: "",//转至监区ID
                 status: 0,//审核状态
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 initStatus: 0,
                 indexPage: 1
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             getExamStatus() {
                 this.examStatus = [{"value":0,"name":"审核中"},{"value":1,"name":"审核成功"},{"value":2,"name":"审核失败"},{"value":" ","name":"全部"}];
@@ -240,7 +254,6 @@ import Page from '../Paginator.vue'
             },
 
             getPrisonDepartInfo (e,id) {//获取监区信息
-                console.log("init"+id);
                 let prisonId = e == null? id : $(e.target).val();
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
                     console.log(res);
@@ -297,7 +310,11 @@ import Page from '../Paginator.vue'
                             $('#rejectAllTransferConfirm').modal();
                         }
                     } else {
-                        alert("请先选择审核转监的罪犯");
+                        this.remind = {
+                            status:'warn',
+                            msg:'请先选择审核转监的罪犯'
+                        }
+                        store.dispatch('showRemind');
                     }
                 } 
             },
@@ -313,8 +330,18 @@ import Page from '../Paginator.vue'
                     console.log("审核");
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.applyList(0);
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.applyList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -327,11 +354,21 @@ import Page from '../Paginator.vue'
                 };
                 console.log(transferAllData);
                 this.$http.post('prisoner/transferVerifyByIds',$.param(transferAllData)).then(res=>{
-                    console.log("审核");
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.applyList(0);
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.applyList(this.indexPage);
+                        $(".info-check").removeClass("active");
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
                     }
+                    store.dispatch('showRemind');
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -339,7 +376,8 @@ import Page from '../Paginator.vue'
 
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

@@ -69,4 +69,9 @@ export default {
     height: 100%;
     overflow-x: hidden;
   }
+  .important {
+    color: #ff1616;
+    font-style: normal;
+    padding: 0 5px;
+  }
 </style>
