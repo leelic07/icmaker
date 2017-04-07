@@ -146,7 +146,7 @@
 		methods:{
 			getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -164,7 +164,7 @@
                 this.prisonDepartments = "";
                 this.prisonDepartmentId = "";
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                     }
@@ -179,12 +179,12 @@
 					"prisonId": this.prisonId,
 					"prisonDepartmentId": this.prisonDepartmentId
 				}
-				console.log(accountData);
+				// console.log(accountData);
                 this.$http.get('selectPrisonAccountName',{params:accountData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.accountList = res.data.data.prisonAccountList;
-						console.log(this.accountList);
+						// console.log(this.accountList);
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -205,16 +205,16 @@
                     "idCardNo": this.idCardNo,
 					"number": this.number,
                     "type": this.type,
-					"acount": this.acount,
+					"account": this.acount,
                     "startTime": $("#startTime").val(),
 					"endTime":  $("#endTime").val(),
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log(searchData);
+                // console.log(searchData);
                 this.$http.get('criminalFundDetailList',{params:searchData}).then(res=>{
-                    console.log("列表");
-                    console.log(res);
+                    // console.log("列表");
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.detailList = res.data.data.criminalFundDetailList;
                         this.detailSize = res.data.data.criminalFundDetailListSize;

@@ -72,6 +72,7 @@ import store from '../../store'
                 accountName:this.$route.params.accountName,
                 accountType:this.$route.params.accountType,
                 prisonId:this.$route.params.prisonId,
+                prisonDepartmentId:this.$route.params.prisonDepartmentId,
                 remind:{
                     status:'',
                     msg:'',
@@ -182,19 +183,20 @@ import store from '../../store'
         components:{
             Remind
         },
+        beforeCreate(){
+            //判断参数 prisonDepartmentId 是否为null
+            // let prisonDepartmentId = this.$route.params.prisonDepartmentId;
+            // console.log(this.$route.params.prisonDepartmentId);
+            if(this.$route.params.prisonDepartmentId == 'null'){
+                this.$route.params.prisonDepartmentId = '';
+            }
+        },
         mounted(){
             $('#table_id_example').tableHover();
             this.getAllPrison();
-            this.getPrisonDepartments(this.prisonId,'Init');
-            //判断参数 prisonDepartmentId 是否为null
-            let prisonDepartmentId = this.$route.params.prisonDepartmentId;
-            if(this.$route.params.prisonDepartmentId == 'null'){
-                this.prisonDepartmentId = '';
-            }else{
-                this.prisonDepartmentId = this.$route.params.prisonDepartmentId;
-            }
+            this.getPrisonDepartments(this.prisonId,'Init');         
         }
-	}
+    }
 </script>
 
 <style lang="less" scoped>
