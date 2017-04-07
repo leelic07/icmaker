@@ -56,11 +56,11 @@ axios.interceptors.response.use(function(response){
 
 // axios.defaults.baseURL='http://10.10.10.103:8080/icmaker/';
 
-axios.defaults.baseURL='http://10.10.10.130:8080/icmaker/';
+//axios.defaults.baseURL='http://10.10.10.130:8080/icmaker/';
 
 //axios.defaults.baseURL='http://10.10.10.104:8080/icmaker/';
 
-//axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
+axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 //设置路由
 const router = new VueRouter({

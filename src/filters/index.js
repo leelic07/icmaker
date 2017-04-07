@@ -374,12 +374,9 @@ export default{
 		let locationTye = '';
 		switch(type){
 			case 0 :
-				locationTye =  '家属汇款';
-				break;
-			case 1 :
 				locationTye = '低报酬';
 				break;
-			case 2 :
+			case 1 :
 				locationTye = 'IC卡资金'
 				break;
 		}
