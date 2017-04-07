@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="container-fluid">
+    <LogoutConfirm v-if='logoutShow'></LogoutConfirm>
     <loading v-show="loadingShow"></loading>
     <LeftSide v-if = "isNotLogin"></LeftSide>
     <NavBar v-if = "isNotLogin"></NavBar>
@@ -10,8 +11,8 @@
 import Vue from 'vue'
 import LeftSide from './components/Left-side.vue'
 import NavBar from './components/NavBar.vue'
+import LogoutConfirm from './components/LogoutConfirm.vue'
 import store from './store'
-import {mapGetters,mapMutations} from 'vuex'
 
 export default {
   name: 'app',
@@ -35,6 +36,12 @@ export default {
       get(){
         return store.getters.loadingShow;
       }
+    },
+
+    logoutShow:{
+      get(){
+        return store.getters.logoutShow;
+      }
     }
   },
   methods:{
@@ -47,7 +54,8 @@ export default {
   },
   components:{
     LeftSide,
-    NavBar
+    NavBar,
+    LogoutConfirm
   },
   mounted(){
     //初始为登陆页时隐藏侧边和顶边栏

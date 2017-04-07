@@ -1,6 +1,10 @@
 <template>
   	<!-- 右侧内容-->
     <div id="right-side" class="col-xs-20 pull-right">
+        <div class='col-xs-24 noAuthority' v-if='userInfo.userType == 0'>
+            <h3 class='col-xs-offset-6'>您没有权限访问该页面，只有监狱账户才可以分配资金！</h3>
+        </div>
+        <div class='col-xs-24' v-if='userInfo.userType != 0'>
         <!--搜索框部分-->
         <div class="col-xs-24 search">
             <div class="col-xs-23 search-box">
@@ -17,7 +21,7 @@
         </div>
 
         <!--已分配金额，已分配类型部分-->
-        <div class="col-xs-24 distribution" v-if='prisonCapitalAssignsList.length != 0'>
+        <div class="col-xs-24 distribution" v-if='prisonCapitalAssignsList != []'>
             <div class="col-xs-23 distribution-innerbox">
 
                 <div v-for='pcal in prisonCapitalAssignsList' class="col-xs-24 distributionItem">
@@ -82,12 +86,15 @@
                     </div>
                 </div>
             </div>
-
+        </div>
+        <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
         </div>
     </div>
 </template>
 
 <script>
+import Remind from '../Remind.vue'
+import store from '../../store'
 	export default {
 		data(){
 			return{
@@ -99,9 +106,20 @@
 					type:''
 				}],
 				avilableTotal:'',
-				prisonCapitalAssignsList:[]
+				prisonCapitalAssignsList:[],
+                userInfo:'',
+                // center:{
+                //     'margin':window.innerHeight/2 + 'px auto' 
+                // }
 			}
 		},
+        computed:{
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
 		methods:{
 			//点击新增分配
 			addDistribution(e){
@@ -116,73 +134,111 @@
 				}
 			},
 
-			//查询监狱总账户资金分配
-			getPrisonCapitalAssigns(){
-				this.$http({
-					method:'get',
-					url:'/prisonCapital/getPrisonCapitalAssigns'
-				}).then(res=>{
-					// console.log(res.data.data);
-					let data = res.data.data;
-					this.avilableTotal = data.avilableTotal;
-					this.prisonCapitalAssignsList = data.prisonCapitalAssignsList;
-				}).catch(err=>{
-					console.log(err);
-				});
-			},
+			 //查询监狱总账户资金分配
+            getPrisonCapitalAssigns(){
+                this.$http({
+                    method:'get',
+                    url:'/prisonCapital/getPrisonCapitalAssigns'
+                }).then(res=>{
+                    // console.log(res.data.data);
+                    let data = res.data.data;
+                    this.avilableTotal = data.avilableTotal;
+                    this.prisonCapitalAssignsList = data.prisonCapitalAssignsList;
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
 
 			//点击确定分配
 			distributionConfirm(){
 				let isNull = true;
 				let total = 0;
-				let distributionItemsTem = this.distributionItems;
-				$.each(distributionItemsTem,(index,value)=>{
+				$.each(this.distributionItems,(index,value)=>{
 					if(value.type == '' || value.money == ''){
 						isNull = false;
-						
 					}
 				});
 
 				if(isNull){
-					$.each(distributionItemsTem,(index,value)=>{
-						value.money = value.money * 100;
+					$.each(this.distributionItems,(index,value)=>{
+                        value.money = value.money * 100;
+                        total += value.money;
 					});
 					
-					this.$http({
-						method:'post',
-						url:'/prisonCapital/assignsCapital',
-						params:{
-							assignsStr:JSON.stringify(distributionItemsTem)
-						}
-					}).then(res=>{
-						console.log(res.data.code,res.data.msg);
-						$.each(this.distributionItems,(index,value)=>{
-							total += value.money;
-							$.each(this.prisonCapitalAssignsList,(i,v)=>{
-								if(v.type == value.type){
-									v.money += value.money
-								}
-							});
-							value.money = '';
-							value.type = '';
-						});	
+                    if(total > this.avilableTotal){
+                        this.remind = {
+                            status:'warn',
+                            msg:'余额不足'
+                        };
+                        store.dispatch('showRemind');
+                        $.each(this.distributionItems,(index,value)=>{
+                            value.money = '';
+                            value.type = '';
+                        }); 
+                    }else{
+					   this.$http({
+    						method:'post',
+    						url:'/prisonCapital/assignsCapital',
+    						params:{
+    							assignsStr:JSON.stringify(this.distributionItems)
+    						}
+					   }).then(res=>{
+                            console.log(res.data.code,res.data.msg);
 
-						this.avilableTotal -= total;
-					}).catch(err=>{
-						console.log(err);
-					});
-				}			
-			}
+                            $.each(this.distributionItems,(index,value)=>{
+                                $.each(this.prisonCapitalAssignsList,(i,v)=>{
+                                    if(v.type == value.type){
+                                        v.money += value.money
+                                    }
+                                });
+                                value.money = '';
+                                value.type = '';
+                            }); 
 
-		},
+                            this.avilableTotal -= total;
+                        
+                        }).catch(err=>{
+					      console.log(err);
+				        });
+                    }			
+                }else{
+                    this.remind = {
+                        status:'warn',
+                        msg:'选项不能为空'
+                    };
+
+                    store.dispatch('showRemind');
+                }
+    		},
+
+            //获取用户类型
+            getUserInfo() {
+                this.$http.get('getIndex').then(res=>{
+                    if (res.data.code == 0) {
+                        this.userInfo = res.data.data.user;
+                    }  
+                }).catch(err=>{
+                    console.log(err);
+                });
+            }
+        },
+        components:{
+            Remind
+        },
 		mounted(){
-			this.getPrisonCapitalAssigns();
+            this.getUserInfo();
+            this.getPrisonCapitalAssigns();
 		}
 	}
 </script>
 
 <style lang='less' scoped>
     #right-side{
+        .noAuthority{
+            >h3{
+                margin-top:300px;
+            }
+        }
         .label-box{
         	label{
         		font-weight:normal;

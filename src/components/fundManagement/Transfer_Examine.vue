@@ -116,7 +116,7 @@
                 </div><!-- /.modal -->
             </div>
 
-            <!-- 单个申请制补卡-->
+            <!-- 同意通过审核-->
             <div class="modal modal-confirm" id="agreeConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -133,6 +133,7 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
             </div>
+            
             <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>

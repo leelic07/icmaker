@@ -14,7 +14,7 @@ import '../static/js/util.js'
 
 Object.keys(Filters).forEach((key)=>Vue.filter(key,Filters[key]));
 Object.keys(routes).forEach((key)=>routes[key].meta={
-  requireAuth: true,
+  requireAuth: true
 });
 
 routes[0].meta = {requireAuth: false};

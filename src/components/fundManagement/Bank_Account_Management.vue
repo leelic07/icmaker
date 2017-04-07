@@ -116,6 +116,27 @@
                     </div>
                 </div>
             </div>
+
+            <!--模态框-->
+
+            <!-- 同意通过审核-->
+            <div class="modal modal-confirm" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>确定删除？</h3>
+                            <button class="confirm-button" @click="deleteConfirm()" data-dismiss='modal'>确定</button>
+                            <button class="cancel-button" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
             <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
@@ -243,12 +264,17 @@ import store from '../../store'
 
             //点击删除银行账户
             deleteAccount(prisonBankAccountId,bankAccountId){
-                console.log(prisonBankAccountId,bankAccountId);
-                this.$http({
+                $('#deleteConfirm').modal();
+                this.prisonBankAccountId = prisonBankAccountId;
+            },
+
+            //点击确定删除
+            deleteConfirm(){
+                      this.$http({
                     method:'post',
                     url:'/prisonBankAccount/deletePrisonBankAccount',
                     params:{
-                        'prisonBankAccountId':prisonBankAccountId,
+                        'prisonBankAccountId':this.prisonBankAccountId,
                     }
                 }).then(res=>{
                     if(res.data.code == 0){
@@ -256,11 +282,7 @@ import store from '../../store'
                             status:'success',
                             msg:res.data.msg
                         };
-                        // $.each(this.bankAccountList,(index,value)=>{
-                        //     if(value.prisonBankAccountId == prisonBankAccountId){
-                        //         this.bankAccountList.splice(index,1);
-                        //     }
-                        // });
+                        
                         this.getPrisonBankAccounts();
                     }else{
                         this.remind = {
@@ -274,6 +296,7 @@ import store from '../../store'
                     console.log(err);
                 });
             }
+
         },
         components:{
             Remind

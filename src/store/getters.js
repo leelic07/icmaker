@@ -9,5 +9,10 @@ export default {
 	//返回remind的状态
 	remindShow(state){
 		return state.remind;
+	},
+
+	//返回logout的状态
+	logoutShow(state){
+		return state.logout;
 	}
 }
