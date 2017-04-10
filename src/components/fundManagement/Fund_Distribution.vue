@@ -108,9 +108,7 @@ import store from '../../store'
 				avilableTotal:'',
 				prisonCapitalAssignsList:[],
                 userInfo:'',
-                // center:{
-                //     'margin':window.innerHeight/2 + 'px auto' 
-                // }
+                
 			}
 		},
         computed:{

@@ -7,11 +7,17 @@
                 <div class="col-xs-23 search-inner-box">
                     <div class="row">
                         <div class="col-xs-8 select-box">
-                            <label for="name">所属监狱</label>
+                            <!-- <label for="name">所属监狱</label>
                             <select class="form-control" v-model='prisonId'>
                                 <option value=''>请选择</option>
                                 <option v-for='prison in prisonList' :value='prison.id' v-text='prison.prisonName'></option>
-                            </select>
+                            </select> -->
+                            <label for="name">所属监狱</label>
+                            <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName' v-if='prisonList.length > 1'>
+                            <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1' disabled>
+                            <datalist id="prisons">
+                                <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
+                            </datalist>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="name">资金分配类型</label>
@@ -72,6 +78,7 @@ import Page from '../Paginator.vue'
                 pageSize:20,
                 menuSize:'',
                 prisonId:'',
+                prisonName:'',
                 type:'',
                 prisonList:[],
                 criminalFundAllocationList:[],
@@ -81,6 +88,24 @@ import Page from '../Paginator.vue'
                 }
 			}
 		},
+        watch:{
+            //根据监狱名称得到监狱ID
+            prisonName(){
+                this.prisonId = '';
+                if(this.prisonName != ''){
+                    $.each(this.prisonList,(index,value)=>{
+                        if(value.prisonName == this.prisonName){
+                            this.prisonId = value.id;
+                        }
+                    });
+                    if(this.prisonId == ''){
+                        this.prisonId = -1
+                    }
+                }else{
+                    this.prisonId = '';
+                }            
+            }
+        },
         methods:{
             //查询所有监狱列表
             getAllPrison(){
@@ -90,6 +115,10 @@ import Page from '../Paginator.vue'
                 }).then(res=>{
                     let data = res.data.data;
                     this.prisonList = data.prisons;
+                    if(this.prisonList.length == 1){
+                        this.prisonId = this.prisonList[0].id;
+                        this.prisonName = this.prisonList[0].prisonName;
+                    }
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -113,7 +142,6 @@ import Page from '../Paginator.vue'
                 });
             },
 
-
             //点击搜索查询罪犯资金分配列表
             searchLocation(index){
                 this.indexPage = index;
@@ -121,7 +149,7 @@ import Page from '../Paginator.vue'
                     method:'get',
                     url:'/criminalFundAllocationList',
                     params:{
-                        prison_id:this.prisonId,
+                        prisonId:this.prisonId,
                         type:this.type,
                         indexPage:this.indexPage,
                         pageSize:this.pageSize

@@ -6,12 +6,20 @@
                 <div class="col-xs-23 search-box">
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
-                            <div class="col-xs-8 select-box">
+                            <!-- <div class="col-xs-8 select-box">
                                 <label for="name">所属监狱</label>
                                 <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
                                     <option v-if='prisonList.length > 1' value=''>请选择</option>
                                     <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
                                 </select>
+                            </div> -->
+                            <div class="col-xs-8 select-box">
+                                <label for="name">所属监狱</label>
+                                <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName' v-if='prisonList.length > 1'>
+                                <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1' disabled>
+                                <datalist id="prisons">
+                                    <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
+                                </datalist>
                             </div>
                             <div class="col-xs-8 select-box">
                                 <label for="name">类别</label>
@@ -96,9 +104,28 @@ import Page from '../Paginator.vue'
                 type:'',
                 accountName:'',
                 prisonList:[],
-                prisonCapitalDetailDtos:[]
+                prisonCapitalDetailDtos:[],
+                prisonName:''
 			}
 		},
+        watch:{
+            //根据监狱名称得到监狱ID
+            prisonName(){
+                this.prisonId = '';
+                if(this.prisonName != ''){
+                    $.each(this.prisonList,(index,value)=>{
+                        if(value.prisonName == this.prisonName){
+                            this.prisonId = value.id;
+                        }
+                    });
+                    if(this.prisonId == ''){
+                        this.prisonId = -1
+                    }
+                }else{
+                    this.prisonId = '';
+                }            
+            }
+        },
         methods:{
             //查询所有转账明细
             getPrisonCapitalDetails(){
@@ -128,11 +155,21 @@ import Page from '../Paginator.vue'
                     this.prisonList = data.prisons;
                     if(this.prisonList.length == 1){
                         this.prisonId = this.prisonList[0].id;
+                        this.prisonName = this.prisonList[0].prisonName;
                     }
                     this.getPrisonCapitalDetails();
                 }).catch(err=>{
                     console.log(err);
                 });
+                // this.prisonList = [{
+                //     id:1,
+                //     prisonName:'长沙监狱'
+                // }];
+                // if(this.prisonList.length == 1){
+                //     this.prisonId = this.prisonList[0].id;
+                //     this.prisonName = this.prisonList[0].prisonName;
+                // }
+                // this.searchDetail(this.indexPage);
             },
 
             //点击搜索查询转账明细
