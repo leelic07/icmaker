@@ -253,6 +253,7 @@
                         console.log(res);
                         let status = res.data.code;
                         if (status == 0) {//返回成功 
+                            store.dispatch('reloadSide');
                             this.$router.push({path:"/user_management"});
                         }else {
                             this.remind = {

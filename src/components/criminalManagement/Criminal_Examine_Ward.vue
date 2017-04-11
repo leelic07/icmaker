@@ -6,11 +6,11 @@
                 <div class="col-xs-23 search-inner-box">
                     <div class="row">
                         <div class="col-xs-8 select-box">
-                            <label for="fromPrisonId">所属监狱</label>
-                            <select class="form-control" id="fromPrisonId" @change = "getPrisonDepartInfo ($event,null,null)" :disabled = "prisons.length == 1" v-model = "fromPrisonId">
-                                <option value="" v-if = "prisons.length >1">全部</option>
-                                <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
-                            </select>
+                            <label for="fromPrisonName">所属监狱</label>
+                            <input type="text" class="form-control" list = "fromPrisonList" placeholder = "全部" v-model = "fromPrisonName" :disabled = "prisons.length == 1">
+                            <datalist class="form-control hidden" id="fromPrisonList">
+                                <option v-for = "prison in prisons">{{prison.prisonName}}</option>
+                            </datalist>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="fromDepartmentId">所属监区</label>
@@ -213,6 +213,7 @@ import Page from '../Paginator.vue'
                 currentId: "",//当前操作的ID
                 choiseIds: "",//选中的ID列表
                 numType: "",//numType:1-单个审核 2-批量审核
+                fromPrisonName: "",//所属监狱
                 fromPrisonId: "",//所属监狱ID
                 fromDepartmentId: "",//所属监区ID
                 toPrisonDepartmentId: "",//转至监区ID
@@ -232,10 +233,26 @@ import Page from '../Paginator.vue'
                 }
             }
         },
+        watch: {
+            fromPrisonName(){
+                let oldFromPrisonId = this.fromPrisonId;
+                for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.fromPrisonName) {
+                        this.fromPrisonId = this.prisons[i].id;
+                    }
+                }
+                if (this.fromPrisonId != oldFromPrisonId) {
+                    this.getPrisonDepartInfo();
+                }else {
+                    this.fromPrisonId = "";
+                    this.prisonDepartments = "";
+                }
+            }
+        },
         methods:{
             getExamStatus() {
-                this.examStatus = [{"value":0,"name":"审核中"},{"value":1,"name":"审核成功"},{"value":2,"name":"审核失败"},{"value":" ","name":"全部"}];
-            },
+                this.examStatus = [{"value":0,"name":"审核中"},{"value":1,"name":"审核成功"},{"value":2,"name":"审核失败"},{"value":"","name":"全部"}];
+            }, 
 
             getPrisonInfo() {//获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
@@ -243,19 +260,19 @@ import Page from '../Paginator.vue'
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
+                            this.fromPrisonName = this.prisons[0].prisonName;
                             this.fromPrisonId = this.prisons[0].id;
                             this.getPrisonDepartInfo(null,this.fromPrisonId);
                         }
-                        this.applyList(1);
+                        this.applyList(this.indexPage);
                     }
                 }).catch(err=>{
                     console.log(err);
                 });
             },
 
-            getPrisonDepartInfo (e,id) {//获取监区信息
-                let prisonId = e == null? id : $(e.target).val();
-                this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
+            getPrisonDepartInfo () {//获取监区信息
+                this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.fromPrisonId}}).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
@@ -270,7 +287,8 @@ import Page from '../Paginator.vue'
                 let searchData = {
                     "type": 0,//类型为转监区
                     "fromPrisonId": this.fromPrisonId,
-                    "toPrisonId": this.toPrisonId,
+                    "fromDepartmentId": this.fromDepartmentId,
+                    "toDepartmentId": this.toPrisonDepartmentId,
                     "status": this.status,
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize

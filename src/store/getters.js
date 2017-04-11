@@ -14,5 +14,10 @@ export default {
 	//返回logout的状态
 	logoutShow(state){
 		return state.logout;
+	},
+
+	//返回sideReload的状态
+	sideReload(state){
+		return state.sideReload;
 	}
 }

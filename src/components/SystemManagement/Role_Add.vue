@@ -138,6 +138,7 @@
                     this.$http.post('role/addOrUpdateRole',$.param(roleData)).then(res=>{
                         console.log(res);
                         if (res.data.code == 0) {
+                            store.dispatch('reloadSide');
                             this.$router.push({path:"/role_management"});    
                         }else {
                             this.remind = {

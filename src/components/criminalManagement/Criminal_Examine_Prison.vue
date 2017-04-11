@@ -6,18 +6,18 @@
                 <div class="col-xs-23 search-inner-box">
                     <div class="row">
                         <div class="col-xs-8 select-box">
-                            <label for="fromPrisonId">所属监狱</label>
-                            <select class="form-control" id="fromPrisonId" v-model = "fromPrisonId">
-                                <option value="">全部</option>
-                                <option v-for = "prison in allPrisons" :value = "prison.id">{{prison.prisonName}}</option>
-                            </select>
+                            <label for="fromPrisonName">所属监狱</label>
+                            <input type="text" class="form-control" list = "fromPrisonList" placeholder = "全部" v-model = "fromPrisonName">
+                            <datalist class="form-control hidden" id="fromPrisonList">
+                                <option v-for = "prison in allPrisons">{{prison.prisonName}}</option>
+                            </datalist>
                         </div>
                         <div class="col-xs-8 select-box">
-                            <label for="toPrisonId">转至监狱</label>
-                            <select class="form-control" id="toPrisonId" :disabled = "prisons.length == 1" v-model = "toPrisonId">
-                                <option value="" v-if = "prisons.length >1">全部</option>
-                                <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
-                            </select>
+                            <label for="toPrisonName">转至监狱</label>
+                            <input type="text" class="form-control" list = "toPrisonList" placeholder = "全部" v-model = "toPrisonName" :disabled = "prisons.length == 1">
+                            <datalist class="form-control hidden" id="toPrisonList">
+                                <option v-for = "prison in prisons">{{prison.prisonName}}</option>
+                            </datalist>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="status">审核状态</label>
@@ -204,7 +204,9 @@ import Page from '../Paginator.vue'
                 currentId: "",//当前操作的ID
                 choiseIds: "",//选中的ID列表
                 numType: "",//numType:1-单个审核 2-批量审核
+                fromPrisonName: "",//所属监狱名
                 fromPrisonId: "",//所属监狱id
+                toPrisonName: "",//转至监狱名
                 toPrisonId: "",//转至监狱ID
                 status: 0,//审核状态
                 remind:{
@@ -222,6 +224,22 @@ import Page from '../Paginator.vue'
                 }
             }
         },
+        watch: {
+            toPrisonName(){
+                for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.toPrisonName) {
+                        this.toPrisonId = this.prisons[i].id;
+                    }
+                }
+            },
+            fromPrisonName(){
+                for (let i = 0; i< this.allPrisons.length; i++)  {
+                    if (this.allPrisons[i].prisonName == this.fromPrisonName) {
+                        this.fromPrisonId = this.allPrisons[i].id;
+                    }
+                }
+            }
+        },
         methods:{
             getExamStatus() {
                 this.examStatus = [{"value":0,"name":"审核中"},{"value":1,"name":"审核成功"},{"value":2,"name":"审核失败"},{"value":" ","name":"全部"}];
@@ -233,9 +251,10 @@ import Page from '../Paginator.vue'
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                          if (this.prisons.length == 1) {
+                            this.toPrisonName = this.prisons[0].prisonName;
                             this.toPrisonId = this.prisons[0].id;
                         }
-                        this.applyList(1);
+                        this.applyList(this.indexPage);
                     }
                 }).catch(err=>{
                     console.log(err);

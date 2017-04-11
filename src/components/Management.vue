@@ -34,21 +34,26 @@
                         <thead>
                         <tr>
                             <th>虚拟账号</th>
+                            <th>账户类型</th>
+                            <th>所属监狱</th>
                             <th>账号名</th>
                             <th>余额(元)</th>
                             <th>状态</th>
                             <th>最近绑定日期</th>
-                            <th>操作</th>
+                            <th colspan = "2">操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr v-for = "account in accountList">
                             <td>{{account.virtualAccountNo}}</td>
+                            <td>{{account.type | formatAccountType}}</td>
+                            <td>{{account.prison }}</td>
                             <td>{{account.virtualAccountName}}</td>
                             <td>{{account.total | currency}}</td>
-                            <td>{{account.status | formatAccountType}}</td>
+                            <td>{{account.status | formatAccountStatus}}</td>
                             <td>{{account.recentBindingDate | formatDate}}</td>
                             <td><em class="agree-text" :id = "account.virtualAccountId" @click="detail($event)">明细</em></td>
+                            <td><em class="reject-text" :id = "account.virtualAccountId" @click="delAccount($event)">删除</em></td>
                         </tr>
                         </tbody>
                     </table>
@@ -85,10 +90,32 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
             </div>
+
+            <!-- 删除确认框-->
+            <div class="modal modal-confirm" id="delConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>确认删除?</h3>
+                            <button class="confirm-button" data-dismiss="modal" @click = "deleteConfirm($event)">确定</button>
+                            <button class="cancel-button" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
+import Remind from './Remind.vue'
+import store from './../store'
 import Page from './Paginator.vue'
 import {mapGetters,mapMutations} from 'vuex'
 
@@ -103,11 +130,21 @@ import {mapGetters,mapMutations} from 'vuex'
                 status: "",//状态
                 accountList: "",//虚拟账号信息列表
                 accountSize: "",//虚拟账号信息总条数
+                remind:{
+                    status:'',
+                    msg:''
+                },
                 pageSize: 10,
                 indexPage: 1
 			}
 		},
-        computed:mapGetters(['selectAll']),
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         methods:{
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":1,"name":"可用"},{"value":2,"name":"已绑定"}]
@@ -153,33 +190,68 @@ import {mapGetters,mapMutations} from 'vuex'
                 });
             },
 
+            delAccount(e) {
+                this.accountId = e.target.getAttribute("id");
+                $('#delConfirm').modal();
+            },
+
+            deleteConfirm(e) {
+                let deleteData = {
+                    "accountId": this.accountId
+                };
+                this.$http.post('icCard/deleteAccount',$.param(deleteData)).then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                        this.accountNoList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
+                    }
+                    store.dispatch('showRemind');
+                }).catch(err=>{
+                    console.log(err);
+                });
+            }
+
         },
         components:{
-           Page
+           Page,
+           Remind
         },
         mounted(){
             $('#table_id_example').tableHover();
             $('#table_id_example').select(); 
             this.getStatusList();
-            this.accountNoList(1);
+            this.accountNoList(this.indexPage);
         }
 	}
 </script>
 
 <style lang="less" scoped>
 #right-side{
+    #detailConfirm {
+        .modal-content{
+            min-height: 350px;
+            .modal-body {
+                min-height: 250px;
+            }
+        }
+    }
     .modal-dialog{
         top:300px;
         width:30%;
-        min-height:350px;
         .modal-content{
-            min-height:350px;
             h3,h2{
                 font-weight:bold;
             }
             .modal-body{
                 padding:0;
-                
                 table{
                     margin-top:25px;
                     font-size:12px;

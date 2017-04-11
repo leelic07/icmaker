@@ -9,10 +9,10 @@
                         <div class="row">
                             <div class="col-xs-8 select-box">
                                 <label for="prisonId">所属监狱</label>
-                                <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event,null,null)" :disabled = "prisons.length == 1" v-model = "prisonId">
-                                    <option value="" v-if = "prisons.length >1">全部</option>
-                                    <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
-                                </select>
+                                <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1">
+                                <datalist class="form-control hidden" id="prisonList">
+                                    <option v-for = "prison in prisons" :prisonId = "prison.id">{{prison.prisonName}}</option>
+                                </datalist>
                             </div>
                             <div class="col-xs-8 select-box">
                                 <label for="prisonDepartmentId">所属监区</label>
@@ -130,6 +130,7 @@ import Page from '../Paginator.vue'
                 pageSize: 10,//每页显示的条数
                 currentId: "",//当前操作的罪犯ID
                 isManage: true,//是否为管理页
+                prisonName: "",//监狱名
                 prisonId: "",//所属监狱ID
                 prisonDepartmentId: "",//所属监区ID
                 status: "",//在监状态
@@ -162,6 +163,20 @@ import Page from '../Paginator.vue'
                 if (from.path.substring(0,index) == "/crimsearch/edit" || from.path == '/crimadd') {//从新增或者编辑页进入
                     this.criminalSearch(this.indexPage); 
                 }
+            },
+            prisonName(){
+                let oldPrisonId = this.prisonId;
+                for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.prisonName) {
+                        this.prisonId = this.prisons[i].id;
+                    }
+                }
+                if (this.prisonId != oldPrisonId) {
+                    this.getPrisonDepartInfo();
+                }else {
+                    this.prisonId = "";
+                    this.prisonDepartments = "";
+                }
             }
         },
         methods:{
@@ -184,20 +199,19 @@ import Page from '../Paginator.vue'
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
+                            this.prisonName = this.prisons[0].prisonName;
                             this.prisonId = this.prisons[0].id;
-                            this.getPrisonDepartInfo(null,this.prisonId);
+                            this.getPrisonDepartInfo();
                         }
-                        this.criminalSearch(1); 
+                        this.criminalSearch(this.indexPage); 
                     }
                 }).catch(err=>{
                     console.log(err);
                 });
             },
 
-            getPrisonDepartInfo (e,id) {//获取监区信息
-                console.log("init"+id);
-                let prisonId = e == null? id : $(e.target).val();
-                this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
+            getPrisonDepartInfo () {//获取监区信息
+                this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
@@ -241,9 +255,7 @@ import Page from '../Paginator.vue'
                 const delUrl = 'prisoner/deletePrisoner';
                 let id = e.target.getAttribute("id");
                 this.$http.post(delUrl,$.param({'prisonerId':id})).then(res=>{
-                    console.log(res);
-                    let status = res.data.code;
-                    if (status == 0) {
+                    if (res.data.code == 0) {
                         this.remind = {
                             status:'success',
                             msg:res.data.msg

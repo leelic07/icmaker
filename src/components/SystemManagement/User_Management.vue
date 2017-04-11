@@ -28,10 +28,10 @@
                         <div class="row">
                             <div class="col-xs-7 select-box">
                                 <label for="prisonId">所属监狱</label>
-                                <select class="form-control" id="prisonId" :disabled = "prisonList.length == 1" v-model = "prisonId">
-                                    <option value="" v-if = "prisonList.length >1">全部</option>
-                                    <option v-for = "prison in prisonList" :value = "prison.id">{{prison.prisonName}}</option>
-                                </select>
+                                <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisonList.length == 1">
+                                <datalist class="form-control hidden" id="prisonList">
+                                    <option v-for = "prison in prisonList" :prisonId = "prison.id">{{prison.prisonName}}</option>
+                                </datalist>
                             </div>
                             <div class="col-xs-5  text-box">
                                 <label for="userName">用户名</label>
@@ -99,6 +99,7 @@ import Page from '../Paginator.vue'
                 pageSize: 10,
                 userType: "",
                 userName: "",
+                prisonName: "",
                 prisonId: "",
                 remind:{
                     status:'',
@@ -119,6 +120,14 @@ import Page from '../Paginator.vue'
                 }
                 if (from.path.substring(0,index) == "/user_management/edit" || from.path == '/user_add') {//从新增或者编辑页进入
                     this.searchUserList(this.indexPage); 
+                }
+            },
+            prisonName(){
+                let oldPrisonId = this.prisonId;
+                for (let i = 0; i< this.prisonList.length; i++)  {
+                    if (this.prisonList[i].prisonName == this.prisonName) {
+                        this.prisonId = this.prisonList[i].id;
+                    }
                 }
             }
         },
@@ -147,9 +156,10 @@ import Page from '../Paginator.vue'
                     if (res.data.code == 0) {
                         this.prisonList = res.data.data.prisons;
                          if (this.prisonList.length == 1) {
+                            this.prisonName = this.prisonList[0].prisonName;
                             this.prisonId = this.prisonList[0].id;
                         }
-                        this.searchUserList(1);
+                        this.searchUserList(this.indexPage);
                     }
                 }).catch(err=>{
                     console.log(err);
