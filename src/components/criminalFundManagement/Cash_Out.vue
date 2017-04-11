@@ -143,9 +143,7 @@ import store from '../../store'
                             this.prisonId = value.id;
                         }
                     });
-                    if(this.prisonId == ''){
-                        this.prisonId = -1
-                    }
+                    this.prisonId == '' ? this.prisonId = -1 : '';
                 }else{
                     this.prisonId = '';
                 }            
@@ -160,12 +158,14 @@ import store from '../../store'
             }
         },
         computed:{
+
             //获得提示模态框状态
             remindShow:{
                 get(){
                     return store.getters.remindShow;
                 }
             },
+            
             //计算获得监区数组
             prisonDepartmentsTem:{
                 get(){
