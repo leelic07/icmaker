@@ -13,6 +13,8 @@ import '../static/css/datepicker/bootstrap-datetimepicker.min.js'
 import '../static/css/datepicker/bootstrap-datetimepicker.zh-CN.js'
 import '../static/js/util.js'
 import 'babel-polyfill'
+import '../static/js/util.js'
+
 //声明过滤器
 Object.keys(Filters).forEach((key)=>Vue.filter(key,Filters[key]));
 
@@ -22,6 +24,10 @@ Object.keys(routes).forEach((key)=>routes[key].meta={
 });
 //登录页面除外
 routes[0].meta = {requireAuth: false};
+
+//验证
+
+
 
 Vue.use(VueRouter);
 Vue.use(Loading);
@@ -66,9 +72,9 @@ axios.interceptors.response.use(function(response){
 
 //axios.defaults.baseURL='http://10.10.10.104:8080/icmaker/';
 
-axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
+// axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
-// axios.defaults.baseURL='http://10.10.10.117:8080/icmaker/';
+axios.defaults.baseURL='http://10.10.10.117:8080/icmaker/';
 
 //设置路由
 const router = new VueRouter({

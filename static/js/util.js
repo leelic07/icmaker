@@ -114,5 +114,29 @@ export default {
                 console.log("上传图片错误，错误码：" + oReq.status);
             }
         };
-    }
+    },
+
+    //判断是否为空
+    judgeIsNull(){
+        for(let i = 0;i < arguments.length;i++){
+            arguments[i].replace(/(^\s*)|(\s*$)/g,'');
+            if(arguments[i] == ''){
+                return true;
+            }
+        }
+        return false;
+    },
+
+    //判断是否为空，并且是否为正整数或浮点数
+    jugeIsNumber(){
+        let pattNum = new RegExp('^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$');
+        for(let i = 0;i < arguments.length;i++){
+            if(this.judgeIsNull(arguments[i]) || !pattNum.test(arguments[i])){
+                return false;
+            }
+        }
+        return true;
+    },
+
+    
 }

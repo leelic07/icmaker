@@ -170,16 +170,24 @@ import store from '../../store'
 
             //点击确认修改银行账户信息
             modifyAccount(){
-                let isNull = true;
+                let isNull = false;
+                let noPrison = false;
             	if(this.prisonId == '' || this.accountType == '' || this.accountName == ''){
-                    isNull = false;
+                    isNull = true;
                     this.remind = {
                         status:'warn',
                         msg:'选项不能为空'
                     }
             		store.dispatch('showRemind');
-            	}
-                if(isNull){
+            	}else if(this.prisonId == -1){
+                    noPrison = true;
+                    this.remind = {
+                        status:'warn',
+                        msg:'无此监狱'
+                    }
+                    store.dispatch('showRemind');
+                }
+                if(!isNull && !noPrison){
                     this.$http({
                         method:'post',
                         url:'/prisonAccount/addOrUpdatePrisonAccount',
