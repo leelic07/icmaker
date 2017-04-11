@@ -59,10 +59,14 @@
                             <div class="form-group">
                                 <label for="prisonId" class="col-xs-6 control-label"><i class="important">*</i>服刑监狱：</label>
                                 <div class="col-xs-12">
-                                    <input type="text" class="form-control" disabled id="prisonId" v-if = "prisons.length == 1" v-model = "prisons[0].prisonName">
+                                    <!--<input type="text" class="form-control" disabled id="prisonId" v-if = "prisons.length == 1" v-model = "prisons[0].prisonName">
                                     <select class="form-control" id="prisonId" :disabled = "prisonerId != undefined" v-model = "prisonerInfo.prisonId" @change = "getPrisonDepartInfo($event)" v-else>
                                         <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
-                                    </select>
+                                    </select>-->
+                                    <input type="text" class="form-control" list = "prisonList" placeholder = "请选择" v-model = "prisonName" :disabled = "prisonerId != undefined || prisons.length == 1">
+                                    <datalist class="form-control hidden" id="prisonList">
+                                        <option v-for = "prison in prisons">{{prison.prisonName}}</option>
+                                    </datalist>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -129,6 +133,7 @@
                 imgUrl:"./static/img/add.jpg",
                 prisons: "",
                 prisonerId: "",
+                prisonName: "",
                 remind:{
                     status:'',
                     msg:''
@@ -144,6 +149,22 @@
                     number: ""
                 },
                 prisonDepartments: ""
+            }
+        },
+        watch: {
+            prisonName(){
+                let oldPrisonId = this.prisonerInfo.prisonId;
+                for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.prisonName) {
+                        this.prisonerInfo.prisonId = this.prisons[i].id;
+                    }
+                }
+                if (this.prisonerInfo.prisonId != oldPrisonId) {
+                    this.getPrisonDepartInfo();
+                }else {
+                    this.prisonerInfo.prisonId = "";
+                    this.prisonDepartments = "";
+                }
             }
         },
         computed: {
@@ -187,34 +208,39 @@
                             let date = res.data.data.intoPrisonDate;
                             res.data.data.intoPrisonDate = this.formatDate(date);//处理日期格式
                             this.prisonerInfo = res.data.data;//赋值罪犯信息
+                            //根据相应的监狱ID来获取监狱名进行显示
+                            for (let i = 0; i< this.prisons.length; i++)  {
+                                if (this.prisons[i].id == this.prisonerInfo.prisonId) {
+                                    this.prisonName = this.prisons[i].prisonName;
+                                }
+                            }
                             let prisonId = this.prisonerInfo.prisonId;
                             let prisonDepartmentId = this.prisonerInfo.prisonDepartmentId;   
-                            this.getPrisonDepartInfo(null,prisonId,prisonDepartmentId);//获取监区信息
+                            this.getPrisonDepartInfo(prisonDepartmentId);//获取监区信息
                             this.imgUrl = this.prisonerInfo.imgUrl;
                         }
                     }).catch(err=>{
                         console.log(err);
                     });
-                }else {//新增页面
-                    this.getPrisonDepartInfo(null,this.prisonerInfo.prisonId,null);
-                } 
+                }
                 
             },
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.prisons = res.data.data.prisons;//赋值监狱列表 
-                        this.prisonerInfo.prisonId = this.prisons[0].id;
+                        this.prisons = res.data.data.prisons;//赋值监狱列表
                         this.getEditInfo();
+                        if (this.prisons.length == 1) {
+                            this.prisonName = this.prisons[0].prisonName;
+                        }
                     }
                 }).catch(err=>{
                     console.log(err);
                 });
             },
-            getPrisonDepartInfo (e,id,departId) {//获取监区信息
-                console.log(e);
-                let prisonId = e == null ? id : $(e.target).val();
+            getPrisonDepartInfo (departId) {//获取监区信息
+                let prisonId = this.prisonerInfo.prisonId;
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
