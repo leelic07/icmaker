@@ -55,6 +55,7 @@
     }
 </style>
 <script>
+    import store from './../store'
     export default{
         data(){
             return{
@@ -63,6 +64,18 @@
                 collapsed: []
             }
         },
+        computed: {
+            sideReload:{
+                get(){
+                    return store.getters.sideReload;
+                }
+            }
+        },
+        watch:{
+           sideReload() {
+               this.getSideList();
+           }
+        },
         methods:{
             getSideList(){
                 if (this.$route.path != "/login") {
@@ -70,13 +83,12 @@
                         console.log("侧边栏");
                         console.log(res);
                         if (res.data.code == 0) {
-                        this.sideInfo = res.data.data.menuHierarchyDtos;
-                        for (let i = 0; i < this.sideInfo.length; i++) {
-                            this.sideInfo[i].isActive = false;
-                            console.log(this.sideInfo[i].isActive);
-                            this.collapsed.push(true);
-                        }
-                        this.userInfo = res.data.data.user;
+                            this.sideInfo = res.data.data.menuHierarchyDtos;
+                            for (let i = 0; i < this.sideInfo.length; i++) {
+                                this.sideInfo[i].isActive = false;
+                                this.collapsed.push(true);
+                            }
+                            this.userInfo = res.data.data.user;
                         }
                     }).catch(err=>{
                         console.log(err);

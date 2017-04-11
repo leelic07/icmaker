@@ -4,6 +4,7 @@ import Examine from './components/Examine.vue'
 import Delivery from './components/Delivery.vue'
 import Cancel from './components/Cancel.vue'
 import Management from './components/Management.vue'
+import Account_Add from './components/Account_Add.vue'
 import Application from './components/Application.vue'
 import MenuManagement from './components/SystemManagement/Menu_Management.vue'
 import RoleManagement from './components/SystemManagement/Role_Management.vue'
@@ -62,6 +63,10 @@ export default [
 	{
 		path:'/management',
 		component:Management
+	},
+	{
+		path:'/account_add',
+		component:Account_Add
 	},
 	{
 		path:'/application',

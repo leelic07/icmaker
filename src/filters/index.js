@@ -197,15 +197,34 @@ export default{
 	},
 
 	//虚拟账号状态
+	formatAccountStatus(value) {
+		let accountStatus = "";
+		switch(Number(value))
+		{
+		case 1 :
+			accountStatus = "可用";
+			break;
+		case 2 :
+			accountStatus = "已绑定";
+			break;
+		default :
+			accountStatus = "";
+		}
+		return accountStatus;
+	},
+
 	formatAccountType(value) {
 		let accountType = "";
 		switch(Number(value))
 		{
+		case 0 :
+			accountType = "罪犯虚拟银行";
+			break;
 		case 1 :
-			accountType = "可用";
+			accountType = "监狱虚拟银行";
 			break;
 		case 2 :
-			accountType = "已绑定";
+			accountType = "监狱局";
 			break;
 		default :
 			accountType = "";

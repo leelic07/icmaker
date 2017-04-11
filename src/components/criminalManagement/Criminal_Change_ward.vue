@@ -7,10 +7,10 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="prisonId">所属监狱</label>
-                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo ($event,null,null)" :disabled = "prisons.length == 1" v-model = "prisonId">
-                                <option value="" v-if = "prisons.length >1">全部</option>
-                                <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
-                            </select>
+                            <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1">
+                            <datalist class="form-control hidden" id="prisonList">
+                                <option v-for = "prison in prisons" :prisonId = "prison.id">{{prison.prisonName}}</option>
+                            </datalist>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="prisonDepartmentId">所属监区</label>
@@ -107,7 +107,7 @@
                     <div class="modal-body">
                         <h3>选择转至监区</h3>
                         <div class="col-xs-14 col-xs-offset-5">
-                            <select class="form-control confirm-select" id="toPrisonDepartmentId">
+                            <select class="form-control confirm-select" id="toPrisonDepartmentId" v-model = "toPrisonDepartmentId">
                                 <option v-for = "depart in toPrisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
@@ -118,7 +118,7 @@
             </div><!-- /.modal -->
         </div>
 
-        <!-- 批量转至监狱-->
+        <!-- 批量转至监区-->
         <div class="modal modal-confirm change-prison" id="changeAllWardConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -130,8 +130,8 @@
                     <div class="modal-body">
                         <h3>选择转至监区</h3>
                         <div class="col-xs-14 col-xs-offset-5">
-                            <select class="form-control confirm-select" id="toDepartmentId">
-                                <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
+                            <select class="form-control confirm-select" id="toDepartmentId" v-model = "toDepartmentId">
+                                <option v-for = "depart in toAllPrisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
                         <button class="confirm-button" data-dismiss="modal" @click = "changeAllConfirm">确定</button>
@@ -164,6 +164,7 @@ import Page from '../Paginator.vue'
                 prisons: "",//监狱列表
                 prisonDepartments: "",//监区列表
                 toPrisonDepartments: "",//单条转监转至的监区列表
+                toAllPrisonDepartments: "",//批量转监转至的监区列表
                 statusList: "",//在监状态列表
                 prisonerList: "",//罪犯信息列表
                 prisonerSize: "",//罪犯信息条数
@@ -171,11 +172,15 @@ import Page from '../Paginator.vue'
                 currentId: "",//当前操作的罪犯ID
                 ids: "",//批量转监狱选中的罪犯
                 isManage: true,//是否为管理页
-                prisonId: "",//所属监狱ID
+                prisonName: "",//监狱名
+                prisonId: "",//所属监狱ID 搜索条件
+                fromPrisonId: "",//所属监狱ID 罪犯转监
                 prisonDepartmentId: "",//所属监区ID
                 status: "",//在监状态
                 number: "",//编号
                 archivesNumber: "",//档案号
+                toPrisonDepartmentId: "",//单个转监区ID
+                toDepartmentId: "",//批量转至监区ID
                 remind:{
                     status:'',
                     msg:''
@@ -191,6 +196,22 @@ import Page from '../Paginator.vue'
                 }
             }
         },
+        watch: {
+            prisonName(){
+                let oldPrisonId = this.prisonId;
+                for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.prisonName) {
+                        this.prisonId = this.prisons[i].id;
+                    }
+                }
+                if (this.prisonId != oldPrisonId) {
+                    this.getPrisonDepartInfo(this.prisonId);
+                }else {
+                    this.prisonId = "";
+                    this.prisonDepartments = "";
+                }
+            }
+        },
         methods: {
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"离监"},{"value":1,"name":"在监"}]
@@ -202,31 +223,38 @@ import Page from '../Paginator.vue'
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
+                            this.prisonName = this.prisons[0].prisonName;
                             this.prisonId = this.prisons[0].id;
-                            this.getPrisonDepartInfo(null,this.prisonId);
+                            this.getPrisonDepartInfo();
                         }
-                        this.criminalSearch(1); 
+                        this.criminalSearch(this.indexPage); 
                     }
                 }).catch(err=>{
                     console.log(err);
                 });
             },
 
-            getPrisonDepartInfo (e,id,departId) {//获取监区信息 type:0 表示单条转监区
-                let prisonId = e == null? id : $(e.target).val();
+            getPrisonDepartInfo (prisonId,type,departId) {//获取监区信息 type-0 所属监区 1-批量转至监区列表 2-单个转至监区列表
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.prisonDepartments = res.data.data;//赋值监区列表
-                        if ( departId != null ) {//单条转监区需要排除所属的监区
-                            let toDepartIds = new Array();
-                            for (let i=0; i < this.prisonDepartments.length; i++) {
-                                if (this.prisonDepartments[i].id != departId) {
-                                    toDepartIds.push(this.prisonDepartments[i]);
+                        if(type == 0) {
+                            this.prisonDepartments = res.data.data;//赋值搜索栏监区列表
+                        }else{
+                            this.toAllPrisonDepartments = res.data.data;//赋值转监区监区列表
+                            if (type == 2){
+                                let toDepartIds = new Array();
+                                for (let i=0; i < this.toAllPrisonDepartments.length; i++) {
+                                    if (this.toAllPrisonDepartments[i].id != departId) {
+                                        toDepartIds.push(this.toAllPrisonDepartments[i]);
+                                    }
                                 }
+                                console.log(toDepartIds);
+                                this.toPrisonDepartments = toDepartIds;
+                                this.toPrisonDepartmentId = this.toPrisonDepartments[0].id;
+                            }else {
+                                this.toDepartmentId = this.toAllPrisonDepartments[0].id;
                             }
-                            console.log(toDepartIds);
-                            this.toPrisonDepartments = toDepartIds;
                         }
                     }
                 }).catch(err=>{
@@ -261,17 +289,17 @@ import Page from '../Paginator.vue'
                         for (let i = 0;i < checkedInfo.length; i ++) {
                             prisonerIds.push(checkedInfo[i].getAttribute("id"));
                         }
-                        let prisonId = prisonIds[0];
+                        this.fromPrisonId = prisonIds[0];
                         this.ids = prisonerIds;//将选中的罪犯ID赋值
-                        this.getPrisonDepartInfo(null,prisonId,null);//获取转至的监区列表
+                        this.getPrisonDepartInfo(this.fromPrisonId,1);//获取转至的监区列表
                         $("#changeAllWardConfirm").modal();
                     }
                     
                 } else {//单个转监区
                     let departId = e.target.getAttribute("departId");//获取监区ID
-                    let prisonId = e.target.getAttribute("prisonId");
+                    this.fromPrisonId = e.target.getAttribute("prisonId");
                     this.currentId = e.target.getAttribute("id");//获取犯人ID
-                    this.getPrisonDepartInfo(null,prisonId,departId);//获取转至的监区列表
+                    this.getPrisonDepartInfo(this.fromPrisonId,2,departId);//获取转至的监区列表
                     $("#changeWardConfirm").modal();
                 }  
             },
@@ -302,56 +330,74 @@ import Page from '../Paginator.vue'
             },
 
             changeAllConfirm() {//确定批量转监区
-                let prisonerData = {
-                    "ids": this.ids.join(","),
-                    "type": 0,
-                    "toDepartmentId": $("#toDepartmentId").val()
-                };
-                console.log($.param(prisonerData));
-                this.$http.post('prisoner/transferByIds',$.param(prisonerData)).then(res=>{
-                    console.log(res);
-                    if (res.data.code == 0) {
-                        this.remind = {
-                            status:'success',
-                            msg:res.data.msg
+                let toDepartmentId = this.toDepartmentId;
+                if (toDepartmentId != "") {
+                    let prisonerData = {
+                        "ids": this.ids.join(","),
+                        "type": 0,
+                        "toDepartmentId": toDepartmentId
+                    };
+                    this.$http.post('prisoner/transferByIds',$.param(prisonerData)).then(res=>{
+                        console.log(res);
+                        if (res.data.code == 0) {
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                            this.criminalSearch(this.indexPage);
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
                         }
-                        this.criminalSearch(this.indexPage);
-                    }else {
-                        this.remind = {
-                            status:'failed',
-                            msg:res.data.msg
-                        }
+                        store.dispatch('showRemind');
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }else {
+                    this.remind = {
+                        status:'warn',
+                        msg:"请选择转至的监区"
                     }
                     store.dispatch('showRemind');
-                }).catch(err=>{
-                    console.log(err);
-                });
+                }
+                
             },
 
             changeConfirm() {//确定转监区
-                let prisonData = {
-                    "prisonerId": this.currentId,
-                    "toPrisonDepartmentId": $("#toPrisonDepartmentId").val()
-                };
-                console.log(prisonData);
-                this.$http.post('prisoner/changePrisonDepartment',$.param(prisonData)).then(res=>{
-                    console.log(res);
-                    if (res.data.code == 0) {
-                        this.remind = {
-                            status:'success',
-                            msg:res.data.msg
+                let toDepartmentId = this.toDepartmentId;
+                if (toDepartmentId != "") {
+                    let prisonData = {
+                        "prisonerId": this.currentId,
+                        "toPrisonDepartmentId": this.toPrisonDepartmentId
+                    };
+                    console.log(prisonData);
+                    this.$http.post('prisoner/changePrisonDepartment',$.param(prisonData)).then(res=>{
+                        console.log(res);
+                        if (res.data.code == 0) {
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                            this.criminalSearch(this.indexPage);
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
                         }
-                        this.criminalSearch(this.indexPage);
-                    }else {
-                        this.remind = {
-                            status:'failed',
-                            msg:res.data.msg
-                        }
+                        store.dispatch('showRemind');
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }else {
+                    this.remind = {
+                        status:'warn',
+                        msg:"请选择转至的监区"
                     }
                     store.dispatch('showRemind');
-                }).catch(err=>{
-                    console.log(err);
-                });
+                }
             }
         },
         components:{

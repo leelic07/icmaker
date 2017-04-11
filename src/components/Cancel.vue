@@ -8,10 +8,10 @@
                         <div class="row">
                             <div class="col-xs-8 select-box">
                                 <label for="prisonId">所属监狱</label>
-                                <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo" :disabled = "prisons.length == 1" v-model = "prisonId">
-                                    <option value="" v-if = "prisons.length >1">全部</option>
-                                    <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
-                                </select>
+                                <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1">
+                                <datalist class="form-control hidden" id="prisonList">
+                                    <option v-for = "prison in prisons" :prisonId = "prison.id">{{prison.prisonName}}</option>
+                                </datalist>
                             </div>
                             <div class="col-xs-8 select-box">
                                 <label for="departmentId">所属监区</label>
@@ -166,6 +166,7 @@ import Page from './Paginator.vue'
 				icCardList: "",//ic卡列表
                 icCardSize: "",//IC卡列表总条数
                 prisonId: "",//监狱ID
+                prisonName: "",//监狱名
                 departmentId: "",//监区ID
                 status: "",//状态
                 name: "",
@@ -188,6 +189,22 @@ import Page from './Paginator.vue'
                 }
             }
         },
+        watch: {
+            prisonName(){
+                let oldPrisonId = this.prisonId;
+                for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.prisonName) {
+                        this.prisonId = this.prisons[i].id;
+                    }
+                }
+                if (this.prisonId != oldPrisonId) {
+                    this.getPrisonDepartInfo();
+                }else {
+                    this.prisonId = "";
+                    this.prisonDepartments = "";
+                }
+            }
+        },
         methods:{
             getStatusList(){//赋值状态列表
                 this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"正常使用"},{"value":1,"name":"已挂失"},{"value":2,"name":"已销卡"}]
@@ -199,6 +216,7 @@ import Page from './Paginator.vue'
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
+                            this.prisonName = this.prisons[0].prisonName;
                             this.prisonId = this.prisons[0].id;
                             this.getPrisonDepartInfo();
                         }         

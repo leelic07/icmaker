@@ -8,10 +8,10 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="prisonId">所属监狱</label>
-                            <select class="form-control" id="prisonId" @change = "getPrisonDepartInfo" :disabled = "prisons.length == 1" v-model = "prisonId">
-                                <option value="" v-if = "prisons.length >1">全部</option>
-                                <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
-                            </select>
+                            <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1">
+                            <datalist class="form-control hidden" id="prisonList">
+                                <option v-for = "prison in prisons" :prisonId = "prison.id">{{prison.prisonName}}</option>
+                            </datalist>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="prisonDepartmentId">所属监区</label>
@@ -103,7 +103,6 @@
             <Page :itemSize = "examSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getExamList"></Page>
         </div>
 
-
         <!--模态框-->
 
         <!-- 制卡-->
@@ -141,6 +140,7 @@ export default{
             prisonDepartments: "",//监区列表
             examList: "",//审核列表
             examSize: "",//审核列表总条数
+            prisonName: "",//监狱名
             prisonId: "",//监狱ID
             prisonDepartmentId: "",//监区ID
             status: "",//状态
@@ -166,6 +166,22 @@ export default{
             }
         }
     },
+    watch: {
+        prisonName(){
+            let oldPrisonId = this.prisonId;
+            for (let i = 0; i< this.prisons.length; i++)  {
+                if (this.prisons[i].prisonName == this.prisonName) {
+                    this.prisonId = this.prisons[i].id;
+                }
+            }
+            if (this.prisonId != oldPrisonId) {
+                this.getPrisonDepartInfo();
+            }else {
+                this.prisonId = "";
+                this.prisonDepartments = "";
+            }
+        }
+    },
     methods:{
         getStatusList(){//赋值状态列表
             this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"制卡"},{"value":1,"name":"补卡"}]
@@ -177,10 +193,11 @@ export default{
                 if (res.data.code == 0) {
                     this.prisons = res.data.data.prisons;//赋值监狱列表
                     if (this.prisons.length == 1) {
+                        this.prisonName = this.prisons[0].prisonName;
                         this.prisonId = this.prisons[0].id;
                         this.getPrisonDepartInfo();
                     }
-                    this.getExamList(1);
+                    this.getExamList(this.indexPage);
                 }
             }).catch(err=>{
                 console.log(err);

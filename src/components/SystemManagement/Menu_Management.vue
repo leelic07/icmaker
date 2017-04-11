@@ -183,6 +183,7 @@ import Page from '../Paginator.vue'
                this.$http.post(delUrl,$.param({'id':id})).then(res=>{
                     if (res.data.code == 0) {//返回成功
                         this.searchMenu(this.indexPage);
+                        store.dispatch('reloadSide');
                         this.remind = {
                             status:'success',
                             msg:res.data.msg
@@ -211,6 +212,7 @@ import Page from '../Paginator.vue'
                     console.log(res);
                     if (res.data.code == 0) {//返回成功
                         this.searchMenu(this.indexPage);
+                        store.dispatch('reloadSide');
                         this.remind = {
                             status:'success',
                             msg:res.data.msg
@@ -231,7 +233,7 @@ import Page from '../Paginator.vue'
         mounted(){
             $('#table_id_example').tableHover();
             //加载菜单列表
-            this.searchMenu(1);
+            this.searchMenu(this.indexPage); 
             //初始为编辑页时隐藏管理页
             this.hideMenuList();
         }

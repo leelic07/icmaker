@@ -182,7 +182,8 @@
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
                         console.log(res);
                         if (res.data.code == 0) {//返回成功
-                            this.$router.push({path:"/menu_management"});      
+                            this.$router.push({path:"/menu_management"});
+                            store.dispatch('reloadSide');      
                         } else {
                             this.remind = {
                                 status:'failed',

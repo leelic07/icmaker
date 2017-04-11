@@ -16,5 +16,8 @@ export default {
 	},
 	hideLogout:({commit})=>{
 		commit('hideLogout');
+	},
+	reloadSide:({commit})=>{
+		commit('reloadSide');
 	}
 }
