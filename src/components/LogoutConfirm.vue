@@ -2,7 +2,7 @@
 	<!--模态框-->
 
     <!-- 删除确认框-->
-    <div class="modal modal-confirm" id="loginOutConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal modal-confirm" id="logoutConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="modal-body">
                     <h3>确定退出登录?</h3>
-                    <button class="confirm-button" data-dismiss="modal" @click = "loginOutConfirm()">确定</button>
+                    <button class="confirm-button" data-dismiss="modal" @click = "logOutConfirm()">确定</button>
                     <button class="cancel-button" data-dismiss="modal">取消</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -30,7 +30,7 @@ import store from '../store'
 		},
 		methods:{
 			//点击确定退出
-            loginOutConfirm(){
+            logOutConfirm(){
                 this.$http.post("/logout").then(res=>{
                     console.log(res.data.code);
                     if (res.data.code == 0) {//登出成功
@@ -44,14 +44,24 @@ import store from '../store'
 
             //模态框消失时执行的方法
 			logOutConfirmDestroy(){
-				$('#loginOutConfirm').on('hidden.bs.modal',()=>{
+				$('#logoutConfirm').on('hidden.bs.modal',()=>{
 					store.dispatch('hideLogout');
 				});
 			}
 		},
 		mounted(){
-			$('#loginOutConfirm').modal();
+			$('#logoutConfirm').modal();
 			this.logOutConfirmDestroy();
 		}
 	}
 </script>
+
+<style lang='less' scoped>
+    #logoutConfirm{
+        .modal-body{
+            h3{
+                font-weight:bold;
+            }
+        }
+    }
+</style>

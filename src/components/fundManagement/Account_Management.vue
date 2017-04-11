@@ -7,11 +7,17 @@
                 <div class="col-xs-23 search-inner-box">
                     <div class="row">
                         <div class="col-xs-8 select-box">
-                            <label for="name">所属监狱</label>
+                            <!-- <label for="name">所属监狱</label>
                             <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
                                 <option v-if='prisonList.length > 1' value=''>请选择</option>
                                 <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
-                            </select>
+                            </select> -->
+                            <label for="name">所属监狱</label>
+                            <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName' v-if='prisonList.length > 1'>
+                            <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1' disabled>
+                            <datalist id="prisons">
+                                <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
+                            </datalist>
                         </div>
                         <div class="col-xs-8 select-box">
                             <label for="name">所属监区</label>
@@ -89,6 +95,7 @@ import Page from '../Paginator.vue'
                 prisonAccountDtos:'',
                 prisonList:[],
                 prisonId:'',
+                prisonName:'',
                 prisonDepartments:[],
                 prisonDepartmentId:'',
                 accountType:'',
@@ -98,7 +105,34 @@ import Page from '../Paginator.vue'
                 menuSize:''
 			}
 		},
+        watch:{
+            //根据监狱名称得到监狱ID
+            prisonName(){
+                this.prisonId = '';
+                if(this.prisonName != ''){
+                    $.each(this.prisonList,(index,value)=>{
+                        if(value.prisonName == this.prisonName){
+                            this.prisonId = value.id;
+                        }
+                    });
+                    if(this.prisonId == ''){
+                        this.prisonId = -1
+                    }
+                }else{
+                    this.prisonId = '';
+                }            
+            },
+
+            //监听监狱ID
+            prisonId(){
+                let pd = this.prisonDepartments;
+                let pdt = this.prisonDepartmentsTem;
+                pdt.splice(0,pdt.length);
+                this.prisonAndPrisonDepartment(pd,pdt);
+            }
+        },
         computed:{
+            //计算获得监区数组
             prisonDepartmentsTem:{
                 get(){
                     let pd = this.prisonDepartments;
@@ -107,14 +141,6 @@ import Page from '../Paginator.vue'
                     this.prisonDepartmentId = '';
                     return pdt;
                 }
-            }
-        },
-        watch:{
-            prisonId(){
-                let pd = this.prisonDepartments;
-                let pdt = this.prisonDepartmentsTem;
-                pdt.splice(0,pdt.length);
-                this.prisonAndPrisonDepartment(pd,pdt);
             }
         },
         methods:{
@@ -126,6 +152,7 @@ import Page from '../Paginator.vue'
                     }
                 });
             },
+
             //获取监狱账户信息
             getPrisonAccountDtos(){
                 this.$http({
@@ -143,6 +170,7 @@ import Page from '../Paginator.vue'
                     console.log(err);
                 });
             },
+
             //查询所有监狱列表
             getAllPrison(){
                 this.$http({
@@ -154,12 +182,14 @@ import Page from '../Paginator.vue'
                     this.prisonDepartments = data.prisonDepartments;
                     if(this.prisonList.length == 1){
                         this.prisonId = this.prisonList[0].id;
+                        this.prisonName = this.prisonList[0].prisonName;
                     }
                     this.getPrisonAccountDtos();
                 }).catch(err=>{
                     console.log(err);
                 });
             },
+
             //点击搜索获取账户列表
             searchAccount(index){
                 this.indexPage = index;
@@ -176,10 +206,12 @@ import Page from '../Paginator.vue'
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
+                    this.menuSize = this.prisonAccountDtos.length;
                 }).catch(err=>{
                     console.log(err);
                 })
             },
+
             //点击修改获得修改的账户信息
             getPrisonAccount(prisonAccountId){
                 this.$http({

@@ -18,10 +18,15 @@
                                 <label class="pull-right" for="name">所属监狱 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
-                                <select class="form-control" v-model='prisonId'>
+                                <!-- <select class="form-control" v-model='prisonId'>
                                     <option value=''>请选择</option>
                                     <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
-                                </select>
+                                </select> -->
+                                <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName' v-if='prisonList.length > 1'>
+                                <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1' disabled>
+                                <datalist id="prisons">
+                                    <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
+                                </datalist>
                             </div>
                         </div>
                         <div class="row">
@@ -68,6 +73,7 @@ import store from '../../store'
 			return {
                 accountType:'',
                 prisonId:'',
+                prisonName:'',
                 accountName:'',
                 prisonList:'',
                 prisonDepartments:'',
@@ -78,6 +84,32 @@ import store from '../../store'
                 }
 			}
 		},
+        watch:{
+            //根据监狱名称得到监狱ID
+            prisonName(){
+                this.prisonId = '';
+                if(this.prisonName != ''){
+                    $.each(this.prisonList,(index,value)=>{
+                        if(value.prisonName == this.prisonName){
+                            this.prisonId = value.id;
+                        }
+                    });
+                    if(this.prisonId == ''){
+                        this.prisonId = -1
+                    }
+                }else{
+                    this.prisonId = '';
+                }            
+            },
+
+            prisonId(){
+                console.log('change');
+                let pd = this.prisonDepartments;
+                let pdt = this.prisonDepartmentsTem;
+                pdt.splice(0,pdt.length);
+                this.prisonAndPrisonDepartment(pd,pdt);
+            }
+        },
         computed:{
             prisonDepartmentsTem:{
                 get(){
@@ -95,15 +127,6 @@ import store from '../../store'
                 }
             }
         },
-        watch:{
-            prisonId(){
-                console.log('change');
-                let pd = this.prisonDepartments;
-                let pdt = this.prisonDepartmentsTem;
-                pdt.splice(0,pdt.length);
-                this.prisonAndPrisonDepartment(pd,pdt);
-            }
-        },
         methods:{
             //监狱，监区联动
             prisonAndPrisonDepartment(pd,pdt){
@@ -113,6 +136,7 @@ import store from '../../store'
                     }
                 });
             },
+
             //查询所有监狱列表
             getAllPrison(){
                 this.$http({
@@ -122,6 +146,10 @@ import store from '../../store'
                     let data = res.data.data;
                     this.prisonList = data.prisons;
                     this.prisonDepartments = data.prisonDepartments;
+                    if(this.prisonList.length == 1){
+                        this.prisonId = this.prisonList[0].id;
+                        this.prisonName = this.prisonList[0].prisonName;
+                    }
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -142,6 +170,12 @@ import store from '../../store'
                     }
                     store.dispatch('showRemind');
                     return;
+                }else if(this.prisonId == -1){
+                    this.remind = {
+                        status:'warn',
+                        msg:'无此监狱'
+                    }
+                    store.dispatch('showRemind');
                 }else{
                     this.$http({
                         method:'post',

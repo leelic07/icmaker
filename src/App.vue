@@ -2,6 +2,7 @@
   <div id="app" class="container-fluid">
     <LogoutConfirm v-if='logoutShow'></LogoutConfirm>
     <loading v-show="loadingShow"></loading>
+    <LoginLoading v-show='true'></LoginLoading>
     <LeftSide v-if = "isNotLogin"></LeftSide>
     <NavBar v-if = "isNotLogin"></NavBar>
         <router-view></router-view>

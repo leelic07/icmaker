@@ -214,7 +214,7 @@ import Page from '../Paginator.vue'
             },
 
             getFundList (index) {
-                console.log("dd");
+                // console.log("dd");
                 this.indexPage = index;
                 let searchData = {
                     "prisonId": this.prisonId,
@@ -225,7 +225,7 @@ import Page from '../Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log(searchData);
+                // console.log(searchData);
                 this.$http.get('personalCrimeConsumptionRestrictList',{params:searchData}).then(res=>{
                     console.log("列表");
                     console.log(res);

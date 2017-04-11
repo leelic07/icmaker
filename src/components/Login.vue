@@ -27,6 +27,7 @@
 </template>
 <script>
 import store from '../store';
+import 'babel-polyfill';
 export default {
   name: 'app',
   data () {
