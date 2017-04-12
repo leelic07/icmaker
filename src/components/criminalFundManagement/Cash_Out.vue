@@ -100,8 +100,8 @@
 		                <button class="cancel-button" data-dismiss="modal">取消</button>
 		            </div>
 		        </div><!-- /.modal-content -->
-		    </div><!-- /.modal -->
-		</div>
+		     </div> <!-- /.modal -->
+		</div> 
         <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
     </div>
 </template>
@@ -165,7 +165,7 @@ import store from '../../store'
                     return store.getters.remindShow;
                 }
             },
-            
+
             //计算获得监区数组
             prisonDepartmentsTem:{
                 get(){
@@ -198,10 +198,10 @@ import store from '../../store'
             withdrawCash(){
                 let isNull = true;
                 let isEnough = true;
-                if(this.cash == ''){
+                if(!this.isNumber(this.cash)){
                     this.remind = {
                         status:'warn',
-                        msg:'取现金额不能为空'
+                        msg:'取现金额输入不合法'
                     }
                     store.dispatch('showRemind');
                     isNull = false;
@@ -320,7 +320,7 @@ import store from '../../store'
 </script>
 
 <style lang='less' scoped>
-	#setConfirm{
+	#cashOutConfirm{
 		.modal-body{
 			h3{
 				font-weight:bold;

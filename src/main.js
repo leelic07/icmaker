@@ -8,11 +8,14 @@ import Loading from './components/loading'
 import LoginLoading from './components/LoginLoading'
 import $ from 'jquery'
 import Filters from './filters'
+import Util from '../static/js/util.js'
 import '../static/js/bootstrap.min.js'
 import '../static/css/datepicker/bootstrap-datetimepicker.min.js'
 import '../static/css/datepicker/bootstrap-datetimepicker.zh-CN.js'
 import '../static/js/util.js'
 import 'babel-polyfill'
+
+
 //声明过滤器
 Object.keys(Filters).forEach((key)=>Vue.filter(key,Filters[key]));
 
@@ -22,6 +25,11 @@ Object.keys(routes).forEach((key)=>routes[key].meta={
 });
 //登录页面除外
 routes[0].meta = {requireAuth: false};
+
+//控件验证
+Object.keys(Util).forEach((key)=>{
+  Vue.prototype[key] = Util[key];
+});
 
 Vue.use(VueRouter);
 Vue.use(Loading);
@@ -63,8 +71,8 @@ axios.interceptors.response.use(function(response){
 // axios.defaults.baseURL='http://10.10.10.103:8080/icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.130:8080/icmaker/';
-
-//axios.defaults.baseURL='http://10.10.10.117:8080/icmaker/';
+ 
+// axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 

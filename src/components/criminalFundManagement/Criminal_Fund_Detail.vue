@@ -231,8 +231,6 @@
                 };
                 // console.log(searchData);
                 this.$http.get('criminalFundDetailList',{params:searchData}).then(res=>{
-                    // console.log("列表");
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.detailList = res.data.data.criminalFundDetailList;
                         this.detailSize = res.data.data.criminalFundDetailListSize;
