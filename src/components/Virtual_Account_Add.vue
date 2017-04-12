@@ -28,10 +28,12 @@
                                 <label class="pull-right" for="prisonId"><em class="important">*</em> 所属监狱 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
-                                <select class="form-control" id="prisonId"  v-model = "accountInfo.prisonId">
-                                    <option v-for = "prison in allPrisonList" :value="prison.id">{{prison.prisonName}}</option>
-                                </select>
+                                <input type="text" class="form-control" list = "prisonList" placeholder = "请选择" v-model = "prisonName">
+                                <datalist class="form-control hidden" id="prisonList">
+                                    <option v-for = "prison in allPrisonList">{{prison.prisonName}}</option>
+                                </datalist>
                             </div>
+                            
                         </div>
                         <div class="row">
                             <div class="col-xs-3 col-xs-push-3 button-box">
@@ -55,6 +57,7 @@
                 prisonShow: true,
                 accountTypeList: "",
                 allPrisonList: "",
+                prisonName: "",
                 accountInfo: {
                     "accountNo": "",
                     "type":0,
@@ -66,6 +69,15 @@
                 }
 			}
 		},
+        watch: {
+             prisonName(){
+                for (let i = 0; i< this.allPrisonList.length; i++)  {
+                    if (this.allPrisonList[i].prisonName == this.prisonName) {
+                        this.accountInfo.prisonId = this.allPrisonList[i].id;
+                    }
+                }
+            }
+        },
         computed: {
             remindShow:{
                 get(){
@@ -92,7 +104,6 @@
                     console.log(res);
                     if (res.data.code == 0) {
                          this.allPrisonList = res.data.data;
-                         this.accountInfo.prisonId = this.allPrisonList[0].id;
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -111,12 +122,14 @@
             accountAdd () {//新增虚拟账号 
                 let accountNo = this.accountInfo.accountNo.replace(/(^\s*)|(\s*$)/g,"");
                 let prisonId = this.accountInfo.type == 2 ? "" : this.accountInfo.prisonId;
+                let type = this.accountInfo.type;
                 let numReg = new RegExp("^[0-9]*$");
-                if (accountNo != "" && numReg.test(accountNo)) {
+                console.log(prisonId);
+                if (accountNo != "" && numReg.test(accountNo) && (type == 2 || prisonId != "")) {
                     let addData = {
                         "accountNo": accountNo,
                         "prisonId": prisonId,
-                        "type": this.accountInfo.type
+                        "type": type
                     }
                     console.log(addData);
                     this.$http.post("icCard/addAccount",$.param(addData)).then(res=>{

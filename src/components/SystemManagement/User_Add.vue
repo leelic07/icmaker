@@ -34,7 +34,7 @@
                                 <label class="pull-right" for="userType"><em class="important">*</em> 账号类型 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
-                                <select class="form-control"  id="userType" @change = "userTypeChange($event)" v-model = "userInfo.userType">
+                                <select class="form-control"  id="userType" @change = "userTypeChange" v-model = "userInfo.userType">
                                     <option v-for = "userType in userTypeList" :value="userType.value">{{userType.name}}</option>
                                 </select>    
                             </div>
@@ -45,9 +45,10 @@
                                 <label class="pull-right" for="prisonId"><em class="important">*</em> 所属监狱 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
-                                <select class="form-control" id="prisonId" @change = "prisonChange($event)" v-model = "userInfo.prisonId">
-                                    <option v-for = "prison in prisonList" :value="prison.id">{{prison.prisonName}}</option>
-                                </select>
+                                <input type="text" class="form-control" list = "prisonList" placeholder = "请选择" v-model = "prisonName">
+                                <datalist class="form-control hidden" id="prisonList">
+                                    <option v-for = "prison in prisonList">{{prison.prisonName}}</option>
+                                </datalist>
                             </div>
                         </div>
                         <div class="row" v-show = "shopShow">
@@ -97,6 +98,7 @@
                 roleList: "",
                 userTypeChoise: 0,
                 prisonChoise:"",
+                prisonName: "",
                 userInfo: {
                     "userName": "",
                     "realName": "",
@@ -110,9 +112,27 @@
                     status:'',
                     msg:''
                 },
-                isAdd: true //默认是编辑状态
+                isAdd: true //默认是新增状态
 			}
 		},
+        watch: {
+            prisonName(){
+                let oldPrisonId = this.userInfo.prisonId;
+                for (let i = 0; i< this.prisonList.length; i++)  {
+                    if (this.prisonList[i].prisonName == this.prisonName) {
+                        this.userInfo.prisonId = this.prisonList[i].id;
+                    }
+                }
+                console.log('监狱'+this.userInfo.prisonId);
+                if (this.userInfo.prisonId != oldPrisonId && this.userInfo.userType == 3) {
+                    this.prisonChange();
+                }else {
+                   // this.userInfo.prisonId = "";
+                    this.shopList = "";
+                }
+            }
+
+        },
         computed: {
             remindShow:{
                 get(){
@@ -158,25 +178,28 @@
                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisonList = res.data.data.prisons;
-                        if (this.isAdd == true) {//新增页面所属监狱默认第一条数据选中
-                            this.userInfo.prisonId = this.prisonList[0].id;
-                        }else {
+                        if (this.isAdd != true) {
                             this.userInfo.prisonId = prisonId;
+                            //根据相应的监狱ID来获取监狱名进行显示
+                            for (let i = 0; i< this.prisonList.length; i++)  {
+                                if (this.prisonList[i].id == this.userInfo.prisonId) {
+                                    this.prisonName = this.prisonList[i].prisonName;
+                                }
+                            }
                         }
                         if (this.userInfo.userType == 3) {//为监狱商户时出现商户下拉框进行选择
                             this.shopShow = true;
-                            this.prisonChange(null,prisonAccountId)//获取商户列表
+                            this.prisonChange(prisonAccountId)//获取商户列表
                         }else {
                             this.shopShow = false;
                         }
-                        
                     }
                 }).catch(err=>{
                     console.log(err);
                 });
             },
 
-            prisonChange(e,prisonAccountId){//获取商户列表
+            prisonChange(prisonAccountId){//获取商户列表
                 let prisonId = this.userInfo.prisonId;
                 this.$http.get('prisonAccount/getPrisonAccountsByPrisonId',{params:{'prisonId':prisonId}}).then(res=>{
                     console.log(res);
@@ -193,13 +216,14 @@
                 });        
             },
 
-            userTypeChange (e,prisonId,prisonAccountId) {
-               let userType = this.userInfo.userType;
+            userTypeChange (prisonId,prisonAccountId) {
+                   let userType = this.userInfo.userType;
+                   this.prisonName = "";
+                   this.userInfo.prisonId = "";
                    console.log(userType);
                    if (userType == 2 || userType == 3) {
                         this.prisonShow = true;
-                        this.getPrisonList(prisonId,prisonAccountId);
-                        
+                        this.getPrisonList(prisonId,prisonAccountId);    
                    } else {
                         this.shopShow = false;
                         this.prisonShow = false;
@@ -218,7 +242,7 @@
                             let prisonAccountId = this.userInfo.prisonAccountId;
                             let roleId = this.userInfo.roleId;
                             console.log(this.userInfo);  
-                            this.userTypeChange(null,prisonId,prisonAccountId);
+                            this.userTypeChange(prisonId,prisonAccountId);
                             console.log("prisonAccount" + prisonAccountId);
                             this.getRoleList(roleId);        
                         }
@@ -234,8 +258,9 @@
             userAdd () {//新增/编辑用户
                 let userName = this.userInfo.userName.replace(/(^\s*)|(\s*$)/g,"");
                 let password = this.userInfo.password.replace(/(^\s*)|(\s*$)/g,"");
+                let type = this.userInfo.userType;
+                let prisonAccountId = type == 3 ? this.userInfo.prisonAccountId : "";
                 let id = this.$route.params.id;
-                console.log(userName);
                 if (userName != "" && (id != undefined || password != "")) {
                     let addUrl = "addOrUpdateUser";
                     let addData = {
@@ -243,9 +268,9 @@
                         "userName": userName,
                         "realName": this.userInfo.realName.replace(/(^\s*)|(\s*$)/g,""),
                         "password": password,
-                        "userType": this.userInfo.userType,
+                        "userType": type,
                         "prisonId": this.userInfo.prisonId,
-                        "prisonAccountId": this.userInfo.prisonAccountId,
+                        "prisonAccountId": prisonAccountId,
                         "roleId": this.userInfo.roleId
                     }
                     console.log(addData);
