@@ -117,7 +117,7 @@ export default {
     },
 
     //判断是否为空
-    judgeIsNull(){
+    isNull(){
         for(let i = 0;i < arguments.length;i++){
             arguments[i].replace(/(^\s*)|(\s*$)/g,'');
             if(arguments[i] == ''){
@@ -128,15 +128,15 @@ export default {
     },
 
     //判断是否为空，并且是否为正整数或浮点数
-    jugeIsNumber(){
+    isNumber(){
         let pattNum = new RegExp('^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$');
         for(let i = 0;i < arguments.length;i++){
-            if(this.judgeIsNull(arguments[i]) || !pattNum.test(arguments[i])){
+            if(this.isNull(arguments[i]) || !pattNum.test(arguments[i])){
                 return false;
             }
         }
         return true;
     },
 
-    
+
 }
