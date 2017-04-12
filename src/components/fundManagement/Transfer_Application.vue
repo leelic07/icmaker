@@ -275,12 +275,27 @@ import store from '../../store'
 
             //点击保存提交转账申请
             saveTransfer(type,prisonAccountId){
-
-                if(type == '' || prisonAccountId == '' || this.transferMoney == ''){
-                    console.log('null');
+                console.log(type,prisonAccountId);
+                if(this.isNull(type,prisonAccountId)){
                     this.remind = {
                         status:'warn',
                         msg:'选项不能为空'
+                    };
+
+                    store.dispatch('showRemind');
+                    return;
+                }else if(!this.isNumber(this.transferMoney)){
+                    this.remind = {
+                        status:'warn',
+                        msg:'转账金额输入不合法'
+                    };
+
+                    store.dispatch('showRemind');
+                    return;
+                }else if(this.transferMoney > this.money){
+                    this.remind = {
+                        status:'warn',
+                        msg:'余额不足'
                     };
 
                     store.dispatch('showRemind');
@@ -317,6 +332,7 @@ import store from '../../store'
                         }
                         store.dispatch('showRemind');
                         $('#transferApplication').modal('hide');
+                        this.searchAccount(this.indexPage);
                     }).catch(err=>{
                         console.log(err);
                     });
@@ -351,6 +367,7 @@ import store from '../../store'
 
                         store.dispatch('showRemind');
                         $('#transferApplication').modal('hide');
+                        this.searchAccount(this.indexPage);
                     }).catch(err=>{
                         console.log(err);
                     });
