@@ -67,11 +67,7 @@ export default [
 	},
 	{
 		path:'/virtual_account_add',
-<<<<<<< HEAD
-		component:Account_Add
-=======
 		component:Virtual_Account_Add
->>>>>>> 7bdccc196dc2afa56bb5a69339ea1d860a249886
 	},
 	{
 		path:'/application',
