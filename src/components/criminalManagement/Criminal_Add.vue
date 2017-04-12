@@ -161,9 +161,6 @@
                 }
                 if (this.prisonerInfo.prisonId != oldPrisonId) {
                     this.getPrisonDepartInfo();
-                }else {
-                    this.prisonerInfo.prisonId = "";
-                    this.prisonDepartments = "";
                 }
             }
         },
@@ -215,6 +212,7 @@
                                 }
                             }
                             let prisonId = this.prisonerInfo.prisonId;
+                            console.log("prisonId" + this.prisonerInfo.prisonId);
                             let prisonDepartmentId = this.prisonerInfo.prisonDepartmentId;   
                             this.getPrisonDepartInfo(prisonDepartmentId);//获取监区信息
                             this.imgUrl = this.prisonerInfo.imgUrl;
@@ -258,15 +256,19 @@
             commitPrisonerInfo () {
                 let prisonerInfo = this.prisonerInfo;
                 console.log('prisonerInfo.name'+prisonerInfo.name);
+                console.log(this.prisonerInfo);
                 if (this.imgUrl != "./static/img/add.jpg" && prisonerInfo.prisonId != "" && prisonerInfo.prisonDepartmentId != "" && prisonerInfo.name != "" && prisonerInfo.archivesNumber != "" && prisonerInfo.number != "") {//必填项都有值
                     let numReg = new RegExp("^[0-9]*$");// 数值
                     let cardReg = new RegExp("^\\d{17}(\\d|x)$");//身份证号
-                    if(prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo)||!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||(prisonerInfo.insideArchivesNumber != "" && !numReg.test(prisonerInfo.insideArchivesNumber))) {
+                    if((prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo))||!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||(prisonerInfo.insideArchivesNumber != "" && !numReg.test(prisonerInfo.insideArchivesNumber))) {
                         this.remind = {
                             status:'warn',
                             msg:'输入不合法'
                         }
-                        store.dispatch('showRemind');
+                        setTimeout(function(){
+                            store.dispatch('showRemind');
+                        },100)
+                        
                     }else{
                         prisonerInfo.prisonerId = this.$route.params.id;
                         prisonerInfo.imgUrl = this.imgUrl;

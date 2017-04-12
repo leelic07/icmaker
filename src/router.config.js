@@ -66,7 +66,7 @@ export default [
 		component:Management
 	},
 	{
-		path:'/account_add',
+		path:'/virtual_account_add',
 		component:Account_Add
 	},
 	{
