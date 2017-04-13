@@ -1,10 +1,16 @@
 <template>
   	<!-- 右侧内容-->
     <div id="right-side" class="col-xs-20 pull-right">
-        <div class='col-xs-24 noAuthority' v-if='userInfo.userType == 0'>
+
+        <div class='col-xs-24 noAuthority' v-if='userInfo.userType == 0 || userInfo.userType == 1'>
             <h3 class='col-xs-offset-6'>您没有权限访问该页面，只有监狱账户才可以分配资金！</h3>
         </div>
-        <div class='col-xs-24' v-if='userInfo.userType != 0'>
+
+        <div class='col-xs-24 noAuthority' v-else-if='errMsg'>
+            <h3 class='col-xs-offset-6' v-text='errMsg'></h3>
+        </div>
+
+        <div class='col-xs-24' v-else>
         <!--搜索框部分-->
         <div class="col-xs-24 search">
             <div class="col-xs-23 search-box">
@@ -133,15 +139,20 @@ import store from '../../store'
 			},
 
 			 //查询监狱总账户资金分配
-            getPrisonCapitalAssigns(){
+            getPrisonCapitalAssigns(){ 
                 this.$http({
                     method:'get',
                     url:'/prisonCapital/getPrisonCapitalAssigns'
                 }).then(res=>{
                     // console.log(res.data.data);
                     let data = res.data.data;
-                    this.avilableTotal = data.avilableTotal;
-                    this.prisonCapitalAssignsList = data.prisonCapitalAssignsList;
+                    if(res.data.code == 0){
+                        this.avilableTotal = data.avilableTotal;
+                        this.prisonCapitalAssignsList = data.prisonCapitalAssignsList;
+                    }else if(res.data.code == 99999){
+                        this.errMsg = res.data.msg;
+                    }
+                    
                 }).catch(err=>{
                     console.log(err);
                 });

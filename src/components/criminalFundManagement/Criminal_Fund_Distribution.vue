@@ -75,7 +75,7 @@ import Page from '../Paginator.vue'
 		data(){
 			return{
                 indexPage:1,
-                pageSize:20,
+                pageSize:10,
                 menuSize:'',
                 prisonId:'',
                 prisonName:'',

@@ -152,7 +152,7 @@ import store from '../../store'
 		data(){
 			return {
                 indexPage:1,
-                pageSize:20,
+                pageSize:10,
                 menuSize:'',
                 accountName:'',
                 accountType:'',

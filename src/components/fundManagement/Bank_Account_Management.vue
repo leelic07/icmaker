@@ -158,11 +158,7 @@ import store from '../../store'
                 prisonAccountId:'',
                 banks:[],
                 prisonAccountId:this.$route.params.prisonAccountId,
-                bankAccountList:[],
-                remind:{
-                    status:'',
-                    msg:''
-                }
+                bankAccountList:[]
 			}
 		},
         computed:{
