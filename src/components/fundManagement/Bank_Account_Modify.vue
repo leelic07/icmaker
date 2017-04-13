@@ -149,7 +149,7 @@ import store from '../../store'
             //点击确认修改银行账户
             modifyConfirm(){
             	let bankAccount =  this.bankAccount;
-            	if(bankAccount.bankId == '' || bankAccount.bankNo == '' || bankAccount.bankAccountName == '' || bankAccount.bankAccountNo == '' || bankAccount.isSameBank != '0' && bankAccount.isSameBank != '1' || bankAccount.isPublic != '0' && bankAccount.isPublic != '1'){
+            	if(this.isNull(bankAccount.bankId,bankAccount.bankNo,bankAccount.bankAccountName,bankAccount.bankAccountNo,bankAccount.isSameBank,bankAccount.isPublic)){
                     this.remind = {
                         status:'warn',
                         msg:'选项不能为空'

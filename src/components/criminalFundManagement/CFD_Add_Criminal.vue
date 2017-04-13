@@ -62,7 +62,7 @@
                 </table>
             </div>
             <!-- 表单底部-->
-            <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchPrisoners'></Page>
+            <Page :itemSize='prisonerSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchPrisoners'></Page>
         </div>
         <!--子表单-->
         <div class="col-xs-24 form subform">
@@ -140,7 +140,7 @@ import store from '../../store'
 			return{
                 indexPage:1,
                 pageSize:10,
-                menuSize:'',
+                prisonerSize:'',
                 prisonDepartmentId:'',
                 name:'',
                 archivesNumber:'',
@@ -149,10 +149,6 @@ import store from '../../store'
                 prisonCapitalAssignId:this.$route.params.prisonCapitalAssignId,
                 prisonId:this.$route.params.prisonId,
                 type:this.$route.params.type,
-                remind:{
-                    status:'',
-                    msg:''
-                },
                 ids:'',
                 prisonerIndex:[],
                 addPrisoners:[]
@@ -194,6 +190,7 @@ import store from '../../store'
                 }).then(res=>{
                     let data = res.data.data;
                     this.prisoners = data.prisoners;
+                    this.prisonerSize = data.prisonerSize;
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -225,74 +222,114 @@ import store from '../../store'
             getAllCriminal() {
                 this.prisonerIndex.splice(0,this.prisonerIndex.length);
                 let checkedInfo = $(".info-list-check").filter(".active");
-                let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
-                for (let i = 0;i < checkedInfo.length; i ++) {
-                    prisonerIds.push(checkedInfo[i].getAttribute("id"));
-                    this.prisonerIndex.push(checkedInfo[i].getAttribute("index"));
-                }
-                this.ids = prisonerIds.join(',');
+                if(checkedInfo.length >0){
+                    let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
+                    for (let i = 0;i < checkedInfo.length; i ++) {
+                        prisonerIds.push(checkedInfo[i].getAttribute("id"));
+                        this.prisonerIndex.push(checkedInfo[i].getAttribute("index"));
+                    }
+                    this.ids = prisonerIds.join(',');
+                    return true;
+                }else{
+                    return false;
+                }   
             },
 
             //点击确认添加按钮
             addCriminal(){
                 let addPrisoners = this.addPrisoners;
-                this.getAllCriminal();
-                $.each(this.prisonerIndex,(index,value)=>{
-                    addPrisoners.push(this.prisoners[value]);
-                    addPrisoners[index].money = '';
-                }); 
+                if(this.getAllCriminal()){
+                    $.each(this.prisonerIndex,(index,value)=>{
+                        addPrisoners.push(this.prisoners[value]);
+                        addPrisoners[index].money = '';
+                    }); 
 
-                //去掉addPrisoners重复的元素
-                $.each(addPrisoners,(index,value)=>{
-                    for (let i = index+1;i < addPrisoners.length;i++){
-                        if(value.prisonerId == addPrisoners[i].prisonerId){
-                            addPrisoners.splice(i,1);
+                    //去掉addPrisoners重复的元素
+                    $.each(addPrisoners,(index,value)=>{
+                        for (let i = index+1;i < addPrisoners.length;i++){
+                            if(value.prisonerId == addPrisoners[i].prisonerId){
+                                addPrisoners.splice(i,1);
+                            }
                         }
-                    }
-                });        
+                    }); 
+                }else{
+                    this.remind = {
+                        status:'warn',
+                        msg:'请选择罪犯'
+                    };
+                    store.dispatch('showRemind');
+                }      
             },
 
             //点击提交执行的方法
             submit(){
-                let prisonerId = [];
-                let money = [];
-                let status = [];
-                $.each(this.addPrisoners,(index,value)=>{
-                    prisonerId.push(value.prisonerId);
-                    money.push(value.money * 100);
-                    status.push(0);
-                });
-                this.$http({
-                    method:'post',
-                    url:'/criminalFundAllocation',
-                    params:{
-                        'prisonerId':prisonerId.join(','),
-                        'prisonId':this.prisonId,
-                        'money':money.join(','),
-                        'status':status.join(','),
-                        prisonCapitalAssignId:this.prisonCapitalAssignId,
-                        type:this.type
-                    }
-                }).then(res=>{
-                    if(res.data.code == 0){
-                        this.remind = {
-                            status:'success',
-                            msg:res.data.msg
-                        };
-                    }else if(res.data.code == -1){
-                        this.remind = {
-                            status:'failed',
-                            msg:res.data.msg
-                        };
-                    }
+                if(this.addPrisoners.length == 0){
+                    this.remind = {
+                        status:'warn',
+                        msg:'请选择罪犯'
+                    };
                     store.dispatch('showRemind');
-                    console.log(res.data.code,res.data.msg);
-                }).catch(err=>{
-                    console.log(err);
-                });
-            },
+                    return;
+                }else{
+                    let isNumber = true;
+                    let prisonerId = [];
+                    let money = [];
+                    let status = [];
+                    $.each(this.addPrisoners,(index,value)=>{
+                        prisonerId.push(value.prisonerId);
+                        money.push(value.money * 100);
+                        status.push(0);
+                    });
 
-            
+                    //判断输入分配金额是否合法
+                    $.each(money,(index,value)=>{
+                        if(!this.isNumber(value)){
+                            isNumber = false;
+                            return;
+                        }
+                    });
+
+                    if(isNumber){
+                        this.$http({
+                            method:'post',
+                            url:'/criminalFundAllocation',
+                            params:{
+                                'prisonerId':prisonerId.join(','),
+                                'prisonId':this.prisonId,
+                                'money':money.join(','),
+                                'status':status.join(','),
+                                prisonCapitalAssignId:this.prisonCapitalAssignId,
+                                type:this.type
+                            }
+                        }).then(res=>{
+                            if(res.data.code == 0){
+                                this.remind = {
+                                    status:'success',
+                                    msg:res.data.msg
+                                };
+                                $.each(this.addPrisoners,(index,value)=>{
+                                    value.money = ''
+                                });
+                            }else if(res.data.code == -1){
+                                this.remind = {
+                                    status:'failed',
+                                    msg:res.data.msg
+                                };
+                            }
+                            store.dispatch('showRemind');
+                            console.log(res.data.code,res.data.msg);
+                        }).catch(err=>{
+                            console.log(err);
+                        });
+                    }else{
+                        this.remind = {
+                            status:'warn',
+                            msg:'输入分配金额不合法'
+                        };
+                        store.dispatch('showRemind');
+                    }   
+                }    
+            }       
         },
         components:{
             Page,
@@ -304,16 +341,6 @@ import store from '../../store'
             $('#table_id_example1').tableHover();
             this.getPrisonDepartments(this.prisonId);
             this.getPrisoners();
-            
-            // for(let i=1 ; i<5 ; i++){
-            //     this.prisoners.push({
-            //         prisonerId:i,
-            //         prisonName:i,
-            //         prisonDepartmentName:i,
-            //         name:i,
-            //         archivesNumber:i
-            //     });
-            // }  
         }
 	}
 </script>

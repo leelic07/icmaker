@@ -114,7 +114,7 @@ import store from '../../store'
 				avilableTotal:'',
 				prisonCapitalAssignsList:[],
                 userInfo:'',
-                
+                errMsg:''
 			}
 		},
         computed:{
@@ -160,15 +160,28 @@ import store from '../../store'
 
 			//点击确定分配
 			distributionConfirm(){
-				let isNull = true;
+				let isNull = false;
+                let isNumber = true;
 				let total = 0;
 				$.each(this.distributionItems,(index,value)=>{
-					if(value.type == '' || value.money == ''){
-						isNull = false;
-					}
+					if(this.isNull(value.type,value.money)){
+						isNull = true;
+                        this.remind = {
+                            status:'warn',
+                            msg:'选项不能为空'
+                        };
+                        store.dispatch('showRemind');
+					}else if(!this.isNumber(value.money)){
+                        isNumber = false;
+                        this.remind = {
+                            status:'warn',
+                            msg:'分配金额输入不合法'
+                        };
+                        store.dispatch('showRemind');
+                    }
 				});
 
-				if(isNull){
+				if(!isNull && isNumber){
 					$.each(this.distributionItems,(index,value)=>{
                         value.money = value.money * 100;
                         total += value.money;
@@ -210,13 +223,6 @@ import store from '../../store'
 					      console.log(err);
 				        });
                     }			
-                }else{
-                    this.remind = {
-                        status:'warn',
-                        msg:'选项不能为空'
-                    };
-
-                    store.dispatch('showRemind');
                 }
     		},
 

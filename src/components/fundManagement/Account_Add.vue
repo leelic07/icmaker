@@ -94,9 +94,7 @@ import store from '../../store'
                             this.prisonId = value.id;
                         }
                     });
-                    if(this.prisonId == ''){
-                        this.prisonId = -1
-                    }
+                    this.prisonId == '' ? this.prisonId = -1 : '';
                 }else{
                     this.prisonId = '';
                 }            
@@ -163,7 +161,7 @@ import store from '../../store'
                     prisonDepartmentId:this.prisonDepartmentId,
                     accountName:this.accountName
                 };
-                if(this.accountName == '' || this.prisonId == '' || this.accountType == ''){
+                if(this.isNull(this.accountName,this.prisonId,this.accountType)){
                     this.remind = {
                         status:'warn',
                         msg:'选项不能为空'
