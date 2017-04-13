@@ -55,7 +55,7 @@ import store from '../store'
 
 			}
 		},
-		props:['status','msg','back'],
+		props:['status','msg','back','path'],
 		methods:{
 			//显示模态框
 			remindInit(){
@@ -68,6 +68,10 @@ import store from '../store'
 					store.dispatch('hideRemind');
 					if(this.back == true){
 						window.history.go(-1);
+					}else if(this.path){
+						this.$router.push({
+							path:this.path
+						});
 					}
 				});
 			}

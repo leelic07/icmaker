@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :path='remind.path'></Remind>
         </div>
 </template>
 
@@ -181,7 +181,8 @@ import store from '../../store'
                         if(res.data.code == 0){
                             this.remind = {
                                 status:'success',
-                                msg:res.data.msg
+                                msg:res.data.msg,
+                                path:'/account_management'
                             };
 
                             $.each(params,(index,value)=>{
