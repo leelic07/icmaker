@@ -310,7 +310,7 @@ import store from '../../store'
                                 $.each(this.addPrisoners,(index,value)=>{
                                     value.money = ''
                                 });
-                            }else if(res.data.code == -1){
+                            }else{
                                 this.remind = {
                                     status:'failed',
                                     msg:res.data.msg
