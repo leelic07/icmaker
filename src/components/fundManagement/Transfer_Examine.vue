@@ -317,7 +317,6 @@ import store from '../../store'
                     'url':url,
                     'params':params
                 }).then(res=>{
-                    
                     if(res.data.code == 0){
                         this.remind = {
                             status:'success',
@@ -342,7 +341,7 @@ import store from '../../store'
             rejectExamine(){
                 let params = {};
                 let url = '';
-                if(this.remark == ''){
+                if(this.isNull(this.remark)){
                     this.remind = {
                         status:'warn',
                         msg:'请填写拒绝理由'

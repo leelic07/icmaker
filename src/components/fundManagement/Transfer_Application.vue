@@ -275,16 +275,16 @@ import store from '../../store'
 
             //点击保存提交转账申请
             saveTransfer(type,prisonAccountId){
-                console.log(type,prisonAccountId);
-                if(this.isNull(type,prisonAccountId)){
-                    this.remind = {
-                        status:'warn',
-                        msg:'选项不能为空'
-                    };
+                // if(this.isNull(type,prisonAccountId)){
+                //     this.remind = {
+                //         status:'warn',
+                //         msg:'选项不能为空'
+                //     };
 
-                    store.dispatch('showRemind');
-                    return;
-                }else if(!this.isNumber(this.transferMoney)){
+                //     store.dispatch('showRemind');
+                //     return;
+                // }else 
+                if(!this.isNumber(this.transferMoney)){
                     this.remind = {
                         status:'warn',
                         msg:'转账金额输入不合法'
@@ -302,77 +302,63 @@ import store from '../../store'
                     return;
                 }
 
-                //内部转账
-                if(type == 4){
-                    if(this.toPrisonAccountId == ''){
-                        return;
-                    }
-                    this.$http({
-                        method:'post',
-                        url:'/prisonCapital/addCapitalTransfer',
-                        params:{
-                            'type':type,
-                            'prisonAccountId':prisonAccountId,
-                            toPrisonAccountId:this.toPrisonAccountId,
-                            money:this.transferMoney * 100,
-                            remark:this.remark
-                        }
-                    }).then(res=>{    
-                        if(res.data.code == 0){
-                            this.remind = {
-                                status:'success',
-                                msg:res.data.msg
-                            }
-                        }else{
-                            this.remind = {
-                                status:'failed',
-                                msg:res.data.msg
-                            }
-                            console.log(res.data.code,res.data.msg);
-                        }
-                        store.dispatch('showRemind');
-                        $('#transferApplication').modal('hide');
-                        this.searchAccount(this.indexPage);
-                    }).catch(err=>{
-                        console.log(err);
-                    });
-                }else if(type == 5){
-                    if(this.bankId == '' || this.bankAccountId == ''){
-                        return;
-                    }
-                    this.$http({
-                        method:'post',
-                        url:'/prisonCapital/addCapitalTransfer',
-                        params:{
-                            'type':type,
-                            'prisonAccountId':prisonAccountId,
-                            bankId:this.bankId,
-                            bankAccountId:this.bankAccountId,
-                            money:this.transferMoney * 100,
-                            remark:this.remark
-                        }
-                    }).then(res=>{
-                        if(res.data.code == 0){
-                            this.remind = {
-                                status:'success',
-                                msg:res.data.msg
-                            }
-                        }else{
-                            this.remind = {
-                                status:'failed',
-                                msg:res.data.msg
-                            }
-                            console.log(res.data.code,res.data.msg);
-                        }
+                let params = {
+                    'type':type,
+                    'prisonAccountId':prisonAccountId,
+                    money:this.transferMoney * 100,
+                    remark:this.remark
+                };
 
+                if(type == 4){//内部转账 
+                    if(this.isNull(this.toPrisonAccountId)){
+                        this.remind = {
+                            status:'warn',
+                            msg:'选项不能为空'
+                        };
                         store.dispatch('showRemind');
-                        $('#transferApplication').modal('hide');
-                        this.searchAccount(this.indexPage); 
-                    }).catch(err=>{
-                        console.log(err);
+                        return;
+                    };
+                    $.extend(params,{
+                        toPrisonAccountId:this.toPrisonAccountId
+                    });
+                }else if(type == 5){//外部转账
+                    if(this.isNull(this.bankId,this.bankAccountId)){
+                        this.remind = {
+                            status:'warn',
+                            msg:'选项不能为空'
+                        };
+                        store.dispatch('showRemind');
+                        return;
+                    };
+                    $.extend(params,{
+                        bankId:this.bankId,
+                        bankAccountId:this.bankAccountId
                     });
                 }
-
+   
+                this.$http({
+                    method:'post',
+                    url:'/prisonCapital/addCapitalTransfer',
+                    'params':params
+                }).then(res=>{    
+                    if(res.data.code == 0){
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
+                        }
+                    }else{
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
+                        }
+                        console.log(res.data.code,res.data.msg);
+                    }
+                    store.dispatch('showRemind');
+                    $('#transferApplication').modal('hide');
+                    this.searchAccount(this.indexPage);
+                }).catch(err=>{
+                    console.log(err);
+                });
             },
 
             //查询所有监狱列表

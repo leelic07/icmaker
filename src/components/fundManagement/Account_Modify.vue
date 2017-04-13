@@ -172,7 +172,7 @@ import store from '../../store'
             modifyAccount(){
                 let isNull = false;
                 let noPrison = false;
-            	if(this.prisonId == '' || this.accountType == '' || this.accountName == ''){
+            	if(this.isNull(this.prisonId,this.accountType,this.accountName)){
                     isNull = true;
                     this.remind = {
                         status:'warn',

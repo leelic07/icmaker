@@ -172,7 +172,7 @@ import store from '../../store'
 
             //保存银行账户
             saveAccount(){
-                if(this.bankId == '' || this.bankNo == '' || this.bankAccountName == '' || this.bankAccountNo == '' || this.isSameBank != '0' && this.isSameBank != '1' || this.isPublic == '' ){
+                if(this.isNull(this.bankId,this.bankNo,this.bankAccountName,this.bankAccountNo,this.isSameBank,this.isPublic)){
                     this.remind = {
                         status:'warn',
                         msg:'选项不能为空'
