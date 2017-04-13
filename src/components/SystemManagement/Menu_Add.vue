@@ -164,7 +164,10 @@
             //新增菜单
             addMenu(){
                 let menuName = this.menuInfo.menuName.replace(/(^\s*)|(\s*$)/g,"");
-                let pageUrl = this.menuInfo.pageUrl.replace(/(^\s*)|(\s*$)/g,"");
+                this.menuInfo.pageUrl = "";
+                let pageUrl = this.menuInfo.pageUrl;
+                pageUrl = pageUrl == null ? pageUrl : pageUrl.replace(/(^\s*)|(\s*$)/g,"");
+                console.log(pageUrl);
                 let imgUrl1 = this.imgUrl1 == "./static/img/add.jpg" ? '' : this.imgUrl1;
                 let imgUrl2 = this.imgUrl2 == "./static/img/add.jpg" ? '' : this.imgUrl2;
                 let type = this.menuInfo.type;
@@ -252,9 +255,10 @@
                 padding: 10px 20px;
             }
             .preview-img {
-                width: 120px;
-                height: 120px;
-                padding: 10px 20px;
+                width: 80px;
+                height: 100px;
+                margin: 10px 20px;
+                background: #eee;
             }
             .icon-desc {
                 font-size: 14px;

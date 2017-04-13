@@ -220,7 +220,7 @@ import Page from './Paginator.vue'
                             this.prisonId = this.prisons[0].id;
                             this.getPrisonDepartInfo();
                         }         
-                        this.getIcList(1);
+                        this.getIcList(this.indexPage);
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -242,6 +242,11 @@ import Page from './Paginator.vue'
 
             getIcList(index) {
                 this.indexPage = index;
+                for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.prisonName) {
+                        this.prisonId = this.prisons[i].id;
+                    }
+                }
                 let searchData = {
                     "prisonId": this.prisonId,
                     "departmentId": this.departmentId,
@@ -253,6 +258,7 @@ import Page from './Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
+                console.log("列表");
                 console.log(searchData);
                 this.$http.get('icCard/prisonerICs',{params:searchData}).then(res=>{
                     console.log(res);

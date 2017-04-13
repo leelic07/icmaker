@@ -34,7 +34,7 @@
                                 <label class="pull-right" for="userType"><em class="important">*</em> 账号类型 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
-                                <select class="form-control"  id="userType" @change = "userTypeChange" v-model = "userInfo.userType">
+                                <select class="form-control"  id="userType" @change = "userTypeChange('','')" v-model = "userInfo.userType">
                                     <option v-for = "userType in userTypeList" :value="userType.value">{{userType.name}}</option>
                                 </select>    
                             </div>
@@ -201,6 +201,7 @@
 
             prisonChange(prisonAccountId){//获取商户列表
                 let prisonId = this.userInfo.prisonId;
+                console.log('prisonId'+this.userInfo.prisonId);
                 this.$http.get('prisonAccount/getPrisonAccountsByPrisonId',{params:{'prisonId':prisonId}}).then(res=>{
                     console.log(res);
                     if (res.data.code == 0) {

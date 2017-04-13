@@ -84,12 +84,19 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="less">
     html,body,.login-box {
         height: 100%;
     }
-    #loginManage .footer {
-        background-color:#f4f8fb;
+    #loginManage {
+        .footer {
+            background-color:#f4f8fb;
+        }
+        .login-info-box {
+            margin-top:180px;
+            padding: 80px 50px 70px;
+        }
     }
+    
     
 </style>

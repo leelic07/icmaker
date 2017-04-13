@@ -2,7 +2,7 @@
       <!--左侧边栏-->
         <div id="left-side" class="col-xs-4">
             <div class="col-xs-24 top">
-                <p>IC卡管理平台</p>
+                <p>监狱“一卡通”消费管理系统</p>
                 <img src="../../static/img/badge.png" alt=""/>
             </div>
             <div class="col-xs-24 top">
@@ -34,6 +34,12 @@
 </template>
 <style lang="less" scoped>
     #left-side {
+        .top:nth-child(1){
+            p{
+                font-size: 18px;
+                line-height: 50px;
+            }
+        }
         .menuList {
             a {
                 img {

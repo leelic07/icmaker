@@ -167,6 +167,11 @@ import Page from '../Paginator.vue'
             },
             searchUserList(index){
                 this.indexPage = index;
+                for (let i = 0; i< this.prisonList.length; i++)  {
+                    if (this.prisonList[i].prisonName == this.prisonName) {
+                        this.prisonId = this.prisonList[i].id;
+                    }
+                }
                 const getUrl = 'getUsers';
                 let getData = {
                     'userType' : this.userType,

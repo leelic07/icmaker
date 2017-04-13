@@ -90,7 +90,7 @@
                     <div class="row add-row">
                         <div class="row">
                             <div class="input-group date form_date col-xs-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" placeholder="入监日期" readonly id="intoPrisonDate" v-model = "prisonerInfo.intoPrisonDate">
+                                <input class="form-control" size="16" type="text" placeholder="入监日期" readonly id="intoPrisonDate">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
@@ -183,6 +183,7 @@
                     startView: 2,
                     forceParse: 0,
                     showMeridian: 1,
+                    minView: 2,
                     pickerPosition: 'bottom-left'
                 });
             },
@@ -203,7 +204,9 @@
                         console.log(res);
                         if (res.data.code == 0) {
                             let date = res.data.data.intoPrisonDate;
-                            res.data.data.intoPrisonDate = this.formatDate(date);//处理日期格式
+                            if (date != null) {
+                                $("#intoPrisonDate").val(this.formatDate(date));//处理日期格式
+                            }
                             this.prisonerInfo = res.data.data;//赋值罪犯信息
                             //根据相应的监狱ID来获取监狱名进行显示
                             for (let i = 0; i< this.prisons.length; i++)  {
@@ -295,6 +298,7 @@
                         msg:'请填写完整后再进行提交'
                     }
                     store.dispatch('showRemind');
+                    // alert("请填写完整再提交");
                 }
                     
             },
@@ -320,8 +324,6 @@
             this.dateInit();
             this.getImgUrl();
             this.getPrisonInfo();
-            console.log(Util.readImgUrl);
-           
         }
     }
 </script>

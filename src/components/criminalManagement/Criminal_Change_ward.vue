@@ -306,7 +306,12 @@ import Page from '../Paginator.vue'
 
              criminalSearch(index){//罪犯搜索
                 this.indexPage = index;
-                console.log(this.prisonId);
+                 for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.prisonName) {
+                        this.prisonId = this.prisons[i].id;
+                    }
+                }
+                console.log('prisonId'+this.prisonId);
                 let searchData = {
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
@@ -366,7 +371,7 @@ import Page from '../Paginator.vue'
             },
 
             changeConfirm() {//确定转监区
-                let toDepartmentId = this.toDepartmentId;
+                let toDepartmentId = this.toPrisonDepartmentId;
                 if (toDepartmentId != "") {
                     let prisonData = {
                         "prisonerId": this.currentId,

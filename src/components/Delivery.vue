@@ -10,7 +10,7 @@
                             <label for="prisonId">所属监狱</label>
                             <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1">
                             <datalist class="form-control hidden" id="prisonList">
-                                <option v-for = "prison in prisons" :prisonId = "prison.id">{{prison.prisonName}}</option>
+                                <option v-for = "prison in prisons">{{prison.prisonName}}</option>
                             </datalist>
                         </div>
                         <div class="col-xs-8 select-box">
@@ -284,6 +284,7 @@ import Page from './Paginator.vue'
                             this.prisonId = this.prisons[0].id;
                             this.getPrisonDepartInfo();
                         }
+                        this.getDeliveryList(this.indexPage);
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -305,6 +306,12 @@ import Page from './Paginator.vue'
 
             getDeliveryList(index){
                 this.indexPage = index;
+                for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.prisonName) {
+                        this.prisonId = this.prisons[i].id;
+                    }
+                }
+                console.log('prisonId'+this.prisonName);
                 let searchData = {
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
@@ -574,7 +581,7 @@ import Page from './Paginator.vue'
             $('#table_id_example').select();
             this.getStatusList();
             this.getPrisonInfo();
-            this.getDeliveryList(1);
+            console.log('prisonId'+this.prisonName);
         }
 	}
 </script>

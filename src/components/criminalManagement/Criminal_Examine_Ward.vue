@@ -284,6 +284,11 @@ import Page from '../Paginator.vue'
 
             applyList(index) {//搜索得到转监区审核列表
                 this.indexPage = index;
+                for (let i = 0; i< this.prisons.length; i++)  {
+                    if (this.prisons[i].prisonName == this.fromPrisonName) {
+                        this.fromPrisonId = this.prisons[i].id;
+                    }
+                }
                 let searchData = {
                     "type": 0,//类型为转监区
                     "fromPrisonId": this.fromPrisonId,
