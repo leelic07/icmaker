@@ -44,8 +44,8 @@
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" id="isEnable" v-model = "menuInfo.isEnable">
-                                    <option value = 0>禁用</option>
                                     <option value = 1>启用</option>
+                                    <option value = 0>禁用</option>
                                 </select>
                             </div>
                         </div>
@@ -165,6 +165,8 @@
             addMenu(){
                 let menuName = this.menuInfo.menuName.replace(/(^\s*)|(\s*$)/g,"");
                 let pageUrl = this.menuInfo.pageUrl.replace(/(^\s*)|(\s*$)/g,"");
+                let imgUrl1 = this.imgUrl1 == "./static/img/add.jpg" ? '' : this.imgUrl1;
+                let imgUrl2 = this.imgUrl2 == "./static/img/add.jpg" ? '' : this.imgUrl2;
                 let type = this.menuInfo.type;
                 if (menuName != "" && (type != 1 || pageUrl != "")) {
                     const addUrl = 'menu/addOrUpdateMenu';
@@ -175,8 +177,8 @@
                         'menuName' : menuName,
                         'isEnable' : this.menuInfo.isEnable,
                         'pageUrl' : pageUrl,
-                        'menuIconUrl':this.imgUrl1,
-                        'menuActiveIconUrl':this.imgUrl2
+                        'menuIconUrl':imgUrl1,
+                        'menuActiveIconUrl':imgUrl2
                     };
                     console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{

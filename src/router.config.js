@@ -38,7 +38,9 @@ import CFD_AddCriminal from './components/criminalFundManagement/CFD_Add_Crimina
 import CriminalFundDistribution from './components/criminalFundManagement/Criminal_Fund_Distribution.vue'
 import CashOut from './components/criminalFundManagement/Cash_Out.vue'
 import Consumption from './components/consumption/Consumption.vue' 
-
+import Capital_Composition from './components/statistics/Capital_Composition.vue'
+import Income_Expenditure from './components/statistics/Income_Expenditure.vue'
+import Balance from './components/statistics/Balance.vue'
 
 export default [
 	{
@@ -220,6 +222,18 @@ export default [
 	{
 		path:'/consumption',
 		component:Consumption
+	},
+	{
+		path:'/capital_composition',
+		component:Capital_Composition
+	},
+	{
+		path:'/income_expenditure',
+		component:Income_Expenditure
+	},
+	{
+		path:'/balance',
+		component:Balance
 	},
 	{
 		path:'*',
