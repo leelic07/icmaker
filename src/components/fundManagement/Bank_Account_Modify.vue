@@ -99,12 +99,7 @@ import store from '../../store'
 				bankAccountId:this.$route.params.bankAccountId,
     			prisonAccountId:this.$route.params.prisonAccountId,
                 banks:[],
-                bankAccount:'',
-                // remind:{
-                // 	status:'',
-                // 	msg:'',
-                //     back:''
-                // }
+                bankAccount:''
 			}
 		},
 		computed:{
