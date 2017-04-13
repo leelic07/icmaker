@@ -3,7 +3,18 @@
         <h1 class="wecome-tit">欢迎来到IC卡管理平台</h1>
     </div>
 </template>
-<style>
+
+<script>
+    export default{
+        data(){
+            return{
+                
+            }
+        }
+    }
+</script>
+
+<style scoped>
     #right-side {
         background-color: #fff;
     }

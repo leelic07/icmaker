@@ -1,6 +1,6 @@
 <template>
   	<!-- 右侧内容-->
-    <div id="right-side" class="col-xs-20 pull-right">
+    <div id="right-side" class="col-xs-20 pull-right" :class="{'bgColor':noAuthority}">
 
         <div class='col-xs-24 noAuthority' v-if='userInfo.userType == 0 || userInfo.userType == 1'>
             <h3 class='col-xs-offset-6'>您没有权限访问该页面，只有监狱账户才可以分配资金！</h3>
@@ -114,7 +114,8 @@ import store from '../../store'
 				avilableTotal:'',
 				prisonCapitalAssignsList:[],
                 userInfo:'',
-                errMsg:''
+                errMsg:'',
+                noAuthority:false
 			}
 		},
         computed:{
@@ -151,6 +152,7 @@ import store from '../../store'
                         this.prisonCapitalAssignsList = data.prisonCapitalAssignsList;
                     }else if(res.data.code == 99999){
                         this.errMsg = res.data.msg;
+                        this.noAuthority = true;
                     }
                     
                 }).catch(err=>{
@@ -231,7 +233,11 @@ import store from '../../store'
                 this.$http.get('getIndex').then(res=>{
                     if (res.data.code == 0) {
                         this.userInfo = res.data.data.user;
-                    }  
+                        let userType = this.userInfo.userType;
+                        if(userType == 0 || userType == 1){
+                            this.noAuthority = true;
+                        }
+                    }
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -249,6 +255,9 @@ import store from '../../store'
 
 <style lang='less' scoped>
     #right-side{
+        &.bgColor{
+            background-color:#fff;
+        }
         .noAuthority{
             >h3{
                 margin-top:300px;
