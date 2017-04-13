@@ -100,7 +100,7 @@ import Page from '../Paginator.vue'
                 prisonDepartmentId:'',
                 accountType:'',
                 accountName:'',
-                pageSize:20,
+                pageSize:10,
                 indexPage:1,
                 menuSize:''
 			}
@@ -165,7 +165,7 @@ import Page from '../Paginator.vue'
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
-                    this.menuSize = this.prisonAccountDtos.length;
+                    this.menuSize = res.data.data.prisonAccountDtoSize;
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -206,7 +206,7 @@ import Page from '../Paginator.vue'
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
-                    this.menuSize = this.prisonAccountDtos.length;
+                    this.menuSize = res.data.data.prisonAccountDtoSize;
                 }).catch(err=>{
                     console.log(err);
                 })

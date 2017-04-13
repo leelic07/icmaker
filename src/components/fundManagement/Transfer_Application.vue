@@ -139,7 +139,7 @@ import store from '../../store'
 	export default {
 		data(){
 			return {
-                pageSize:20,
+                pageSize:10,
                 indexPage:1,
                 menuSize:'',
                 prisonAccountDtos:[],
@@ -199,7 +199,7 @@ import store from '../../store'
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
-                    this.menuSize = this.prisonAccountDtos.length;
+                    this.menuSize = res.data.data.prisonAccountDtoSize;
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -219,7 +219,7 @@ import store from '../../store'
                     }
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
-                    this.menuSize = this.prisonAccountDtos.length;
+                    this.menuSize = res.data.data.prisonAccountDtoSize;
                 }).catch(err=>{
                     console.log(err);
                 })
@@ -367,7 +367,7 @@ import store from '../../store'
 
                         store.dispatch('showRemind');
                         $('#transferApplication').modal('hide');
-                        this.searchAccount(this.indexPage);
+                        this.searchAccount(this.indexPage); 
                     }).catch(err=>{
                         console.log(err);
                     });
