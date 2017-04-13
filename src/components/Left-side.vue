@@ -86,8 +86,8 @@
             getSideList(){
                 if (this.$route.path != "/login") {
                     this.$http.get('getIndex').then(res=>{
-                        console.log("侧边栏");
-                        console.log(res);
+                        // console.log("侧边栏");
+                        // console.log(res);
                         if (res.data.code == 0) {
                             this.sideInfo = res.data.data.menuHierarchyDtos;
                             for (let i = 0; i < this.sideInfo.length; i++) {

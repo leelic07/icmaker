@@ -89,11 +89,14 @@
                 <!-- 表单底部-->
                 <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchDetail'></Page>
             </div>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 </template>
 
 <script>
 import Page from '../Paginator.vue'
+import Remind from '../Remind.vue'
+import store from '../../store'
 	export default {
 		data(){
 			return {
@@ -108,6 +111,13 @@ import Page from '../Paginator.vue'
                 prisonName:''
 			}
 		},
+        computed:{
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         watch:{
             //根据监狱名称得到监狱ID
             prisonName(){
@@ -187,15 +197,31 @@ import Page from '../Paginator.vue'
                     }
                 }).then(res=>{
                     let data = res.data.data;
+                    // if(res.data.code == 0){
+                    //     this.prisonCapitalDetailDtos = data.prisonCapitalDetailDtos;
+                    //     this.menuSize = data.prisonCapitalDetailDtoSize;
+                    //     this.remind = {
+                    //         status:'success',
+                    //         msg:res.data.msg
+                    //     };
+                    // }else{
+                    //     this.remind = {
+                    //         status:'failed',
+                    //         msg:res.data.msg
+                    //     }
+                    // }
+                    // store.dispatch('showRemind');
                     this.prisonCapitalDetailDtos = data.prisonCapitalDetailDtos;
                     this.menuSize = data.prisonCapitalDetailDtoSize;
+                    
                 }).catch(err=>{
                     console.log(err);
                 });
             }
         },
         components:{
-            Page
+            Page,
+            Remind
         },
         mounted(){
             $('#table_id_example').tableHover();

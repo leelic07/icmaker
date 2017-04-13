@@ -46,7 +46,6 @@ export default {
                 "password": password
             }
             this.$http.post(loginUrl,$.param(loginData)).then(res=>{
-                console.log(res.data.code);
                 if (res.data.code == 10006) {//用户名或者密码错误
                     this.isWrong = true;
                 } else if (res.data.code == 0) {//登陆成功

@@ -32,7 +32,6 @@ import store from '../store'
 			//点击确定退出
             logOutConfirm(){
                 this.$http.post("/logout").then(res=>{
-                    console.log(res.data.code);
                     if (res.data.code == 0) {//登出成功
                         window.localStorage.setItem('userId','');  
                         this.$router.push({path:"/login"});
