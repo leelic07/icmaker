@@ -101,7 +101,7 @@
 
             getAllPrisonList(){//获取监狱列表
                 this.$http.get('prisoner/getAllPrison').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                          this.allPrisonList = res.data.data;
                     }
@@ -116,7 +116,7 @@
                 } else {
                     this.prisonShow = true;
                 }
-                console.log(this.accountInfo.prisonId);
+                // console.log(this.accountInfo.prisonId);
             },
 
             accountAdd () {//新增虚拟账号 
@@ -124,16 +124,16 @@
                 let prisonId = this.accountInfo.type == 2 ? "" : this.accountInfo.prisonId;
                 let type = this.accountInfo.type;
                 let numReg = new RegExp("^[0-9]*$");
-                console.log(prisonId);
+                // console.log(prisonId);
                 if (accountNo != "" && numReg.test(accountNo) && (type == 2 || prisonId != "")) {
                     let addData = {
                         "accountNo": accountNo,
                         "prisonId": prisonId,
                         "type": type
                     }
-                    console.log(addData);
+                    // console.log(addData);
                     this.$http.post("icCard/addAccount",$.param(addData)).then(res=>{
-                        console.log(res);
+                        // console.log(res);
                         if (res.data.code == 0) {//返回成功 
                             this.$router.push({path:"/management"});
                         }else {

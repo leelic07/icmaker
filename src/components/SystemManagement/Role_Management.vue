@@ -37,25 +37,27 @@
                     <div class="col-xs-23">
                         <table class="display table ic-table" id="table_id_example">
                             <thead>
-                            <tr>
-                                <th>角色名称</th>
-                                <th>创建人</th>
-                                <th>创建时间</th>
-                                <th>最后修改时间</th>
-                                <th>修改人</th>
-                                <th colspan="2">操作</th>
-                            </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>角色名称</th>
+                                    <th>创建人</th>
+                                    <th>创建时间</th>
+                                    <th>最后修改时间</th>
+                                    <th>修改人</th>
+                                    <th colspan="2">操作</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr v-for = "role in roleList">
-                                <td>{{role.roleName}}</td>
-                                <td>{{role.createdUserName}}</td>
-                                <td>{{role.createdAt | formatDate}}</td>
-                                <td>{{role.updatedAt | formatDate}}</td>
-                                <td>{{role.updatedUserName}}</td>
-                                <td><router-link class="agree-text" :to = '"/role_management/edit/"+role.roleId' >修改</router-link></td>
-                                <td><em class="reject-text"  @click = "deleteRole($event)" :id = "role.roleId">删除</em></td>
-                            </tr>
+                                <tr v-for = "role in roleList">
+                                    <td></td>
+                                    <td>{{role.roleName}}</td>
+                                    <td>{{role.createdUserName}}</td>
+                                    <td>{{role.createdAt | formatDate}}</td>
+                                    <td>{{role.updatedAt | formatDate}}</td>
+                                    <td>{{role.updatedUserName}}</td>
+                                    <td><router-link class="agree-text" :to = '"/role_management/edit/"+role.roleId' >修改</router-link></td>
+                                    <td><em class="reject-text"  @click = "deleteRole($event)" :id = "role.roleId">删除</em></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -167,9 +169,9 @@ import Page from '../Paginator.vue'
                     'indexPage' : this.indexPage,
                     'pageSize' : this.pageSize
                 };
-                console.log(getData);
+                // console.log(getData);
                 this.$http.get(getUrl,{params: getData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     let status = res.data.code;
                     if (status == 0) {//返回成功
                         this.roleList = res.data.data.roles;

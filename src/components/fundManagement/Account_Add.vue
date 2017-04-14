@@ -97,7 +97,7 @@ import store from '../../store'
             },
 
             prisonId(){
-                console.log('change');
+                // console.log('change');
                 let pd = this.prisonDepartments;
                 let pdt = this.prisonDepartmentsTem;
                 pdt.splice(0,pdt.length);
@@ -177,7 +177,6 @@ import store from '../../store'
                         url:'/prisonAccount/addOrUpdatePrisonAccount',
                         params:params
                     }).then(res=>{
-                        console.log(res.data.code,res.data.msg);
                         if(res.data.code == 0){
                             this.remind = {
                                 status:'success',
@@ -192,7 +191,8 @@ import store from '../../store'
                             this.remind = {
                                 status:'failed',
                                 msg:res.data.msg
-                            }
+                            };
+                            console.log(res.data.code,res.data.msg);
                         }
 
                         store.dispatch('showRemind');

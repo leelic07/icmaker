@@ -197,11 +197,11 @@
             getEditInfo() {
                 let prisonerId = this.$route.params.id;
                 this.prisonerId = prisonerId;
-                console.log(this.prisonerId);
+                // console.log(this.prisonerId);
                 if (prisonerId != undefined) {//编辑页面
                     this.$http.get('prisoner/getPrisoner',{params: {"prisonerId":prisonerId}}).then(res=>{
-                        console.log("editInfo:");
-                        console.log(res);
+                        // console.log("editInfo:");
+                        // console.log(res);
                         if (res.data.code == 0) {
                             let date = res.data.data.intoPrisonDate;
                             if (date != null) {
@@ -215,7 +215,7 @@
                                 }
                             }
                             let prisonId = this.prisonerInfo.prisonId;
-                            console.log("prisonId" + this.prisonerInfo.prisonId);
+                            // console.log("prisonId" + this.prisonerInfo.prisonId);
                             let prisonDepartmentId = this.prisonerInfo.prisonDepartmentId;   
                             this.getPrisonDepartInfo(prisonDepartmentId);//获取监区信息
                             this.imgUrl = this.prisonerInfo.imgUrl;
@@ -228,7 +228,7 @@
             },
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         this.getEditInfo();
@@ -243,7 +243,7 @@
             getPrisonDepartInfo (departId) {//获取监区信息
                 let prisonId = this.prisonerInfo.prisonId;
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                         if (departId == null){
@@ -258,8 +258,8 @@
             },
             commitPrisonerInfo () {
                 let prisonerInfo = this.prisonerInfo;
-                console.log('prisonerInfo.name'+prisonerInfo.name);
-                console.log(this.prisonerInfo);
+                // console.log('prisonerInfo.name'+prisonerInfo.name);
+                // console.log(this.prisonerInfo);
                 if (this.imgUrl != "./static/img/add.jpg" && prisonerInfo.prisonId != "" && prisonerInfo.prisonDepartmentId != "" && prisonerInfo.name != "" && prisonerInfo.archivesNumber != "" && prisonerInfo.number != "") {//必填项都有值
                     let numReg = new RegExp("^[0-9]*$");// 数值
                     let cardReg = new RegExp("^\\d{17}(\\d|x)$");//身份证号
@@ -276,9 +276,9 @@
                         prisonerInfo.prisonerId = this.$route.params.id;
                         prisonerInfo.imgUrl = this.imgUrl;
                         prisonerInfo.intoPrisonDate = $("#intoPrisonDate").val();
-                        console.log(this.prisonerInfo);
+                        // console.log(this.prisonerInfo);
                         this.$http.post("prisoner/addOrEditPrisoner",$.param(prisonerInfo)).then(res=>{
-                            console.log(res);
+                            // console.log(res);
                             if (res.data.code == 0) {
                                 this.$router.push({path:"/crimsearch"});
                             } else {

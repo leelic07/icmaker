@@ -212,7 +212,7 @@ import Page from './Paginator.vue'
 
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -231,7 +231,7 @@ import Page from './Paginator.vue'
                 this.prisonDepartments = "";
                 this.departmentId = "";
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                     }
@@ -258,10 +258,10 @@ import Page from './Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log("列表");
-                console.log(searchData);
+                // console.log("列表");
+                // console.log(searchData);
                 this.$http.get('icCard/prisonerICs',{params:searchData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.icCardList = res.data.data.prisonerICs;//赋值罪犯列表
                         this.icCardSize = res.data.data.icSize;//赋值罪犯列表数
@@ -302,7 +302,7 @@ import Page from './Paginator.vue'
 
             cancelLoss(e) {//解挂
                 this.currentIcId = e.target.getAttribute("icId");
-                console.log(this.currentIcId);
+                // console.log(this.currentIcId);
                 $('#cancelConfirm').modal();
             },
 
@@ -311,7 +311,7 @@ import Page from './Paginator.vue'
                     "prisonerICId": this.currentIcId
                 };
                 this.$http.post("icCard/releaseReport",$.param(cancelData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',
@@ -332,7 +332,7 @@ import Page from './Paginator.vue'
 
             cancellation(e) {//注销
                 this.currentIcId = e.target.getAttribute("icId");
-                console.log(this.currentIcId);
+                // console.log(this.currentIcId);
                 $('#cancellationConfirm').modal();
             },
 
@@ -341,7 +341,7 @@ import Page from './Paginator.vue'
                     "prisonerICId": this.currentIcId
                 };
                 this.$http.post("icCard/pinCard",$.param(cancelData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',

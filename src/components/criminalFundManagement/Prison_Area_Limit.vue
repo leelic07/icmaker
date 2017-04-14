@@ -36,6 +36,7 @@
                 <table class="display table ic-table" id="table_id_example">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>所属监狱</th>
                             <th>所属监区</th>
                             <th>日限额</th>
@@ -45,6 +46,7 @@
                     </thead>
                     <tbody>
                         <tr v-for = "fund in fundList">
+                            <td></td>
                             <td>{{fund.prison_name}}</td>
                             <td>{{fund.prison_department_name}}</td>
                             <td>{{fund.day_money | currency}}</td>
@@ -149,7 +151,7 @@ import Page from '../Paginator.vue'
 		methods:{
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -168,7 +170,7 @@ import Page from '../Paginator.vue'
                 this.prisonDepartments = "";
                 this.prisonDepartmentId = "";
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                     }
@@ -190,10 +192,10 @@ import Page from '../Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log(searchData);
+                // console.log(searchData);
                 this.$http.get('areaCrimeConsumptionRestrictList',{params:searchData}).then(res=>{
-                    console.log("列表");
-                    console.log(res);
+                    // console.log("列表");
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.fundList = res.data.data.areaCrimeConsumptionRestrictList;//赋值监区犯罪消费资金列表
                         this.fundSize = res.data.data.areaCrimeConsumptionRestrictListSize;//赋值监区犯罪消费资金列表数
@@ -237,7 +239,7 @@ import Page from '../Paginator.vue'
                             "typeId": this.typeId
                         };
                         this.$http.post("prisionOrAreaConsumptionQuota",$.param(setData)).then(res=>{
-                            console.log(res);
+                            // console.log(res);
                              if (res.data.code == 0) {//返回成功
                                  this.remind = {
                                     status:'success',

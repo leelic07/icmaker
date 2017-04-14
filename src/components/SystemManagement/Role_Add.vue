@@ -71,7 +71,7 @@
 		methods:{
             getFirstMenuList(){//获取菜单列表
                 this.$http.get('role/getMenuHierarchys',{params:{'type':0}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.firstMenuList = res.data.data;
                         this.getEditInfo();
@@ -84,7 +84,7 @@
             getEditInfo(){//点击编辑时获取角色原有的权限和信息
                 let id = this.$route.params.id;
                 this.$http.get('/role/getRole',{params:{'roleId':id}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         let editInfo = res.data.data;
                         this.roleName = editInfo.roleName;//绑定角色名称
@@ -134,9 +134,9 @@
                     }
                     store.dispatch('showRemind');
                 } else {
-                    console.log(roleData);
+                    // console.log(roleData);
                     this.$http.post('role/addOrUpdateRole',$.param(roleData)).then(res=>{
-                        console.log(res);
+                        // console.log(res);
                         if (res.data.code == 0) {
                             store.dispatch('reloadSide');
                             this.$router.push({path:"/role_management"});    

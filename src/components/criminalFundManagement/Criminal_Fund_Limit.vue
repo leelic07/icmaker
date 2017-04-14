@@ -185,7 +185,7 @@ import Page from '../Paginator.vue'
 		methods:{
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -204,7 +204,7 @@ import Page from '../Paginator.vue'
                 this.prisonDepartments = "";
                 this.prisonDepartmentId = "";
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                     }
@@ -231,8 +231,8 @@ import Page from '../Paginator.vue'
                 };
                 // console.log(searchData);
                 this.$http.get('personalCrimeConsumptionRestrictList',{params:searchData}).then(res=>{
-                    console.log("列表");
-                    console.log(res);
+                    // console.log("列表");
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.fundList = res.data.data.personalCrimeConsumptionRestrictList;//赋值个人犯罪消费资金列表
                         this.fundSize = res.data.data.personalCrimeConsumptionRestrictListSize;//赋值个人犯罪消费资金列表数
@@ -295,7 +295,7 @@ import Page from '../Paginator.vue'
                                 "dayMoney": dayMoney
                             };
                             this.$http.post("consumptionQuota",$.param(setData)).then(res=>{
-                                console.log(res);
+                                // console.log(res);
                                 if (res.data.code == 0) {//返回成功
                                     this.remind = {
                                         status:'success',
@@ -320,7 +320,7 @@ import Page from '../Paginator.vue'
                                 "dayMoney": dayMoney
                             };
                             this.$http.post("batchConsumptionQuota",$.param(setData)).then(res=>{
-                                console.log(res);
+                                // console.log(res);
                                 if (res.data.code == 0) {
                                     this.remind = {
                                         status:'success',

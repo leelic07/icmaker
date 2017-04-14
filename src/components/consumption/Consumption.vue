@@ -87,7 +87,7 @@
 		},
         watch: {
             icCardNo(val){
-                console.log(val);
+                // console.log(val);
                 this.getPrisonerInfo ();
             }
         },
@@ -102,12 +102,12 @@
 
         methods:{
             getPrisonerInfo () {
-                console.log(this.icCardNo);
+                // console.log(this.icCardNo);
                 let prisonerData = {
                     "icCardNo": this.icCardNo
                 };
                 this.$http.get('prisonerConsumer/getPrisoner',{params:prisonerData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     this.code = res.data.code;
                     if (res.data.code == 0) {
                         this.prisonerInfo = res.data.data;
@@ -127,7 +127,7 @@
                             "remark": this.remark
                         };
                         this.$http.post("prisonerConsumer/addPrisonerCapitalConsumer",$.param(prisonerData)).then(res=>{
-                            console.log(res);
+                            // console.log(res);
                             if (res.data.code == 0) {
                                 this.icCardNo = "";
                                 this.getPrisonerInfo();

@@ -111,7 +111,7 @@
 		methods:{
             //切换新增菜单类型
 			changeMenuType(){
-                console.log(this.menuInfo.type);
+                // console.log(this.menuInfo.type);
                 if (this.menuInfo.type == 0) {//一级菜单时
                     this.isSecondMenu = false;
                 } else if (this.menuInfo.type == 1 ) {//二级菜单时
@@ -123,7 +123,7 @@
                             if (this.$route.params.id == undefined) {
                                 this.menuInfo.pId = this.firstMenuList[0].id;
                             }
-                            console.log(this.firstMenuList);
+                            // console.log(this.firstMenuList);
                         }
                     }).catch(err=>{
                         console.log('获取菜单列表服务器异常' + err);
@@ -135,12 +135,12 @@
             getEditInfo(){
                 let id = this.$route.params.id;
                 this.$http.get('menu/getMenu',{params:{'id':id}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                          this.menuInfo = res.data.data;//赋值单个菜单信息
                          this.imgUrl1 =this.menuInfo.menuIconUrl == null ? this.imgUrl1 : this.menuInfo.menuIconUrl;
                          this.imgUrl2 =this.menuInfo.menuActiveIconUrl == null ? this.imgUrl2 : this.menuInfo.menuActiveIconUrl;
-                        console.log(this.menuInfo);
+                        // console.log(this.menuInfo);
                         this.changeMenuType();//调用控制第一级菜单下拉列表是否显示的函数
                     }
                 }).catch(err=>{
@@ -169,7 +169,7 @@
                 let imgUrl1 = this.imgUrl1 == "./static/img/add.jpg" ? '' : this.imgUrl1;
                 let imgUrl2 = this.imgUrl2 == "./static/img/add.jpg" ? '' : this.imgUrl2;
                 let type = this.menuInfo.type;
-                console.log(type == 0 || pageUrl != "");
+                // console.log(type == 0 || pageUrl != "");
                 if (menuName != "" && (type != 1 || pageUrl != "")) {
                     const addUrl = 'menu/addOrUpdateMenu';
                     let addData = {
@@ -182,9 +182,9 @@
                         'menuIconUrl':imgUrl1,
                         'menuActiveIconUrl':imgUrl2
                     };
-                    console.log(addData);
+                    // console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
-                        console.log(res);
+                        // console.log(res);
                         if (res.data.code == 0) {//返回成功
                             this.$router.push({path:"/menu_management"});
                             store.dispatch('reloadSide');      

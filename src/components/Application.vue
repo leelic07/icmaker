@@ -207,7 +207,7 @@ import Page from './Paginator.vue'
 
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -226,7 +226,7 @@ import Page from './Paginator.vue'
                 this.prisonDepartments = "";
                 this.departmentId = "";
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                     }
@@ -253,10 +253,10 @@ import Page from './Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log(searchData);
+                // console.log(searchData);
                 this.$http.get('icCard/prisonerCards',{params:searchData}).then(res=>{
-                    console.log("列表");
-                    console.log(res);
+                    // console.log("列表");
+                    // console.log(res);
                     if (res.data.code == 0) {
                          this.applyList = res.data.data.prisonerICRecords;//赋值申请列表
                          this.applySize = res.data.data.recordSize;//赋值申请列表数
@@ -278,7 +278,7 @@ import Page from './Paginator.vue'
                     "type": this.type
                 };
                 this.$http.post("icCard/applyForCard",$.param(applyData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',
@@ -322,7 +322,7 @@ import Page from './Paginator.vue'
                     "type": 0
                 };
                 this.$http.post("icCard/applyCards",$.param(applyData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',

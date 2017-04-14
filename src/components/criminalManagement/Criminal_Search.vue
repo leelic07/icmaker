@@ -195,7 +195,7 @@ import Page from '../Paginator.vue'
 
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -212,7 +212,7 @@ import Page from '../Paginator.vue'
 
             getPrisonDepartInfo () {//获取监区信息
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                     }
@@ -238,9 +238,9 @@ import Page from '../Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log(searchData);
+                // console.log(searchData);
                 this.$http.get('prisoner/getPrisoners',{params:searchData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonerList = res.data.data.prisoners;//赋值罪犯列表
                         this.prisonerSize = res.data.data.prisonerSize;//赋值罪犯列表数
@@ -253,7 +253,7 @@ import Page from '../Paginator.vue'
             deletePrisoner (e) {//点击删除按钮
                 $('#delCriminalConfirm').modal();
                 this.currentId = e.target.getAttribute("id");
-                console.log(this.currentId);
+                // console.log(this.currentId);
             },
 
             deleteConfirm(e) {//点击确认删除

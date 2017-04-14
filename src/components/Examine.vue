@@ -189,7 +189,7 @@ export default{
 
         getPrisonInfo() {//根据用户信息获取监狱信息
             this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                console.log(res);
+                // console.log(res);
                 if (res.data.code == 0) {
                     this.prisons = res.data.data.prisons;//赋值监狱列表
                     if (this.prisons.length == 1) {
@@ -208,7 +208,7 @@ export default{
             this.prisonDepartments = "";
             this.prisonDepartmentId = "";
             this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                console.log(res);
+                // console.log(res);
                 if (res.data.code == 0) {
                     this.prisonDepartments = res.data.data;//赋值监区列表
                 }
@@ -235,10 +235,10 @@ export default{
                 "indexPage":this.indexPage,
                 "pageSize":this.pageSize
             };
-            console.log(searchData);
+            // console.log(searchData);
             this.$http.get('icCard/getCardApplies',{params:searchData}).then(res=>{
-                console.log("列表");
-                console.log(res);
+                // console.log("列表");
+                // console.log(res);
                 if (res.data.code == 0) {
                     this.examList = res.data.data.applies;//赋值审核列表
                     this.examSize = res.data.data.applySize;//赋值审核列表数
@@ -275,14 +275,14 @@ export default{
         },
 
         receiveConfirm(verifyType,examType) {
-            console.log(examType);
+            // console.log(examType);
             if (examType == 1) {
                 let receiveData = {
                     "recordId": this.recordId,
                     "verifyType": this.verifyType
                 };
                 this.$http.post("icCard/cardApplyVerify",$.param(receiveData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {//返回成功
                         this.remind = {
                             status:'success',
@@ -305,7 +305,7 @@ export default{
                     "verifyType": this.verifyType
                 };
                 this.$http.post("icCard/applyVerifies",$.param(receiveData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {//返回成功
                         this.remind = {
                             status:'success',
