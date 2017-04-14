@@ -29,6 +29,7 @@
                     <table class="display table ic-table" id="table_id_example">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>所属监狱</th>
                                 <th>日限额</th>
                                 <th>月限额</th>
@@ -37,6 +38,7 @@
                         </thead>
                         <tbody>
                             <tr v-for = "fund in fundList">
+                                <td></td>
                                 <td>{{fund.prison_name}}</td>
                                 <td>{{fund.day_money | currency}}</td>
                                 <td>{{fund.month_money | currency}}</td>
@@ -134,7 +136,7 @@ import Page from '../Paginator.vue'
 		methods:{
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -160,10 +162,10 @@ import Page from '../Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log(searchData);
+                // console.log(searchData);
                 this.$http.get('prisionCrimeConsumptionRestrictList',{params:searchData}).then(res=>{
-                    console.log("列表");
-                    console.log(res);
+                    // console.log("列表");
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.fundList = res.data.data.prisionCrimeConsumptionRestrictList;//赋值监狱犯罪消费资金列表
                         this.fundSize = res.data.data.prisionCrimeConsumptionRestrictListSize;//赋值监狱犯罪消费资金列表数
@@ -188,8 +190,8 @@ import Page from '../Paginator.vue'
                 let monthMoney = this.monthMoney == "" ? "" : this.monthMoney*100;
                 let dayMoney = this.dayMoney == "" ? "" : this.dayMoney*100;
                 let numReg = new RegExp("^[0-9]*$");// 数值
-                console.log("monthMoney" + monthMoney);
-                console.log("dayMoney" + dayMoney);
+                // console.log("monthMoney" + monthMoney);
+                // console.log("dayMoney" + dayMoney);
                 if (monthMoney != "" || dayMoney != "") {
                     if (!numReg.test(monthMoney) || !numReg.test(dayMoney)) {
                         this.remind = {
@@ -206,7 +208,7 @@ import Page from '../Paginator.vue'
                             "typeId": this.typeId
                         };
                         this.$http.post("prisionOrAreaConsumptionQuota",$.param(setData)).then(res=>{
-                            console.log(res);
+                            // console.log(res);
                             if (res.data.code == 0) {//返回成功
                                  this.remind = {
                                     status:'success',

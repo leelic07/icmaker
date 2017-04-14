@@ -1,7 +1,7 @@
-const LoadingComponent = require('./Loading.vue')
+const LoginLoadingComponent = require('./LoginLoading.vue')
 const loginLoading = {
   install: function(Vue) {
-    Vue.component('loading', LoadingComponent)
+    Vue.component('loginLoading', LoginLoadingComponent);
   }
 }
 module.exports = loginLoading;

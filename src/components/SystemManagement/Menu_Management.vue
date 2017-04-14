@@ -34,29 +34,31 @@
                 <div class="col-xs-23">
                     <table class="display table ic-table" id="table_id_example">
                         <thead>
-                        <tr>
-                            <th>菜单类别</th>
-                            <th>一级菜单名称</th>
-                            <th>二级菜单名称</th>
-                            <th>菜单路径</th>
-                            <th>是否启用</th>
-                            <th>创建时间</th>
-                            <th colspan="3">操作</th>
-                        </tr>
+                            <tr>
+                                <th></th>
+                                <th>菜单类别</th>
+                                <th>一级菜单名称</th>
+                                <th>二级菜单名称</th>
+                                <th>菜单路径</th>
+                                <th>是否启用</th>
+                                <th>创建时间</th>
+                                <th colspan="3">操作</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr v-for = "menu in menuList">
-                            <td>{{menu.type | formatMenuType}}</td>
-                            <td>{{menu.firstMenuName}}</td>
-                            <td>{{menu.secondMenuName}}</td>
-                            <td>{{menu.pageUrl}}</td>
-                            <td>{{menu.isEnable | formatIsEnable}}</td>
-                            <td>{{menu.createdAt | formatDate}}</td>
-                            <td v-if = "menu.isEnable == 0"><em class="agree-text" :id = "menu.id" @click = "enubleMenu($event,1)">启用</em></td>
-                            <td v-else><em class="agree-text" :id = "menu.id" @click = "enubleMenu($event,0)">停用</em></td>
-                            <td><em class="reject-text" :id = "menu.id" @click = "deleteMenu($event)">删除</em></td>
-                            <td><router-link class="agree-text" :id = "menu.id" :to='"/menu_management/edit/"+menu.id'>编辑</router-link></td>
-                        </tr>
+                            <tr v-for = "menu in menuList">
+                                <td></td>
+                                <td>{{menu.type | formatMenuType}}</td>
+                                <td>{{menu.firstMenuName}}</td>
+                                <td>{{menu.secondMenuName}}</td>
+                                <td>{{menu.pageUrl}}</td>
+                                <td>{{menu.isEnable | formatIsEnable}}</td>
+                                <td>{{menu.createdAt | formatDate}}</td>
+                                <td v-if = "menu.isEnable == 0"><em class="agree-text" :id = "menu.id" @click = "enubleMenu($event,1)">启用</em></td>
+                                <td v-else><em class="agree-text" :id = "menu.id" @click = "enubleMenu($event,0)">停用</em></td>
+                                <td><em class="reject-text" :id = "menu.id" @click = "deleteMenu($event)">删除</em></td>
+                                <td><router-link class="agree-text" :id = "menu.id" :to='"/menu_management/edit/"+menu.id'>编辑</router-link></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -149,9 +151,9 @@ import Page from '../Paginator.vue'
                     'indexPage' : this.indexPage,
                     'pageSize' : this.pageSize
                 };
-                console.log(getData);
+                // console.log(getData);
                 this.$http.get(getUrl,{params: getData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.menuList = res.data.data.menuDtos;
                         this.menuSize = res.data.data.menuSize;
@@ -210,7 +212,7 @@ import Page from '../Paginator.vue'
                };
                const enubleUrl = 'menu/updateMenuEnuble';
                this.$http.post(enubleUrl,$.param(enubleData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {//返回成功
                         this.searchMenu(this.indexPage);
                         store.dispatch('reloadSide');

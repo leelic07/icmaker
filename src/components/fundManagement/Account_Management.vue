@@ -57,6 +57,7 @@
                 <table class="display table ic-table" id="table_id_example">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>所属监狱</th>
                             <th>所属监区</th>
                             <th>账户类型</th>
@@ -68,6 +69,7 @@
                     </thead>
                     <tbody>
                         <tr v-for='pad in prisonAccountDtos'>
+                            <td></td>
                             <td v-text='pad.prisonName'></td>
                             <td v-text='pad.prisonDepartmentName'></td>
                             <td>{{pad.accountType | accountType}}</td>

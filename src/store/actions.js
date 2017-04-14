@@ -19,5 +19,11 @@ export default {
 	},
 	reloadSide:({commit})=>{
 		commit('reloadSide');
+	},
+	showLoginLoading:({commit})=>{
+		commit('showLoginLoading');
+	},
+	hideLoginLoading:({commit})=>{
+		commit('hideLoginLoading');
 	}
 }

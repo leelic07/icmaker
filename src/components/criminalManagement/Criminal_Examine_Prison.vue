@@ -247,7 +247,7 @@ import Page from '../Paginator.vue'
 
             getPrisonInfo() {//获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                          if (this.prisons.length == 1) {
@@ -263,7 +263,7 @@ import Page from '../Paginator.vue'
 
             getAllPrisonInfo() {//获取所有的监狱列表
                 this.$http.get('prisoner/getAllPrison').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.allPrisons = res.data.data;//赋值全部的监狱列表
                     }
@@ -287,9 +287,9 @@ import Page from '../Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log(searchData);
+                // console.log(searchData);
                 this.$http.get('prisoner/getPrisonerTransfers',{params:searchData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.transfers = res.data.data.transfers;//赋值罪犯列表
                         this.transferSize = res.data.data.transferSize;//赋值罪犯列表数
@@ -338,9 +338,9 @@ import Page from '../Paginator.vue'
                     "verifyNote": $("#verifyNote").val(),
                     "prisonerTransferId": e.target.getAttribute("id")
                 };
-                console.log(transferData);
+                // console.log(transferData);
                 this.$http.post('prisoner/transferVerify',$.param(transferData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',
@@ -364,9 +364,9 @@ import Page from '../Paginator.vue'
                     "verifyType": type,
                     "ids": this.choiseIds.join(',') 
                 };
-                console.log(transferAllData);
+                // console.log(transferAllData);
                 this.$http.post('prisoner/transferVerifyByIds',$.param(transferAllData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',

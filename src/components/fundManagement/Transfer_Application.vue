@@ -369,7 +369,7 @@ import store from '../../store'
                 }).then(res=>{
                     let data = res.data.data;
                     this.prisonList = data.prisons;
-                    console.log(this.prisonList);
+                    // console.log(this.prisonList);
                     if(this.prisonList.length == 1){
                         this.prisonId = this.prisonList[0].id;
                         this.prisonName = this.prisonList[0].prisonName;

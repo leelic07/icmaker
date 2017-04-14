@@ -158,10 +158,10 @@ import {mapGetters,mapMutations} from 'vuex'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log(searchData);
+                // console.log(searchData);
                 this.$http.get('icCard/accountList',{params:searchData}).then(res=>{
-                    console.log("列表");
-                    console.log(res);
+                    // console.log("列表");
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.accountList = res.data.data.accounts;//赋值虚拟账户列表
                         this.accountSize = res.data.data.accountSize;//赋值虚拟账户列表数
@@ -177,10 +177,10 @@ import {mapGetters,mapMutations} from 'vuex'
                 let detailData = {
                     "accountId": this.accountId
                 };
-                console.log(detailData);
+                // console.log(detailData);
                 this.$http.get('icCard/accountDetail',{params:detailData}).then(res=>{
-                    console.log("列表");
-                    console.log(res);
+                    // console.log("列表");
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.detailList = res.data.data.details;//赋值虚拟账号详情列表
                         this.virtualAccount = res.data.data.virtualAccount;//赋值虚拟账号详情列表
@@ -200,7 +200,7 @@ import {mapGetters,mapMutations} from 'vuex'
                     "accountId": this.accountId
                 };
                 this.$http.post('icCard/deleteAccount',$.param(deleteData)).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',

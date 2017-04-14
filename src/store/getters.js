@@ -19,5 +19,10 @@ export default {
 	//返回sideReload的状态
 	sideReload(state){
 		return state.sideReload;
+	},
+
+	//返回loginLoading的状态
+	loginLoadingShow(state){
+		return state.loginLoading;
 	}
 }

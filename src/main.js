@@ -5,7 +5,7 @@ import routes from './router.config.js'
 import store from './store'
 import axios from 'axios'
 import Loading from './components/loading'
-import LoginLoading from './components/LoginLoading'
+import LoginLoading from './components/loginLoading'
 import $ from 'jquery'
 import Filters from './filters'
 import Validate from '../static/js/validate.js'
@@ -41,20 +41,26 @@ Vue.prototype.$http = axios;
 
 //ajax请求拦截器
 axios.interceptors.request.use(function(config){
-	store.dispatch('showLoading');
+  if(config.url != config.baseURL+'login'){
+    store.dispatch('showLoading');
+  }else{
+    console.log('loginLoadingshow');
+    store.dispatch('showLoginLoading');
+  }
+	
 	// console.log(config);
-        // config.headers.Authorization = `token ${store.state.mutations.token}`;
-      if(config.method == 'get'){
-        if(config.params){
-          config.params.userId = window.localStorage.getItem('userId');
-        }else{
-          config.url += '?userId=' + window.localStorage.getItem('userId');
-        }  
-      }	
-      if(config.method == 'post' && config.url != config.baseURL+'login'){
-      	config.data += '&userId=' + window.localStorage.getItem('userId');
-      }
-	return config;
+  // config.headers.Authorization = `token ${store.state.mutations.token}`;
+  if(config.method == 'get'){
+    if(config.params){
+      config.params.userId = window.localStorage.getItem('userId');
+    }else{
+      config.url += '?userId=' + window.localStorage.getItem('userId');
+    }  
+  }	
+  if(config.method == 'post' && config.url != config.baseURL+'login'){
+  	config.data += '&userId=' + window.localStorage.getItem('userId');
+  }
+  return config;
 },function(err){
 	return Promise.reject(err);
 });
@@ -62,6 +68,7 @@ axios.interceptors.request.use(function(config){
 //ajax响应拦截器
 axios.interceptors.response.use(function(response){
 	store.dispatch('hideLoading');
+  // store.dispatch('hideLoginLoading');
   // console.log(response);
 	return response;
 },function(err){
@@ -79,8 +86,12 @@ axios.interceptors.response.use(function(response){
 axios.defaults.baseURL='http://106.14.18.98:8080//icmaker/';
 
 //axios.defaults.baseURL='http://10.10.10.2:8080/icmaker/';
-//axios.defaults.baseURL='http://10.10.10.117:8080/icmaker/';
-//axios.defaults.baseURL='http://10.10.10.120:8080//icmaker/';
+
+// axios.defaults.baseURL='http://10.10.10.117:8080/icmaker/';
+
+axios.defaults.baseURL='http://10.10.10.120:8080//icmaker/';
+
+// axios.defaults.baseURL='http://localhost:8080/icmaker/';
 
 //设置路由
 const router = new VueRouter({
@@ -93,15 +104,13 @@ router.beforeEach((to, from, next) => {
         if (window.localStorage.getItem('userId')) {  // 通过vuex state获取当前的token是否存在
             next();
             window.scrollTo(0, 0);
+        }else {
+          next({
+              path: '/login',
+              query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+          });
         }
-        else {
-            next({
-                path: '/login',
-                query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-            })
-        }
-    }
-    else {
+    }else {
         next();
     }
 });

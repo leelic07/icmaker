@@ -21,7 +21,7 @@
 		width:8%;
 		height:90px;
 		top:40%;
-		left:55%;
+		left:46%;
 	}
 	.zns-loading-inner{
 		display:flex;

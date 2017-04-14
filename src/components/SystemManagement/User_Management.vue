@@ -53,6 +53,7 @@
                     <table class="display table ic-table" id="table_id_example">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>账号类型</th>
                             <th>用户名</th>
                             <th>角色名</th>
@@ -66,6 +67,7 @@
                         </thead>
                         <tbody>
                         <tr v-for = "user in userList">
+                            <td></td>
                             <td>{{user.userType | formatUserType}}</td>
                             <td>{{user.userName}}</td>
                             <td>{{user.roleName}}</td>
@@ -152,7 +154,7 @@ import Page from '../Paginator.vue'
             },
             getPrisonList(){//获取监狱列表
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonList = res.data.data.prisons;
                          if (this.prisonList.length == 1) {
@@ -182,9 +184,9 @@ import Page from '../Paginator.vue'
                     'indexPage' : this.indexPage,
                     'pageSize' : this.pageSize
                 };
-                console.log(getData);
+                // console.log(getData);
                 this.$http.get(getUrl,{params: getData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     let status = res.data.code;
                     if (status == 0) {//返回成功
                         this.userList = res.data.data.users;//用户列表赋值

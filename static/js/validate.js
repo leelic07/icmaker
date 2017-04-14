@@ -4,10 +4,10 @@ export default{
         for(let i = 0;i < arguments.length;i++){
             arguments[i] += '';
             if(arguments[i].replace(/(^\s*)|(\s*$)/g,'') == ''){
-                return true;
+                return true;//为空
             }
         }
-        return false;
+        return false;//不为空
     },
 
     //判断是否为空，并且是否为正整数或浮点数
@@ -15,10 +15,10 @@ export default{
         let pattNum = new RegExp('^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$');
         for(let i = 0;i < arguments.length;i++){
             if(this.isNull(arguments[i]) || !pattNum.test(arguments[i])){
-                return false;
+                return false;//不是数字
             }
         }
-        return true;
+        return true;//是数字
     },
 
     //可以为空或者为数值型
@@ -55,7 +55,5 @@ export default{
         }
         return true;
     },
-
-    //
 
 }

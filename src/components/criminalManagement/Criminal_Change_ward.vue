@@ -219,7 +219,7 @@ import Page from '../Paginator.vue'
 
             getPrisonInfo() {//获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -236,7 +236,7 @@ import Page from '../Paginator.vue'
 
             getPrisonDepartInfo (prisonId,type,departId) {//获取监区信息 type-0 所属监区 1-批量转至监区列表 2-单个转至监区列表
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         if(type == 0) {
                             this.prisonDepartments = res.data.data;//赋值搜索栏监区列表
@@ -249,7 +249,7 @@ import Page from '../Paginator.vue'
                                         toDepartIds.push(this.toAllPrisonDepartments[i]);
                                     }
                                 }
-                                console.log(toDepartIds);
+                                // console.log(toDepartIds);
                                 this.toPrisonDepartments = toDepartIds;
                                 this.toPrisonDepartmentId = this.toPrisonDepartments[0].id;
                             }else {
@@ -311,7 +311,7 @@ import Page from '../Paginator.vue'
                         this.prisonId = this.prisons[i].id;
                     }
                 }
-                console.log('prisonId'+this.prisonId);
+                // console.log('prisonId'+this.prisonId);
                 let searchData = {
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
@@ -322,9 +322,9 @@ import Page from '../Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                console.log(searchData);
+                // console.log(searchData);
                 this.$http.get('prisoner/getPrisoners',{params:searchData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonerList = res.data.data.prisoners;//赋值罪犯列表
                         this.prisonerSize = res.data.data.prisonerSize;//赋值罪犯列表数
@@ -343,7 +343,7 @@ import Page from '../Paginator.vue'
                         "toDepartmentId": toDepartmentId
                     };
                     this.$http.post('prisoner/transferByIds',$.param(prisonerData)).then(res=>{
-                        console.log(res);
+                        // console.log(res);
                         if (res.data.code == 0) {
                             this.remind = {
                                 status:'success',
@@ -377,9 +377,9 @@ import Page from '../Paginator.vue'
                         "prisonerId": this.currentId,
                         "toPrisonDepartmentId": this.toPrisonDepartmentId
                     };
-                    console.log(prisonData);
+                    // console.log(prisonData);
                     this.$http.post('prisoner/changePrisonDepartment',$.param(prisonData)).then(res=>{
-                        console.log(res);
+                        // console.log(res);
                         if (res.data.code == 0) {
                             this.remind = {
                                 status:'success',

@@ -4,7 +4,8 @@ const state = {
 	loading:false,
 	remind:false,
 	logout:false,
-	sideReload:false
+	sideReload:false,
+	loginLoading:false
 }
 
 //设置状态
@@ -42,9 +43,17 @@ const mutations = {
     //重载侧边栏
 	reloadSide(state){
 		state.sideReload = !state.sideReload;
-	}
+	},
 
-	
+	//显示登录loading
+	showLoginLoading(state){
+		state.loginLoading = true;
+	},
+
+	//隐藏登录loading
+	hideLoginLoading(state){
+		state.loginLoading = false;
+	}
 
 }
 

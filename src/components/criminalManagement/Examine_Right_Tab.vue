@@ -35,7 +35,7 @@
 		},
         methods:{
             isActive(i){
-                console.log(i);
+                // console.log(i);
                 if (i == 0) {//监狱
                     this.active.ward = false
                     this.active.prison = true;

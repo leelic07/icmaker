@@ -123,7 +123,7 @@
                         this.userInfo.prisonId = this.prisonList[i].id;
                     }
                 }
-                console.log('监狱'+this.userInfo.prisonId);
+                // console.log('监狱'+this.userInfo.prisonId);
                 if (this.userInfo.prisonId != oldPrisonId && this.userInfo.userType == 3) {
                     this.prisonChange();
                 }else {
@@ -159,7 +159,7 @@
 
             getRoleList(roleId){//获取角色列表
                 this.$http.get('role/getRoleList').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.roleList = res.data.data;
                         if (this.isAdd == true) {//新增页面角色默认第一条数据选中
@@ -175,7 +175,7 @@
 
             getPrisonList(prisonId,prisonAccountId){//获取监狱列表
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonList = res.data.data.prisons;
                         if (this.isAdd != true) {
@@ -201,9 +201,9 @@
 
             prisonChange(prisonAccountId){//获取商户列表
                 let prisonId = this.userInfo.prisonId;
-                console.log('prisonId'+this.userInfo.prisonId);
+                // console.log('prisonId'+this.userInfo.prisonId);
                 this.$http.get('prisonAccount/getPrisonAccountsByPrisonId',{params:{'prisonId':prisonId}}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.shopList = res.data.data;
                         if (this.isAdd == true) {//新增页面所属商户默认第一条数据选中
@@ -221,7 +221,7 @@
                    let userType = this.userInfo.userType;
                    this.prisonName = "";
                    this.userInfo.prisonId = "";
-                   console.log(userType);
+                   // console.log(userType);
                    if (userType == 2 || userType == 3) {
                         this.prisonShow = true;
                         this.getPrisonList(prisonId,prisonAccountId);    
@@ -236,15 +236,15 @@
                 if (id != undefined) {//为编辑状态
                     this.isAdd = false;
                     this.$http.get('getUser',{params:{'sysUserId':id}}).then(res=>{
-                        console.log(res);
+                        // console.log(res);
                         if (res.data.code == 0) {
                             this.userInfo = res.data.data;
                             let prisonId = this.userInfo.prisonId;
                             let prisonAccountId = this.userInfo.prisonAccountId;
                             let roleId = this.userInfo.roleId;
-                            console.log(this.userInfo);  
+                            // console.log(this.userInfo);  
                             this.userTypeChange(prisonId,prisonAccountId);
-                            console.log("prisonAccount" + prisonAccountId);
+                            // console.log("prisonAccount" + prisonAccountId);
                             this.getRoleList(roleId);        
                         }
                     }).catch(err=>{
@@ -274,9 +274,9 @@
                         "prisonAccountId": prisonAccountId,
                         "roleId": this.userInfo.roleId
                     }
-                    console.log(addData);
+                    // console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
-                        console.log(res);
+                        // console.log(res);
                         let status = res.data.code;
                         if (status == 0) {//返回成功 
                             store.dispatch('reloadSide');
