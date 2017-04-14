@@ -1,7 +1,7 @@
 <template>
     <div class="box">
 	 <!-- 右侧内容-->
-        <div id="right-side" class="col-xs-20 pull-right" v-show = "isManage">
+        <div id="right-side" class="col-xs-20 pull-right" v-if = "isManage">
                 <!--搜索框部分-->
                 <div class="col-xs-24 search">
                     <div class="col-xs-23 search-box">
@@ -84,12 +84,13 @@
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal -->
                 </div>
+
+                <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
             </div>
 
         <!--点击编辑路由入口-->
         <router-view></router-view>
-
-        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+    
     </div>
 </template>
 

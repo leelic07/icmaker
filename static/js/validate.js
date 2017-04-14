@@ -19,5 +19,16 @@ export default{
             }
         }
         return true;//是数字
+    },
+    
+    empty(){
+        let args = [];
+        for(let i = 0;i < arguments.length; i++) {
+            if (arguments[i] == null || arguments[i] == undefined) {
+                arguments[i] = "";
+            }
+            args.push(arguments[i]);
+        }
+        return args;
     }
 }

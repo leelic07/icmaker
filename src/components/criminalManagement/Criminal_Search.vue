@@ -1,7 +1,7 @@
 <template>
     <div class="box">
      <!-- 右侧内容-->
-        <div id="right-side" class="col-xs-20 pull-right" v-show = "isManage">
+        <div id="right-side" class="col-xs-20 pull-right" v-if = "isManage">
             <!--搜索框部分-->
             <div class="col-xs-24 search">
                 <div class="col-xs-23 search-box">
@@ -107,12 +107,12 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
             </div>
+
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
         </div>
 
         <!--点击编辑路由入口-->
-    <router-view></router-view>
-
-    <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+    <router-view></router-view> 
 </div>
 </template>
 <script>
@@ -265,14 +265,16 @@ import Page from '../Paginator.vue'
                             status:'success',
                             msg:res.data.msg
                         }
+                        store.dispatch('showRemind');
                         this.criminalSearch(this.indexPage);
                     }else {
                         this.remind = {
                             status:'failed',
                             msg:res.data.msg
                         }
+                        store.dispatch('showRemind');
                     }
-                    store.dispatch('showRemind');
+                    
                 }).catch(err=>{
                     console.log('删除菜单列表服务器异常' + err);
                 });

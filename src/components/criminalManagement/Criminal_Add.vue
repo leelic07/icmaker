@@ -59,10 +59,6 @@
                             <div class="form-group">
                                 <label for="prisonId" class="col-xs-6 control-label"><i class="important">*</i>服刑监狱：</label>
                                 <div class="col-xs-12">
-                                    <!--<input type="text" class="form-control" disabled id="prisonId" v-if = "prisons.length == 1" v-model = "prisons[0].prisonName">
-                                    <select class="form-control" id="prisonId" :disabled = "prisonerId != undefined" v-model = "prisonerInfo.prisonId" @change = "getPrisonDepartInfo($event)" v-else>
-                                        <option v-for = "prison in prisons" :value = "prison.id">{{prison.prisonName}}</option>
-                                    </select>-->
                                     <input type="text" class="form-control" list = "prisonList" placeholder = "请选择" v-model = "prisonName" :disabled = "prisonerId != undefined || prisons.length == 1">
                                     <datalist class="form-control hidden" id="prisonList">
                                         <option v-for = "prison in prisons">{{prison.prisonName}}</option>
@@ -144,7 +140,7 @@
                     prisonId: "",
                     prisonDepartmentId: "",
                     cardNo: "",
-                    insideArchivesNumber: "",
+                    insideArchivesNumber: null,
                     archivesNumber: "",
                     number: ""
                 },
@@ -197,7 +193,6 @@
             getEditInfo() {
                 let prisonerId = this.$route.params.id;
                 this.prisonerId = prisonerId;
-                // console.log(this.prisonerId);
                 if (prisonerId != undefined) {//编辑页面
                     this.$http.get('prisoner/getPrisoner',{params: {"prisonerId":prisonerId}}).then(res=>{
                         // console.log("editInfo:");
@@ -258,20 +253,17 @@
             },
             commitPrisonerInfo () {
                 let prisonerInfo = this.prisonerInfo;
-                // console.log('prisonerInfo.name'+prisonerInfo.name);
-                // console.log(this.prisonerInfo);
+
                 if (this.imgUrl != "./static/img/add.jpg" && prisonerInfo.prisonId != "" && prisonerInfo.prisonDepartmentId != "" && prisonerInfo.name != "" && prisonerInfo.archivesNumber != "" && prisonerInfo.number != "") {//必填项都有值
                     let numReg = new RegExp("^[0-9]*$");// 数值
                     let cardReg = new RegExp("^\\d{17}(\\d|x)$");//身份证号
-                    if((prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo))||!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||(prisonerInfo.insideArchivesNumber != "" && !numReg.test(prisonerInfo.insideArchivesNumber))) {
+                    console.log(prisonerInfo);
+                    if((prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo))||!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||(prisonerInfo.insideArchivesNumber != null && !numReg.test(prisonerInfo.insideArchivesNumber))) {
                         this.remind = {
                             status:'warn',
                             msg:'输入不合法'
                         }
-                        setTimeout(function(){
-                            store.dispatch('showRemind');
-                        },100)
-                        
+                       store.dispatch('showRemind');
                     }else{
                         prisonerInfo.prisonerId = this.$route.params.id;
                         prisonerInfo.imgUrl = this.imgUrl;
@@ -297,8 +289,7 @@
                         status:'warn',
                         msg:'请填写完整后再进行提交'
                     }
-                    store.dispatch('showRemind');
-                    // alert("请填写完整再提交");
+                   store.dispatch('showRemind');
                 }
                     
             },

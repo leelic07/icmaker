@@ -1,7 +1,7 @@
 <template>
 	<!-- 右侧内容-->
     <div class="box">
-        <div id="right-side" class="col-xs-20 pull-right" v-show = "isManage">
+        <div id="right-side" class="col-xs-20 pull-right" v-if = "isManage">
             <!--搜索框部分-->
             <div class="col-xs-24 search">
                 <div class="col-xs-23 search-box">
