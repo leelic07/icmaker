@@ -164,13 +164,12 @@
             //新增菜单
             addMenu(){
                 let menuName = this.menuInfo.menuName.replace(/(^\s*)|(\s*$)/g,"");
-                this.menuInfo.pageUrl = "";
                 let pageUrl = this.menuInfo.pageUrl;
                 pageUrl = pageUrl == null ? pageUrl : pageUrl.replace(/(^\s*)|(\s*$)/g,"");
-                console.log(pageUrl);
                 let imgUrl1 = this.imgUrl1 == "./static/img/add.jpg" ? '' : this.imgUrl1;
                 let imgUrl2 = this.imgUrl2 == "./static/img/add.jpg" ? '' : this.imgUrl2;
                 let type = this.menuInfo.type;
+                console.log(type == 0 || pageUrl != "");
                 if (menuName != "" && (type != 1 || pageUrl != "")) {
                     const addUrl = 'menu/addOrUpdateMenu';
                     let addData = {
