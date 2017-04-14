@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :path='remind.path'></Remind>
         </div>
 </template>
 
@@ -77,11 +77,7 @@ import store from '../../store'
                 accountName:'',
                 prisonList:'',
                 prisonDepartments:'',
-                prisonDepartmentId:'',
-                remind:{
-                    status:'',
-                    msg:''
-                }
+                prisonDepartmentId:''
 			}
 		},
         watch:{
@@ -161,7 +157,8 @@ import store from '../../store'
                     prisonDepartmentId:this.prisonDepartmentId,
                     accountName:this.accountName
                 };
-                if(this.isNull(this.accountName,this.prisonId,this.accountType)){
+                if(
+                    this.isNull(this.accountName,this.prisonId,this.accountType)){
                     this.remind = {
                         status:'warn',
                         msg:'选项不能为空'
@@ -184,7 +181,8 @@ import store from '../../store'
                         if(res.data.code == 0){
                             this.remind = {
                                 status:'success',
-                                msg:res.data.msg
+                                msg:res.data.msg,
+                                path:'/account_management'
                             };
 
                             $.each(params,(index,value)=>{
@@ -200,10 +198,11 @@ import store from '../../store'
                         store.dispatch('showRemind');
 
                         this.accountType = '',
-                        this.prisonId = '',
                         this.prisonDepartmentId = '',
-                        this.accountName = ''
+                        this.accountName = '',
+                        this.prisonName = ''
 
+                        this.getAllPrison();
                     }).catch(err=>{
                         console.log(err);
                     });
