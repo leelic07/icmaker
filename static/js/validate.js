@@ -19,5 +19,16 @@ export default{
             }
         }
         return true;
+    },
+
+    empty(){
+        let args = [];
+        for(let i = 0;i < argument.length; i++) {
+            if (argument[i] == null || argument[i] == undefined) {
+                argument[i] = "";
+            }
+            args.push(argument[i]);
+        }
+        return args;
     }
 }

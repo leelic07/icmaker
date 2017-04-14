@@ -21,7 +21,7 @@
             </form>
         </div>
         <div class="footer col-xs-24">
-            国科政信科技（北京）股份有限公司
+            <!--国科政信科技（北京）股份有限公司-->
         </div>
     </div>   
 </template>
