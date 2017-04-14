@@ -27,10 +27,14 @@
                                     <option value=''>请选择</option>
                                     <option value='0'>内部资金分配</option>
                                     <option value='1'>犯人取现入账</option>
-                                    <option value='2'>外部汇款</option>
-                                    <option value='3'>资金分配</option>
-                                    <option value='4'>内部转账</option>
-                                    <option value='5'>外部转账</option>
+                                    <option value='2'>外部汇款入账</option>
+                                    <option value='3'>资金分配出账</option>
+                                    <option value='4'>内部转账出账</option>
+                                    <option value='5'>外部转账出账</option>
+                                    <option value='6'>内部转账入账</option>
+                                    <option value='7'>罪犯低报酬资金分配</option>
+                                    <option value='8'>罪犯IC卡资金分配</option>
+                                    <option value='9'>罪犯刷卡入账</option>
                                 </select>
                             </div>
                             <div class="col-xs-8 select-box">
@@ -171,15 +175,7 @@ import store from '../../store'
                 }).catch(err=>{
                     console.log(err);
                 });
-                // this.prisonList = [{
-                //     id:1,
-                //     prisonName:'长沙监狱'
-                // }];
-                // if(this.prisonList.length == 1){
-                //     this.prisonId = this.prisonList[0].id;
-                //     this.prisonName = this.prisonList[0].prisonName;
-                // }
-                // this.searchDetail(this.indexPage);
+                
             },
 
             //点击搜索查询转账明细
