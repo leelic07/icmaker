@@ -139,7 +139,7 @@ import store from '../../store'
 				}
 			},
 
-			 //查询监狱总账户资金分配
+            //查询监狱总账户资金分配
             getPrisonCapitalAssigns(){ 
                 this.$http({
                     method:'get',
@@ -206,21 +206,37 @@ import store from '../../store'
     						params:{
     							assignsStr:JSON.stringify(this.distributionItems)
     						}
-					   }).then(res=>{
-                            console.log(res.data.code,res.data.msg);
+					   }).then(res=>{  
+                            if(res.data.code == 0){
+                                this.getPrisonCapitalAssigns();
+                                this.remind = {
+                                    status:'success',
+                                    msg:'资金分配成功'
+                                };
 
-                            $.each(this.distributionItems,(index,value)=>{
-                                $.each(this.prisonCapitalAssignsList,(i,v)=>{
-                                    if(v.type == value.type){
-                                        v.money += value.money
-                                    }
-                                });
-                                value.money = '';
-                                value.type = '';
-                            }); 
+                                store.dispatch('showRemind');
+                            }else{
+                                console.log(res.data.code,res.data.msg);
+                                this.remind = {
+                                    status:'failed',
+                                    msg:res.data.msg
+                                };
 
-                            this.avilableTotal -= total;
-                        
+                                store.dispatch('showRemind');
+                            }
+                            // $.each(this.distributionItems,(index,value)=>{
+                            //     $.each(this.prisonCapitalAssignsList,(i,v)=>{
+                            //         if(v.type == value.type){
+                            //             v.money += value.money
+                            //         }
+                            //     });
+                            //     value.money = '';
+                            //     value.type = '';
+                            // }); 
+
+                            // this.avilableTotal -= total;
+                            
+
                         }).catch(err=>{
 					      console.log(err);
 				        });
