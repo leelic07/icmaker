@@ -12,7 +12,7 @@
                         <div class="col-xs-9">
                             <div class="row">
                                 <div class="col-xs-6 label-box">
-                                    <label class="pull-right" for="name">名称 </label>
+                                    <label class="pull-right" for="name"><em class="important">*</em>名称 </label>
                                 </div>
                                 <div class="col-xs-18 text-box">
                                     <input type="text" class="form-control" id="" v-model='bankAccountName'>
@@ -20,7 +20,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-6 label-box">
-                                    <label class="pull-right" for="name">银行行号 </label>
+                                    <label class="pull-right" for="name"><em class="important">*</em>银行行号 </label>
                                 </div>
                                 <div class="col-xs-18 text-box">
                                     <input type="text" class="form-control" id="" v-model='bankNo'>
@@ -28,7 +28,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-6 label-box">
-                                    <label class="pull-right" for="name">开户银行 </label>
+                                    <label class="pull-right" for="name"><em class="important">*</em>开户银行 </label>
                                 </div>
                                 <div class="col-xs-18 select-box">
                                     <select class="form-control" v-model='bankId'>
@@ -42,7 +42,7 @@
                         <div class="col-xs-12 col-xs-offset-1">
                             <div class="row">
                                 <div class="col-xs-5 label-box">
-                                    <label class="pull-right" for="name">银行账号 </label>
+                                    <label class="pull-right" for="name"><em class="important">*</em>银行账号 </label>
                                 </div>
                                 <div class="col-xs-14 text-box">
                                     <input type="text" class="form-control" id="" v-model='bankAccountNo'>
@@ -51,7 +51,7 @@
                             
                             <div class="row">
                                 <div class="col-xs-5 label-box">
-                                    <label class="pull-right" for="name">类型 </label>
+                                    <label class="pull-right" for="name"><em class="important">*</em>类型 </label>
                                 </div>
                                 <div class="col-xs-14 select-box">
                                     <select class="form-control" v-model='isSameBank'>
@@ -64,7 +64,7 @@
 
                               <div class="row">
                                 <div class="col-xs-5 label-box">
-                                    <label class="pull-right" for="name">公私标识 </label>
+                                    <label class="pull-right" for="name"><em class="important">*</em>公私标识 </label>
                                 </div>
                                 <div class="col-xs-14 select-box">
                                     <select class="form-control" v-model='isPublic'>
