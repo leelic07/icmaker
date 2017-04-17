@@ -89,8 +89,8 @@
                                 <td>{{apply.cardNo}}</td>
                                 <td>{{apply.prisonName}}</td>
                                 <td>{{apply.prisonDepartmentName}}</td>
-                                <td>{{apply.cardAt | formatDate}}</td>
                                 <td>{{apply.createdAt| formatDate}}</td>
+                                <td>{{apply.cardAt | formatDate}}</td>
                                 <td>{{apply.cardStatus | formatApplyStatus}}</td>
                                 <td colspan = "2" v-if = "apply.cardStatus == 1"></td>
                                 <td v-if = "apply.cardStatus == 2" colspan = "2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,1)">申请补卡</em></td>
