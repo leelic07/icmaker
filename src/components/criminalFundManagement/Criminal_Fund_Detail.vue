@@ -210,7 +210,7 @@
             },
 
 			getTypeList(){//赋值类别列表
-                this.typeList = [{"value":"","name":"全部"},{"value":0,"name":"刷卡消费"},{"value":1,"name":"取现"},{"value":2,"name":"家属汇款"},{"value":3,"name":"低报酬"},{"value":4,"name":"IC卡资金"}]
+                this.typeList = [{"value":"","name":"全部"},{"value":0,"name":"刷卡消费"},{"value":1,"name":"取现"},{"value":2,"name":"制卡费"},{"value":3,"name":"家属汇款"},{"value":4,"name":"低报酬"},{"value":5,"name":"IC卡资金"}]
             },
 
 			getDetailList(index) {
