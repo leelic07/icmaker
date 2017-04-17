@@ -80,8 +80,8 @@
                                 <td v-text='pcdd.toAccountName'></td>
                                 <td v-text='pcdd.toAccountNo'></td>
                                 <td v-if='pcdd.capitalType == 0'>{{pcdd.money | currency}}</td>
-                                <td v-if='pcdd.capitalType == 1'>{{'+' + pcdd.money | currency}}</td>
-                                <td v-if='pcdd.capitalType == 2'>{{'-' + pcdd.money | currency}}</td>
+                                <td v-else-if='pcdd.capitalType == 1'>+{{pcdd.money | currency}}</td>
+                                <td v-else-if='pcdd.capitalType == 2'>-{{pcdd.money | currency}}</td>
                                 <td>{{pcdd.createdAt | formatDate}}</td>
                                 <td>{{pcdd.status | fundDetailStatus}}</td>
                                 <td v-text='pcdd.remark'></td>

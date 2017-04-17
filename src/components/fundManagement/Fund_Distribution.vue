@@ -235,8 +235,7 @@ import store from '../../store'
                             // }); 
 
                             // this.avilableTotal -= total;
-                            
-
+                        
                         }).catch(err=>{
 					      console.log(err);
 				        });
