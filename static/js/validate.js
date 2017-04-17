@@ -2,6 +2,7 @@ export default{
 	//判断是否为空
     isNull(){
         for(let i = 0;i < arguments.length;i++){
+            arguments[i] += '';
             arguments[i] = arguments[i].replace(/(^\s*)|(\s*$)/g,'');
             if(arguments[i] == ''){
                 return true;//为空
