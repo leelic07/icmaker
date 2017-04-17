@@ -155,6 +155,11 @@ import store from '../../store'
                 let pdt = this.prisonDepartmentsTem;
                 pdt.splice(0,pdt.length);
                 this.prisonAndPrisonDepartment(pd,pdt);
+            },
+
+            //删除小数点两位后的数字
+            cash(){
+                this.cash = this.saveTwo(this.cash);
             }
         },
         computed:{
@@ -218,7 +223,7 @@ import store from '../../store'
                         method:'post',
                         url:'/prisonerAccount/withdrawCash',
                         params:{
-                            cash:this.cash * 100,
+                            cash:this.toCent(this.cash),
                             prisonerId:this.prisonerId
                         }
                     }).then(res=>{

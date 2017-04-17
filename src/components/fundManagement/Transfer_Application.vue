@@ -177,6 +177,11 @@ import store from '../../store'
                 }else{
                     this.prisonId = '';
                 }            
+            },
+
+            //删除小数点两位后的数字
+            transferMoney(){
+                this.transferMoney = this.saveTwo(this.transferMoney);
             }
         },
         computed:{
@@ -305,7 +310,7 @@ import store from '../../store'
                 let params = {
                     'type':type,
                     'prisonAccountId':prisonAccountId,
-                    money:this.transferMoney * 100,
+                    money:this.toCent(this.transferMoney),
                     remark:this.remark
                 };
 

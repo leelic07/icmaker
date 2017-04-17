@@ -22,7 +22,6 @@ export default{
         return true;//是数字
     },
 
-
     //可以为空或者为数值型
     isNum(){
         let numReg = new RegExp("^[0-9]*$");
@@ -59,4 +58,44 @@ export default{
         return true;
     },
 
+     //取小数点后两位
+    fixTwo(){
+        let args = [];
+        for(let i = 0;i < arguments.length;i++){
+            if(!this.isNumber(arguments[i])){
+                return [];
+            }else{
+                arguments[i] = arguments[i].toFixed(2);
+                args.push(arguments[i]);
+            } 
+        }
+        return args;
+    },
+
+    //小数点两位之后禁止输入
+    saveTwo(money){
+        let afterPoint = money.toString().split('.')[1];
+        if(afterPoint && afterPoint.length > 2){
+            money = money.toString().substring(0,money.length-1);
+        }
+        return money;
+    },
+
+    //钱单位转化为分
+    toCent(){
+        let args = []; 
+        for(let i = 0;i < arguments.length;i++){
+            if(!this.isNumber(arguments[i])){
+                return [];
+            }else{
+                arguments[i] = Math.round(arguments[i] * 100);
+                args.push(arguments[i]);
+            }   
+        }
+        if(arguments.length == 1){
+            return args[0];
+        }else{
+            return args;
+        }  
+    }
 }

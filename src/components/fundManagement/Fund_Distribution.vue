@@ -118,6 +118,17 @@ import store from '../../store'
                 noAuthority:false
 			}
 		},
+        watch:{
+            //删除小数点两位后的数字
+            distributionItems:{
+                handler(){
+                    $.each(this.distributionItems,(index,value)=>{
+                        value.money = this.saveTwo(value.money);
+                    });
+                },
+                deep:true
+            }
+        },
         computed:{
             remindShow:{
                 get(){
@@ -185,8 +196,8 @@ import store from '../../store'
 
 				if(!isNull && isNumber){
 					$.each(this.distributionItems,(index,value)=>{
-                        value.money = value.money * 100;
-                        total += value.money;
+                        value.money = this.toCent(value.money);
+                        // total += value.money;
 					});
 					
                     if(total > this.avilableTotal){
@@ -213,17 +224,20 @@ import store from '../../store'
                                     status:'success',
                                     msg:'资金分配成功'
                                 };
-
-                                store.dispatch('showRemind');
                             }else{
                                 console.log(res.data.code,res.data.msg);
                                 this.remind = {
                                     status:'failed',
                                     msg:res.data.msg
                                 };
-
-                                store.dispatch('showRemind');
                             }
+
+                            store.dispatch('showRemind');
+
+                            $.each(this.distributionItems,(index,value)=>{
+                                value.money = '';
+                                value.type = '';
+                            }); 
                             // $.each(this.distributionItems,(index,value)=>{
                             //     $.each(this.prisonCapitalAssignsList,(i,v)=>{
                             //         if(v.type == value.type){
@@ -235,8 +249,7 @@ import store from '../../store'
                             // }); 
 
                             // this.avilableTotal -= total;
-                            
-
+                        
                         }).catch(err=>{
 					      console.log(err);
 				        });
