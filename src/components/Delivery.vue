@@ -127,7 +127,7 @@
                                 <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{bindIcInfo.prison}}</span></li>
                                 <li class="clearfix"><span class="pull-left info-label">所属监区</span><span class="pull-right">{{bindIcInfo.department}}</span></li>
                                 <li class="clearfix"><span class="pull-left info-label">档案号</span><span class="pull-right">{{bindIcInfo.prisoner.archivesNumber}}</span></li>
-                                <li class="clearfix"><span class="pull-left info-label">卡内余额</span><span class="pull-right">{{bindIcInfo.total}}</span></li>
+                                <li class="clearfix"><span class="pull-left info-label">卡内余额</span><span class="pull-right">{{bindIcInfo.total | currency}}</span></li>
                             </ul>
                         </div>
                         <div class="fee-select">
@@ -581,7 +581,6 @@ import Page from './Paginator.vue'
             $('#table_id_example').select();
             this.getStatusList();
             this.getPrisonInfo();
-            // console.log('prisonId'+this.prisonName);
         }
 	}
 </script>
