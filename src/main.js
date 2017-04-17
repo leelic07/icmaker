@@ -44,7 +44,6 @@ axios.interceptors.request.use(function(config){
   if(config.url != config.baseURL+'login'){
     store.dispatch('showLoading');
   }else{
-    console.log('loginLoadingshow');
     store.dispatch('showLoginLoading');
   }
 	
@@ -67,8 +66,8 @@ axios.interceptors.request.use(function(config){
 
 //ajax响应拦截器
 axios.interceptors.response.use(function(response){
+  store.dispatch('hideLoginLoading');
 	store.dispatch('hideLoading');
-  // store.dispatch('hideLoginLoading');
   // console.log(response);
 	return response;
 },function(err){

@@ -2,8 +2,8 @@ export default{
 	//判断是否为空
     isNull(){
         for(let i = 0;i < arguments.length;i++){
-            arguments[i] += '';
-            if(arguments[i].replace(/(^\s*)|(\s*$)/g,'') == ''){
+            arguments[i] = arguments[i].replace(/(^\s*)|(\s*$)/g,'');
+            if(arguments[i] == ''){
                 return true;//为空
             }
         }
@@ -20,7 +20,7 @@ export default{
         }
         return true;//是数字
     },
-    
+
     empty(){
         let args = [];
         for(let i = 0;i < arguments.length; i++) {
