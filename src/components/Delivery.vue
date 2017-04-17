@@ -267,6 +267,9 @@ import Page from './Paginator.vue'
                     this.prisonId = "";
                     this.prisonDepartments = "";
                 }
+            },
+            cardCost() {
+                this.cardCost = this.saveTwo(this.cardCost);
             }
         },
         methods:{
@@ -369,7 +372,7 @@ import Page from './Paginator.vue'
                         msg:'请填写完整再进行提交'
                     }
                     store.dispatch('showRemind');
-                } else if (!numReg.test(icCardNo) || (this.type == 1 && !numReg.test(cardCost))) {
+                } else if (!numReg.test(icCardNo) || (this.type == 1 && !this.isNumber(cardCost))) {
                     this.remind = {
                         status:'warn',
                         msg:'输入不合法'
@@ -380,7 +383,7 @@ import Page from './Paginator.vue'
                         "prisonerId": this.prisonerId,
                         "icCardNo": icCardNo,
                         "type": this.type,
-                        "cardCost": cardCost*100
+                        "cardCost": this.toCent(cardCost)
                     };
                     // console.log(deliveryData);
                     this.$http.post("icCard/bindingCard",$.param(deliveryData)).then(res=>{

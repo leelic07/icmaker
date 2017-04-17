@@ -10,6 +10,19 @@ export default{
 		}
 	},
 
+	//配置消费额度金额过滤器
+	setCurrency(total){
+		total = total + "";
+		if(total == "null" || total == "undefined" || total == ""){
+			return "";
+		}if (total == "0") {
+			return 0;
+		}else{
+			total = total/100;
+			return total;
+		}
+	},
+
 	//账户类型过滤器
 	accountType(accountType){
 		if(accountType == 0){
