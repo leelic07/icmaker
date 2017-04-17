@@ -2,8 +2,8 @@ export default{
 	//判断是否为空
     isNull(){
         for(let i = 0;i < arguments.length;i++){
-            arguments[i] += '';
-            if(arguments[i].replace(/(^\s*)|(\s*$)/g,'') == ''){
+            arguments[i] = arguments[i].replace(/(^\s*)|(\s*$)/g,'');
+            if(arguments[i] == ''){
                 return true;//为空
             }
         }
@@ -21,6 +21,7 @@ export default{
         return true;//是数字
     },
 
+
     //可以为空或者为数值型
     isNum(){
         let numReg = new RegExp("^[0-9]*$");
@@ -33,6 +34,7 @@ export default{
     },
 
     //将undefined和null转换为'',并给所有参数去除空格
+
     empty(){
         let args = [];
         for(let i = 0;i < arguments.length; i++) {

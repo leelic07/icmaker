@@ -2,7 +2,7 @@
   <div id="app" class="container-fluid">
     <LogoutConfirm v-if='logoutShow'></LogoutConfirm>
     <loading v-show="loadingShow" v-if='isNotLogin'></loading>
-    <loginLoading v-show='loginLoadingShow' v-if='!isNotLogin'></loginLoading>
+    <loginLoading v-show='loginLoadingShow'></loginLoading>
     <LeftSide v-if = "isNotLogin"></LeftSide>
     <NavBar v-if = "isNotLogin"></NavBar>
       <router-view></router-view>
@@ -28,7 +28,7 @@ export default {
         const loginUrl = "/login";
         if (to.path == loginUrl ) {//进入登陆页面
             this.isNotLogin = false;//将侧边栏和顶栏隐藏
-            store.dispatch('hideLoginLoading');
+            // store.dispatch('hideLoginLoading');
         }else {
             this.isNotLogin = true;
         } 
