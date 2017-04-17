@@ -364,7 +364,8 @@ import Page from './Paginator.vue'
 
             bindIcConfirm() {
                 let numReg = new RegExp("^[0-9]*$");
-                let cardCost = this.type == 0 ? 0 : this.cardCost.replace(/(^\s*)|(\s*$)/g,"");
+                let cardCost = this.type == 0 ? 0 : this.toCent(this.cardCost.replace(/(^\s*)|(\s*$)/g,""));
+                console.log(cardCost);
                 let icCardNo = this.icCardNo.replace(/(^\s*)|(\s*$)/g,"");
                 if (icCardNo == "" || (this.type == 1 && cardCost == "")) {//选了收费却未填金额
                     this.remind = {
@@ -383,7 +384,7 @@ import Page from './Paginator.vue'
                         "prisonerId": this.prisonerId,
                         "icCardNo": icCardNo,
                         "type": this.type,
-                        "cardCost": this.toCent(cardCost)
+                        "cardCost": cardCost
                     };
                     // console.log(deliveryData);
                     this.$http.post("icCard/bindingCard",$.param(deliveryData)).then(res=>{
