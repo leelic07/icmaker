@@ -374,12 +374,15 @@ export default{
 			fundType = "取现";
 			break;
 		case 2 :
-			fundType = "家属汇款";
+			fundType = "制卡费";
 			break;
 		case 3 :
-			fundType = "低报酬";
+			fundType = "家属汇款";
 			break;
 		case 4 :
+			fundType = "低报酬";
+			break;
+		case 5 :
 			fundType = "IC卡资金";
 			break;
 		default :
