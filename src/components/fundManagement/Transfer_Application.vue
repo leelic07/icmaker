@@ -297,7 +297,7 @@ import store from '../../store'
 
                     store.dispatch('showRemind');
                     return;
-                }else if(this.transferMoney > this.money){
+                }else if(this.toCent(this.transferMoney) > this.money){
                     this.remind = {
                         status:'warn',
                         msg:'余额不足'

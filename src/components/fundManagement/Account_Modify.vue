@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :path='remind.path'></Remind>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
         </div>
 </template>
 
@@ -203,7 +203,7 @@ import store from '../../store'
                             this.remind = {
                                 status:'success',
                                 msg:res.data.msg,
-                                path:'account_management'
+                                back:true
                             }
                         }else{
                             this.remind = {

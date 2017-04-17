@@ -68,8 +68,12 @@ export default{
                 arguments[i] = arguments[i].toFixed(2);
                 args.push(arguments[i]);
             } 
-        }
-        return args;
+        };
+        if(arguments.length == 1){
+            return args[0];
+        }else{
+            return args;
+        }  
     },
 
     //小数点两位之后禁止输入
