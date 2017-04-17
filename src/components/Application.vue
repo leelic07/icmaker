@@ -93,7 +93,7 @@
                                 <td>{{apply.cardAt | formatDate}}</td>
                                 <td>{{apply.cardStatus | formatApplyStatus}}</td>
                                 <td colspan = "2" v-if = "apply.cardStatus == 1"></td>
-                                <td v-if = "apply.cardStatus == 2" colspan = "2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,1)">申请补卡</em></td>
+                                <td v-if = "apply.cardStatus == 2 && apply.releaseStatus == 1" colspan = "2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,1)">申请补卡</em></td>
                                 <td v-if = "apply.cardStatus == 0 || apply.cardStatus == 3" colspan = "2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,0)">申请制卡</em></td>
                             </tr>
                         </tbody>

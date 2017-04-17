@@ -106,8 +106,19 @@
                             </ul>
                         </div>
                         <div class="col-xs-24">
-                            <input type="text" class="form-control" id="dayMoney" placeholder="输入月限额" v-model = "dayMoney">
-                            <input type="text" class="form-control fee-input" id="monthMoney" placeholder="输入日限额" v-model = "monthMoney">
+                            <div class="form-group fee-input clearfix">
+                                <label for="dayMoney" class="col-xs-6 pull-left">日限额：</label>
+                                <div class="col-xs-18 pull-left">
+                                    <input type="text" class="form-control" id="dayMoney" placeholder="输入日限额" v-model = "dayMoney">
+                                </div>
+                                
+                            </div>
+                            <div class="form-group fee-input clearfix">
+                                <label for="monthMoney" class="col-xs-6 pull-left">月限额：</label>
+                                <div class="col-xs-18 pull-left">
+                                    <input type="text" class="form-control col-xs-18 pull-left" id="monthMoney" placeholder="输入月限额" v-model = "monthMoney">
+                                </div>
+                            </div>
                         </div>
                         <button class="confirm-button" data-dismiss="modal" @click = "setFundConfirm">保存</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
@@ -123,6 +134,11 @@
     button[disabled]{
        background: #999 !important ;
        border: 1px solid #999;
+    }
+    .modal {
+        label {
+            color: #666;
+        }
     }
 </style>
 <script>
@@ -193,7 +209,7 @@ import Page from '../Paginator.vue'
                             this.prisonId = this.prisons[0].id;
                             this.getPrisonDepartInfo();
                         }
-                        this.getFundList(1);
+                        this.getFundList(this.indexPage);
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -250,8 +266,10 @@ import Page from '../Paginator.vue'
                     this.prisonerId = e.target.getAttribute("prisonerId");
                     this.id = e.target.getAttribute("id");
                     this.prisonerName = e.target.getAttribute("prisonerName");
-                    this.dayMoney = e.target.getAttribute("dayMoney")/100;
-                    this.monthMoney = e.target.getAttribute("monthMoney")/100;
+                    let dayMoney = this.empty(e.target.getAttribute("dayMoney"));
+                    this.dayMoney = dayMoney == "" ? "" :dayMoney/100;
+                    let monthMoney = this.empty(e.target.getAttribute("monthMoney"));
+                    this.monthMoney = monthMoney == "" ? "" : monthMoney/100;
                     $('#setConfirm').modal();
                 }else if (setType == 2) {
                     let checkedInfo = $(".info-list-check").filter(".active");
@@ -279,7 +297,13 @@ import Page from '../Paginator.vue'
                 let monthMoney = this.monthMoney == "" ? "" : this.monthMoney*100;
                 let dayMoney = this.dayMoney == "" ? "" : this.dayMoney*100;
                 let numReg = new RegExp("^[0-9]*$");
-                if (monthMoney != "" || dayMoney != "") {
+                if (this.isNull(this.monthMoney) && this.isNull(this.dayMoney)) {
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整再进行提交'
+                    }
+                    store.dispatch('showRemind');
+                }else {
                     if (!numReg.test(monthMoney) || !numReg.test(dayMoney)) {
                         this.remind = {
                             status:'warn',
@@ -340,12 +364,6 @@ import Page from '../Paginator.vue'
                             });
                         }
                     }
-                }else {
-                    this.remind = {
-                        status:'warn',
-                        msg:'请填写完整再进行提交'
-                    }
-                    store.dispatch('showRemind');
                 }
             }
 		},
