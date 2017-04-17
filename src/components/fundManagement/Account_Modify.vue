@@ -7,7 +7,7 @@
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="name">账户名称 :</label>
+                                <label class="pull-right" for="name"><em class="important">*</em>账户名称 :</label>
                             </div>
                             <div class="col-xs-6 text-box">
                                 <input type="text" class="form-control" id="" v-model='accountName'>
@@ -15,7 +15,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="name">所属监狱 :</label>
+                                <label class="pull-right" for="name"><em class="important">*</em>所属监狱 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <!-- <select id='prison' class="form-control" v-model='prisonId' @change='getPrisonDepartments($event.target.value)'>
@@ -42,7 +42,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="name">账户类型 :</label>
+                                <label class="pull-right" for="name"><em class="important">*</em>账户类型 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" v-model='accountType'>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
+            <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :path='remind.path'></Remind>
         </div>
 </template>
 
@@ -203,7 +203,7 @@ import store from '../../store'
                             this.remind = {
                                 status:'success',
                                 msg:res.data.msg,
-                                back:true
+                                path:'account_management'
                             }
                         }else{
                             this.remind = {

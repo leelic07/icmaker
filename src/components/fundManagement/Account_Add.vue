@@ -7,7 +7,7 @@
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="name">账户名称 :</label>
+                                <label class="pull-right" for="name"><em class="important">*</em>账户名称 :</label>
                             </div>
                             <div class="col-xs-6 text-box">
                                 <input type="text" class="form-control" id="" v-model='accountName'>
@@ -15,7 +15,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="name">所属监狱 :</label>
+                                <label class="pull-right" for="name"><em class="important">*</em>所属监狱 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <!-- <select class="form-control" v-model='prisonId'>
@@ -42,7 +42,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-3 label-box">
-                                <label class="pull-right" for="name">账户类型 :</label>
+                                <label class="pull-right" for="name"><em class="important">*</em>账户类型 :</label>
                             </div>
                             <div class="col-xs-6 select-box">
                                 <select class="form-control" v-model='accountType'>
