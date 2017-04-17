@@ -43,7 +43,7 @@
                 <input type="button" value="确认" class="add-button" id = "addRollButton" @click = "addRole">
             </div>
 
-            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg' :path='remind.path'></Remind>
         </div>
 </template>
 <script>
@@ -56,7 +56,8 @@
                 secondMenuList:"",
                 remind:{
                     status:'',
-                    msg:''
+                    msg:'',
+                    path:''
                 },
                 roleName:""
 			}
@@ -109,7 +110,7 @@
                 let checkedbox = $("#addRole .role-check").filter(".active");//勾选的子类
                 let pCheckedBox =checkedbox.parents(".role-inner");//对应的父类
                 let id = this.$route.params.id;
-                let roleName = this.roleName.replace(/(^\s*)|(\s*$)/g,"");
+                let roleName = this.empty(this.roleName)[0];
                 for (let i =0;i < checkedbox.length; i++) {//将勾选的子类ID加入
                     menuIdsArr.push(checkedbox[i].getAttribute("id"));
                 }
@@ -121,7 +122,7 @@
                     "roleName" : roleName,
                     "menuIds" : menuIdsArr.join(),
                 }
-                if (roleName == "") {
+                if (this.isNull(roleName)) {
                     this.remind = {
                         status:'warn',
                         msg:'请填写角色名称'
@@ -138,8 +139,13 @@
                     this.$http.post('role/addOrUpdateRole',$.param(roleData)).then(res=>{
                         // console.log(res);
                         if (res.data.code == 0) {
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg,
+                                path: '/role_management'
+                            }
+                            store.dispatch('showRemind');
                             store.dispatch('reloadSide');
-                            this.$router.push({path:"/role_management"});    
                         }else {
                             this.remind = {
                                 status:'failed',

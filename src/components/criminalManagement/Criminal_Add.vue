@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg' :path = 'remind.path'></Remind>
     </div>
 </template>
 <style lang="less" scoped>
@@ -132,7 +132,8 @@
                 prisonName: "",
                 remind:{
                     status:'',
-                    msg:''
+                    msg:'',
+                    path: ''
                 },
                 prisonerInfo: {
                     name: "",
@@ -140,7 +141,7 @@
                     prisonId: "",
                     prisonDepartmentId: "",
                     cardNo: "",
-                    insideArchivesNumber: null,
+                    insideArchivesNumber: "",
                     archivesNumber: "",
                     number: ""
                 },
@@ -253,26 +254,59 @@
             },
             commitPrisonerInfo () {
                 let prisonerInfo = this.prisonerInfo;
-
-                if (this.imgUrl != "./static/img/add.jpg" && prisonerInfo.prisonId != "" && prisonerInfo.prisonDepartmentId != "" && prisonerInfo.name != "" && prisonerInfo.archivesNumber != "" && prisonerInfo.number != "") {//必填项都有值
-                    let numReg = new RegExp("^[0-9]*$");// 数值
-                    let cardReg = new RegExp("^\\d{17}(\\d|x)$");//身份证号
-                    console.log(prisonerInfo);
-                    if((prisonerInfo.cardNo != "" && !cardReg.test(prisonerInfo.cardNo))||!numReg.test(prisonerInfo.number)||!numReg.test(prisonerInfo.archivesNumber)||(prisonerInfo.insideArchivesNumber != null && !numReg.test(prisonerInfo.insideArchivesNumber))) {
-                        this.remind = {
+                let insideArchivesNumber = this.empty(prisonerInfo.insideArchivesNumber)[0];
+                let name = this.empty (prisonerInfo.name)[0];
+                let number = this.empty (prisonerInfo.number)[0];
+                let archivesNumber = this.empty (prisonerInfo.archivesNumber)[0];
+                let prisonId = this.empty (prisonerInfo.prisonId)[0];
+                let departId = this.empty (prisonerInfo.prisonDepartmentId)[0];
+                let cardNo = this.empty (prisonerInfo.cardNo)[0];
+                let address = this.empty (prisonerInfo.address)[0];
+                let sex = this.empty (prisonerInfo.sex)[0];
+                console.log(address);
+                if (this.isNull(prisonId,departId,name,archivesNumber,number)) {
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整后再进行提交'
+                    }
+                   store.dispatch('showRemind');
+                }else if (this.imgUrl == './static/img/add.jpg'){
+                    this.remind = {
+                        status:'warn',
+                        msg:'请上传照片后再进行提交'
+                    }
+                   store.dispatch('showRemind');
+                }else if (!this.isNumber(number,archivesNumber)||!this.isCard(cardNo)||!this.isNum(insideArchivesNumber)){
+                    this.remind = {
                             status:'warn',
                             msg:'输入不合法'
                         }
                        store.dispatch('showRemind');
-                    }else{
-                        prisonerInfo.prisonerId = this.$route.params.id;
-                        prisonerInfo.imgUrl = this.imgUrl;
-                        prisonerInfo.intoPrisonDate = $("#intoPrisonDate").val();
-                        // console.log(this.prisonerInfo);
-                        this.$http.post("prisoner/addOrEditPrisoner",$.param(prisonerInfo)).then(res=>{
-                            // console.log(res);
+                }else {
+                    let prisonerData = {
+                        "prisonId" : prisonId,
+                        "prisonerId" : this.$route.params.id,
+                        "prisonDepartmentId" : departId,
+                        "name" : name,
+                        "sex" : sex,
+                        "cardNo" : cardNo,
+                        "number" : number,
+                        "archivesNumber" : archivesNumber,
+                        "insideArchivesNumber" : insideArchivesNumber,
+                        "address" : address,
+                        "intoPrisonDate" : $("#intoPrisonDate").val(),
+                        "imgUrl" : this.imgUrl
+                    }
+                    console.log(prisonerData);
+                    this.$http.post("prisoner/addOrEditPrisoner",$.param(prisonerData)).then(res=>{
+                            console.log(res);
                             if (res.data.code == 0) {
-                                this.$router.push({path:"/crimsearch"});
+                                this.remind = {
+                                    status:'success',
+                                    msg:res.data.msg,
+                                    path: '/crimsearch'
+                                }
+                                store.dispatch('showRemind');
                             } else {
                                 this.remind = {
                                     status:'failed',
@@ -283,15 +317,7 @@
                         }).catch(err=>{
                             console.log('新增服务器异常' + err);
                         });
-                    }
-                }else {
-                    this.remind = {
-                        status:'warn',
-                        msg:'请填写完整后再进行提交'
-                    }
-                   store.dispatch('showRemind');
-                }
-                    
+                }    
             },
             formatDate(value) {
                 let buling = val => {

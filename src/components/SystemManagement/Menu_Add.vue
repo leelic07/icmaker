@@ -73,7 +73,7 @@
                 </div>
             </div>
 
-            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg' :path = 'remind.path'></Remind>
         </div>
 </template>
 
@@ -90,7 +90,8 @@
                 firstMenuList:'',//一级菜单列表
                 remind:{
                     status:'',
-                    msg:''
+                    msg:'',
+                    path: ''
                 },
                 menuInfo:{
                     pId: "",
@@ -163,21 +164,20 @@
 
             //新增菜单
             addMenu(){
-                let menuName = this.menuInfo.menuName.replace(/(^\s*)|(\s*$)/g,"");
-                let pageUrl = this.menuInfo.pageUrl;
-                pageUrl = pageUrl == null ? pageUrl : pageUrl.replace(/(^\s*)|(\s*$)/g,"");
+                let menuInfo = this.menuInfo;
+                let menuName = this.empty(menuInfo.menuName)[0];
+                let type = menuInfo.type;
+                let pageUrl = type == 0 ? '' : this.empty(menuInfo.pageUrl)[0];
                 let imgUrl1 = this.imgUrl1 == "./static/img/add.jpg" ? '' : this.imgUrl1;
                 let imgUrl2 = this.imgUrl2 == "./static/img/add.jpg" ? '' : this.imgUrl2;
-                let type = this.menuInfo.type;
-                // console.log(type == 0 || pageUrl != "");
-                if (menuName != "" && (type != 1 || pageUrl != "")) {
+                if (!this.isNull(menuName) && (type != 1 || !this.isNull(pageUrl))) {
                     const addUrl = 'menu/addOrUpdateMenu';
                     let addData = {
                         'id' : this.$route.params.id,
-                        'pId' : this.menuInfo.pId,
+                        'pId' : menuInfo.pId,
                         'type' : type,
                         'menuName' : menuName,
-                        'isEnable' : this.menuInfo.isEnable,
+                        'isEnable' : menuInfo.isEnable,
                         'pageUrl' : pageUrl,
                         'menuIconUrl':imgUrl1,
                         'menuActiveIconUrl':imgUrl2
@@ -186,7 +186,12 @@
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
                         // console.log(res);
                         if (res.data.code == 0) {//返回成功
-                            this.$router.push({path:"/menu_management"});
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg,
+                                path: '/menu_management'
+                            }
+                            store.dispatch('showRemind');
                             store.dispatch('reloadSide');      
                         } else {
                             this.remind = {
