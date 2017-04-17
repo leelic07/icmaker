@@ -15,9 +15,11 @@
             margin-top: 7%;
             height: 82%;
             padding: 2% 0;
+            overflow: hidden;
             border: 1px solid #ddd;
             .statistics {
                 width: 70%;
+                height: 100%;
             }
         }  
     }
