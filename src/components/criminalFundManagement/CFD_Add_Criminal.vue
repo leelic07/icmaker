@@ -100,32 +100,6 @@
             </div>
         </div>
 
-        <!--模态框-->
-
-	    <!--添加罪犯 -->
-		<div class="modal modal-confirm modal-bind" id="bindConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-		    <div class="modal-dialog">
-		        <div class="modal-content">
-		            <div class="modal-header">
-		                <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
-		                    &times;
-		                </button>
-		            </div>
-		            <div class="modal-body">
-		                <h3>设置分配金额</h3>
-		                <div class="clearfix bind-info">
-		                    <ul class="pull-left clearfix bind-info-list">
-		                        <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">零花钱</span></li>
-		                        <li class="clearfix"><span class="pull-left info-label">选择人数</span><span class="pull-right">12人</span></li>
-		                        <li class="clearfix"><span class="pull-left info-label">总共分配金额</span><span class="pull-right">12000元</span></li>
-		                    </ul>
-		                </div>
-		                <button class="confirm-button" data-dismiss="modal">确定</button>
-		                <button class="cancel-button" data-dismiss="modal">取消</button>
-		            </div>
-		        </div><!-- /.modal-content -->
-		    </div><!-- /.modal -->
-		</div>
         <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
@@ -149,11 +123,23 @@ import store from '../../store'
                 prisonCapitalAssignId:this.$route.params.prisonCapitalAssignId,
                 prisonId:this.$route.params.prisonId,
                 type:this.$route.params.type,
+                totalMoney:this.$route.params.money,
                 ids:'',
                 prisonerIndex:[],
                 addPrisoners:[]
 			}
 		},
+        watch:{
+            addPrisoners:{
+                handler(){
+                    console.log('change');
+                    $.each(this.addPrisoners,(index,value)=>{
+                        value.money = this.saveTwo(value.money);
+                    });
+                },
+                deep:true
+            }
+        },
         computed:{
             remindShow:{
                 get(){
@@ -181,7 +167,7 @@ import store from '../../store'
             getPrisoners(){
                 this.$http({
                     method:'get',
-                    url:'/prisoner/getPrisoners',
+                    url:'/prisoner/getPrisonersByCapital',
                     params:{
                         prisonId:this.prisonId,
                         indexPage:this.indexPage,
@@ -201,7 +187,7 @@ import store from '../../store'
                 this.indexPage = index;
                 this.$http({
                     method:'get',
-                    url:'/prisoner/getPrisoners',
+                    url:'/prisoner/getPrisonersByCapital',
                     params:{
                         prisonId:this.prisonId,
                         indexPage:this.indexPage,
@@ -277,19 +263,29 @@ import store from '../../store'
                     let status = [];
                     $.each(this.addPrisoners,(index,value)=>{
                         prisonerId.push(value.prisonerId);
-                        money.push(value.money * 100);
+                        money.push(this.toCent(value.money));
                         status.push(0);
                     });
 
                     //判断输入分配金额是否合法
+                    let total = 0;
                     $.each(money,(index,value)=>{
                         if(!this.isNumber(value)){
                             isNumber = false;
                             return;
+                        }else{
+                            total += Number(value);
                         }
                     });
-
-                    if(isNumber){
+                    
+                    if(total > this.totalMoney){
+                        this.remind = {
+                            status:'warn',
+                            msg:'分配金额大于可分配金额'
+                        };
+                        store.dispatch('showRemind');
+                        return;
+                    }else if(isNumber){
                         this.$http({
                             method:'post',
                             url:'/criminalFundAllocation',

@@ -208,7 +208,7 @@ export default [
 		component:CriminalFundDetail
 	},
 	{
-		path:'/cfd_add_criminal/:prisonId/:prisonCapitalAssignId/:type',
+		path:'/cfd_add_criminal/:prisonId/:prisonCapitalAssignId/:type/:money',
 		component:CFD_AddCriminal
 	},
 	{
