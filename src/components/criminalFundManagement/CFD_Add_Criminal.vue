@@ -79,13 +79,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for='ap in addPrisoners'>
+                        <tr v-for='ap in addPrisoners' v-show='ap.prisonId'>
                             <td :id='ap.prisonerId'></td>
                             <td v-text='ap.name'></td>
                             <td v-text='ap.archivesNumber'></td>
                             <td v-text='ap.prisonName'></td>
                             <td v-text='ap.prisonDepartmentName'></td>
-                            <td><input type="text" class="form-control"  placeholder="输入分配金额" v-model='ap.money'/></td>
+                            <td><input type="text" class="form-control money-item"  placeholder="输入分配金额" :money='ap.money' v-model='ap.money'/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -126,18 +126,27 @@ import store from '../../store'
                 totalMoney:this.$route.params.money,
                 ids:'',
                 prisonerIndex:[],
-                addPrisoners:[]
+                addPrisoners:[{
+                    prisonId:'',
+                    name:'',
+                    archivesNumber:'',
+                    prisonName:'',
+                    prisonDepartmentName:'',
+                    money:''
+                }]
 			}
 		},
         watch:{
             addPrisoners:{
                 handler(){
-                    console.log('change');
                     $.each(this.addPrisoners,(index,value)=>{
-                        value.money = this.saveTwo(value.money);
-                    });
+                        // console.log(value.money);
+                        if(value.prisonId != '' && value.money){
+                            value.money = this.saveTwo(value.money);
+                        }      
+                    });                
                 },
-                deep:true
+                deep:true           
             }
         },
         computed:{
@@ -205,7 +214,7 @@ import store from '../../store'
             },
 
             //获取选中的罪犯
-            getAllCriminal() {
+            getAllCriminal(){
                 this.prisonerIndex.splice(0,this.prisonerIndex.length);
                 let checkedInfo = $(".info-list-check").filter(".active");
                 if(checkedInfo.length >0){
@@ -277,7 +286,7 @@ import store from '../../store'
                             total += Number(value);
                         }
                     });
-                    
+
                     if(total > this.totalMoney){
                         this.remind = {
                             status:'warn',

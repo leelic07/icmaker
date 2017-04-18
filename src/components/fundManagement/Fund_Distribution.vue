@@ -122,7 +122,6 @@ import store from '../../store'
             //删除小数点两位后的数字
             distributionItems:{
                 handler(){
-                    console.log('change');
                     $.each(this.distributionItems,(index,value)=>{
                         value.money = this.saveTwo(value.money);
                     });
