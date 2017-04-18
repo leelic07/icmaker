@@ -97,7 +97,7 @@
                     pId: "",
                     menuName: "",
                     type: 0,   //类型：0-一级菜单；1-二级菜单；
-                    isEnable: 0,
+                    isEnable: 1,
                     pageUrl: ""
                 }
 			}
