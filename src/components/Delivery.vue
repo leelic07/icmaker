@@ -58,10 +58,10 @@
             <div class="col-xs-2">
                 <input type="button" value="绑定虚拟账号" class="agree-button" @click="bindAccount(1)">
             </div>
-            <!--<div class="col-xs-2">
+            <div class="col-xs-2">
                 <input type="button" value="绑定全部虚拟账号" class="bind-button" @click="bindAccount(2)">
             </div>
-            <div class="col-xs-2 pull-right">
+            <!--<div class="col-xs-2 pull-right">
                 <button class="btn ">导出数据</button>
                 <div class="glyphicons glyphicons-search"></div>
             </div>-->
@@ -267,6 +267,9 @@ import Page from './Paginator.vue'
                     this.prisonId = "";
                     this.prisonDepartments = "";
                 }
+            },
+            cardCost() {
+                this.cardCost = this.saveTwo(this.cardCost);
             }
         },
         methods:{
@@ -276,7 +279,6 @@ import Page from './Paginator.vue'
 
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -295,7 +297,6 @@ import Page from './Paginator.vue'
                 this.prisonDepartments = "";
                 this.prisonDepartmentId = "";
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                     }
@@ -311,7 +312,6 @@ import Page from './Paginator.vue'
                         this.prisonId = this.prisons[i].id;
                     }
                 }
-                // console.log('prisonId'+this.prisonName);
                 let searchData = {
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
@@ -323,11 +323,8 @@ import Page from './Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                // console.log(searchData);
                 this.lastSearchData = searchData;
                 this.$http.get('icCard/cardPrisoners',{params:searchData}).then(res=>{
-                    // console.log("列表");
-                    // console.log(res);
                     if (res.data.code == 0) {
                        this.deliveryList = res.data.data.prisoners;//赋值分发列表
                        this.deliverySize = res.data.data.prisonerSize;//赋值分发列表数
@@ -340,10 +337,8 @@ import Page from './Paginator.vue'
             bindIC(e){
                 this.prisonerId = e.target.getAttribute("id");
                 this.$http.get('icCard/toBindingCard',{params: {"prisonerId":this.prisonerId}}).then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.bindIcInfo = res.data.data;
-                        // console.log(this.bindIcInfo);
                         $('#bindConfirm').modal();
                     }
                 }).catch(err=>{
@@ -361,7 +356,8 @@ import Page from './Paginator.vue'
 
             bindIcConfirm() {
                 let numReg = new RegExp("^[0-9]*$");
-                let cardCost = this.type == 0 ? 0 : this.cardCost.replace(/(^\s*)|(\s*$)/g,"");
+                let cardCost = this.type == 0 ? 0 : this.toCent(this.cardCost.replace(/(^\s*)|(\s*$)/g,""));
+                console.log(cardCost);
                 let icCardNo = this.icCardNo.replace(/(^\s*)|(\s*$)/g,"");
                 if (icCardNo == "" || (this.type == 1 && cardCost == "")) {//选了收费却未填金额
                     this.remind = {
@@ -369,7 +365,7 @@ import Page from './Paginator.vue'
                         msg:'请填写完整再进行提交'
                     }
                     store.dispatch('showRemind');
-                } else if (!numReg.test(icCardNo) || (this.type == 1 && !numReg.test(cardCost))) {
+                } else if (!numReg.test(icCardNo) || (this.type == 1 && !this.isNumber(cardCost))) {
                     this.remind = {
                         status:'warn',
                         msg:'输入不合法'
@@ -380,12 +376,10 @@ import Page from './Paginator.vue'
                         "prisonerId": this.prisonerId,
                         "icCardNo": icCardNo,
                         "type": this.type,
-                        "cardCost": cardCost*100
+                        "cardCost": cardCost
                     };
-                    // console.log(deliveryData);
                     this.$http.post("icCard/bindingCard",$.param(deliveryData)).then(res=>{
-                        // console.log(res);
-                        if (res.data.code == 0) {//返回成功
+                        if (res.data.code == 0) {
                             this.remind = {
                                 status:'success',
                                 msg:res.data.msg
@@ -436,13 +430,11 @@ import Page from './Paginator.vue'
             },
 
             bindAccountConfirm(bindType) {
-                // console.log(bindType);
                 if (bindType == 0) {//单个绑定
                     let deliveryData = {
                         "prisonerId": this.prisonerId
                     };
                     this.$http.post("icCard/bindingVirtualAccount",$.param(deliveryData)).then(res=>{
-                        // console.log(res);
                         if (res.data.code == 0) {//返回成功
                             this.remind = {
                                 status:'success',
@@ -464,8 +456,7 @@ import Page from './Paginator.vue'
                         "ids": this.ids
                     };
                     this.$http.post("icCard/bindingAccounts",$.param(deliveryData)).then(res=>{
-                        // console.log(res);
-                        if (res.data.code == 0) {//返回成功
+                        if (res.data.code == 0) {
                             this.remind = {
                                 status:'success',
                                 msg:res.data.msg
@@ -490,10 +481,8 @@ import Page from './Paginator.vue'
                         "number": this.lastSearchData.number,
                         "archivesNumber":this.lastSearchData.archivesNumber
                     };
-                    // console.log(bindAllData);
                     this.$http.post("icCard/bindingAllAccounts",$.param(bindAllData)).then(res=>{
-                        // console.log(res);
-                        if (res.data.code == 0) {//返回成功
+                        if (res.data.code == 0) {
                             this.remind = {
                                 status:'success',
                                 msg:res.data.msg
@@ -523,8 +512,7 @@ import Page from './Paginator.vue'
                     "prisonerId": this.prisonerId
                 };
                 this.$http.post("icCard/unbindingPrisoner",$.param(deliveryData)).then(res=>{
-                    // console.log(res);
-                    if (res.data.code == 0) {//返回成功
+                    if (res.data.code == 0) {
                         this.remind = {
                             status:'success',
                             msg:res.data.msg
@@ -552,8 +540,7 @@ import Page from './Paginator.vue'
                     "prisonerId": this.prisonerId
                 };
                 this.$http.post("icCard/unbindingCard",$.param(deliveryData)).then(res=>{
-                    // console.log(res);
-                    if (res.data.code == 0) {//返回成功
+                    if (res.data.code == 0) {
                         this.remind = {
                             status:'success',
                             msg:res.data.msg

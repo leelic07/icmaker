@@ -93,7 +93,7 @@
                                 <td>{{apply.cardAt | formatDate}}</td>
                                 <td>{{apply.cardStatus | formatApplyStatus}}</td>
                                 <td colspan = "2" v-if = "apply.cardStatus == 1"></td>
-                                <td v-if = "apply.cardStatus == 2 && apply.releaseStatus == 1" colspan = "2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,1)">申请补卡</em></td>
+                                <td v-if = "apply.cardStatus == 2 || apply.cardStatus == 4" colspan = "2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,1)" v-if = "apply.releaseStatus == 1">申请补卡</em></td>
                                 <td v-if = "apply.cardStatus == 0 || apply.cardStatus == 3" colspan = "2"><em class="agree-text" :id = "apply.prisonerId" @click="applyCard($event,0)">申请制卡</em></td>
                             </tr>
                         </tbody>
@@ -202,7 +202,7 @@ import Page from './Paginator.vue'
         },
         methods:{
             getStatusList(){//赋值状态列表
-                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"未制卡"},{"value":1,"name":"正在制卡"},{"value":2,"name":"已制卡"},{"value":3,"name":"拒绝制卡"}]
+                this.statusList = [{"value":"","name":"全部"},{"value":0,"name":"未制卡"},{"value":1,"name":"正在制卡"},{"value":2,"name":"已制卡"},{"value":3,"name":"拒绝制卡"},{"value":4,"name":"拒绝补卡"}]
             },
 
             getPrisonInfo() {//根据用户信息获取监狱信息

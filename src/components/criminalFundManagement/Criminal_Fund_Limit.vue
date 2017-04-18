@@ -75,9 +75,9 @@
                             <td>{{fund.archives_number}}</td>
                             <td>{{fund.name}}</td>
                             <td>{{fund.virtual_account_no}}</td>
-                            <td>{{fund.total | currency}}</td>
-                            <td>{{fund.day_money | currency}}</td>
-                            <td>{{fund.month_money | currency}}</td>
+                            <td>{{fund.total | setCurrency}}</td>
+                            <td>{{fund.day_money | setCurrency}}</td>
+                            <td>{{fund.month_money | setCurrency}}</td>
                             <td><em class="agree-text" :prisonerId = "fund.prisoner_id" :id="fund.id" :prisonerName = "fund.name" :monthMoney = "fund.month_money" :dayMoney = "fund.day_money" @click = "setFund($event,1)">配置消费额度</em></td>
                         </tr>
                     </tbody>
@@ -111,7 +111,6 @@
                                 <div class="col-xs-18 pull-left">
                                     <input type="text" class="form-control" id="dayMoney" placeholder="输入日限额" v-model = "dayMoney">
                                 </div>
-                                
                             </div>
                             <div class="form-group fee-input clearfix">
                                 <label for="monthMoney" class="col-xs-6 pull-left">月限额：</label>
@@ -196,6 +195,14 @@ import Page from '../Paginator.vue'
                     this.prisonId = "";
                     this.prisonDepartments = "";
                 }
+            },
+            //删除小数点两位后的数字
+            dayMoney(){
+                this.dayMoney = this.saveTwo(this.dayMoney);
+            },
+
+            monthMoney(){
+                this.monthMoney = this.saveTwo(this.monthMoney);
             }
         },
 		methods:{
@@ -294,8 +301,8 @@ import Page from '../Paginator.vue'
             },
 
             setFundConfirm () {//setType 配置方式 1-单个 2-批量
-                let monthMoney = this.monthMoney == "" ? "" : this.monthMoney*100;
-                let dayMoney = this.dayMoney == "" ? "" : this.dayMoney*100;
+                let monthMoney = this.monthMoney == "" ? "" : this.toCent(this.monthMoney);
+                let dayMoney = this.dayMoney == "" ? "" : this.toCent(this.dayMoney);
                 let numReg = new RegExp("^[0-9]*$");
                 if (this.isNull(this.monthMoney) && this.isNull(this.dayMoney)) {
                     this.remind = {
