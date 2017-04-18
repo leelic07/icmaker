@@ -293,6 +293,9 @@ export default{
 		case 3 :
 			applyType = "拒绝制卡";
 			break;
+		case 4 :
+			applyType = "拒绝补卡";
+			break;
 		default :
 			applyType = "";
 		}
