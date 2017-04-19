@@ -116,7 +116,7 @@
                                 <option v-for = "depart in toPrisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
-                        <button class="confirm-button" data-dismiss="modal" @click = "changeConfirm">确定</button>
+                        <button class="confirm-button"  @click = "changeConfirm">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -143,7 +143,7 @@
                                 <option v-for = "depart in toPrisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
-                        <button class="confirm-button" data-dismiss="modal" @click = "changeAllConfirm">确定</button>
+                        <button class="confirm-button"  @click = "changeAllConfirm">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -335,6 +335,7 @@ import Page from '../Paginator.vue'
                     }
                 }
                 let searchData = {
+                    "type": 1,
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
                     "status": this.status,
@@ -369,7 +370,6 @@ import Page from '../Paginator.vue'
                         for (let i = 0;i < checkedInfo.length; i ++) {
                             prisonerIds.push(checkedInfo[i].getAttribute("id"));
                         }
-                        // console.log(prisonerIds);
                         this.ids = prisonerIds;//将选中的罪犯ID赋值
                         $("#changeAllPrisonConfirm").modal();
                     } else {
@@ -402,6 +402,7 @@ import Page from '../Paginator.vue'
                                 status:'success',
                                 msg:res.data.msg
                             }
+                            $('#changeAllPrisonConfirm').modal('hide');
                             this.criminalSearch(this.indexPage);
                         }else {
                             this.remind = {
@@ -437,6 +438,7 @@ import Page from '../Paginator.vue'
                                 status:'success',
                                 msg:res.data.msg
                             }
+                            $('#changePrisonConfirm').modal('hide');
                             this.criminalSearch(this.indexPage);
                         }else {
                             this.remind = {

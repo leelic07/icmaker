@@ -104,6 +104,8 @@
 
         methods:{
             getPrisonerInfo () {
+                this.money = "";
+                this.remark = "";
                 let icCardNo = this.empty(this.icCardNo)[0];
                 let prisonerData = {
                     "icCardNo": icCardNo

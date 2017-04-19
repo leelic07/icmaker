@@ -84,7 +84,7 @@
                                 </div>
                                 
                             </div>
-                            <button class="confirm-button" data-dismiss="modal" @click = "setFundConfirm">保存</button>
+                            <button class="confirm-button" @click = "setFundConfirm">保存</button>
                             <button class="cancel-button" data-dismiss="modal">取消</button>
                         </div>
                     </div><!-- /.modal-content -->
@@ -193,10 +193,7 @@ import Page from '../Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                // console.log(searchData);
                 this.$http.get('prisionCrimeConsumptionRestrictList',{params:searchData}).then(res=>{
-                    // console.log("列表");
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.fundList = res.data.data.prisionCrimeConsumptionRestrictList;//赋值监狱犯罪消费资金列表
                         this.fundSize = res.data.data.prisionCrimeConsumptionRestrictListSize;//赋值监狱犯罪消费资金列表数
@@ -222,47 +219,44 @@ import Page from '../Paginator.vue'
             setFundConfirm () {
                 let monthMoney = this.monthMoney == "" ? "" : this.toCent(this.monthMoney);
                 let dayMoney = this.dayMoney == "" ? "" : this.toCent(this.dayMoney);
-                let numReg = new RegExp("^[0-9]*$");// 数值
                 if (this.isNull(this.monthMoney) && this.isNull(this.dayMoney)) {
                     this.remind = {
                         status:'warn',
                         msg:'请填写完整再进行提交'
                     }
                     store.dispatch('showRemind');
+                }else if (!this.isNullOrNumber(this.monthMoney) || !this.isNullOrNumber(this.dayMoney)){
+                    this.remind = {
+                        status:'warn',
+                        msg:'输入不合法'
+                    }
+                    store.dispatch('showRemind');
                 }else {
-                    if (!numReg.test(monthMoney) || !numReg.test(dayMoney)) {
-                        this.remind = {
-                            status:'warn',
-                            msg:'输入不合法'
+                    let setData = {
+                        "id": this.id,
+                        "prisonId": this.currentPrisonId,
+                        "monthMoney": monthMoney,
+                        "dayMoney": dayMoney,
+                        "typeId": this.typeId
+                    };
+                    this.$http.post("prisionOrAreaConsumptionQuota",$.param(setData)).then(res=>{
+                        if (res.data.code == 0) {//返回成功
+                                this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                            this.getFundList(this.indexPage);
+                            $('#setConfirm').modal('hide');
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
                         }
                         store.dispatch('showRemind');
-                    }else {
-                        let setData = {
-                            "id": this.id,
-                            "prisonId": this.currentPrisonId,
-                            "monthMoney": monthMoney,
-                            "dayMoney": dayMoney,
-                            "typeId": this.typeId
-                        };
-                        this.$http.post("prisionOrAreaConsumptionQuota",$.param(setData)).then(res=>{
-                            // console.log(res);
-                            if (res.data.code == 0) {//返回成功
-                                 this.remind = {
-                                    status:'success',
-                                    msg:res.data.msg
-                                }
-                                this.getFundList(this.indexPage);
-                            }else {
-                                this.remind = {
-                                    status:'failed',
-                                    msg:res.data.msg
-                                }
-                            }
-                            store.dispatch('showRemind');
-                        }).catch(err=>{
-                            console.log('配置资金服务器异常' + err);
-                        });
-                    }
+                    }).catch(err=>{
+                        console.log('配置资金服务器异常' + err);
+                    });
                 }
             }
 

@@ -111,7 +111,7 @@
                                 <option v-for = "depart in toPrisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
-                        <button class="confirm-button" data-dismiss="modal" @click = "changeConfirm">确定</button>
+                        <button class="confirm-button" @click = "changeConfirm">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -134,7 +134,7 @@
                                 <option v-for = "depart in toAllPrisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
-                        <button class="confirm-button" data-dismiss="modal" @click = "changeAllConfirm">确定</button>
+                        <button class="confirm-button" @click = "changeAllConfirm">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -313,6 +313,7 @@ import Page from '../Paginator.vue'
                 }
                 // console.log('prisonId'+this.prisonId);
                 let searchData = {
+                    "type": 0,
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
                     "status": this.status,
@@ -349,6 +350,7 @@ import Page from '../Paginator.vue'
                                 status:'success',
                                 msg:res.data.msg
                             }
+                            $('#changeAllWardConfirm').modal('hide');
                             this.criminalSearch(this.indexPage);
                         }else {
                             this.remind = {
@@ -385,6 +387,7 @@ import Page from '../Paginator.vue'
                                 status:'success',
                                 msg:res.data.msg
                             }
+                            $('#changeWardConfirm').modal('hide');
                             this.criminalSearch(this.indexPage);
                         }else {
                             this.remind = {

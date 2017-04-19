@@ -80,7 +80,7 @@
                                     <td>
                                         <p class="col-xs-24"><span class="pull-left">虚拟账号</span><span class="pull-left">{{virtualAccount.virtualAccountNo}}</span></p>
                                         <p class="col-xs-8 pull-left"><span class="pull-left">姓名</span><span class="pull-left">{{detail.virtualAccountName}}</span></p>
-                                        <p class="col-xs-16 pull-left"><span class="pull-right">{{detail.updatedAt | formatDate}}</span><span class="pull-right">使用日期</span></p>
+                                        <p class="col-xs-16 pull-left"><span class="pull-right">{{detail.createdAt | formatDate}}</span><span class="pull-right">使用日期</span></p>
                                     </td>
                                 </tr>
                             </table>
@@ -179,8 +179,8 @@ import {mapGetters,mapMutations} from 'vuex'
                 };
                 // console.log(detailData);
                 this.$http.get('icCard/accountDetail',{params:detailData}).then(res=>{
-                    // console.log("列表");
-                    // console.log(res);
+                    console.log("列表");
+                    console.log(res);
                     if (res.data.code == 0) {
                         this.detailList = res.data.data.details;//赋值虚拟账号详情列表
                         this.virtualAccount = res.data.data.virtualAccount;//赋值虚拟账号详情列表

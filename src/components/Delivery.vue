@@ -141,9 +141,9 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="text" class="form-control fee-input" id="cardCost" placeholder="输入补卡费" v-model = "cardCost" v-show = "type == 1">
+                        <input type="text" class="form-control fee-input" id="cardCost" placeholder="输入卡费" v-model = "cardCost" v-show = "type == 1">
                         <input type="text" class="form-control fee-input" id="icCardNo" placeholder="输入IC卡号进行绑定" v-model = "icCardNo">
-                        <button class="confirm-button" data-dismiss="modal" @click = "bindIcConfirm">确定</button>
+                        <button class="confirm-button" @click = "bindIcConfirm">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -316,10 +316,10 @@ import Page from './Paginator.vue'
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
                     "status":this.status,
-                    "name": this.name.replace(/(^\s*)|(\s*$)/g,""),
-                    "virtualAccount": this.virtualAccount.replace(/(^\s*)|(\s*$)/g,""),
-                    "number": this.number.replace(/(^\s*)|(\s*$)/g,""),
-                    "archivesNumber":this.archivesNumber.replace(/(^\s*)|(\s*$)/g,""),
+                    "name": this.empty(this.name)[0],
+                    "virtualAccount": this.empty(this.virtualAccount)[0],
+                    "number": this.empty(this.number)[0],
+                    "archivesNumber":this.empty(this.archivesNumber)[0],
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
@@ -335,6 +335,9 @@ import Page from './Paginator.vue'
             },
 
             bindIC(e){
+                this.type = 0;
+                this.icCardNo = "";
+                this.cardCost = "";
                 this.prisonerId = e.target.getAttribute("id");
                 this.$http.get('icCard/toBindingCard',{params: {"prisonerId":this.prisonerId}}).then(res=>{
                     if (res.data.code == 0) {
@@ -356,15 +359,16 @@ import Page from './Paginator.vue'
 
             bindIcConfirm() {
                 let cardCost = this.type == 0 ? 0 : this.toCent(this.empty(this.cardCost));
-                let icCardNo = this.empty(this.icCardNo);
-                console.log(this.isNull(icCardNo));
-                if (this.isNull(icCardNo) || (this.type == 1 && this.isNull(cardCost))) {//选了收费却未填金额
+                let icCardNo = this.empty(this.icCardNo)[0];
+                console.log(cardCost);
+                console.log(this.isNull(cardCost));
+                if (this.isNull(icCardNo) || (this.type == 1 && this.isNull(this.cardCost))) {//选了收费却未填金额
                     this.remind = {
                         status:'warn',
                         msg:'请填写完整再进行提交'
                     }
                     store.dispatch('showRemind');
-                } else if (!this.isNum(icCardNo) || (this.type == 1 && !this.isNumber(cardCost))) {
+                } else if (!this.isNum(icCardNo) || (this.type == 1 && (!this.isNumber(this.cardCost)||this.cardCost == 0))) {
                     this.remind = {
                         status:'warn',
                         msg:'输入不合法'
@@ -383,6 +387,7 @@ import Page from './Paginator.vue'
                                 status:'success',
                                 msg:res.data.msg
                             }
+                            $('#bindConfirm').modal('hide');
                             this.getDeliveryList(this.indexPage);
                             this.type = 0;//进行绑定IC模态框的重置
                             this.cardCost = "";
