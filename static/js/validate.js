@@ -130,5 +130,75 @@ export default{
         }else{
             return args;
         }  
+    },
+
+    //判断是否是银行账号
+    isBankAccountNo(){
+        // let pattBankAccount = new RegExp('^(\\d{4}(\\s*\\d{4}){3})|(\\d{4}(\\s*\\d{4}){3}(\\s*\\d{3}){1})$');
+        let pattBankAccount = /^(\d{16}|\d{19})$/;
+        // let pattNum = /^[0-9]*$/;
+        for(let i = 0;i < arguments.length;i++){
+            if(this.isNull(arguments[i])){
+                return false;//不是银行账号
+            }else{
+                arguments[i] = this.trimAll(arguments[i]);
+                if(!pattBankAccount.test(Number(arguments[i]))){
+                    return false;//不是银行账号
+                }
+            } 
+        }
+        return true;//是银行账号
+    },
+
+    //判断是否是银行行号
+    isBankNo(){
+        let pattBankNo = /^[0-9]*$/;
+        for(let i = 0;i < arguments.length;i++){
+            if(this.isNull(arguments[i])){
+                return false;//不是银行行号
+            }else{
+                arguments[i] = this.trimAll(arguments[i]);
+                if(!pattBankNo.test(Number(arguments[i]))){
+                    return false;//不是银行行号
+                }
+            } 
+        }
+        return true;//是银行行号
+    },
+
+    //去掉首尾的空格
+    trim(){
+        let args = [];
+        for(let i = 0;i < arguments.length;i++){
+            if(this.isNull(arguments[i])){ 
+                args.push('');
+            }else{
+                args.push(arguments[i].toString().replace(/^(\s*)|(\s*)$/g,''));
+            }
+        }
+        if(arguments.length == 1){
+            return args[0];
+        }else{
+            return args;
+        }   
+    },
+
+
+    //去掉所有的空格
+    trimAll(){
+        let args = [];
+        for(let i = 0;i < arguments.length;i++){
+            if(this.isNull(arguments[i])){
+                args.push('');
+            }else{
+                args.push(arguments[i].toString().replace(/\s/g,''));
+            }
+        }
+        if(arguments.length == 1){
+            return args[0];
+        }else{
+            return args;
+        }   
     }
+
 }
