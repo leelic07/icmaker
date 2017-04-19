@@ -79,13 +79,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for='ap in addPrisoners' v-show='ap.prisonId'>
+                        <tr v-for='ap in addPrisoners'>
                             <td :id='ap.prisonerId'></td>
                             <td v-text='ap.name'></td>
                             <td v-text='ap.archivesNumber'></td>
                             <td v-text='ap.prisonName'></td>
                             <td v-text='ap.prisonDepartmentName'></td>
-                            <td><input type="text" class="form-control money-item"  placeholder="输入分配金额" :money='ap.money' v-model='ap.money'/></td>
+                            <td><input type="text" class="form-control money-item"  placeholder="输入分配金额" v-model='ap.money'/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -126,14 +126,7 @@ import store from '../../store'
                 totalMoney:this.$route.params.money,
                 ids:'',
                 prisonerIndex:[],
-                addPrisoners:[{
-                    prisonId:'',
-                    name:'',
-                    archivesNumber:'',
-                    prisonName:'',
-                    prisonDepartmentName:'',
-                    money:''
-                }]
+                addPrisoners:[]
 			}
 		},
         watch:{
@@ -272,7 +265,7 @@ import store from '../../store'
                     let status = [];
                     $.each(this.addPrisoners,(index,value)=>{
                         prisonerId.push(value.prisonerId);
-                        money.push(this.toCent(value.money));
+                        money.push(this.toCent(value.money)); 
                         status.push(0);
                     });
 
@@ -287,7 +280,7 @@ import store from '../../store'
                         }
                     });
 
-                    if(total > this.totalMoney){
+                    if(total && this.toCent(total) > this.totalMoney){
                         this.remind = {
                             status:'warn',
                             msg:'分配金额大于可分配金额'
