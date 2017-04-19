@@ -355,17 +355,16 @@ import Page from './Paginator.vue'
             },
 
             bindIcConfirm() {
-                let numReg = new RegExp("^[0-9]*$");
-                let cardCost = this.type == 0 ? 0 : this.toCent(this.cardCost.replace(/(^\s*)|(\s*$)/g,""));
-                console.log(cardCost);
-                let icCardNo = this.icCardNo.replace(/(^\s*)|(\s*$)/g,"");
-                if (icCardNo == "" || (this.type == 1 && cardCost == "")) {//选了收费却未填金额
+                let cardCost = this.type == 0 ? 0 : this.toCent(this.empty(this.cardCost));
+                let icCardNo = this.empty(this.icCardNo);
+                console.log(this.isNull(icCardNo));
+                if (this.isNull(icCardNo) || (this.type == 1 && this.isNull(cardCost))) {//选了收费却未填金额
                     this.remind = {
                         status:'warn',
                         msg:'请填写完整再进行提交'
                     }
                     store.dispatch('showRemind');
-                } else if (!numReg.test(icCardNo) || (this.type == 1 && !this.isNumber(cardCost))) {
+                } else if (!this.isNum(icCardNo) || (this.type == 1 && !this.isNumber(cardCost))) {
                     this.remind = {
                         status:'warn',
                         msg:'输入不合法'

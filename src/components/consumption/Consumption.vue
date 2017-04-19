@@ -7,7 +7,7 @@
                 <div class="col-xs-23 search-inner-box">
                     <div class="row">
                         <div class="col-xs-7 text-box">
-                            <input type="text" class="form-control" placeholder="读取IC卡" v-model = "icCardNo" id="icCardNo" @change = "getPrisonerInfo">
+                            <input type="text" class="form-control" placeholder="读取IC卡" v-model = "icCardNo" id="icCardNo">
                         </div>
                     </div>
                 </div>
@@ -87,8 +87,10 @@
 		},
         watch: {
             icCardNo(val){
-                // console.log(val);
                 this.getPrisonerInfo ();
+            },
+            money() {
+                this.money = this.saveTwo(this.money);
             }
         },
 
@@ -102,9 +104,9 @@
 
         methods:{
             getPrisonerInfo () {
-                // console.log(this.icCardNo);
+                let icCardNo = this.empty(this.icCardNo)[0];
                 let prisonerData = {
-                    "icCardNo": this.icCardNo
+                    "icCardNo": icCardNo
                 };
                 this.$http.get('prisonerConsumer/getPrisoner',{params:prisonerData}).then(res=>{
                     // console.log(res);
@@ -119,48 +121,52 @@
             },
 
             consumeConfirm() {
-                if (this.money != "" && this.money > 0) {
-                    if (this.money < this.prisonerInfo.money/100) {
-                        let prisonerData = {
-                            "prisonerId": this.prisonerId,
-                            "money": this.money*100,
-                            "remark": this.remark
-                        };
-                        this.$http.post("prisonerConsumer/addPrisonerCapitalConsumer",$.param(prisonerData)).then(res=>{
-                            // console.log(res);
-                            if (res.data.code == 0) {
-                                this.icCardNo = "";
-                                this.getPrisonerInfo();
-                                this.money = "";
-                                this.remark = "";
-                                this.remind = {
-                                    status:'success',
-                                    msg:res.data.msg
-                                }
-                            }else {
-                                this.remind = {
-                                    status:'failed',
-                                    msg:res.data.msg
-                                }
-                            }
-                            store.dispatch('showRemind');
-                            
-                        }).catch(err=>{
-                            console.log('新增服务器异常' + err);
-                        });
-                    }else {
-                        this.remind = {
-                            status:'warn',
-                            msg:'余额不足'
-                        }
-                        store.dispatch('showRemind');
-                    }
-                }else {
+                let money = this.toCent(this.empty(this.money)[0]);
+                if (this.isNull(this.money)) {
                     this.remind = {
                         status:'warn',
                         msg:'请输入消费金额'
                     }
                     store.dispatch('showRemind');
+                }else if (!this.isNumber(this.empty(this.money)[0]) || money <= 0) {
+                    this.remind = {
+                        status:'warn',
+                        msg:'输入不合法'
+                    }
+                    store.dispatch('showRemind');
+                } else if (money >= this.prisonerInfo.money) {
+                    this.remind = {
+                        status:'warn',
+                        msg:'余额不足'
+                    }
+                    store.dispatch('showRemind');
+                }else {
+                    let prisonerData = {
+                        "prisonerId": this.prisonerId,
+                        "money": this.money*100,
+                        "remark": this.remark
+                    };
+                    this.$http.post("prisonerConsumer/addPrisonerCapitalConsumer",$.param(prisonerData)).then(res=>{
+                        if (res.data.code == 0) {
+                            this.icCardNo = "";
+                            this.getPrisonerInfo();
+                            this.money = "";
+                            this.remark = "";
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
+                        }
+                        store.dispatch('showRemind');
+                        
+                    }).catch(err=>{
+                        console.log('新增服务器异常' + err);
+                    });
                 }
             }
         },
