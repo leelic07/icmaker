@@ -119,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="confirm-button" data-dismiss="modal" @click = "setFundConfirm">保存</button>
+                        <button class="confirm-button" @click = "setFundConfirm">保存</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -227,7 +227,6 @@ import Page from '../Paginator.vue'
                 this.prisonDepartments = "";
                 this.prisonDepartmentId = "";
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                     }
@@ -252,10 +251,7 @@ import Page from '../Paginator.vue'
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                // console.log(searchData);
                 this.$http.get('personalCrimeConsumptionRestrictList',{params:searchData}).then(res=>{
-                    // console.log("列表");
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.fundList = res.data.data.personalCrimeConsumptionRestrictList;//赋值个人犯罪消费资金列表
                         this.fundSize = res.data.data.personalCrimeConsumptionRestrictListSize;//赋值个人犯罪消费资金列表数
@@ -303,75 +299,72 @@ import Page from '../Paginator.vue'
             setFundConfirm () {//setType 配置方式 1-单个 2-批量
                 let monthMoney = this.monthMoney == "" ? "" : this.toCent(this.monthMoney);
                 let dayMoney = this.dayMoney == "" ? "" : this.toCent(this.dayMoney);
-                let numReg = new RegExp("^[0-9]*$");
                 if (this.isNull(this.monthMoney) && this.isNull(this.dayMoney)) {
                     this.remind = {
                         status:'warn',
                         msg:'请填写完整再进行提交'
                     }
                     store.dispatch('showRemind');
-                }else {
-                    if (!numReg.test(monthMoney) || !numReg.test(dayMoney)) {
-                        this.remind = {
-                            status:'warn',
-                            msg:'输入不合法'
-                        }
-                        store.dispatch('showRemind');
-                    }else {
-                        if(this.setType == 1) {
-                            let setData = {
-                                "id": this.id,
-                                "prisonerId": this.prisonerId,
-                                "monthMoney": monthMoney,
-                                "dayMoney": dayMoney
-                            };
-                            this.$http.post("consumptionQuota",$.param(setData)).then(res=>{
-                                // console.log(res);
-                                if (res.data.code == 0) {//返回成功
-                                    this.remind = {
-                                        status:'success',
-                                        msg:res.data.msg
-                                    }
-                                    this.getFundList(this.indexPage);
-                                }else {
-                                    this.remind = {
-                                        status:'failed',
-                                        msg:res.data.msg
-                                    }
-                                }
-                                store.dispatch('showRemind');
-                            }).catch(err=>{
-                                console.log('配置资金服务器异常' + err);
-                            });
-                        }else if (this.setType == 2) {
-                            let setData = {
-                                "id": this.ids,
-                                "prisonerId": this.prisonerIds,
-                                "monthMoney": monthMoney,
-                                "dayMoney": dayMoney
-                            };
-                            this.$http.post("batchConsumptionQuota",$.param(setData)).then(res=>{
-                                // console.log(res);
-                                if (res.data.code == 0) {
-                                    this.remind = {
-                                        status:'success',
-                                        msg:res.data.msg
-                                    }
-                                    this.getFundList(this.indexPage);
-                                    $(".info-check").removeClass("active");
-                                }else {
-                                    this.remind = {
-                                        status:'failed',
-                                        msg:res.data.msg
-                                    }
-                                }
-                                store.dispatch('showRemind');
-                            }).catch(err=>{
-                                console.log('批量配置资金服务器异常' + err);
-                            });
-                        }
+                }else if (!this.isNullOrNumber(this.monthMoney) || !this.isNullOrNumber(this.dayMoney)){
+                    this.remind = {
+                        status:'warn',
+                        msg:'输入不合法'
                     }
-                }
+                    store.dispatch('showRemind');
+                }else {
+                    if(this.setType == 1) {
+                        let setData = {
+                            "id": this.id,
+                            "prisonerId": this.prisonerId,
+                            "monthMoney": monthMoney,
+                            "dayMoney": dayMoney
+                        };
+                        this.$http.post("consumptionQuota",$.param(setData)).then(res=>{
+                            if (res.data.code == 0) {//返回成功
+                                this.remind = {
+                                    status:'success',
+                                    msg:res.data.msg
+                                }
+                                $('#setConfirm').modal('hide');
+                                this.getFundList(this.indexPage);
+                            }else {
+                                this.remind = {
+                                    status:'failed',
+                                    msg:res.data.msg
+                                }
+                            }
+                            store.dispatch('showRemind');
+                        }).catch(err=>{
+                            console.log('配置资金服务器异常' + err);
+                        });
+                    }else if (this.setType == 2) {
+                        let setData = {
+                            "id": this.ids,
+                            "prisonerId": this.prisonerIds,
+                            "monthMoney": monthMoney,
+                            "dayMoney": dayMoney
+                        };
+                        this.$http.post("batchConsumptionQuota",$.param(setData)).then(res=>{
+                            if (res.data.code == 0) {
+                                this.remind = {
+                                    status:'success',
+                                    msg:res.data.msg
+                                }
+                                $('#setConfirm').modal('hide');
+                                this.getFundList(this.indexPage);
+                                $(".info-check").removeClass("active");
+                            }else {
+                                this.remind = {
+                                    status:'failed',
+                                    msg:res.data.msg
+                                }
+                            }
+                            store.dispatch('showRemind');
+                        }).catch(err=>{
+                            console.log('批量配置资金服务器异常' + err);
+                        });
+                    }
+                }      
             }
 		},
 		components:{

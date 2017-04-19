@@ -37,6 +37,17 @@ export default{
         return true;
     },
 
+    //可以为空，或者是正整数或浮点数
+    isNullOrNumber(){
+        let pattNum = new RegExp('^(([0-9]+\.[0-9]*[0-9][0-9]*)|([0-9]*[0-9][0-9]*\.[0-9]+)|([0-9]*[0-9][0-9]*))$');
+        for(let i = 0;i < arguments.length;i++){
+            if(!this.isNull(arguments[i]) && !pattNum.test(arguments[i])){
+                return false;//不是数字
+            }
+        }
+        return true;//是数字
+    },
+
     //将undefined和null转换为'',并给所有参数去除空格
 
     empty(){
