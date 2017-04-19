@@ -194,6 +194,7 @@ import store from '../../store'
 
             //点击取现执行的方法
 			cashOut(prisonerId,total){
+                this.cash = '';
                 this.prisonerId = prisonerId;
                 this.total = total;
 				$('#cashOutConfirm').modal();

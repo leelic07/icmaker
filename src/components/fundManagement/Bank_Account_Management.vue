@@ -147,7 +147,7 @@ import store from '../../store'
 
 	export default {
 		data(){
-			return {
+			return{
                 bankAccountName:'',
                 bankAccountNo:'',
                 bankNo:'',
@@ -169,7 +169,6 @@ import store from '../../store'
             }
         },
         methods:{
-
             //保存银行账户
             saveAccount(){
                 if(this.isNull(this.bankId,this.bankNo,this.bankAccountName,this.bankAccountNo,this.isSameBank,this.isPublic)){
@@ -179,45 +178,59 @@ import store from '../../store'
                     }
                     store.dispatch('showRemind');
                     return;
-                };
-
-                let bankAccount = {
+                }else if(!this.isBankAccountNo(this.bankAccountNo)){
+                    this.remind = {
+                        status:'warn',
+                        msg:'银行账号不合法'
+                    }
+                    store.dispatch('showRemind');
+                    return;
+                }else if(!this.isBankNo(this.bankNo)){
+                    this.remind = {
+                        status:'warn',
+                        msg:'银行行号不合法'
+                    }
+                    store.dispatch('showRemind');
+                    return;
+                }else{
+                    let bankAccount = {
                         bankId:this.bankId,
-                        bankNo:this.bankNo,
+                        bankNo:this.trimAll(this.bankNo),
                         bankAccountName:this.bankAccountName,
-                        bankAccountNo:this.bankAccountNo,
+                        bankAccountNo:this.trimAll(this.bankAccountNo),
                         isSameBank:this.isSameBank,
                         isPublic:this.isPublic,
                         prisonAccountId:this.prisonAccountId
-                };
+                    };
                 
-                this.$http({
-                    method:'post',
-                    url:'/prisonBankAccount/addOrUpdatePrisonBankAccount',
-                    params:bankAccount
-                }).then(res=>{
-                    if(res.data.code == 0){
-                        this.remind = {
-                            status:'success',
-                            msg:res.data.msg
-                        };
-                        this.getPrisonBankAccounts();
-                        this.bankId = '',
-                        this.bankNo = '',
-                        this.bankAccountName = '',
-                        this.bankAccountNo = '',
-                        this.isSameBank = '',
-                        this.isPublic = ''
-                    }else{
-                        this.remind = {
-                            status:'success',
-                            msg:res.data.msg
-                        };
-                    }
-                    store.dispatch('showRemind');
-                }).catch(err=>{
-                    console.log(err);
-                });
+                    this.$http({
+                        method:'post',
+                        url:'/prisonBankAccount/addOrUpdatePrisonBankAccount',
+                        params:bankAccount
+                    }).then(res=>{
+                        if(res.data.code == 0){
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            };
+                            this.getPrisonBankAccounts();
+                            this.bankId = '',
+                            this.bankNo = '',
+                            this.bankAccountName = '',
+                            this.bankAccountNo = '',
+                            this.isSameBank = '',
+                            this.isPublic = ''
+                        }else{
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            };
+                        }
+                        store.dispatch('showRemind');
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }      
             },
 
             //获取所有银行
@@ -266,7 +279,7 @@ import store from '../../store'
 
             //点击确定删除
             deleteConfirm(){
-                      this.$http({
+                this.$http({
                     method:'post',
                     url:'/prisonBankAccount/deletePrisonBankAccount',
                     params:{
@@ -301,6 +314,7 @@ import store from '../../store'
             $('#table_id_example').tableHover();
             this.getBanks();
             this.getPrisonBankAccounts();
+
         }
 	}
 </script>
