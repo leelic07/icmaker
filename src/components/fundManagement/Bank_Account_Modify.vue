@@ -99,7 +99,7 @@ import store from '../../store'
 				bankAccountId:this.$route.params.bankAccountId,
     			prisonAccountId:this.$route.params.prisonAccountId,
                 banks:[],
-                bankAccount:''
+                bankAccount:[]
 			}
 		},
 		computed:{
@@ -156,39 +156,54 @@ import store from '../../store'
                     }
                     store.dispatch('showRemind');
                     return;
-                };
-            	this.$http({
-            		method:'post',
-            		url:'/prisonBankAccount/addOrUpdatePrisonBankAccount',
-            		params:{
-            			bankId:bankAccount.bankId,
-            			bankNo:bankAccount.bankNo,
-            			bankAccountName:bankAccount.bankAccountName,
-            			bankAccountNo:bankAccount.bankAccountNo,
-            			isPublic:bankAccount.isPublic,
-            			isSameBank:bankAccount.isSameBank,
-            			prisonAccountId:this.prisonAccountId,
-            			prisonBankAccountId:this.prisonBankAccountId,
-            			bankAccountId:this.bankAccountId
-            		}
-            	}).then(res=>{
-            		if(res.data.code == 0){
-            			this.remind = {
-            				status:'success',
-            				msg:res.data.msg,
-                            back:true
-            			};
-            		}else{
-                        this.remind = {
-                            status:'failed',
-                            msg:res.data.msg
-                        };
-            			console.log(res.data.code,res.data.msg);
-            		}
-            		store.dispatch('showRemind');
-            	}).catch(err=>{
-            		console.log(err);
-            	});
+                }else if(!this.isBankAccountNo(bankAccount.bankAccountNo)){
+                    this.remind = {
+                        status:'warn',
+                        msg:'银行账号不合法'
+                    }
+                    store.dispatch('showRemind');
+                    return;
+                }else if(!this.isBankNo(bankAccount.bankNo)){
+                    this.remind = {
+                        status:'warn',
+                        msg:'银行行号不合法'
+                    }
+                    store.dispatch('showRemind');
+                    return;
+                }else{
+                    this.$http({
+                        method:'post',
+                        url:'/prisonBankAccount/addOrUpdatePrisonBankAccount',
+                        params:{
+                            bankId:bankAccount.bankId,
+                            bankNo:bankAccount.bankNo,
+                            bankAccountName:bankAccount.bankAccountName,
+                            bankAccountNo:bankAccount.bankAccountNo,
+                            isPublic:bankAccount.isPublic,
+                            isSameBank:bankAccount.isSameBank,
+                            prisonAccountId:this.prisonAccountId,
+                            prisonBankAccountId:this.prisonBankAccountId,
+                            bankAccountId:this.bankAccountId
+                        }
+                    }).then(res=>{
+                        if(res.data.code == 0){
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg,
+                                back:true
+                            };
+                        }else{
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            };
+                            console.log(res.data.code,res.data.msg);
+                        }
+                        store.dispatch('showRemind');
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }
             }
 		},
 		components:{
