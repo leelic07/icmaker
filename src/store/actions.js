@@ -1,0 +1,29 @@
+export default {
+	showLoading:({commit})=>{
+		commit('showLoading');
+	},
+	hideLoading:({commit})=>{
+		commit('hideLoading');
+	},
+	showRemind:({commit})=>{
+		commit('showRemind');
+	},
+	hideRemind:({commit})=>{
+		commit('hideRemind');
+	},
+	showLogout:({commit})=>{
+		commit('showLogout');
+	},
+	hideLogout:({commit})=>{
+		commit('hideLogout');
+	},
+	reloadSide:({commit})=>{
+		commit('reloadSide');
+	},
+	showLoginLoading:({commit})=>{
+		commit('showLoginLoading');
+	},
+	hideLoginLoading:({commit})=>{
+		commit('hideLoginLoading');
+	}
+}
