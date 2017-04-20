@@ -58,9 +58,9 @@
             <div class="col-xs-2">
                 <input type="button" value="绑定虚拟账号" class="agree-button" @click="bindAccount(1)">
             </div>
-            <div class="col-xs-2">
+            <!--<div class="col-xs-2">
                 <input type="button" value="绑定全部虚拟账号" class="bind-button" @click="bindAccount(2)">
-            </div>
+            </div>-->
             <!--<div class="col-xs-2 pull-right">
                 <button class="btn ">导出数据</button>
                 <div class="glyphicons glyphicons-search"></div>

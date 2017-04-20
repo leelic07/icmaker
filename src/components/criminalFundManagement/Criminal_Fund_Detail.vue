@@ -39,10 +39,10 @@
                             <label for="name">姓名</label>
                             <input type="text" class="form-control" id="name" v-model = "name">
                         </div>
-                        <div class="col-xs-6 select-box">
+                        <!--<div class="col-xs-6 select-box">
                             <label for="number">编号</label>
                             <input type="text" class="form-control" id="number" v-model = "number">
-                        </div>
+                        </div>-->
                         <div class="col-xs-6 select-box">
                             <label for="archivesNumber">档案号</label>
                             <input type="text" class="form-control" id="archivesNumber" v-model = "archivesNumber">
@@ -109,7 +109,7 @@
 	                        <td>{{detail.money | currency}}</td>
 	                        <td>{{detail.balance | currency}}</td>
 	                        <td>{{detail.createTime | formatDate}}</td>
-	                        <td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark}}</a></td>
+	                        <td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark | formatRemark}}</a></td>
 	                    </tr>
                     </tbody>
                 </table>
