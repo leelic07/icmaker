@@ -37,6 +37,21 @@ export default{
         return true;
     },
 
+    //判断图片格式是否正确
+    isImg(){
+        if (!this.isNull(arguments[0])) {
+            let fileName = arguments[0].name;
+            let type = fileName.substr(fileName.lastIndexOf(".")).toLowerCase();
+            if (type!='.bmp'&&type!='.png'&&type!='.gif'&&type!='.jpg'&&type!='.jpeg') {
+                return false;
+            }else {
+                return true;
+            }
+        }else {
+            return false;
+        }
+    },
+
     //可以为空，或者是正整数或浮点数
     isNullOrNumber(){
         let pattNum = new RegExp('^(([0-9]+\.[0-9]*[0-9][0-9]*)|([0-9]*[0-9][0-9]*\.[0-9]+)|([0-9]*[0-9][0-9]*))$');
@@ -49,7 +64,6 @@ export default{
     },
 
     //将undefined和null转换为'',并给所有参数去除空格
-
     empty(){
         let args = [];
         for(let i = 0;i < arguments.length; i++) {

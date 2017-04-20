@@ -84,10 +84,11 @@
 	                        <th>所属监狱</th>
 	                        <th>所属监区</th>
 	                        <th>档案号</th>
-							<th>编号</th>
+							<!--<th>编号</th>-->
 	                        <th>姓名</th>
 	                        <th>类别</th>
-	                        <th>商户</th>
+	                        <th>对方账户名</th>
+                            <th>对方账户</th>
 	                        <th>交易金额</th>
 	                        <th>余额</th>
 	                        <th>交易时间</th>
@@ -100,14 +101,15 @@
 	                        <td>{{detail.prison_name}}</td>
 	                        <td>{{detail.prison_department_name}}</td>
 	                        <td>{{detail.archives_number}}</td>
-							<td>{{detail.number}}</td>
+							<!--<td>{{detail.number}}</td>-->
 	                        <td>{{detail.name}}</td>
 	                        <td>{{detail.type | formatFundType}}</td>
-	                        <td>{{detail.accountName}}</td>
+	                        <td>{{detail.otherAccountName}}</td>
+                            <td>{{detail.otherAccountNo}}</td>
 	                        <td>{{detail.money | currency}}</td>
 	                        <td>{{detail.balance | currency}}</td>
 	                        <td>{{detail.createTime | formatDate}}</td>
-	                        <td>{{detail.remark}}</td>
+	                        <td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark}}</a></td>
 	                    </tr>
                     </tbody>
                 </table>
@@ -236,6 +238,7 @@
                 };
                 // console.log(searchData);
                 this.$http.get('criminalFundDetailList',{params:searchData}).then(res=>{
+                    console.log(res);
                     if (res.data.code == 0) {
                         this.detailList = res.data.data.criminalFundDetailList;
                         this.detailSize = res.data.data.criminalFundDetailListSize;
@@ -268,6 +271,7 @@
 		mounted(){
 			this.dateInit();
 			$('#table_id_example').tableHover();	
+            $('.tooltip-toggle').tooltip('toggle')
             this.getTypeList();
 			this.getPrisonInfo();
 		}
@@ -280,5 +284,13 @@
     		padding-left:0;
             padding-right:0;
     	}
+        .tooltip-toggle {
+            color: #666;
+            display:block;
+            width: 80px;
+            overflow:hidden;
+            white-space:nowrap;
+            text-decoration: none;
+        }
     }
 </style>

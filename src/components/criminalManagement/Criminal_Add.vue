@@ -188,7 +188,15 @@
                 let self = this;
                 $("#imgUrlBtn").on("change",function (e) {
                     let file = e.target.files[0];
-                    Util.readImgUrl(file,self,'imgUrl');
+                    if (self.isImg(file)) {
+                         Util.readImgUrl(file,self,'imgUrl');
+                    }else {
+                        self.remind = {
+                            status:'warn',
+                            msg:'请上传格式正确的图片文件'
+                        }
+                        store.dispatch('showRemind');
+                    }
                 });
             },
             getEditInfo() {
@@ -196,8 +204,6 @@
                 this.prisonerId = prisonerId;
                 if (prisonerId != undefined) {//编辑页面
                     this.$http.get('prisoner/getPrisoner',{params: {"prisonerId":prisonerId}}).then(res=>{
-                        // console.log("editInfo:");
-                        // console.log(res);
                         if (res.data.code == 0) {
                             let date = res.data.data.intoPrisonDate;
                             if (date != null) {
@@ -224,7 +230,6 @@
             },
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         this.getEditInfo();
@@ -239,7 +244,6 @@
             getPrisonDepartInfo (departId) {//获取监区信息
                 let prisonId = this.prisonerInfo.prisonId;
                 this.$http.get('prisoner/getDepartments',{params: {"prisonId":prisonId}}).then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                         if (departId == null){
