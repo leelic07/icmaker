@@ -44,7 +44,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src'), resolve('test'),resolve('static')]
       },
       {
         test: /\.css$/,
@@ -53,6 +53,10 @@ module.exports = {
       {
         test: /\.less$/,
         loader: 'less-loader',
+      },
+      {
+        test:/\.html$/,
+        loader:'html-loader'
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

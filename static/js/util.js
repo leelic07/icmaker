@@ -1,3 +1,4 @@
+'use strict'
 //表格鼠标划入效果
 $.fn.tableHover = function(){
 	$(this).on('mouseover mouseout','tr',function(e){
