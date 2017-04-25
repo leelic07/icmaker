@@ -51,6 +51,15 @@
             </div>
         </div>
 
+        <!--监狱账户总余额-->
+        <div class='row'>
+            <div class='account-total col-xs-23'>
+                <ul>
+                    <li class='pull-left text-green'>监狱账户余额: <span class='text-red'>{{prisonAccountsTotal | currency}}元</span></li>
+                </ul>
+            </div>
+        </div>
+
         <!--表格部分-->
         <div class="col-xs-24 form">
             <div class="col-xs-23">
@@ -63,7 +72,7 @@
                             <th>账户类型</th>
                             <th>账户名</th>
                             <th>虚拟账户号</th>
-                            <th>账户余额</th>
+                            <th>账户余额(元)</th>
                             <th colspan="2">操作</th>
                         </tr>
                     </thead>
@@ -104,7 +113,8 @@ import Page from '../Paginator.vue'
                 accountName:'',
                 pageSize:10,
                 indexPage:1,
-                menuSize:''
+                menuSize:'',
+                prisonAccountsTotal:''//监狱账户总余额
 			}
 		},
         watch:{
@@ -168,6 +178,7 @@ import Page from '../Paginator.vue'
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
                     this.menuSize = res.data.data.prisonAccountDtoSize;
+                    this.prisonAccountsTotal = res.data.data.prisonAccountsTotal;
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -209,6 +220,7 @@ import Page from '../Paginator.vue'
                 }).then(res=>{
                     this.prisonAccountDtos = res.data.data.prisonAccountDtos;
                     this.menuSize = res.data.data.prisonAccountDtoSize;
+                    this.prisonAccountsTotal = res.data.data.prisonAccountsTotal;
                 }).catch(err=>{
                     console.log(err);
                 })
@@ -269,5 +281,18 @@ import Page from '../Paginator.vue'
 			}
 		}
 	}
+
+    .account-total{
+        margin-left:2%;
+        padding:10px 0 15px 0;
+    }
+
+    .text-red{
+        color:#E96900;
+    }
+    .text-green{
+        color:#36A5B0;
+    }
+
 }
 </style>

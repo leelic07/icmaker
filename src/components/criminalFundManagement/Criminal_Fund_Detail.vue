@@ -74,6 +74,16 @@
             </div>
         </div>
 
+        <!--罪犯资金总收入，总支出-->
+        <div class='row'>
+            <div class='criminal-total col-xs-23'>
+                <ul>
+                    <li class='pull-left text-green'>罪犯总收入金额: <span class='text-red'>{{incomeTotal | currency}}元</span></li>
+                    <li class='pull-left text-green'>罪犯总支出余额: <span class='text-red'>{{outTotal | currency}}元</span></li>
+                </ul>
+            </div>
+        </div>
+
         <!--表格部分-->
         <div class="col-xs-24 form">
             <div class="col-xs-23">
@@ -106,7 +116,8 @@
 	                        <td>{{detail.type | formatFundType}}</td>
 	                        <td>{{detail.otherAccountName}}</td>
                             <td>{{detail.otherAccountNo}}</td>
-	                        <td>{{detail.money | currency}}</td>
+	                        <td v-if='detail.type >= 3' class='text-red'>+{{detail.money | currency}}</td>
+                            <td v-else-if='detail.type <3' class='text-green'>-{{detail.money | currency}}</td>
 	                        <td>{{detail.balance | currency}}</td>
 	                        <td>{{detail.createTime | formatDate}}</td>
 	                        <td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark}}</a></td>
@@ -143,7 +154,9 @@
                 startTime: "",//开始时间
                 endTime: "",//结束时间
 				pageSize: 10,
-                indexPage: 1
+                indexPage: 1,
+                incomeTotal:'',//罪犯收入总金额
+                outTotal:''//罪犯支出总金额
 			}
 		},
         watch: {
@@ -238,10 +251,12 @@
                 };
                 // console.log(searchData);
                 this.$http.get('criminalFundDetailList',{params:searchData}).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if (res.data.code == 0) {
                         this.detailList = res.data.data.criminalFundDetailList;
                         this.detailSize = res.data.data.criminalFundDetailListSize;
+                        this.incomeTotal = res.data.data.incomeTotal;
+                        this.outTotal = res.data.data.outTotal;
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -291,6 +306,23 @@
             overflow:hidden;
             white-space:nowrap;
             text-decoration: none;
+        }
+
+        .criminal-total{
+            margin-left:2%;
+            padding:10px 0 15px 0;
+            li{
+                &:nth-child(2){
+                    margin-left:2%;
+                }
+            }
+        }
+
+        .text-red{
+            color:#E96900;
+        }
+        .text-green{
+            color:#36A5B0;
         }
     }
 </style>

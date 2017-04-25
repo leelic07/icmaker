@@ -43,11 +43,34 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-xs-4 col-xs-push-1 text-box">
+                                <label for="name">创建时间</label>
+                                <input class="date form-control" size="16" type="text" placeholder="开始日期" id = "startTime">
+                            </div>
+                            <div class="col-xs-1 col-xs-push-1 mdash-box">
+                                <div class="col-xs-24 col-xs-push-7">&mdash;</div>
+                            </div>
+                            <div class="col-xs-4 col-xs-push-1 text-box">
+                                <label style="visibility:hidden" for="name">结束时间</label>
+                                <input class="date form-control" size="16" type="text" placeholder="结束日期" id="endTime">
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-4 col-xs-push-10 button-box">
                                 <input type="button" value="搜索" class="search-button" @click='searchDetail()'>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!--监狱资金总收入，总支出-->
+            <div class='row'>
+                <div class='prison-total col-xs-23'>
+                    <ul>
+                        <li class='pull-left text-green'>监狱总收入金额: <span class='text-red'>{{prisonCapitalIncomeTotal | currency}}元</span></li>
+                        <li class='pull-left text-green'>监狱总支出余额: <span class='text-red'>{{prisonCapitalOutTotal | currency}}元</span></li>
+                    </ul>
                 </div>
             </div>
 
@@ -64,7 +87,7 @@
                             <th>账号</th>
                             <th>对方账户名</th>
                             <th>对方账号</th>
-                            <th>金额</th>
+                            <th>金额(元)</th>
                             <th>交易时间</th>
                             <th>状态</th>
                             <th>备注</th>
@@ -80,8 +103,8 @@
                                 <td v-text='pcdd.toAccountName'></td>
                                 <td v-text='pcdd.toAccountNo'></td>
                                 <td v-if='pcdd.capitalType == 0'>{{pcdd.money | currency}}</td>
-                                <td v-else-if='pcdd.capitalType == 1'>+{{pcdd.money | currency}}</td>
-                                <td v-else-if='pcdd.capitalType == 2'>-{{pcdd.money | currency}}</td>
+                                <td v-else-if='pcdd.capitalType == 1' class='text-red'>+{{pcdd.money | currency}}</td>
+                                <td v-else-if='pcdd.capitalType == 2' class='text-green'>-{{pcdd.money | currency}}</td>
                                 <td>{{pcdd.createdAt | formatDate}}</td>
                                 <td>{{pcdd.status | fundDetailStatus}}</td>
                                 <td v-text='pcdd.remark'></td>
@@ -112,7 +135,9 @@ import store from '../../store'
                 accountName:'',
                 prisonList:[],
                 prisonCapitalDetailDtos:[],
-                prisonName:''
+                prisonName:'',
+                prisonCapitalIncomeTotal:'',//监狱资金收入总金额
+                prisonCapitalOutTotal:''//监狱资金支出总金额
 			}
 		},
         computed:{
@@ -154,6 +179,8 @@ import store from '../../store'
                     let data = res.data.data;
                     this.prisonCapitalDetailDtos = data.prisonCapitalDetailDtos;
                     this.menuSize = data.prisonCapitalDetailDtoSize;
+                    this.prisonCapitalIncomeTotal = data.prisonCapitalIncomeTotal;
+                    this.prisonCapitalOutTotal = data.prisonCapitalOutTotal;
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -189,7 +216,9 @@ import store from '../../store'
                         pageSize:this.pageSize,
                         prisonId:this.prisonId,
                         type:this.type,
-                        accountName:this.accountName
+                        accountName:this.accountName,
+                        startDateStr:$('#startTime').val(),
+                        endDateStr:$('#endTime').val()
                     }
                 }).then(res=>{
                     let data = res.data.data;
@@ -209,9 +238,24 @@ import store from '../../store'
                     // store.dispatch('showRemind');
                     this.prisonCapitalDetailDtos = data.prisonCapitalDetailDtos;
                     this.menuSize = data.prisonCapitalDetailDtoSize;
-                    
+                    this.prisonCapitalIncomeTotal = data.prisonCapitalIncomeTotal;
+                    this.prisonCapitalOutTotal = data.prisonCapitalOutTotal;
                 }).catch(err=>{
                     console.log(err);
+                });
+            },
+
+            dateInit(){
+                $('.date').datetimepicker({
+                    language:'zh-CN',
+                    format:'yyyy-mm-dd hh:ii:ss',
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    forceParse: 0,
+                    showMeridian: 1
                 });
             }
         },
@@ -221,6 +265,7 @@ import store from '../../store'
         },
         mounted(){
             $('#table_id_example').tableHover();
+            this.dateInit();
             this.getAllPrison();
         }
 	}
@@ -228,8 +273,32 @@ import store from '../../store'
 
 <style lang="less" scoped>
 #right-side{
+    .text-box{
+        padding-left:0;
+        padding-right:0;
+    }
 	.select-box{
         padding:20px 50px 20px 40px;
+    }
+
+    .prison-total{
+        margin-left:2%;
+        padding:10px 0 15px 0;
+        li{
+            &:nth-child(2){
+                margin-left:2%;
+            }
+        }
+        .text-green{
+            color:#36A5B0;
+        }
+    }
+
+    .text-red{
+        color:#E96900;
+    }
+    .text-green{
+        color:#4DB983;
     }
 }
 </style>

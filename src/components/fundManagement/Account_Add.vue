@@ -115,7 +115,7 @@ import store from '../../store'
                 }
             },
 
-            remindShow:{
+            remindShow:{ 
                 get(){
                     return store.getters.remindShow;
                 }
