@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import $ from 'jquery'
 import AccountManagement from '@/components/fundManagement/Account_Management'
 
 //属性测试
@@ -132,7 +131,7 @@ describe('Account_Management.vue 异步更新DOM',()=>{
 	it('prisonAccountDtos改变 table的变化',done => {
 		const Constructor = Vue.extend(AccountManagement)
 		const vm = new Constructor().$mount()
-		vm.prisonAccountDtos = {
+		vm.prisonAccountDtos = [{
 			prisonName:'长沙监狱',
 			prisonDepartmentName:'一监区',
 			accountType:0,
@@ -140,11 +139,12 @@ describe('Account_Management.vue 异步更新DOM',()=>{
 			virtualAccountNo:'10071509945001888870002',
 			total:'201717',
 			prisonAccountId:'1'
-		}
+		}]
 		// 在状态改变后和断言 DOM 更新前等待一刻
 		Vue.nextTick(() => {
-			// let prisonName = vm.$el.querySelector('#table_id_example tobody tr td:nth-child(2)')
-			// expect(prisonName.textContent).to.equal('长沙监狱')
+			let prisonName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(2)')
+			expect(prisonName.textContent).to.equal('长沙监狱')
+			done()
 		});
-	})
+	});
 });

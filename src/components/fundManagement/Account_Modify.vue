@@ -72,7 +72,7 @@ import store from '../../store'
 		data(){
 			return {
                 prisonAccountId:this.$route.params.prisonAccountId,
-                prisonList:'',
+                prisonList:[],
                 prisonDepartments:[],
                 prisonName:'',
                 accountName:this.$route.params.accountName,
