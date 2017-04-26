@@ -100,7 +100,7 @@
             </div>
         </div>
 
-        <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
+        <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :path = "remind.path"></Remind>
     </div>
 </template>
 
@@ -280,7 +280,7 @@ import store from '../../store'
                         }
                     });
 
-                    if(total && this.toCent(total) > this.totalMoney){
+                    if(total && total > this.totalMoney){
                         this.remind = {
                             status:'warn',
                             msg:'分配金额大于可分配金额'
@@ -303,7 +303,8 @@ import store from '../../store'
                             if(res.data.code == 0){
                                 this.remind = {
                                     status:'success',
-                                    msg:res.data.msg
+                                    msg:res.data.msg,
+                                    path:'/criminal_fund_distribution'
                                 };
                                 $.each(this.addPrisoners,(index,value)=>{
                                     value.money = ''

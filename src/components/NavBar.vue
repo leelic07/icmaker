@@ -19,10 +19,10 @@
             </a> -->
         </div>
         <div class="col-xs-7">
-            <i class="pull-left"></i>
-            <a class="col-xs-16 pull-right" href="#" @click='$event.preventDefault()'>
-                <span class="col-xs-10">{{userInfo.roleName}}</span>
-                <span class="col-xs-14">{{userInfo.userName}}</span>
+            <!--<i class="pull-left"></i>-->
+            <a class="col-xs-10 pull-right" href="#" @click='$event.preventDefault()'>
+                <span class="col-xs-24">{{userInfo.roleName}}</span>
+                <!--<span class="col-xs-14">{{userInfo.userName}}</span>-->
             </a>
         </div>
         <div class="col-xs-2">

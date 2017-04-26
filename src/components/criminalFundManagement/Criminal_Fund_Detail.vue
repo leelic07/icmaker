@@ -120,7 +120,7 @@
                             <td v-else-if='detail.type <3' class='text-green'>-{{detail.money | currency}}</td>
 	                        <td>{{detail.balance | currency}}</td>
 	                        <td>{{detail.createTime | formatDate}}</td>
-	                        <td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark}}</a></td>
+	                        <td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark | formatRemark}}</a></td>
 	                    </tr>
                     </tbody>
                 </table>
