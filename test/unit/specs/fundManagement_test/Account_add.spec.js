@@ -1,6 +1,5 @@
 // window.localStorage.setItem('userId',1);
 import Vue from 'vue'
-import '../../../src/main.js';
 import AccountAdd from '@/components/fundManagement/Account_Add'
 
 

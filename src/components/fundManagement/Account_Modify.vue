@@ -71,14 +71,14 @@ import store from '../../store'
 	export default {
 		data(){
 			return {
-                prisonAccountId:this.$route.params.prisonAccountId,
+                prisonAccountId:'',
+                accountName:'',
+                accountType:'',
+                prisonId:'',
+                prisonDepartmentId:'',
                 prisonList:[],
                 prisonDepartments:[],
-                prisonName:'',
-                accountName:this.$route.params.accountName,
-                accountType:this.$route.params.accountType,
-                prisonId:this.$route.params.prisonId,
-                prisonDepartmentId:this.$route.params.prisonDepartmentId
+                prisonName:''
 			}
 		},
         computed:{
@@ -162,7 +162,9 @@ import store from '../../store'
             		this.prisonDepartments = res.data.data;
             		if(arguments.length <2){
             			this.prisonDepartmentId = '';
-            		}	
+            		}else{
+                        this.prisonDepartmentId = this.$route.params.prisonDepartmentId;
+                    }	
             	}).catch(err=>{
             		console.log(err);
             	});
@@ -239,8 +241,12 @@ import store from '../../store'
         },
         mounted(){
             $('#table_id_example').tableHover();
+            this.prisonAccountId = this.$route.params.prisonAccountId;
+            this.accountName = this.$route.params.accountName;
+            this.accountType = this.$route.params.accountType;
+            this.prisonId = this.$route.params.prisonId;
             this.getAllPrison();
-            this.getPrisonDepartments(this.prisonId,'Init');         
+            this.getPrisonDepartments(this.prisonName,'Init');                   
         }
     }
 </script>

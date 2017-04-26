@@ -155,9 +155,8 @@ import store from '../../store'
                 prisonBankAccountId:'',
                 isSameBank:'',
                 isPublic:'',
-                prisonAccountId:'',
                 banks:[],
-                prisonAccountId:this.$route.params.prisonAccountId,
+                prisonAccountId:'',
                 bankAccountList:[]
 			}
 		},
@@ -314,7 +313,7 @@ import store from '../../store'
             $('#table_id_example').tableHover();
             this.getBanks();
             this.getPrisonBankAccounts();
-
+            this.prisonAccountId = this.$route.params.prisonAccountId;
         }
 	}
 </script>
