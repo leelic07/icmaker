@@ -5,7 +5,8 @@ const state = {
 	remind:false,
 	logout:false,
 	sideReload:false,
-	loginLoading:false
+	loginLoading:false,
+	photoLoading:false
 }
 
 //设置状态
@@ -53,6 +54,16 @@ const mutations = {
 	//隐藏登录loading
 	hideLoginLoading(state){
 		state.loginLoading = false;
+	},
+
+	//显示图片加载loading
+	showPhotoLoading(state){
+		state.photoLoading = true;
+	},
+
+	//隐藏图片加载loading
+	hidePhotoLoading(state){
+		state.photoLoading = false;
 	}
 
 }

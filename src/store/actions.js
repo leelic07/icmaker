@@ -25,5 +25,11 @@ export default {
 	},
 	hideLoginLoading:({commit})=>{
 		commit('hideLoginLoading');
+	},
+	showPhotoLoading:({commit})=>{
+		commit('showPhotoLoading');
+	},
+	hidePhotoLoading:({commit})=>{
+		commit('hidePhotoLoading');
 	}
 }

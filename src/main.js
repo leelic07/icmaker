@@ -6,6 +6,7 @@ import store from './store'
 import axios from 'axios'
 import Loading from './components/loading'
 import LoginLoading from './components/loginLoading'
+import PhotoLoading from './components/photoLoading'
 import $ from 'jquery'
 import Filters from './filters'
 import Validate from '../static/js/validate.js'
@@ -36,15 +37,18 @@ Object.keys(Validate).forEach((key)=>{
 Vue.use(VueRouter);
 Vue.use(Loading);
 Vue.use(LoginLoading);
+Vue.use(PhotoLoading);
 
 Vue.prototype.$http = axios;
 
 //ajax请求拦截器
 axios.interceptors.request.use(function(config){
-  if(config.url != config.baseURL+'login'){
-    store.dispatch('showLoading');
-  }else{
+  if(config.url == config.baseURL + 'login'){
     store.dispatch('showLoginLoading');
+  }else if(config.url == config.baseURL + 'consumption' && config.method == 'get'){
+    store.dispatch('showPhotoLoading');
+  }else{
+    store.dispatch('showLoading');
   }
 	
 	// console.log(config);

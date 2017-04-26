@@ -15,7 +15,7 @@
         </div>
 
         <!--罪犯信息部分-->
-        <div class="col-xs-24 criminal-info" v-if = "code == 0">
+        <div class="col-xs-24 criminal-info" v-if='code == 0'>
             <div class="col-xs-23 form-header">
                 <h4 class="col-xs-2 col-xs-offset-1">罪犯信息</h4>
             </div>
@@ -23,6 +23,7 @@
                 <div class="col-xs-19">
                     <div class="col-xs-3">
                         <img :src="prisonerInfo.imgUrl" alt="罪犯照片"/>
+                        <photoLoading v-show='photoLoadingShow'></photoLoading>
                     </div>
                     <ul class="col-xs-19 col-xs-offset-1">
                         <li class="col-xs-12">
@@ -70,6 +71,7 @@
 <script>
     import Remind from '../Remind.vue'
     import store from '../../store'
+
 	export default{
 		data(){
 			return{
@@ -99,6 +101,12 @@
                 get(){
                     return store.getters.remindShow;
                 }
+            },
+
+            photoLoadingShow:{
+                get(){
+                    return store.getters.photoLoadingShow;
+                }
             }
         },
 
@@ -116,6 +124,7 @@
                     if (res.data.code == 0) {
                         this.prisonerInfo = res.data.data;
                         this.prisonerId = this.prisonerInfo.prisonerId;
+                        store.dispatch('hidePhotoLoading');                    
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -200,7 +209,16 @@
     		img{
         		width:100%;
         		height:150px;
-    		} 
+    		}
+            >div{
+                &:nth-child(1){
+                    >div{
+                        &:nth-child(1){
+                            position:relative;
+                        }
+                    }
+                }
+            } 
 		}
 		.button-box{
 			text-align: center;
