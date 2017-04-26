@@ -1,4 +1,4 @@
-
+import Validate from '../../static/js/validate.js'
 export default{
 	//金钱过滤器
 	currency(total){
@@ -461,6 +461,14 @@ export default{
 				break;
 		}
 		return fundStatus;
+	},
+
+	formatRemark(word) {
+		if (!Validate.isNull(word)){
+			return word.substr(0,5) + "...";
+		}else {
+			return "";
+		}	
 	}
 
 }

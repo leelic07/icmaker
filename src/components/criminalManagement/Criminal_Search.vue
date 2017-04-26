@@ -195,7 +195,6 @@ import Page from '../Paginator.vue'
 
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -240,7 +239,7 @@ import Page from '../Paginator.vue'
                 };
                 // console.log(searchData);
                 this.$http.get('prisoner/getPrisoners',{params:searchData}).then(res=>{
-                    // console.log(res);
+                    //console.log(res);
                     if (res.data.code == 0) {
                         this.prisonerList = res.data.data.prisoners;//赋值罪犯列表
                         this.prisonerSize = res.data.data.prisonerSize;//赋值罪犯列表数

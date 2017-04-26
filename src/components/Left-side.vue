@@ -36,8 +36,14 @@
     #left-side {
         .top:nth-child(1){
             p{
-                font-size: 18px;
+                font-size: 16px;
                 line-height: 50px;
+            }
+        }
+        .top:nth-child(2){
+            p{
+                font-size: 15px;
+                margin-top:65px;
             }
         }
         .menuList {
@@ -55,6 +61,22 @@
                 }
                 i {
                     background: url(../../static/img/arrow-white.png) no-repeat 0 0;
+                }
+            }
+        }
+    }
+    @media screen and (min-width: 1560px) {
+        #left-side{
+            .top:nth-child(1){
+                p{
+                    font-size: 18px;
+                    line-height: 50px;
+                }
+            }
+            .top:nth-child(2){
+                p{
+                    font-size: 16px;
+                    margin-top:60px;
                 }
             }
         }
