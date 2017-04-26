@@ -17,8 +17,11 @@ module.exports = function (config) {
     reporters: ['spec', 'coverage'],
     files: ['*.js'],
     exclude:['karma.conf.js'],
+    // preprocessors: {
+    //   './index.js': ['webpack', 'sourcemap']
+    // },
     preprocessors: {
-      './index.js': ['webpack', 'sourcemap']
+      '*.js': ['webpack', 'sourcemap']
     },
     webpack: webpackConfig,
     webpackMiddleware: {
