@@ -53,12 +53,12 @@
                             <div class="col-xs-3 label-box">
                                 <label for="name">菜单图标 :</label>
                             </div>
-                            <div class="col-xs-2 upload-box">
+                            <div class="col-xs-3 upload-box">
                                 <img :src="imgUrl1" alt="上传照片" id = "previewImg" class="preview-img">
                                 <input type="file" class="upload-btn" id="imgUrlBtn1">
                                 <p class = "icon-desc">菜单收起图标</p>
                             </div>
-                            <div class="col-xs-2 upload-box">
+                            <div class="col-xs-3 upload-box">
                                 <img :src="imgUrl2" alt="上传照片" id = "previewImg" class="preview-img">
                                 <input type="file" class="upload-btn" id="imgUrlBtn2">
                                 <p class = "icon-desc">菜单展开图标</p>
