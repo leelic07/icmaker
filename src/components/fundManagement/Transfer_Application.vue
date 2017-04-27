@@ -13,7 +13,7 @@
                                     <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
                                 </select> -->
                                 <label for="name">所属监狱</label>
-                                <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName' v-if='prisonList.length > 1'>
+                                <input list="prisons" placeholder="全部" class='form-control' v-model='prisonName' v-if='prisonList.length > 1'>
                                 <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1' disabled>
                                 <datalist id="prisons">
                                     <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
@@ -22,7 +22,7 @@
                             <div class="col-xs-8 select-box">
                                 <label for="name">账户类型</label>
                                 <select class="form-control" v-model='accountType'>
-                                    <option value=''>请选择</option>
+                                    <option value=''>全部</option>
                                     <option value='0'>财务账户</option>
                                     <option value='1'>商户账户</option>
                                     <option value='2'>监狱总账户</option>

@@ -122,7 +122,7 @@ const router = new VueRouter({
 
 //判断是否已经登录
 router.beforeEach((to, from, next) => {
-    if (from.meta.requireAuth || to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+    if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
         if (window.localStorage.getItem('userId')) {  // 通过vuex state获取当前的token是否存在
             next();
             window.scrollTo(0, 0);
