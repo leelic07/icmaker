@@ -23,9 +23,9 @@
                             <label for="name">资金分配类型</label>
                             <select class="form-control" v-model='type'>
                                 <option value=''>全部</option>
-                                <option value='0'>家属汇款</option>
-                                <option value='1'>低报酬</option>
-                                <option value='2'>IC卡资金</option>
+                                <!-- <option value='0'>家属汇款</option> -->
+                                <option value='0'>低报酬</option>
+                                <option value='1'>IC卡资金</option>
                             </select>
                         </div>
                     </div>
