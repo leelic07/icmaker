@@ -154,11 +154,27 @@
                 let self = this;
                 $("#imgUrlBtn1").on("change",function (e) {
                     let file = e.target.files[0];
-                    Util.readImgUrl(file,self,'imgUrl1');
+                    if (self.isImg(file)) {
+                         Util.readImgUrl(file,self,'imgUrl1');
+                    }else {
+                        self.remind = {
+                            status:'warn',
+                            msg:'请上传格式正确的图片文件'
+                        }
+                        store.dispatch('showRemind');
+                    }
                 });
                 $("#imgUrlBtn2").on("change",function (e) {
                     let file = e.target.files[0];
-                    Util.readImgUrl(file,self,'imgUrl2');
+                    if (self.isImg(file)) {
+                         Util.readImgUrl(file,self,'imgUrl2');
+                    }else {
+                        self.remind = {
+                            status:'warn',
+                            msg:'请上传格式正确的图片文件'
+                        }
+                        store.dispatch('showRemind');
+                    }
                 });
             },
 
