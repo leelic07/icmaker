@@ -15,7 +15,7 @@
                                     <option value = 1>二级菜单</option>
                                 </select>
                             </div>
-                            <div class="col-xs-6 col-xs-push-1 text-box">
+                            <div class="col-xs-8 col-xs-push-1 text-box">
                                 <label for="name">菜单名称</label>
                                 <input type="text" class="form-control" id="searchMenuName" v-model = "searchMenuName">
                             </div>

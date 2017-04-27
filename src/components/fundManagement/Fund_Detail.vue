@@ -35,6 +35,7 @@
                                     <option value='7'>罪犯低报酬资金分配</option>
                                     <option value='8'>罪犯IC卡资金分配</option>
                                     <option value='9'>罪犯刷卡入账</option>
+                                    <option value='10'>罪犯制卡费入账</option>
                                 </select>
                             </div>
                             <div class="col-xs-8 select-box">
