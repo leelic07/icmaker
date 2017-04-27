@@ -69,7 +69,7 @@
                 <div class='prison-total col-xs-23'>
                     <ul>
                         <li class='pull-left text-green'>监狱总收入金额: <span class='text-red'>{{prisonCapitalIncomeTotal | currency}}元</span></li>
-                        <li class='pull-left text-green'>监狱总支出余额: <span class='text-red'>{{prisonCapitalOutTotal | currency}}元</span></li>
+                        <li class='pull-left text-green'>监狱总支出金额: <span class='text-red'>{{prisonCapitalOutTotal | currency}}元</span></li>
                     </ul>
                 </div>
             </div>
