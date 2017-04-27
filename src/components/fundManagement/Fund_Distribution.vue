@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-xs-11">
                             <select class="form-control" v-model='di.type'>
-                            	<option value=''>请选择</option>
+                            	<option value=''>全部</option>
                                 <option value='0'>低报酬</option>
                                 <option value='1'>IC卡资金</option>
                             </select>

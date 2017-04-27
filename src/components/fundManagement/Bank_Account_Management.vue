@@ -311,9 +311,9 @@ import store from '../../store'
         },
         mounted(){
             $('#table_id_example').tableHover();
-            this.getBanks();
-            this.getPrisonBankAccounts();
             this.prisonAccountId = this.$route.params.prisonAccountId;
+            this.getBanks();
+            this.getPrisonBankAccounts();         
         }
 	}
 </script>

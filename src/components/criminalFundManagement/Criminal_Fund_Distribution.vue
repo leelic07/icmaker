@@ -9,11 +9,11 @@
                         <div class="col-xs-8 select-box">
                             <!-- <label for="name">所属监狱</label>
                             <select class="form-control" v-model='prisonId'>
-                                <option value=''>请选择</option>
+                                <option value=''>全部</option>
                                 <option v-for='prison in prisonList' :value='prison.id' v-text='prison.prisonName'></option>
                             </select> -->
                             <label for="name">所属监狱</label>
-                            <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName' v-if='prisonList.length > 1'>
+                            <input list="prisons" placeholder="全部" class='form-control' v-model='prisonName' v-if='prisonList.length > 1'>
                             <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1' disabled>
                             <datalist id="prisons">
                                 <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
@@ -22,7 +22,7 @@
                         <div class="col-xs-8 select-box">
                             <label for="name">资金分配类型</label>
                             <select class="form-control" v-model='type'>
-                                <option value=''>请选择</option>
+                                <option value=''>全部</option>
                                 <option value='0'>家属汇款</option>
                                 <option value='1'>低报酬</option>
                                 <option value='2'>IC卡资金</option>

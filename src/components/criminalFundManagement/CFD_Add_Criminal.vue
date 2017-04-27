@@ -9,7 +9,7 @@
                         <div class="col-xs-7 select-box">
                             <label for="name">所属监区</label>
                             <select class="form-control" v-model='prisonDepartmentId'>
-                                <option value=''>请选择</option>
+                                <option value=''>全部</option>
                                 <option v-for='pd in prisonDepartments' :value='pd.id' v-text='pd.prisonDepartmentName'></option>
                             </select>
                         </div>
