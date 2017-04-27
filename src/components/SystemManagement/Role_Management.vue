@@ -103,7 +103,7 @@ import Page from '../Paginator.vue'
 			return{
                 roleList  :"",
                 isManage : true,
-                pageSize : 20,
+                pageSize : 10,
                 roleSize : "",
                 currentId :"",
                 remind:{
