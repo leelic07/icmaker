@@ -122,7 +122,7 @@
                         <div class="form-group clearfix col-xs-20 input-box col-xs-offset-4">
                             <label for="verifyNote" class="pull-left col-xs-5">拒绝原因 :</label>
                             <div class="col-xs-15">
-                                <input type="text" class="form-control pull-left" id="verifyNote">
+                                <input type="text" class="form-control pull-left" id="verifyNote" v-model = "verifyNote">
                             </div> 
                         </div>
                         <button class="confirm-button" :id = "currentId" data-dismiss="modal" @click = "transferConfirm($event,2)">确定</button>
@@ -164,7 +164,7 @@
                         <div class="form-group clearfix col-xs-20 input-box col-xs-offset-4">
                             <label for="verifyNote" class="pull-left col-xs-5">拒绝原因 :</label>
                             <div class="col-xs-15">
-                                <input type="text" class="form-control pull-left" id="verifyNote">
+                                <input type="text" class="form-control pull-left" id="verifyNote" v-model = "verifyNote">
                             </div> 
                         </div>
                         <button class="confirm-button" :id = "currentId" data-dismiss="modal" @click = "transferAllConfirm($event,2)">确定</button>
@@ -209,6 +209,7 @@ import Page from '../Paginator.vue'
                 toPrisonName: "",//转至监狱名
                 toPrisonId: "",//转至监狱ID
                 status: 0,//审核状态
+                verifyNote: "",
                 remind:{
                     status:'',
                     msg:''
@@ -314,6 +315,7 @@ import Page from '../Paginator.vue'
                     if (agreeType == 1) {//同意
                         $('#agreeTransferConfirm').modal();
                     } else {//拒绝
+                        this.verifyNote = "";
                         $('#rejectTransferConfirm').modal();
                     }
                 } else {//批量审核
@@ -327,6 +329,7 @@ import Page from '../Paginator.vue'
                         if (agreeType == 1) {//同意
                             $('#agreeAllTransferConfirm').modal();
                         } else {//拒绝
+                            this.verifyNote = "";
                             $('#rejectAllTransferConfirm').modal();
                         }
                     } else {
@@ -343,7 +346,7 @@ import Page from '../Paginator.vue'
             transferConfirm(e,type) {//对转监进行审核
                 let transferData = {
                     "verifyType": type,
-                    "verifyNote": $("#verifyNote").val(),
+                    "verifyNote": this.verifyNote,
                     "prisonerTransferId": e.target.getAttribute("id")
                 };
                 // console.log(transferData);
@@ -370,6 +373,7 @@ import Page from '../Paginator.vue'
             transferAllConfirm(e,type) {//对转监进行批量审核
                 let transferAllData = {
                     "verifyType": type,
+                    "verifyNote": this.verifyNote,
                     "ids": this.choiseIds.join(',') 
                 };
                 // console.log(transferAllData);
