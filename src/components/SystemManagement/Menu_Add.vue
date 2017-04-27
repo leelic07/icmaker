@@ -112,9 +112,9 @@
 		methods:{
             //切换新增菜单类型
 			changeMenuType(){
-                // console.log(this.menuInfo.type);
                 if (this.menuInfo.type == 0) {//一级菜单时
                     this.isSecondMenu = false;
+                    this.menuInfo.pId = null;
                 } else if (this.menuInfo.type == 1 ) {//二级菜单时
                     this.isSecondMenu = true;
                     const getUrl = 'menu/getFirstLevelMenus';
