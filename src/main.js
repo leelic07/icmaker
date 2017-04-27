@@ -21,8 +21,17 @@ import 'babel-polyfill'
 Object.keys(Filters).forEach((key)=>Vue.filter(key,Filters[key]));
 
 //设置路由的登录权限
-Object.keys(routes).forEach((key)=>routes[key].meta={
-  requireAuth: true
+Object.keys(routes).forEach((key)=>{
+  routes[key].meta={
+    requireAuth: true
+  }
+  if(routes[key].children){
+    $.each(routes[key].children,(index,value)=>{
+      value.meta={
+        requireAuth: true
+      }
+    });
+  }
 });
 
 //登录页面除外
@@ -113,7 +122,7 @@ const router = new VueRouter({
 
 //判断是否已经登录
 router.beforeEach((to, from, next) => {
-    if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+    if (from.meta.requireAuth || to.meta.requireAuth) {  // 判断该路由是否需要登录权限
         if (window.localStorage.getItem('userId')) {  // 通过vuex state获取当前的token是否存在
             next();
             window.scrollTo(0, 0);
