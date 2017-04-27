@@ -154,7 +154,7 @@
                 }else {
                     let prisonerData = {
                         "prisonerId": this.prisonerId,
-                        "money": this.money*100,
+                        "money": money,
                         "remark": this.remark
                     };
                     this.$http.post("prisonerConsumer/addPrisonerCapitalConsumer",$.param(prisonerData)).then(res=>{
@@ -200,6 +200,13 @@
         		margin-bottom:0;
         	}
         }
+        .criminal-info{
+            .information{
+                > div {
+                    padding:30px 0 0 1%;
+                }
+            }
+        } 
         .label-box{
     		label{
         		font-weight:normal;
