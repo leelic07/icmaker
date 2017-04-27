@@ -80,7 +80,7 @@
                 </div>
             </div>
 
-            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+            <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg' :path = 'remind.path'></Remind>
         </div>
 </template>
 
@@ -123,12 +123,14 @@
                         this.userInfo.prisonId = this.prisonList[i].id;
                     }
                 }
-                // console.log('监狱'+this.userInfo.prisonId);
                 if (this.userInfo.prisonId != oldPrisonId && this.userInfo.userType == 3) {
                     this.prisonChange();
                 }else {
-                   // this.userInfo.prisonId = "";
-                    this.shopList = "";
+                    this.shopList = ""
+                }
+
+                if (this.userInfo.prisonId == oldPrisonId) {
+                    this.userInfo.prisonId = "";
                 }
             }
 
@@ -201,12 +203,10 @@
 
             prisonChange(prisonAccountId){//获取商户列表
                 let prisonId = this.userInfo.prisonId;
-                // console.log('prisonId'+this.userInfo.prisonId);
                 this.$http.get('prisonAccount/getPrisonAccountsByPrisonId',{params:{'prisonId':prisonId}}).then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.shopList = res.data.data;
-                        if (this.isAdd == true) {//新增页面所属商户默认第一条数据选中
+                        if (prisonAccountId == undefined) {//新增页面所属商户默认第一条数据选中
                             this.userInfo.prisonAccountId = this.shopList[0].id;
                         }else {
                             this.userInfo.prisonAccountId = prisonAccountId;
@@ -242,9 +242,7 @@
                             let prisonId = this.userInfo.prisonId;
                             let prisonAccountId = this.userInfo.prisonAccountId;
                             let roleId = this.userInfo.roleId;
-                            // console.log(this.userInfo);  
                             this.userTypeChange(prisonId,prisonAccountId);
-                            // console.log("prisonAccount" + prisonAccountId);
                             this.getRoleList(roleId);        
                         }
                     }).catch(err=>{
@@ -261,8 +259,15 @@
                 let password = this.userInfo.password.replace(/(^\s*)|(\s*$)/g,"");
                 let type = this.userInfo.userType;
                 let prisonAccountId = type == 3 ? this.userInfo.prisonAccountId : "";
-                let id = this.$route.params.id;
-                if (userName != "" && (id != undefined || password != "")) {
+                let prisonId = this.empty (this.userInfo.prisonId)[0];
+                let id = this.empty(this.$route.params.id)[0];
+                if (this.isNull(userName) || (this.isNull(id) && this.isNull(password)) || ((type == 2 || type == 3) && this.isNull(prisonId))){
+                    this.remind = {
+                        status:'warn',
+                        msg:'请填写完整后再进行提交'
+                    }
+                    store.dispatch('showRemind');
+                }else {
                     let addUrl = "addOrUpdateUser";
                     let addData = {
                         "id": id,
@@ -270,17 +275,20 @@
                         "realName": this.userInfo.realName.replace(/(^\s*)|(\s*$)/g,""),
                         "password": password,
                         "userType": type,
-                        "prisonId": this.userInfo.prisonId,
+                        "prisonId": prisonId,
                         "prisonAccountId": prisonAccountId,
                         "roleId": this.userInfo.roleId
                     }
-                    // console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
-                        // console.log(res);
                         let status = res.data.code;
                         if (status == 0) {//返回成功 
                             store.dispatch('reloadSide');
-                            this.$router.push({path:"/user_management"});
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg,
+                                path:"/user_management"
+                            }
+                            store.dispatch('showRemind');
                         }else {
                             this.remind = {
                                 status:'failed',
@@ -291,13 +299,7 @@
                     }).catch(err=>{
                         console.log(err);
                     });
-                }else {
-                    this.remind = {
-                        status:'warn',
-                        msg:'请填写完整后再进行提交'
-                    }
-                    store.dispatch('showRemind');
-                }              
+                }        
             }
 		},
         components:{
