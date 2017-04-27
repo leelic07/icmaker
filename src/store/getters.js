@@ -24,5 +24,9 @@ export default {
 	//返回loginLoading的状态
 	loginLoadingShow(state){
 		return state.loginLoading;
+	},
+	//返回photoLoading的状态
+	photoLoadingShow(state){
+		return state.photoLoading;
 	}
 }

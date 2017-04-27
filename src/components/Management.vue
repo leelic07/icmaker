@@ -13,7 +13,7 @@
                                     <option v-for = "status in statusList" :value = "status.value">{{status.name}}</option>
                                 </select>
                             </div>
-                            <div class="col-xs-6 text-box">
+                            <div class="col-xs-8 text-box">
                                 <label for="accountNo">虚拟账号</label>
                                 <input type="text" class="form-control" id="accountNo" v-model = "accountNo">
                             </div>
