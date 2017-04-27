@@ -173,7 +173,8 @@ import store from '../../store'
                     url:'prisonCapital/getPrisonCapitalDetails',
                     params:{
                         indexPage:this.indexPage,
-                        pageSize:this.pageSize
+                        pageSize:this.pageSize,
+                        prisonId:this.prisonId
                     }
                 }).then(res=>{
                     let data = res.data.data;
