@@ -226,17 +226,25 @@ import Page from '../Paginator.vue'
         },
         watch: {
             toPrisonName(){
+                let oldToPrisonId = this.toPrisonId;
                 for (let i = 0; i< this.prisons.length; i++)  {
                     if (this.prisons[i].prisonName == this.toPrisonName) {
                         this.toPrisonId = this.prisons[i].id;
                     }
                 }
+                if (this.toPrisonId == oldToPrisonId) {
+                    this.toPrisonId = "";
+                }
             },
             fromPrisonName(){
+                let oldFromPrisonId = this.fromPrisonId;
                 for (let i = 0; i< this.allPrisons.length; i++)  {
                     if (this.allPrisons[i].prisonName == this.fromPrisonName) {
                         this.fromPrisonId = this.allPrisons[i].id;
                     }
+                }
+                if (this.fromPrisonId == oldFromPrisonId) {
+                    this.fromPrisonId = "";
                 }
             }
         },

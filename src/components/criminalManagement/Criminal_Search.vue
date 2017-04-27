@@ -283,11 +283,13 @@ import Page from '../Paginator.vue'
             Page,
             Remind
         },
+        created(){
+            this.getStatusList();
+            this.getPrisonInfo();
+            this.hideCriminalList();
+        },
         mounted(){
             $('#table_id_example').tableHover();
-            this.getPrisonInfo();
-            this.getStatusList();
-            this.hideCriminalList();
         }
     }   
 </script>

@@ -146,11 +146,8 @@ import Page from '../Paginator.vue'
                         this.prisonId = this.prisons[i].id;
                     }
                 }
-                if (this.prisonId != oldPrisonId) {
-                    this.getPrisonDepartInfo();
-                }else {
+                if (this.prisonId == oldPrisonId) {
                     this.prisonId = "";
-                    this.prisonDepartments = "";
                 }
             },
 
