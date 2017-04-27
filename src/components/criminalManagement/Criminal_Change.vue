@@ -3,9 +3,7 @@
     <div id="right-side" class="col-xs-20 pull-right">
         <!--切换页面tab组-->
         <right-tab></right-tab>
-        <keep-alive>
-           <router-view></router-view>
-        </keep-alive>
+        <router-view></router-view>
     </div>
 </template>
 <script>
