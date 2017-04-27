@@ -28,7 +28,7 @@
                                     <option value='0'>内部资金分配</option>
                                     <option value='1'>犯人取现入账</option>
                                     <option value='2'>外部汇款入账</option>
-                                    <option value='3'>资金分配出账</option>
+                                    <!-- <option value='3'>资金分配出账</option> -->
                                     <option value='4'>内部转账出账</option>
                                     <option value='5'>外部转账出账</option>
                                     <option value='6'>内部转账入账</option>
