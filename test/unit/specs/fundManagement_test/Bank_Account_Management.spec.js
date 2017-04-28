@@ -30,7 +30,7 @@ describe('Bank_Account_Management.vue 属性测试',() => {
 	it('同行/跨行',() => {
 		const Constructor = Vue.extend(BankAccountManagement)
 		const vm = new Constructor().$mount()
-		expect(vm.isSameBank).to.euqal('')
+		expect(vm.isSameBank).to.equal('')
 	});
 
 	it('对公/对私',() => {
@@ -40,9 +40,9 @@ describe('Bank_Account_Management.vue 属性测试',() => {
 	});
 
 	it('银行列表',() => {
-		const Constructor = VUe.extend(BankAccountManagement)
+		const Constructor = Vue.extend(BankAccountManagement)
 		const vm = new Constructor().$mount()
-		expect(vm.banks.toString().to.equal([].toString())
+		expect(vm.banks.toString()).to.equal([].toString())
 	});
 
 	it('监狱账户id',() => {
@@ -61,7 +61,94 @@ describe('Bank_Account_Management.vue 属性测试',() => {
 
 //异步更新DOM
 describe('Bank_Account_Management.vue 异步更新DOM',() => {
-	it('bankAccountName改变 input变化',() => {
-		
-	})
+	it('bankAccountName改变 input变化',done => {
+		const Constructor = Vue.extend(BankAccountManagement)
+		const vm = new Constructor().$mount()
+		vm.bankAccountName = '李国栋'
+
+		// 在状态改变后和断言 DOM 更新前等待一刻
+		Vue.nextTick(() => {
+			let bankAccountName = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(1) input')
+			expect(bankAccountName.value).to.equal('李国栋')
+			done()
+		});
+	});
+
+	it('bankNo改变 input变化',done => {
+		const Constructor = Vue.extend(BankAccountManagement)
+		const vm = new Constructor().$mount()
+		vm.bankNo = '654789321456'
+
+		// 在状态改变后和断言 DOM 更新前等待一刻
+		Vue.nextTick(() => {
+			let bankNo = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(2) input')
+			expect(bankNo.value).to.equal('654789321456')
+			done()
+		});
+	});
+
+	it('bankId改变 select变化',done => {
+		const Constructor = Vue.extend(BankAccountManagement)
+		const vm = new Constructor().$mount()
+		vm.banks = [{
+			id:'1',
+			bankName:'中国邮政储蓄银行'
+		},
+		{
+			id:'2',
+			bankName:'建设银行'
+		}]
+		vm.bankId = '1'
+
+		// 在状态改变后和断言 DOM 更新前等待一刻
+		Vue.nextTick(() => {
+			let bankId = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(3) select')
+			let bank = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(3) select option:nth-child(2)')
+			expect(bankId.value).to.equal('1')
+			expect(bank.textContent).to.equal('中国邮政储蓄银行')
+			done()
+		});
+	});
+
+	it('bankAccountNo改变 input变化',done => {
+		const Constructor = Vue.extend(BankAccountManagement)
+		const vm = new Constructor().$mount()
+		vm.bankAccountNo = '6523147896543216'
+
+		// 在状态改变后和断言 DOM 更新前等待一刻
+		Vue.nextTick(() => {
+			let bankAccountNo = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(1) input')
+			expect(bankAccountNo.value).to.equal('6523147896543216')
+			done()
+		});
+	});
+
+	it('isSameBank改变 select变化',done => {
+		const Constructor = Vue.extend(BankAccountManagement)
+		const vm = new Constructor().$mount()
+		vm.isSameBank = '0'
+
+		// 在状态改变后和断言 DOM 更新前等待一刻
+		Vue.nextTick(() => {
+			let isSameBank = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(2) select')
+			let isSameBankOption = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(2) select option:nth-child(2)')
+			expect(isSameBank.value).to.equal('0')
+			expect(isSameBankOption.textContent).to.equal('跨行')
+			done()
+		});
+	});
+
+	it('isPublic改变 select变化',done => {
+		const Constructor = Vue.extend(BankAccountManagement)
+		const vm = new Constructor().$mount()
+		vm.isPublic = '0'
+
+		// 在状态改变后和断言 DOM 更新前等待一刻
+		Vue.nextTick(() => {
+			let isPublic = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(3) select')
+			let isPublicOption = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(3) select')
+			expect(isSameBank.value).to.equal('0')
+			done()
+		});
+	});
 })

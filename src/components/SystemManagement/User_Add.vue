@@ -121,16 +121,15 @@
                 for (let i = 0; i< this.prisonList.length; i++)  {
                     if (this.prisonList[i].prisonName == this.prisonName) {
                         this.userInfo.prisonId = this.prisonList[i].id;
+                        break;
+                    }else {
+                        this.userInfo.prisonId = "";
                     }
                 }
                 if (this.userInfo.prisonId != oldPrisonId && this.userInfo.userType == 3) {
                     this.prisonChange();
                 }else {
                     this.shopList = ""
-                }
-
-                if (this.userInfo.prisonId == oldPrisonId && this.isAdd == true) {
-                    this.userInfo.prisonId = "";
                 }
             }
 
@@ -261,7 +260,6 @@
                 let prisonAccountId = type == 3 ? this.userInfo.prisonAccountId : "";
                 let prisonId = this.empty (this.userInfo.prisonId)[0];
                 let id = this.empty(this.$route.params.id)[0];
-                console.log(this.userInfo.prisonId);
                 if (this.isNull(userName) || (this.isNull(id) && this.isNull(password)) || ((type == 2 || type == 3) && this.isNull(prisonId))){
                     this.remind = {
                         status:'warn',

@@ -62,7 +62,7 @@
                                 </div>
                             </div>
 
-                              <div class="row">
+                            <div class="row">
                                 <div class="col-xs-5 label-box">
                                     <label class="pull-right" for="name"><em class="important">*</em>公私标识 </label>
                                 </div>

@@ -68,7 +68,7 @@ let getCookie = name => {
 }
 
 getCookie("userId");
-console.log("Cookie"+getCookie("userId"));
+// console.log("Cookie"+getCookie("userId"));
 
 //配置时效
 let getsec = str => {
