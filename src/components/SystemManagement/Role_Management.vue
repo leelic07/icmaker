@@ -211,13 +211,15 @@ import Page from '../Paginator.vue'
             }
 		},
 		mounted(){
-			this.dateInit();//初始化日期插件
-            $('#table_id_example').tableHover(); 
             //初始为编辑页时隐藏管理页
             this.hideRoleList();
             //加载角色列表
             this.roleListSearch(1);
-		}
+		},
+        updated(){
+            this.dateInit();//初始化日期插件
+            $('#table_id_example').tableHover(); 
+        }
 	}
 </script>
 

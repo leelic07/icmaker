@@ -288,7 +288,7 @@ import Page from '../Paginator.vue'
             this.getPrisonInfo();
             this.hideCriminalList();
         },
-        mounted(){
+        updated(){
             $('#table_id_example').tableHover();
         }
     }   

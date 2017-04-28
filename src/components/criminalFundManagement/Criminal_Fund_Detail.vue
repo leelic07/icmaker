@@ -79,7 +79,7 @@
             <div class='criminal-total col-xs-23'>
                 <ul>
                     <li class='pull-left text-green'>罪犯总收入金额: <span class='text-red'>{{incomeTotal | currency}}元</span></li>
-                    <li class='pull-left text-green'>罪犯总支出余额: <span class='text-red'>{{outTotal | currency}}元</span></li>
+                    <li class='pull-left text-green'>罪犯总支出金额: <span class='text-red'>{{outTotal | currency}}元</span></li>
                 </ul>
             </div>
         </div>

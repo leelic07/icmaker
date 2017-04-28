@@ -234,11 +234,13 @@ import Page from '../Paginator.vue'
            
 		},
         mounted(){
-            $('#table_id_example').tableHover();
             //加载菜单列表
             this.searchMenu(this.indexPage); 
             //初始为编辑页时隐藏管理页
             this.hideMenuList();
+        },
+        updated(){
+            $('#table_id_example').tableHover();
         }
 	};
 </script>

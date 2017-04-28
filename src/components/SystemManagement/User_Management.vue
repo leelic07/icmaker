@@ -208,6 +208,7 @@ import Page from '../Paginator.vue'
                 }
             },
             dataInit(){
+                //console.log($('.date'));
                 $('.date').datetimepicker({
                     language:'zh-CN',
                     format:'yyyy-mm-dd hh:ii:ss',
@@ -225,11 +226,13 @@ import Page from '../Paginator.vue'
             Page
         },
         mounted(){
-            this.dataInit();
-            $('#table_id_example').tableHover();
             this.getUserTypeList();
             this.getPrisonList();
             this.hideUserList();//初始为编辑页时隐藏管理页
+        },
+        updated(){
+            this.dataInit();
+            $('#table_id_example').tableHover();
         }
 	}
 </script>
