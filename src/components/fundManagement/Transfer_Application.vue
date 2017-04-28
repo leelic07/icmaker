@@ -106,9 +106,9 @@
                                     <li class="clearfix">
                                         <span class="col-xs-12 pull-left info-label text-left">账户名称</span>
                                         <span class="col-xs-12 pull-right">
-                                            <select class="form-control" v-model='bankAccountId' v-show='bankShow'>
+                                            <select class="form-control" v-model='bankAccountId' v-if='bankShow'>
                                                 <option value=''>请选择</option>
-                                                <option v-for='pbad in prisonBankAccountDtos' :value='pbad.bankAccountId' v-text='pbad.bankAccountName'></option>
+                                                <option v-for='pbadt in prisonBankAccountDtosTem' :value='pbadt.bankAccountId' v-text='pbadt.bankAccountName'></option>
                                             </select>
                                             <select class="form-control" v-model='toPrisonAccountId' v-if='!bankShow'>
                                                 <option value=''>请选择</option>
@@ -147,6 +147,7 @@ import store from '../../store'
                 accountName:'',
                 banks:[],
                 prisonBankAccountDtos:[],
+                prisonBankAccountDtosTem:[],
                 bankId:'',
                 bankAccountId:'',
                 toPrisonAccountId:'',
@@ -171,13 +172,23 @@ import store from '../../store'
                             this.prisonId = value.id;
                         }
                     });
-                    if(this.prisonId == ''){
-                        this.prisonId = -1
-                    }
+                    this.prisonId == '' ? this.prisonId = -1 : '';
                 }else{
                     this.prisonId = '';
                 }            
             },
+
+            //根据银行id得到账户名称
+            bankId(){
+                this.prisonBankAccountDtosTem = [];
+                this.bankAccountId = '';
+                $.each(this.prisonBankAccountDtos,(index,value)=>{
+                    if(this.bankId == value.bankId){
+                        this.prisonBankAccountDtosTem.push(value);
+                    }
+                });
+
+            }, 
 
             //删除小数点两位后的数字
             transferMoney(){
