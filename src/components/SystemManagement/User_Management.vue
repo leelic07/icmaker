@@ -129,10 +129,10 @@ import Page from '../Paginator.vue'
                 for (let i = 0; i< this.prisonList.length; i++)  {
                     if (this.prisonList[i].prisonName == this.prisonName) {
                         this.prisonId = this.prisonList[i].id;
+                        break;
+                    }else {
+                        this.prisonId = "";
                     }
-                }
-                if (this.prisonId == oldPrisonId) {
-                    this.prisonId = "";
                 }
             }
         },
