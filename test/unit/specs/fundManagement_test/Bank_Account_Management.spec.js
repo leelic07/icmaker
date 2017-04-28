@@ -146,9 +146,27 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 		// 在状态改变后和断言 DOM 更新前等待一刻
 		Vue.nextTick(() => {
 			let isPublic = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(3) select')
-			let isPublicOption = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(3) select')
-			expect(isSameBank.value).to.equal('0')
+			let isPublicOption = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(3) select option:nth-child(2)')
+			expect(isPublic.value).to.equal('0')
+			expect(isPublicOption.textContent).to.equal('对公付款')
 			done()
 		});
 	});
+
+	it('isPublic改变 select变化',done => {
+		const Constructor = Vue.extend(BankAccountManagement)
+		const vm = new Constructor().$mount()
+		vm.isPublic = '0'
+
+		// 在状态改变后和断言 DOM 更新前等待一刻
+		Vue.nextTick(() => {
+			let isPublic = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(3) select')
+			let isPublicOption = vm.$el.querySelector('.search-inner-box>div:nth-child(2)>div:nth-child(3) select option:nth-child(2)')
+			expect(isPublic.value).to.equal('0')
+			expect(isPublicOption.textContent).to.equal('对公付款')
+			done()
+		});
+	});
+
+	
 })
