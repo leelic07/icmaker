@@ -300,7 +300,7 @@ import store from '../../store'
                 //     store.dispatch('showRemind');
                 //     return;
                 // }else 
-                if(!this.isNumber(this.transferMoney)){
+                if(!this.isNumber(this.transferMoney) || this.transferMoney == 0){
                     this.remind = {
                         status:'warn',
                         msg:'转账金额输入不合法'

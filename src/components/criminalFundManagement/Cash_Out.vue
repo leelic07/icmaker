@@ -204,7 +204,7 @@ import store from '../../store'
             withdrawCash(){
                 let isNull = true;
                 let isEnough = true;
-                if(!this.isNumber(this.cash)){
+                if(!this.isNumber(this.cash) || this.cash == 0){
                     this.remind = {
                         status:'warn',
                         msg:'取现金额输入不合法'
