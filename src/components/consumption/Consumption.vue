@@ -15,7 +15,7 @@
         </div>
 
         <!--罪犯信息部分-->
-        <div class="col-xs-24 criminal-info" v-if='code == 0'>
+        <div class="col-xs-24 criminal-info" v-if='show == true'>
             <div class="col-xs-23 form-header">
                 <h4 class="col-xs-2 col-xs-offset-1">罪犯信息</h4>
             </div>
@@ -84,7 +84,8 @@
                 remind:{
                     status:'',
                     msg:''
-                }
+                },
+                show:false
 			}
 		},
         watch: {
@@ -119,9 +120,9 @@
                     "icCardNo": icCardNo
                 };
                 this.$http.get('prisonerConsumer/getPrisoner',{params:prisonerData}).then(res=>{
-                    // console.log(res);
                     this.code = res.data.code;
                     if (res.data.code == 0) {
+                        this.show =true;
                         this.prisonerInfo = res.data.data;
                         this.prisonerId = this.prisonerInfo.prisonerId;
                         store.dispatch('hidePhotoLoading');                    
@@ -145,7 +146,7 @@
                         msg:'输入不合法'
                     }
                     store.dispatch('showRemind');
-                } else if (money >= this.prisonerInfo.money) {
+                } else if (money > this.prisonerInfo.money) {
                     this.remind = {
                         status:'warn',
                         msg:'余额不足'
