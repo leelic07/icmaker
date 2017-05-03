@@ -109,11 +109,11 @@ axios.interceptors.response.use(function(response){
 
 // axios.defaults.baseURL='http://localhost:8080/icmaker/';
 
-//axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
+axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.127:8080//icmaker/';
 
-axios.defaults.baseURL='http://10.10.10.107:8080//icmaker/';
+// axios.defaults.baseURL='http://10.10.10.107:8080//icmaker/';
  
 
 
