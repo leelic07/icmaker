@@ -205,7 +205,7 @@ import Page from '../Paginator.vue'
                     }
                 }
                 if (this.prisonId != oldPrisonId) {
-                    this.getPrisonDepartInfo(this.prisonId);
+                    this.getPrisonDepartInfo(this.prisonId,0);
                 }else {
                     this.prisonId = "";
                     this.prisonDepartments = "";
@@ -219,13 +219,12 @@ import Page from '../Paginator.vue'
 
             getPrisonInfo() {//获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
                             this.prisonName = this.prisons[0].prisonName;
                             this.prisonId = this.prisons[0].id;
-                            this.getPrisonDepartInfo();
+                            this.getPrisonDepartInfo(this.prisonId,0);
                         }
                         this.criminalSearch(this.indexPage); 
                     }
