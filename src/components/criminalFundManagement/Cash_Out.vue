@@ -202,7 +202,7 @@ import store from '../../store'
 
             //点击确定取现按钮
             withdrawCash(){
-                let isNull = true;
+                let isNull = false;
                 let isEnough = true;
                 if(!this.isNumber(this.cash) || this.cash == 0){
                     this.remind = {
@@ -210,7 +210,7 @@ import store from '../../store'
                         msg:'取现金额输入不合法'
                     }
                     store.dispatch('showRemind');
-                    isNull = false;
+                    isNull = true;
                 }else if(this.cash > this.total){
                     this.remind = {
                         status:'warn',
@@ -219,7 +219,7 @@ import store from '../../store'
                     store.dispatch('showRemind');
                     isEnough = false;
                 }
-                if(isNull && isEnough){
+                if(!isNull && isEnough){
                     this.$http({
                         method:'post',
                         url:'/prisonerAccount/withdrawCash',
