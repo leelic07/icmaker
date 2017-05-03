@@ -147,7 +147,7 @@
                         msg:'输入不合法'
                     }
                     store.dispatch('showRemind');
-                } else if (money > this.prisonerInfo.money) {
+                }else if (money > this.prisonerInfo.money) {
                     this.remind = {
                         status:'warn',
                         msg:'余额不足'

@@ -58,7 +58,7 @@
                         <th>档案号</th>
                         <th>姓名</th>
                         <th>虚拟账号</th>
-                        <th>金额</th>
+                        <th>金额(元)</th>
                         <th>操作</th>
                     </tr>
                     </thead>
