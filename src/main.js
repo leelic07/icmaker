@@ -93,7 +93,7 @@ axios.interceptors.response.use(function(response){
 
 // axios.defaults.baseURL='http://10.10.10.130:8080/icmaker/';
  
-//axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
+// axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 // axios.defaults.baseURL='http://106.14.18.98:8080//icmaker/';
 
@@ -105,7 +105,7 @@ axios.interceptors.response.use(function(response){
 
 // axios.defaults.baseURL='http://10.10.10.126:8080//icmaker/';
 
-// axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
+axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
 
 // axios.defaults.baseURL='http://localhost:8080/icmaker/';
 
