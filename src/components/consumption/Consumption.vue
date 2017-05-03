@@ -113,6 +113,7 @@
 
         methods:{
             getPrisonerInfo () {
+                this.show =false;
                 this.money = "";
                 this.remark = "";
                 let icCardNo = this.empty(this.icCardNo)[0];
