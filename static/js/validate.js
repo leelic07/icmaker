@@ -199,6 +199,17 @@ export default{
         }else{
             return args;
         }   
-    }
+    },
+
+    //是否为正整数或浮点数
+    isNumberButNull(){
+        let pattNum = new RegExp('^\s*|(([0-9]+\.[0-9]*[0-9][0-9]*)|([0-9]*[0-9][0-9]*\.[0-9]+)|([0-9]*[0-9][0-9]*))$');
+        for(let i = 0;i < arguments.length;i++){
+            if(!pattNum.test(arguments[i])){
+                return false;//不是数字
+            }
+        }
+        return true;//是数字
+    },
 
 }
