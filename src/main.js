@@ -48,6 +48,7 @@ Vue.use(Loading);
 Vue.use(LoginLoading);
 Vue.use(PhotoLoading);
 
+//ajax请求
 Vue.prototype.$http = axios;
 
 //ajax请求拦截器
@@ -95,8 +96,6 @@ axios.interceptors.response.use(function(response){
  
 axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
-// axios.defaults.baseURL='http://106.14.18.98:8080//icmaker/';
-
 //axios.defaults.baseURL='http://10.10.10.2:8080/icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.117:8080/icmaker/';
@@ -108,8 +107,6 @@ axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 // axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
 
 // axios.defaults.baseURL='http://localhost:8080/icmaker/';
-
-//axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.127:8080//icmaker/';
 
