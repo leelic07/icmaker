@@ -58,7 +58,7 @@
                         <th>档案号</th>
                         <th>姓名</th>
                         <th>虚拟账号</th>
-                        <th>金额</th>
+                        <th>金额(元)</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -202,15 +202,15 @@ import store from '../../store'
 
             //点击确定取现按钮
             withdrawCash(){
-                let isNull = true;
+                let isNull = false;
                 let isEnough = true;
-                if(!this.isNumber(this.cash)){
+                if(!this.isNumber(this.cash) || this.cash == 0){
                     this.remind = {
                         status:'warn',
                         msg:'取现金额输入不合法'
                     }
                     store.dispatch('showRemind');
-                    isNull = false;
+                    isNull = true;
                 }else if(this.cash > this.total){
                     this.remind = {
                         status:'warn',
@@ -219,7 +219,7 @@ import store from '../../store'
                     store.dispatch('showRemind');
                     isEnough = false;
                 }
-                if(isNull && isEnough){
+                if(!isNull && isEnough){
                     this.$http({
                         method:'post',
                         url:'/prisonerAccount/withdrawCash',

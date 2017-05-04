@@ -263,12 +263,25 @@ import store from '../../store'
                     let prisonerId = [];
                     let money = [];
                     let status = [];
+                    
+                    //过滤掉输入资金分配为空，或者为0的选项
                     $.each(this.addPrisoners,(index,value)=>{
-                        prisonerId.push(value.prisonerId);
-                        money.push(this.toCent(value.money)); 
-                        status.push(0);
+                        if(value.money != 0 && !this.isNull(value.money)){
+                            prisonerId.push(value.prisonerId);
+                            money.push(this.toCent(value.money));
+                            status.push(0);
+                        }                        
                     });
 
+                    //判断输入分配金额是否合法
+                    if(prisonerId.length == 0 || money.length == 0){
+                        this.remind = {
+                            status:'warn',
+                            msg:'输入分配金额不合法'
+                        };
+                        store.dispatch('showRemind');
+                        return;
+                    }
                     //判断输入分配金额是否合法
                     let total = 0;
                     $.each(money,(index,value)=>{

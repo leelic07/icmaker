@@ -251,7 +251,7 @@ import Page from '../Paginator.vue'
         },
         methods:{
             getExamStatus() {
-                this.examStatus = [{"value":0,"name":"审核中"},{"value":1,"name":"审核成功"},{"value":2,"name":"审核失败"},{"value":"","name":"全部"}];
+                this.examStatus = [{"value":0,"name":"审核中"},{"value":" ","name":"全部"},{"value":1,"name":"审核成功"},{"value":2,"name":"审核失败"}];
             }, 
 
             getPrisonInfo() {//获取监狱信息

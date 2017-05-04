@@ -52,7 +52,7 @@
                                 <th>所属监狱</th>
                                 <th>账户名</th>
                                 <th>账户类型</th>
-                                <th>账户余额</th>
+                                <th>账户余额(元)</th>
                                 <th colspan="2">操作</th>
                             </tr>
                         </thead>
@@ -300,7 +300,7 @@ import store from '../../store'
                 //     store.dispatch('showRemind');
                 //     return;
                 // }else 
-                if(!this.isNumber(this.transferMoney)){
+                if(!this.isNumber(this.transferMoney) || this.transferMoney == 0){
                     this.remind = {
                         status:'warn',
                         msg:'转账金额输入不合法'

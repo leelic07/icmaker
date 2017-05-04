@@ -164,8 +164,7 @@ import store from '../../store'
                     }else if(res.data.code == 99999){
                         this.errMsg = res.data.msg;
                         this.noAuthority = true;
-                    }
-                    
+                    }                    
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -175,7 +174,7 @@ import store from '../../store'
 			distributionConfirm(){
 				let isNull = false;
                 let isNumber = true;
-				let total = 0;
+				let total = 0;//分配总金额
 				$.each(this.distributionItems,(index,value)=>{
 					if(this.isNull(value.type,value.money)){
 						isNull = true;
@@ -195,7 +194,16 @@ import store from '../../store'
 				});
 
 				if(!isNull && isNumber){
-					$.each(this.distributionItems,(index,value)=>{
+                    let distributionItemsTem = [];
+                    //将distributionItems数组复制给distributionItemsTem数组
+                    $.each(this.distributionItems,(index,value)=>{
+                        distributionItemsTem.push({
+                            'money':value.money,
+                            'type':value.type
+                        });
+                    });
+
+					$.each(distributionItemsTem,(index,value)=>{
                         value.money = this.toCent(value.money);
                         total += value.money;
 					});
@@ -206,6 +214,7 @@ import store from '../../store'
                             msg:'余额不足'
                         };
                         store.dispatch('showRemind');
+                        //清空输入金额和分配类型
                         $.each(this.distributionItems,(index,value)=>{
                             value.money = '';
                             value.type = '';
@@ -215,7 +224,7 @@ import store from '../../store'
     						method:'post',
     						url:'/prisonCapital/assignsCapital',
     						params:{
-    							assignsStr:JSON.stringify(this.distributionItems)
+    							assignsStr:JSON.stringify(distributionItemsTem)
     						}
 					   }).then(res=>{  
                             if(res.data.code == 0){
