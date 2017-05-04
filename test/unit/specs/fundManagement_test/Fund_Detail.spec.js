@@ -159,7 +159,19 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 			let prisonCapitalDetailId = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(1)')
 			let prisonName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(2)')
 			let prisoDepartmentName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(3)')
-			
+			let accountName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(4)')
+			let accountNo = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(5)')
+			let toAccountName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(6)')
+			let toAccountNo = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(7)')
+			let capitalType = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(8)')
+			let money = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(9)')
+			let createdAt = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(10)')
+			let status = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(11)')
+			let remark = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(12)')
+
+			expect(prisonCapitalDetailId.getAttribute('id')).to.equal('1')
+			expect(prisonName.textContent).to.equal('长沙监狱')
+			expect(prisonDepartmentName.textContent).to.equal('一监区')
 		})
 	})
 });
