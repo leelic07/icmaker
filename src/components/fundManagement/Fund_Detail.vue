@@ -80,19 +80,19 @@
                 <div class="col-xs-23">
                     <table class="display table ic-table" id="table_id_example">
                         <thead>
-                        <tr>
-                            <th></th>
-                            <th>所属监狱</th>
-                            <th>所属监区</th>
-                            <th>账户名</th>
-                            <th>账号</th>
-                            <th>对方账户名</th>
-                            <th>对方账号</th>
-                            <th>金额(元)</th>
-                            <th>交易时间</th>
-                            <th>状态</th>
-                            <th>备注</th>
-                        </tr>
+                            <tr>
+                                <th></th>
+                                <th>所属监狱</th>
+                                <th>所属监区</th>
+                                <th>账户名</th>
+                                <th>账号</th>
+                                <th>对方账户名</th>
+                                <th>对方账号</th>
+                                <th>金额(元)</th>
+                                <th>交易时间</th>
+                                <th>状态</th>
+                                <th>备注</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr v-for='pcdd in prisonCapitalDetailDtos'>
