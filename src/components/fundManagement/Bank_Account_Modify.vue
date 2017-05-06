@@ -62,7 +62,7 @@
                                 </div>
                             </div>
 
-                              <div class="row">
+                            <div class="row">
                                 <div class="col-xs-5 label-box">
                                     <label class="pull-right" for="name"><em class="important">*</em>公私标识 </label>
                                 </div>
@@ -95,9 +95,9 @@ import store from '../../store'
 	export default{
 		data(){
 			return{
-				prisonBankAccountId:this.$route.params.prisonBankAccountId,
-				bankAccountId:this.$route.params.bankAccountId,
-    			prisonAccountId:this.$route.params.prisonAccountId,
+				prisonBankAccountId:'',
+				bankAccountId:'',
+    			prisonAccountId:'',
                 banks:[],
                 bankAccount:[]
 			}
@@ -210,6 +210,9 @@ import store from '../../store'
 			Remind
 		},
 		mounted(){
+            this.prisonBankAccountId = this.$route.params.prisonBankAccountId;
+            this.bankAccountId = this.$route.params.bankAccountId;
+            this.prisonAccountId = this.$route.params.prisonAccountId;
 			this.getBanks();
 		}
 	}

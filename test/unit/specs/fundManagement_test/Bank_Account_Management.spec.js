@@ -173,7 +173,7 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 
 		// 在状态改变后和断言 DOM 更新前等待一刻
 		Vue.nextTick(() => {
-			let id = vm.$el.querySelector('#table_id_example tbody tr [id=1]')
+			let id = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(1)')
 			let bankAccountName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(2)')
 			let bankAccountNo = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(3)')
 			let bankNo = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(4)')
@@ -187,8 +187,44 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 			expect(bankNo.textContent).to.equal('454789321456')
 			expect(bankName.textContent).to.equal('建设银行')
 			expect(isSameBank.textContent).to.equal('跨行')
-			expect(isPublic.textContent).to.equal('对公付款 ')
+			expect(isPublic.textContent).to.equal('对公付款')
 			done()
 		});
-	});	
-})
+
+	});
+
+	it('bankAccountList改变 table变化',done => {
+		const Constructor = Vue.extend(BankAccountManagement)
+		const vm = new Constructor().$mount()
+		vm.bankAccountList = [{
+			bankAccountId:'1',
+			bankAccountName:'琳琳',
+			bankAccountNo:'6523147896543216',
+			bankNo:'454789321456',
+			bankId:'2',
+			isSameBank:'1',
+			isPublic:'1'
+		}];
+
+		// 在状态改变后和断言 DOM 更新前等待一刻
+		Vue.nextTick(() => {
+			let id = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(1)')
+			let bankAccountName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(2)')
+			let bankAccountNo = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(3)')
+			let bankNo = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(4)')
+			let bankName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(5)')
+			let isSameBank = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(6)')
+			let isPublic = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(7)')
+			
+			expect(id.getAttribute('id')).to.equal('1')
+			expect(bankAccountName.textContent).to.equal('琳琳')
+			expect(bankAccountNo.textContent).to.equal('6523147896543216')
+			expect(bankNo.textContent).to.equal('454789321456')
+			expect(bankName.textContent).to.equal('平安银行')
+			expect(isSameBank.textContent).to.equal('同行')
+			expect(isPublic.textContent).to.equal('对私付款')
+			done()
+		});
+	});
+	
+});
