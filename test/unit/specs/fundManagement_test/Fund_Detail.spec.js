@@ -113,7 +113,7 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 			let accountName = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(3) input')
 			expect(accountName.value).to.equal('监狱局总账户')
 			done()
-		});	
+		});
 	});
 
 	it('prisonCapitalIncomeTotal改变 span变化',done => {
@@ -133,12 +133,12 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 		// 在状态改变后和断言 DOM 更新前等待一刻
 		Vue.nextTick(() => {
 			let prisonCapitalOutTotal = vm.$el.querySelector('.prison-total ul>li:nth-child(2) span')
-			expect(prisonCapitalOutTotal.textContent).to.equal('2000')
+			expect(prisonCapitalOutTotal.textContent).to.equal('2000元')
 			done()
 		});
 	});
 
-	it('prisonCapitalDetailDtos改变 table变化'，done => {
+	it('prisonCapitalDetailDtos改变 table变化',done => {
 		const vm = new Vue(FundDetail).$mount()
 		vm.prisonCapitalDetailDtos = [{
 			prisonCapitalDetailId:'1',
@@ -158,7 +158,7 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 		Vue.nextTick(() => {
 			let prisonCapitalDetailId = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(1)')
 			let prisonName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(2)')
-			let prisoDepartmentName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(3)')
+			let prisonDepartmentName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(3)')
 			let accountName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(4)')
 			let accountNo = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(5)')
 			let toAccountName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(6)')
@@ -172,6 +172,7 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 			expect(prisonCapitalDetailId.getAttribute('id')).to.equal('1')
 			expect(prisonName.textContent).to.equal('长沙监狱')
 			expect(prisonDepartmentName.textContent).to.equal('一监区')
+      done()
 		})
 	})
 });
