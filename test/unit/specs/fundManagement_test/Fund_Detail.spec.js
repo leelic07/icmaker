@@ -172,7 +172,6 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 			expect(prisonCapitalDetailId.getAttribute('id')).to.equal('1')
 			expect(prisonName.textContent).to.equal('长沙监狱')
 			expect(prisonDepartmentName.textContent).to.equal('一监区')
-
 			expect(accountName.textContent).to.equal('监狱局总账户')
 			expect(accountNo.textContent).to.equal('10071509945001888800000')
 			expect(toAccountName.textContent).to.equal('张三')
