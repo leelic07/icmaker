@@ -122,7 +122,7 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 		// 在状态改变后和断言 DOM 更新前等待一刻
 		Vue.nextTick(() => {
 			let prisonCapitalIncomeTotal = vm.$el.querySelector('.prison-total ul>li:nth-child(1) span')
-			expect(prisonCapitalIncomeTotal.textContent).to.equal('1000')
+			expect(prisonCapitalIncomeTotal.textContent).to.equal('1000元')
 			done()
 		});
 	});
@@ -143,15 +143,15 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 		vm.prisonCapitalDetailDtos = [{
 			prisonCapitalDetailId:'1',
 			prisonName:'长沙监狱',
-			prisonDepartmentName:'一监区',
+			prisonDepartmetName:'一监区',
 			accountName:'监狱局总账户',
 			accountNo:'10071509945001888800000',
 			toAccountName:'张三',
 			toAccountNo:'121421',
 			capitalType:'0',
 			money:'10000',
-			createdAt:'2017-05-03 11:47:53',
-			status:'1',
+			createdAt:1493783273000,
+			status:1,
 			remark:'资金分配,IC卡资金'
 		}]
 		// 在状态改变后和断言 DOM 更新前等待一刻
@@ -163,16 +163,26 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 			let accountNo = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(5)')
 			let toAccountName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(6)')
 			let toAccountNo = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(7)')
-			let capitalType = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(8)')
-			let money = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(9)')
-			let createdAt = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(10)')
-			let status = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(11)')
-			let remark = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(12)')
+			let money = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(8)')
+			let createdAt = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(9)')
+			let status = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(10)')
+			let remark = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(11)')
 
+			expect(vm.prisonCapitalDetailDtos).to.have.lengthOf(1)
 			expect(prisonCapitalDetailId.getAttribute('id')).to.equal('1')
 			expect(prisonName.textContent).to.equal('长沙监狱')
 			expect(prisonDepartmentName.textContent).to.equal('一监区')
-      done()
-		})
-	})
+
+			expect(accountName.textContent).to.equal('监狱局总账户')
+			expect(accountNo.textContent).to.equal('10071509945001888800000')
+			expect(toAccountName.textContent).to.equal('张三')
+			expect(toAccountNo.textContent).to.equal('121421')
+			expect(vm.prisonCapitalDetailDtos[0].capitalType).to.equal('0')
+			expect(money.textContent).to.equal('100')
+			expect(createdAt.textContent).to.equal('2017-05-03 11:47:53')
+			expect(status.textContent).to.equal('处理中')
+			expect(remark.textContent).to.equal('资金分配,IC卡资金')
+			done()
+		});
+	});
 });

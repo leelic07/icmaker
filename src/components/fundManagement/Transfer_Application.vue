@@ -151,11 +151,11 @@ import store from '../../store'
                 bankId:'',
                 bankAccountId:'',
                 toPrisonAccountId:'',
-                money:'',
+                money:'',//当前账户余额
                 prisonAccounts:[],
                 bankShow:true,
                 type:'',
-                transferMoney:'',
+                transferMoney:'',//转账金额
                 remark:'',
                 prisonId:'',
                 prisonName:'',
