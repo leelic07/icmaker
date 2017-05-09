@@ -32,7 +32,7 @@
             </div>
             <div class="col-xs-8 select-box">
               <label for="name">账户名</label>
-              <input type="text" name="" class='form-control' v-model='accountName'>
+              <input type="" name="" class='form-control' v-model='accountName'>
             </div>
           </div>
           <div class="row">
@@ -111,14 +111,14 @@
                   <span class="col-xs-12 pull-left info-label text-left">账户名称</span>
                   <span class="col-xs-12 pull-right">
                     <select class="form-control" v-model='bankAccountId' v-if='bankShow'>
-                      <option value=''>请选择</option>
-                      <option v-for='pbadt in prisonBankAccountDtosTem'
+                        <option value=''>请选择</option>
+                        <option v-for='pbadt in prisonBankAccountDtosTem'
                                 :value='pbadt.bankAccountId'
                                 v-text='pbadt.bankAccountName'></option>
                     </select>
                     <select class="form-control" v-model='toPrisonAccountId' v-if='!bankShow'>
-                      <option value=''>请选择</option>
-                      <option v-for='pa in prisonAccounts' :value='pa.id'
+                        <option value=''>请选择</option>
+                        <option v-for='pa in prisonAccounts' :value='pa.id'
                                 v-text='pa.accountName'></option>
                     </select>
                   </span>
@@ -126,8 +126,8 @@
               </ul>
             </div>
             <div class="col-xs-24">
-              <input type="text" class="form-control fee-input" placeholder="输入转出金额" v-model='transferMoney'>
-              <input type="text" class="form-control" placeholder="备注" v-model='remark'>
+              <input type="text" class="form-control fee-input" id="" placeholder="输入转出金额" v-model='transferMoney'>
+              <input type="text" class="form-control" id="" placeholder="备注" v-model='remark'>
             </div>
             <button class="confirm-button" @click='saveTransfer(type,prisonAccountId)'>保存</button>
             <button class="cancel-button" data-dismiss="modal">取消</button>
@@ -194,6 +194,7 @@
             this.prisonBankAccountDtosTem.push(value);
           }
         });
+
       },
 
       //删除小数点两位后的数字
@@ -415,7 +416,7 @@
   }
 </script>
 
-<style type="text/less" lang="less" scoped>
+<style lang="less" scoped>
   #right-side {
     .select-box {
       padding: 20px 50px 20px 40px;

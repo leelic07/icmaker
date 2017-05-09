@@ -161,6 +161,7 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 		const Constructor = Vue.extend(BankAccountManagement)
 		const vm = new Constructor().$mount()
 		vm.bankAccountList = [{
+			prisonBankAccountId:'1',
 			bankAccountId:'1',
 			bankAccountName:'李金',
 			bankAccountNo:'6523147896543216',
@@ -189,6 +190,7 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 			expect(isPublic.textContent).to.equal('对公付款')
 			done()
 		});
+
 	});
 
 	it('bankAccountList改变 table变化',done => {
@@ -225,4 +227,4 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 		});
 	});
 	
-})
+});

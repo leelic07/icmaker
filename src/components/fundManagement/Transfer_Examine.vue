@@ -57,7 +57,7 @@
     <!--按钮组部分-->
     <div class="col-xs-24 button">
       <div class="col-xs-2">
-        <input type="button" value="同意" class="agree-button" @click="agree()">
+        <input type="button" value="同意" class="agree-button" @click="agree()"></input>
       </div>
       <div class="col-xs-2">
         <input type="button" value="拒绝" class="reject-button" @click="reject()">
@@ -413,19 +413,16 @@
   }
 </script>
 
-<style type="text/less" lang="less" scoped>
+<style lang="less" scoped>
   #right-side {
-
     .select-box {
       padding: 20px 50px 20px 40px;
     }
 
     #rejectConfirm {
-
       textarea {
         margin-top: 30px;
       }
-
     }
   }
 </style>

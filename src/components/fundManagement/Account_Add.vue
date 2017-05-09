@@ -199,10 +199,10 @@
 
             store.dispatch('showRemind');
 
-            this.accountType = '',
-              this.prisonDepartmentId = '',
-              this.accountName = '',
-              this.prisonName = ''
+            this.accountType = '';
+            this.prisonDepartmentId = '';
+            this.accountName = '';
+            this.prisonName = '';
 
             this.getAllPrison();
           }).catch(err => {
@@ -221,7 +221,7 @@
   }
 </script>
 
-<style type="text/less" lang="less" scoped>
+<style lang="less" scoped>
   #right-side {
     background-color: #f5f5f5;
 
@@ -245,6 +245,5 @@
       font-weight: normal;
       color: #696969;
     }
-
   }
 </style>

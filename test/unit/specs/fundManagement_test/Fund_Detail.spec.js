@@ -113,7 +113,7 @@ describe('Fund_Detail.vue 异步更新DOM',() => {
 			let accountName = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(3) input')
 			expect(accountName.value).to.equal('监狱局总账户')
 			done()
-		});	
+		});
 	});
 
 	it('prisonCapitalIncomeTotal改变 span变化',done => {
