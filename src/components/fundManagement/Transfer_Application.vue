@@ -8,7 +8,7 @@
           <div class="row">
             <div class="col-xs-8 select-box">
               <!-- <label for="name">所属监狱</label>
-              <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
+               <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
                   <option v-if='prisonList.length > 1' value=''>请选择</option>
                   <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
               </select> -->
@@ -32,7 +32,7 @@
             </div>
             <div class="col-xs-8 select-box">
               <label for="name">账户名</label>
-              <input type="" name="" class='form-control' v-model='accountName'>
+              <input type="text" name="" class='form-control' v-model='accountName'>
             </div>
           </div>
           <div class="row">

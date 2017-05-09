@@ -53,7 +53,46 @@ describe('Transfer_Examine.vue 属性测试',() => {
 
 });
 
+//Transfer_Examine.vue  异步更新DOM测试
+describe('Transfer_Examine.vue 异步更新DOM测试',() => {
+  it('accountType改变 select变化',done => {
+    const vm = new Vue(TransferExamine).$mount()
+    vm.accountType = 0
+    // 在状态改变后和断言 DOM 更新前等待一刻
+    Vue.nextTick(() => {
+      let accountType = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(1) select')
+      let accountTypeOption = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(1) select option:nth-child(2)')
+      expect(accountType.value).to.equal('0')
+      expect(accountTypeOption.textContent).to.equal('财务账户')
+      expect(accountTypeOption.getAttribute('value')).to.equal('0')
+      done()
+    })
+  });
 
-describe('accountType改变 select变化',() => {
-  it('');
+  it('accountName改变 input变化',done => {
+    const vm = new Vue(TransferExamine).$mount()
+    vm.accountName = '星城监狱总账户'
+    // 在状态改变后和断言 DOM 更新前等待一刻
+    Vue.nextTick(() => {
+      let accountName = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(2) input')
+      expect(accountName.value).to.equal('星城监狱总账户')
+      done()
+    })
+  });
+
+  it('type改变 select变化',done => {
+    const vm = new Vue(TransferExamine).$mount()
+    vm.type = 4
+    // 在状态改变后和断言 DOM 更新前等待一刻
+    Vue.nextTick(() => {
+      let type = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(3) select')
+      let typeOption = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(3) select>option:nth-child(2)')
+      expect(type.value).to.equal('4')
+      expect(typeOption.value).to.equal('4')
+      expect(typeOption.getAttribute('value')).to.equal('内部转账')
+      done()
+    })
+  });
+
+  
 });

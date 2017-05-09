@@ -57,7 +57,7 @@
     <!--按钮组部分-->
     <div class="col-xs-24 button">
       <div class="col-xs-2">
-        <input type="button" value="同意" class="agree-button" @click="agree()"></input>
+        <input type="button" value="同意" class="agree-button" @click="agree()">
       </div>
       <div class="col-xs-2">
         <input type="button" value="拒绝" class="reject-button" @click="reject()">
