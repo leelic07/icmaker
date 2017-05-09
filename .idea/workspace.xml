@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="de3391fa-25ff-474a-b016-ede5c82ed9e3" name="Default" comment="">
+    <list default="true" id="de3391fa-25ff-474a-b016-ede5c82ed9e3" name="Default" comment="Cash_Out.vue 单元测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Login.vue" afterPath="$PROJECT_DIR$/src/components/Login.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue" afterPath="$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Bank_Account_Management.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Bank_Account_Management.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Fund_Detail.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Fund_Detail.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Transfer_Application.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Transfer_Application.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Transfer_Examine.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Transfer_Examine.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,13 +19,13 @@
     <favorites_list name="icmaker_version3.0" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.50769234">
+    <splitter split-orientation="horizontal" split-proportion="0.52480704">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Transfer_Application.spec.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="352">
+                <state relative-caret-position="2976">
                   <caret line="125" column="28" lean-forward="false" selection-start-line="125" selection-start-column="4" selection-end-line="125" selection-end-column="28" />
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
@@ -45,8 +37,8 @@
           <file leaf-file-name="Cash_Out.spec.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/Cash_Out.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="865">
-                  <caret line="237" column="6" lean-forward="true" selection-start-line="237" selection-start-column="6" selection-end-line="237" selection-end-column="6" />
+                <state relative-caret-position="738">
+                  <caret line="231" column="16" lean-forward="true" selection-start-line="231" selection-start-column="16" selection-end-line="231" selection-end-column="16" />
                   <folding>
                     <element signature="e#54#75#0" expanded="true" />
                   </folding>
@@ -61,9 +53,11 @@
           <file leaf-file-name="Cash_Out.vue" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="100" column="18" lean-forward="false" selection-start-line="100" selection-start-column="18" selection-end-line="100" selection-end-column="18" />
-                  <folding />
+                <state relative-caret-position="-648">
+                  <caret line="93" column="14" lean-forward="false" selection-start-line="93" selection-start-column="14" selection-end-line="93" selection-end-column="14" />
+                  <folding>
+                    <element signature="e#3547#3554#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -150,6 +144,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -386,7 +381,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -572,7 +566,8 @@
       <workItem from="1494095267834" duration="3718000" />
       <workItem from="1494099407692" duration="3309000" />
       <workItem from="1494135497059" duration="4242000" />
-      <workItem from="1494246485001" duration="12935000" />
+      <workItem from="1494246485001" duration="13098000" />
+      <workItem from="1494345912000" duration="811000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'webpack2.3.3' of https://github.com/leelic07/icmaker into webpack2.3.3&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
       <created>1494097356989</created>
@@ -602,7 +597,21 @@
       <option name="project" value="LOCAL" />
       <updated>1494101575561</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Cash_Out.vue 单元测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
+      <created>1494263899171</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1494263899171</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Cash_Out.vue 单元测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
+      <created>1494346473542</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1494346473542</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -635,7 +644,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24204000" />
+    <option name="totallyTimeSpent" value="25178000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -647,15 +656,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1924" height="1056" extended-state="0" />
+    <frame x="-8" y="-8" width="1924" height="1056" extended-state="1" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08695652" sideWeight="0.6002401" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16542949" sideWeight="0.5954447" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3015873" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32910052" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09652928" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08695652" sideWeight="0.39975992" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16542949" sideWeight="0.40455532" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.09652928" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.48673588" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2962963" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.50865054" order="3" side_tool="true" content_ui="tabs" />
@@ -704,7 +713,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merge branch 'webpack2.3.3' of https://github.com/leelic07/icmaker into webpack2.3.3&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
     <MESSAGE value="Webstorm 2017 测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="Webstorm 2017 测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
+    <MESSAGE value="Cash_Out.vue 单元测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cash_Out.vue 单元测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -713,11 +723,40 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3000">
+          <caret line="125" column="28" lean-forward="false" selection-start-line="125" selection-start-column="4" selection-end-line="125" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/Cash_Out.spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="21" column="43" lean-forward="true" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
+          <folding>
+            <element signature="e#54#75#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#3547#3554#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1512">
           <caret line="63" column="10" lean-forward="false" selection-start-line="63" selection-start-column="10" selection-end-line="63" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -725,9 +764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7584">
           <caret line="316" column="6" lean-forward="false" selection-start-line="316" selection-start-column="6" selection-end-line="316" selection-end-column="6" />
-          <folding>
-            <element signature="e#5611#5645#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -745,9 +781,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#6124#6159#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -755,7 +788,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -798,9 +830,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-360">
           <caret line="185" column="41" lean-forward="true" selection-start-line="185" selection-start-column="41" selection-end-line="185" selection-end-column="41" />
-          <folding>
-            <element signature="e#3110#3144#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -836,7 +865,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4392">
           <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -844,9 +872,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2784">
           <caret line="122" column="29" lean-forward="false" selection-start-line="122" selection-start-column="29" selection-end-line="122" selection-end-column="29" />
-          <folding>
-            <element signature="e#6124#6159#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -854,7 +879,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1512">
           <caret line="63" column="10" lean-forward="false" selection-start-line="63" selection-start-column="10" selection-end-line="63" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -862,9 +886,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
           <caret line="316" column="6" lean-forward="false" selection-start-line="316" selection-start-column="6" selection-end-line="316" selection-end-column="6" />
-          <folding>
-            <element signature="e#5611#5645#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -872,13 +893,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2520">
           <caret line="9" column="24" lean-forward="false" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
+        <state relative-caret-position="2976">
           <caret line="125" column="28" lean-forward="false" selection-start-line="125" selection-start-column="4" selection-end-line="125" selection-end-column="28" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
@@ -888,16 +908,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="100" column="18" lean-forward="false" selection-start-line="100" selection-start-column="18" selection-end-line="100" selection-end-column="18" />
-          <folding />
+        <state relative-caret-position="-648">
+          <caret line="93" column="14" lean-forward="false" selection-start-line="93" selection-start-column="14" selection-end-line="93" selection-end-column="14" />
+          <folding>
+            <element signature="e#3547#3554#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/Cash_Out.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="865">
-          <caret line="237" column="6" lean-forward="true" selection-start-line="237" selection-start-column="6" selection-end-line="237" selection-end-column="6" />
+        <state relative-caret-position="738">
+          <caret line="231" column="16" lean-forward="true" selection-start-line="231" selection-start-column="16" selection-end-line="231" selection-end-column="16" />
           <folding>
             <element signature="e#54#75#0" expanded="true" />
           </folding>
