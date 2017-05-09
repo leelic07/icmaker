@@ -125,13 +125,16 @@ import Page from '../Paginator.vue'
                 }
             },
             prisonName(){
+                console.log(this.prisonName);
                 let oldPrisonId = this.prisonId;
                 for (let i = 0; i< this.prisonList.length; i++)  {
                     if (this.prisonList[i].prisonName == this.prisonName) {
                         this.prisonId = this.prisonList[i].id;
                         break;
-                    }else {
+                    }else if (this.prisonName == ""){
                         this.prisonId = "";
+                    }else {
+                        this.prisonId = -1;
                     }
                 }
             }
