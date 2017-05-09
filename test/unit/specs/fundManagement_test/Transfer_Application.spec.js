@@ -146,5 +146,5 @@ describe('Transfer_Application.vue 异步更新DOM测试', () => {
     });
   });
 
-  it('')
+  
 });
