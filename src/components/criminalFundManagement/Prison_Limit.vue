@@ -31,8 +31,8 @@
                             <tr>
                                 <th></th>
                                 <th>所属监狱</th>
-                                <th>日限额</th>
-                                <th>月限额</th>
+                                <th>日限额(元)</th>
+                                <th>月限额(元)</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
