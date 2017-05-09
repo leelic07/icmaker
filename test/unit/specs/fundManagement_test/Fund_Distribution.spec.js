@@ -145,4 +145,6 @@ describe('Fund_Distribution.vue 异步更新DOM测试',() => {
 			done()
 		});
 	});
+
+
 });
