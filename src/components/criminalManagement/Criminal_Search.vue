@@ -9,7 +9,7 @@
                         <div class="row">
                             <div class="col-xs-8 select-box">
                                 <label for="prisonId">所属监狱</label>
-                                <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1">
+                                <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1" id="prisonInput">
                                 <datalist class="form-control hidden" id="prisonList">
                                     <option v-for = "prison in prisons" :prisonId = "prison.id">{{prison.prisonName}}</option>
                                 </datalist>
@@ -119,6 +119,7 @@
 import Remind from '../Remind.vue'
 import store from '../../store'
 import Page from '../Paginator.vue'
+import axios from 'axios'
     export default {
         data(){
             return {
@@ -171,6 +172,7 @@ import Page from '../Paginator.vue'
                         this.prisonId = this.prisons[i].id;
                     }
                 }
+                console.log(this.prisonId);
                 if (this.prisonId != oldPrisonId) {
                     this.getPrisonDepartInfo();
                 }else {
@@ -194,7 +196,7 @@ import Page from '../Paginator.vue'
             },
 
             getPrisonInfo() {//根据用户信息获取监狱信息
-                this.$http.get('prisoner/toAddOrEdit').then(res=>{
+                axios.get('prisoner/toAddOrEdit').then(res=>{
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -210,8 +212,7 @@ import Page from '../Paginator.vue'
             },
 
             getPrisonDepartInfo () {//获取监区信息
-                this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-                    // console.log(res);
+                axios.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
                     }
@@ -238,7 +239,7 @@ import Page from '../Paginator.vue'
                     "pageSize":this.pageSize
                 };
                 // console.log(searchData);
-                this.$http.get('prisoner/getPrisoners',{params:searchData}).then(res=>{
+                axios.get('prisoner/getPrisoners',{params:searchData}).then(res=>{
                     //console.log(res);
                     if (res.data.code == 0) {
                         this.prisonerList = res.data.data.prisoners;//赋值罪犯列表
@@ -252,13 +253,12 @@ import Page from '../Paginator.vue'
             deletePrisoner (e) {//点击删除按钮
                 $('#delCriminalConfirm').modal();
                 this.currentId = e.target.getAttribute("id");
-                // console.log(this.currentId);
             },
 
             deleteConfirm(e) {//点击确认删除
                 const delUrl = 'prisoner/deletePrisoner';
                 let id = e.target.getAttribute("id");
-                this.$http.post(delUrl,$.param({'prisonerId':id})).then(res=>{
+                axios.post(delUrl,$.param({'prisonerId':id})).then(res=>{
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',
@@ -278,6 +278,7 @@ import Page from '../Paginator.vue'
                     console.log('删除菜单列表服务器异常' + err);
                 });
             }
+
         },
         components:{
             Page,
