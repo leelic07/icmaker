@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="de3391fa-25ff-474a-b016-ede5c82ed9e3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Transfer_Application.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Transfer_Application.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -685,7 +682,14 @@
       <option name="project" value="LOCAL" />
       <updated>1494101575561</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Cash_Out.vue 单元测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
+      <created>1494294785690</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1494294785690</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -718,7 +722,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24774000" />
+    <option name="totallyTimeSpent" value="24828000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -796,7 +800,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merge branch 'webpack2.3.3' of https://github.com/leelic07/icmaker into webpack2.3.3&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
     <MESSAGE value="Webstorm 2017 测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="Webstorm 2017 测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
+    <MESSAGE value="Cash_Out.vue 单元测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cash_Out.vue 单元测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
