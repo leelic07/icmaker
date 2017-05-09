@@ -170,13 +170,16 @@ import axios from 'axios'
                 for (let i = 0; i< this.prisons.length; i++)  {
                     if (this.prisons[i].prisonName == this.prisonName) {
                         this.prisonId = this.prisons[i].id;
+                        break;
+                    }else if (this.prisonName == "") {
+                        this.prisonId = "";
+                    }else {
+                        this.prisonId = -1;
                     }
                 }
-                console.log(this.prisonId);
                 if (this.prisonId != oldPrisonId) {
                     this.getPrisonDepartInfo();
                 }else {
-                    this.prisonId = "";
                     this.prisonDepartments = "";
                 }
             }
@@ -212,6 +215,7 @@ import axios from 'axios'
             },
 
             getPrisonDepartInfo () {//获取监区信息
+                console.log("进入");
                 axios.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表

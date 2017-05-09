@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="de3391fa-25ff-474a-b016-ede5c82ed9e3" name="Default" comment="" />
+    <list default="true" id="de3391fa-25ff-474a-b016-ede5c82ed9e3" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/SystemManagement/User_Management.vue" afterPath="$PROJECT_DIR$/src/components/SystemManagement/User_Management.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue" afterPath="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -52,7 +57,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Transfer_Examine.spec.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Transfer_Examine.spec.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Examine.spec.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="607">
@@ -60,16 +65,6 @@
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Criminal_Search.spec.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1560">
-                  <caret line="26" column="53" lean-forward="true" selection-start-line="26" selection-start-column="53" selection-end-line="26" selection-end-column="53" />
-                  <folding />
                 </state>
               </provider>
             </entry>
@@ -276,32 +271,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="fundManagement_test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="icmaker_version5.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="icmaker_version5.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="unit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="specs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="criminalManagement" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -758,7 +727,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39311000" />
+    <option name="totallyTimeSpent" value="39403000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1199,7 +1168,7 @@
     <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/Cash_Out.spec.js" />
     <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1560">
+        <state relative-caret-position="-4224">
           <caret line="26" column="53" lean-forward="true" selection-start-line="26" selection-start-column="53" selection-end-line="26" selection-end-column="53" />
           <folding />
         </state>
