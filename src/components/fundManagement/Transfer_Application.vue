@@ -126,8 +126,8 @@
               </ul>
             </div>
             <div class="col-xs-24">
-              <input type="text" class="form-control fee-input" id="" placeholder="输入转出金额" v-model='transferMoney'>
-              <input type="text" class="form-control" id="" placeholder="备注" v-model='remark'>
+              <input type="text" class="form-control fee-input" placeholder="输入转出金额" v-model='transferMoney'>
+              <input type="text" class="form-control" placeholder="备注" v-model='remark'>
             </div>
             <button class="confirm-button" @click='saveTransfer(type,prisonAccountId)'>保存</button>
             <button class="cancel-button" data-dismiss="modal">取消</button>
@@ -416,7 +416,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style type="text/less" lang="less" scoped>
   #right-side {
     .select-box {
       padding: 20px 50px 20px 40px;

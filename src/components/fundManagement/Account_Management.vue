@@ -260,7 +260,7 @@
   }
 </script>
 
-<style type="text/less" lang="less" scoped>
+<style lang="less" scoped>
   #right-side {
 
     .select-box {
@@ -272,27 +272,18 @@
     }
 
     table {
-
       tr {
-
         th, td {
           text-align: center;
         }
-
         th:last-child {
           text-align: left;
           padding-left: 3%;
         }
-
         td {
-
-          &
-          :nth-child(6),
-          &
-          :last-child {
+          &:nth-child(6), &:last-child {
             text-align: center;
           }
-
         }
       }
     }
@@ -305,7 +296,6 @@
     .text-red {
       color: #E96900;
     }
-
     .text-green {
       color: #36A5B0;
     }
