@@ -19,7 +19,7 @@
     <favorites_list name="icmaker_version3.0" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.50778353">
+    <splitter split-orientation="horizontal" split-proportion="0.53895074">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Fund_Detail.spec.js" pinned="false" current-in-tab="false">
@@ -69,7 +69,7 @@
           <file leaf-file-name="Transfer_Application.spec.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="431">
+                <state relative-caret-position="305">
                   <caret line="148" column="6" lean-forward="false" selection-start-line="148" selection-start-column="6" selection-end-line="148" selection-end-column="6" />
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
@@ -85,7 +85,7 @@
           <file leaf-file-name="Transfer_Application.vue" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Transfer_Application.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-178">
+                <state relative-caret-position="326">
                   <caret line="406" column="5" lean-forward="false" selection-start-line="406" selection-start-column="5" selection-end-line="406" selection-end-column="5" />
                   <folding>
                     <element signature="e#3524#3531#0" expanded="true" />
@@ -689,7 +689,14 @@
       <option name="project" value="LOCAL" />
       <updated>1494294785690</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Cash_Out.vue 单元测试&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
+      <created>1494294860026</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1494294860026</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -722,7 +729,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24828000" />
+    <option name="totallyTimeSpent" value="25465000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -735,13 +742,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24669604" sideWeight="0.6117647" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.076358296" sideWeight="0.8" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20537125" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24669604" sideWeight="0.3882353" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.328594" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.076358296" sideWeight="0.2" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10742496" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2962963" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
@@ -1085,6 +1093,17 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/Cash_Out.spec.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Transfer_Application.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="406" column="5" lean-forward="false" selection-start-line="406" selection-start-column="5" selection-end-line="406" selection-end-column="5" />
+          <folding>
+            <element signature="e#3524#3531#0" expanded="true" />
+            <element signature="e#6112#6147#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Fund_Distribution.spec.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1095,20 +1114,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Transfer_Application.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-178">
-          <caret line="406" column="5" lean-forward="false" selection-start-line="406" selection-start-column="5" selection-end-line="406" selection-end-column="5" />
-          <folding>
-            <element signature="e#3524#3531#0" expanded="true" />
-            <element signature="e#6112#6147#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
+        <state relative-caret-position="305">
           <caret line="148" column="6" lean-forward="false" selection-start-line="148" selection-start-column="6" selection-end-line="148" selection-end-column="6" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
