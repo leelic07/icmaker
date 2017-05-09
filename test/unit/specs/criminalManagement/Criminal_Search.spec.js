@@ -122,62 +122,60 @@ describe('正确加载监狱监区列表 getPrisonInfo()',()=>{
 	})
 })
 
-describe('输入监狱名对应到监狱ID prisonName()',()=>{
+describe('输入监狱名对应到监狱ID watch prisonName()',()=>{
 	    const vm = new Vue(CriminalSearch).$mount()
-		after(() =>{
+		const vm2 = new Vue(CriminalSearch).$mount()
+		const vm3 = new Vue(CriminalSearch).$mount()
+	//let departsinon.spy(vm,"getPrisonDepartInfo")
+		it('当匹配到监狱名时，返回其对应的监狱ID', (done) => {
 			vm.prisons = [{"id":1,"prisonName":"长沙监狱"},{"id":5,"prisonName":"星城监狱"}]
-			vm.prisonName = "长沙监狱"
+			vm.prisonName = "星城监狱"
+			Vue.nextTick(()=> {
+                expect(vm.prisonId).to.equal(5)
+				
+			})
+			done()
 		})
-		it('当匹配到监狱名时，返回其对应的ID', () => {
-			console.log("change")
-			console.log(vm.prisons)
-			expect(vm.prisonId).to.equal(1)
+		it('监狱名为空时，返回监狱ID值为空', (done) => {
+			vm2.prisons = [{"id":1,"prisonName":"长沙监狱"},{"id":5,"prisonName":"星城监狱"}]
+			vm2.prisonName = ""
+			Vue.nextTick(()=> {
+                expect(vm2.prisonId).to.equal("")
+			})
+			done()
+		})
+        it('当未匹配到监狱名且不为空时，监狱ID返回-1', (done) => {
+			vm3.prisons = [{"id":1,"prisonName":"长沙监狱"},{"id":5,"prisonName":"星城监狱"}]
+			vm3.prisonName = "长沙监"
+			Vue.nextTick(()=> {
+                expect(vm3.prisonId).to.equal(-1)
+			})
+			done()
 		})
 })
 
-describe('选中监狱正确加载其下的监区列表 getPrisonDepartInfo ()',()=>{
-	    // const vm = new Vue(CriminalSearch).$mount()
+describe('根据监狱ID加载监区列表 getPrisonDepartInfo ()',()=>{
+		let promiseCall
+
+		beforeEach(() =>{
+			promiseCall = sinon.stub(axios, 'get').returnsPromise()
+		})
+
+		afterEach(() => {
+			axios.get.restore()
+		})
 		
-		// it('数据层：prisons prisonName prisonId属性正确', () => {
-		// 	vm.prisonName = "长沙监狱"
-		// 	console.log();
-		// })
-		// let promiseCall
-
-		// beforeEach(function () {
-		// 	promiseCall = sinon.stub(axios, 'get').returnsPromise()
-		// })
-
-		// afterEach(function () {
-		// 	axios.get.restore()
-		// })
-
-		// it('数据层：prisons prisonName prisonId属性正确', () => {
-		// 	promiseCall.resolves({
-		// 		data: {
-		// 			data:{
-		// 				prisons:[{"id":1,"prisonName":"长沙监狱"}]
-		// 			},
-		// 			code:0
-		// 		}
-		// 	})
-		// 	vm.getPrisonInfo()
-		// 	expect(vm.prisons).to.have.lengthOf(1)
-		// 	expect(vm.prisons[0].id).to.be.equal(1)
-		// 	expect(vm.prisons[0].prisonName).to.be.equal("长沙监狱")
-		// 	expect(vm.prisonName).to.be.equal('长沙监狱')
-		// 	expect(vm.prisonId).to.be.equal(1)
-			// promiseCall.resolves({
-			// 	data: {
-			// 		data:[{"id":1,"prisonDepartmentName":"收押中心"}],
-			// 		code:0
-			// 	}
-			// })
-			// vm.getPrisonDepartInfo ()
-			// expect(vm.prisonDepartments).to.be.equal("收押中心")
-			// console.log("here")
+		it('数据层：prisons prisonName prisonId属性正确', () => {
+			promiseCall.resolves({
+				data: {
+					data:[{"id":1,"prisonDepartmentName":"收押中心"}],
+					code:0
+				}
+			})
+			// expect(vm.prisonDepartments).to.have.lengthOf(1)
 			// console.log(vm.prisonDepartments)
-		//})
+			// expect(vm.prisonDepartments.prisonDepartmentName).to.equal("收押中心")
+		})    
 
 })
 // describe('CriminalSearch.vue',()=>{
