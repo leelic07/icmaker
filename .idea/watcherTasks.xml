@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
+  <component name="ProjectTasksOptions" suppressed-tasks="Babel" />
+=======
   <component name="ProjectTasksOptions">
     <TaskOptions isEnabled="false">
       <option name="arguments" value="$FilePathRelativeToProjectRoot$ --out-dir dist --source-maps --presets env" />
@@ -21,4 +24,5 @@
       <envs />
     </TaskOptions>
   </component>
+>>>>>>> 2354dd38619b4a0bbe08550be656a77453e75b97
 </project>

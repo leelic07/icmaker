@@ -88,11 +88,9 @@ describe('Transfer_Examine.vue 异步更新DOM测试',() => {
       let type = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(3) select')
       let typeOption = vm.$el.querySelector('.search-inner-box>div:nth-child(1)>div:nth-child(3) select>option:nth-child(2)')
       expect(type.value).to.equal('4')
-      expect(typeOption.value).to.equal('4')
-      expect(typeOption.getAttribute('value')).to.equal('内部转账')
+      expect(typeOption.textContent).to.equal('内部转账')
+      expect(typeOption.getAttribute('value')).to.equal('4')
       done()
     })
   });
-
-  
 });
