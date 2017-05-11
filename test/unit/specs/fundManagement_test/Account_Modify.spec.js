@@ -91,5 +91,5 @@ describe('Account_Modify.vue 异步更新DOM',() => {
 		    expect(prisonName.textContent).to.equal('长沙监狱');
 		    done()
 		});
-	});	
+	});
 });
