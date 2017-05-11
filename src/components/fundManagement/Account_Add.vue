@@ -70,6 +70,8 @@
 <script>
   import Remind from '../Remind.vue'
   import store from '../../store'
+  import axios from 'axios'
+
   export default {
     data(){
       return {
@@ -135,7 +137,7 @@
 
       //查询所有监狱列表
       getAllPrison(){
-        this.$http({
+        axios({
           method: 'get',
           url: '/prisoner/toAddOrEdit',
         }).then(res => {
@@ -174,7 +176,7 @@
           }
           store.dispatch('showRemind');
         } else {
-          this.$http({
+          axios({
             method: 'post',
             url: '/prisonAccount/addOrUpdatePrisonAccount',
             params: params

@@ -173,7 +173,6 @@ describe('CFD_Add_Criminal.vue 异步更新DOM测试',() => {
       let prisonName = vm.$el.querySelector('#table_id_example1 tbody tr td:nth-child(4)')
       let prisonDepartmentName = vm.$el.querySelector('#table_id_example1 tbody tr td:nth-child(5)')
       let money = vm.$el.querySelector('#table_id_example1 tbody tr td:nth-child(6) input')
-
       expect(vm.addPrisoners).to.have.lengthOf(1)
       expect(prisonerId.getAttribute('id')).to.equal('1')
       expect(name.textContent).to.equal('曾志新')
