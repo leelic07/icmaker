@@ -80,8 +80,8 @@
                                 <td>{{prisoner.prisonDepartmentName}}</td>
                                 <td>{{prisoner.status | formatStatus}}</td>
                                 <td>{{prisoner.intoPrisonDate | formatPrisonDate}}</td>
-                                <td><router-link class="agree-text" :to = '"/crimsearch/edit/"+prisoner.prisonerId'>修改</router-link></td>
-                                <td><em class="reject-text" :id = "prisoner.prisonerId" @click = "deletePrisoner($event.target)">删除</em></td>
+                                <td><router-link class="agree-text edit-link" :to = '"/crimsearch/edit/"+prisoner.prisonerId'>修改</router-link></td>
+                                <td><em class="reject-text delete-link" :id = "prisoner.prisonerId" @click = "deletePrisoner($event.target)">删除</em></td>
                             </tr>    
                         </tbody>
                     </table>
@@ -120,7 +120,6 @@ import Remind from '../Remind.vue'
 import store from '../../store'
 import Page from '../Paginator.vue'
 import axios from 'axios'
-import Vue from 'vue'
     export default {
         data(){
             return {
@@ -247,9 +246,9 @@ import Vue from 'vue'
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
                     "status": this.status,
-                    // "name":  this.empty(this.name)[0],
-                    // "number": this.empty(this.number)[0],
-                    // "archivesNumber":this.empty(this.archivesNumber)[0],
+                    "name":  this.empty(this.name)[0],
+                    "number": this.empty(this.number)[0],
+                    "archivesNumber":this.empty(this.archivesNumber)[0],
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
@@ -266,10 +265,8 @@ import Vue from 'vue'
             },
 
             deletePrisoner (tar) {//点击删除按钮
-                console.log(tar)
                 $('#delCriminalConfirm').modal();
                 this.currentId = tar.getAttribute("id");
-                console.log(this.currentId)
             },
 
             deleteConfirm() {//点击确认删除

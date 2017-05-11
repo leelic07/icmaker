@@ -22,7 +22,9 @@ import '../../static/js/jquery.pagination.min.js'
 		methods:{
 			pageInit(_this){
 				$('.M-box2').html(' ');
+				//console.log("hhhhhh")
 				if (this.itemSize/this.pageSize > 1) {
+				//	console.log($('.M-box2').pagination())
 					$('.M-box2').pagination({
 						coping: true,
 						homePage: '首页',
@@ -36,7 +38,9 @@ import '../../static/js/jquery.pagination.min.js'
 						callback: function (api){
 							//获取点击时的当前页码再重新加载当前页的数据
 							let now = api.getCurrent();
+							//console.log('.M-box2')
 							_this.$emit("search",now);
+
 						}
 					});
 				}

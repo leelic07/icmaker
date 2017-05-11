@@ -1,17 +1,10 @@
 import Vue from 'vue'
-import CriminalSearch from '@/components/criminalManagement/Criminal_Search'
 import axios from 'axios'
 import sinon from 'sinon'
-import Filters from '@/filters'
-import sinonStubPromise from 'sinon-stub-promise'
-sinonStubPromise(sinon)
+import '../../test.config.js'
+import CriminalSearch from '@/components/criminalManagement/Criminal_Search'
 
-//声明过滤器
-Object.keys(Filters).forEach(key => {
-	Vue.filter(key,Filters[key])
-})
-
-describe('CriminalSearch页面默认数据赋值准确 data()',(done)=>{
+describe('CriminalSearch页面默认数据赋值准确 data()',()=>{
 	const vm = new Vue(CriminalSearch).$mount()
 
 	it('prisons 监狱列表初始为空',()=>{
@@ -83,26 +76,6 @@ describe('CriminalSearch页面默认数据赋值准确 data()',(done)=>{
 	})
 })
 
-describe('正确加载状态列表 getStatusList()',(done)=>{
-	it('DOM层：状态列表下拉可选，默认显示为"全部"', (done) => {
-		const vm = new Vue(CriminalSearch).$mount()
-		vm.getStatusList()
-		Vue.nextTick(()=> {
-			let status = vm.$el.querySelectorAll("#status option")
-			expect(status).to.have.lengthOf(3)
-
-			expect(status.item(0).textContent).to.equal("全部")
-			expect(status.item(1).textContent).to.equal("离监")
-			expect(status.item(2).textContent).to.equal("在监")
-
-			expect(status.item(0).getAttribute("value")).to.equal("")
-			expect(status.item(1).getAttribute("value")).to.equal("0")
-			expect(status.item(2).getAttribute("value")).to.equal("1")
-			done()
-		})
-	})
-})
-
 describe('正确加载监狱监区列表，调用获取罪犯信息列表方法 getPrisonInfo()',()=>{
 	
 	describe('当监狱列表长度大于1时，所属监狱下拉显示全部，所属监区下拉无监区显示',()=>{
@@ -130,7 +103,6 @@ describe('正确加载监狱监区列表，调用获取罪犯信息列表方法 
 				}
 			})
 			vm.getPrisonInfo()
-
 			expect(vm.prisons).to.have.lengthOf(2)
 			expect(vm.prisons[0].id).to.be.equal(1)
 			expect(vm.prisons[0].prisonName).to.be.equal("长沙监狱")
@@ -313,6 +285,28 @@ describe('根据监狱ID加载监区列表 getPrisonDepartInfo ()',()=>{
 		}) 
 })
 
+describe('正确加载状态列表 getStatusList()',()=>{
+	const vm = new Vue(CriminalSearch).$mount()
+	it('DOM层：状态列表下拉可选，默认显示为"全部"', (done) => {	
+		vm.getStatusList()
+
+		Vue.nextTick(()=> {
+			let status = vm.$el.querySelectorAll("#status option")
+			expect(status).to.have.lengthOf(3)
+
+			expect(status.item(0).textContent).to.equal("全部")
+			expect(status.item(1).textContent).to.equal("离监")
+			expect(status.item(2).textContent).to.equal("在监")
+
+			expect(status.item(0).getAttribute("value")).to.equal("")
+			expect(status.item(1).getAttribute("value")).to.equal("0")
+			expect(status.item(2).getAttribute("value")).to.equal("1")
+			
+		})
+		done()
+	})
+})
+
 describe('为编辑页面时列表页面隐藏 hideCriminalList()',()=>{
 	const vm = new Vue(CriminalSearch).$mount()
 	const vm2 = new Vue(CriminalSearch).$mount()
@@ -421,11 +415,12 @@ describe('路由变化时控制罪犯搜索页的列表重新加载 watch fromUr
 	})
 })
 
-describe('罪犯列表数据展示与删除 deletePrisoner()',()=>{
+describe('罪犯列表数据展示与修改删除操作 deletePrisoner()',()=>{
 	const vm = new Vue(CriminalSearch).$mount()
+	const vm2 = new Vue(CriminalSearch).$mount()
+	const vm3 = new Vue(CriminalSearch).$mount()
 
-	beforeEach(()=>{
-		vm.prisonerList = [{
+	const prisonerInfo = [{
 			address:"长沙市金星路",
 			archivesNumber:"43450115899",
 			cardNo:"420581188503121767",
@@ -454,37 +449,106 @@ describe('罪犯列表数据展示与删除 deletePrisoner()',()=>{
 			prisonerId:44,
 			status:1
 		}];
-	})
-	//vm.deletePrisoner()
-	
-	it ('Dom层：列表数据展示正确',(done) =>{
-		Vue.nextTick(()=> {
-			let prisoners = vm.$el.querySelectorAll(".ic-table tbody tr")
-			let name =vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(1)").textContent
-			let number = vm.$el.querySelectorAll(".ic-table tbody tr:nth-child(1) td:nth-child(2)").textContent
-			let archivesNumber = vm.$el.querySelectorAll(".ic-table tbody tr:nth-child(1) td:nth-child(3)").textContent
-            let address = vm.$el.querySelectorAll(".ic-table tbody tr:nth-child(1) td:nth-child(4)").textContent
-			let cardNo = vm.$el.querySelectorAll(".ic-table tbody tr:nth-child(1) td:nth-child(5)").textContent
-			let prisonName = vm.$el.querySelectorAll(".ic-table tbody tr:nth-child(1) td:nth-child(6)").textContent
-			let prisonDepartmentName = vm.$el.querySelectorAll(".ic-table tbody tr:nth-child(1) td:nth-child(7)").textContent
-			let status = vm.$el.querySelectorAll(".ic-table tbody tr:nth-child(1) td:nth-child(8)").textContent
-			let intoPrisonDate = vm.$el.querySelectorAll(".ic-table tbody tr:nth-child(1) td:nth-child(9)").textContent
 
-			expect(prisoners).to.have.lengthOf(2)
-			expect(name).to.equal("测试000")
-			expect(number).to.equal("43450115899")
-			expect(archivesNumber).to.equal("43450115899")
-			expect(address).to.equal("长沙市金星路")
-			expect(cardNo).to.equal("420581188503121767")
-			expect(prisonName).to.equal("长沙监狱")
-			expect(prisonDepartmentName).to.equal("收押中心")
-			expect(status).to.equal("在监")
-			expect(intoPrisonDate).to.equal("2017-04-20")
-		   // console.log(vm.$el.querySelector(".ic-table tbody tr:nth-child(1)"))
+	describe('罪犯列表页面展示正确',()=>{
+
+		beforeEach(()=>{
+			vm.prisonerList = prisonerInfo
+			
 		})
-		done()
+
+		it ('列表数据展示正确',(done) =>{
+			Vue.nextTick(()=> {
+				let prisoners = vm.$el.querySelectorAll(".ic-table tbody tr")
+				let name =vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(1)").textContent
+				let number = vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(2)").textContent
+				let archivesNumber = vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(3)").textContent
+				let address = vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(4)").textContent
+				let cardNo = vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(5)").textContent
+				let prisonName = vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(6)").textContent
+				let prisonDepartmentName = vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(7)").textContent
+				let status = vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(8)").textContent
+				let intoPrisonDate = vm.$el.querySelector(".ic-table tbody tr:nth-child(1) td:nth-child(9)").textContent
+			
+
+				expect(prisoners).to.have.lengthOf(2)
+				expect(name).to.equal("测试000")
+				expect(number).to.equal("43450115899")
+				expect(archivesNumber).to.equal("43450115899")
+				expect(address).to.equal("长沙市金星路")
+				expect(cardNo).to.equal("420581188503121767")
+				expect(prisonName).to.equal("长沙监狱")
+				expect(prisonDepartmentName).to.equal("收押中心")
+				expect(status).to.equal("在监")
+				expect(intoPrisonDate).to.equal("2017-04-20 ")
+
+			})
+			done()
+		})
+
+		beforeEach(()=>{
+			vm.prisonerSize = 10
+			vm.pageSize = 2
+			vm.indexPage = 2
+		})
+
+		it ('数据超过一页出现分页，每页显示2条数据，共5页，当前为第2页',(done) =>{
+			Vue.nextTick(()=> {
+				let prisoners = vm.$el.querySelectorAll(".ic-table tbody tr")
+				let page = vm.$el.querySelector("#page")
+
+				expect(prisoners).to.have.lengthOf(2)
+				//expect(page.innerHTML).to.not.empty
+				//console.log(vm)
+				//console.log(page)
+
+			})
+			done()
+		})
 	})
+
+	describe('列表操作正确',()=>{
+
+		beforeEach(()=>{
+			vm.prisonerList = prisonerInfo
+			
+		})
+
+		it ('修改操作显示正确，点击跳转至对应的编辑页',(done) =>{
+			Vue.nextTick(()=> {
+				let editLink = vm.$el.querySelectorAll(".edit-link").item(0)
+				
+				expect(editLink.textContent).to.equal("修改")
+				expect(editLink.getAttribute("to")).to.equal("/crimsearch/edit/44")
+			})
+			done()
+		})
+
+		it ('删除操作显示正确，点击删除显示确认弹出框',(done) =>{
+			
+			Vue.nextTick(()=> {
+				let deleteLink = vm.$el.querySelectorAll(".delete-link").item(0)
+				let delCriminalConfirm = vm.$el.querySelector("#delCriminalConfirm")
+				let modalFrequency = sinon.spy($(delCriminalConfirm),"modal")
+
+				expect(deleteLink.textContent).to.equal("删除")
+				expect(deleteLink.getAttribute("id")).to.equal("44")
+				vm.deletePrisoner(deleteLink)
+				console.log($(delCriminalConfirm))
+				console.log(modalFrequency.callCount)
+				
+				expect(vm.currentId).to.equal("44")
+				expect(modalFrequency.callCount).to.equal(1)
+			})
+			done()
+		})
+
+
+	})	
+	
+	
 })
+
 // describe('罪犯信息列表获取 criminalSearch()',()=>{
 // 	const vm = new Vue(CriminalSearch).$mount()
 //    let axiosFrequency = sinon.spy(axios,"get")
