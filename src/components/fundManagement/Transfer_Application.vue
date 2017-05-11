@@ -8,7 +8,7 @@
           <div class="row">
             <div class="col-xs-8 select-box">
               <!-- <label for="name">所属监狱</label>
-              <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
+               <select class="form-control" v-model='prisonId' :disabled='prisonList.length <= 1'>
                   <option v-if='prisonList.length > 1' value=''>请选择</option>
                   <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
               </select> -->
@@ -32,7 +32,7 @@
             </div>
             <div class="col-xs-8 select-box">
               <label for="name">账户名</label>
-              <input type="" name="" class='form-control' v-model='accountName'>
+              <input type="text" name="" class='form-control' v-model='accountName'>
             </div>
           </div>
           <div class="row">
@@ -126,8 +126,8 @@
               </ul>
             </div>
             <div class="col-xs-24">
-              <input type="text" class="form-control fee-input" id="" placeholder="输入转出金额" v-model='transferMoney'>
-              <input type="text" class="form-control" id="" placeholder="备注" v-model='remark'>
+              <input type="text" class="form-control fee-input" placeholder="输入转出金额" v-model='transferMoney'>
+              <input type="text" class="form-control" placeholder="备注" v-model='remark'>
             </div>
             <button class="confirm-button" @click='saveTransfer(type,prisonAccountId)'>保存</button>
             <button class="cancel-button" data-dismiss="modal">取消</button>
@@ -416,7 +416,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style type="text/less" lang="less" scoped>
   #right-side {
     .select-box {
       padding: 20px 50px 20px 40px;

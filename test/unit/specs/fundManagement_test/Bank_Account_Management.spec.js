@@ -180,7 +180,7 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 			let bankName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(5)')
 			let isSameBank = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(6)')
 			let isPublic = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(7)')
-			
+
 			expect(id.getAttribute('id')).to.equal('1')
 			expect(bankAccountName.textContent).to.equal('李金')
 			expect(bankAccountNo.textContent).to.equal('6523147896543216')
@@ -205,7 +205,6 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 			isSameBank:'1',
 			isPublic:'1'
 		}];
-
 		// 在状态改变后和断言 DOM 更新前等待一刻
 		Vue.nextTick(() => {
 			let id = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(1)')
@@ -215,7 +214,7 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 			let bankName = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(5)')
 			let isSameBank = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(6)')
 			let isPublic = vm.$el.querySelector('#table_id_example tbody tr td:nth-child(7)')
-			
+
 			expect(id.getAttribute('id')).to.equal('1')
 			expect(bankAccountName.textContent).to.equal('琳琳')
 			expect(bankAccountNo.textContent).to.equal('6523147896543216')
@@ -226,5 +225,5 @@ describe('Bank_Account_Management.vue 异步更新DOM',() => {
 			done()
 		});
 	});
-	
+
 });
