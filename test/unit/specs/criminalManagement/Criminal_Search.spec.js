@@ -480,7 +480,7 @@ describe('罪犯列表数据展示与删除 deletePrisoner()',()=>{
 			expect(prisonDepartmentName).to.equal("收押中心")
 			expect(status).to.equal("在监")
 			expect(intoPrisonDate).to.equal("2017-04-20")
-		    console.log(vm.$el.querySelector(".ic-table tbody tr:nth-child(1)"))
+		   // console.log(vm.$el.querySelector(".ic-table tbody tr:nth-child(1)"))
 		})
 		done()
 	})
