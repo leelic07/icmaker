@@ -1,7 +1,7 @@
 <template>
     <div class="box">
      <!-- 右侧内容-->
-        <div id="right-side" class="col-xs-20 pull-right" v-if = "isManage">
+        <div id="right-side" class="col-xs-20 pull-right criminal-search" v-if = "isManage">
             <!--搜索框部分-->
             <div class="col-xs-24 search">
                 <div class="col-xs-23 search-box">
@@ -81,7 +81,7 @@
                                 <td>{{prisoner.status | formatStatus}}</td>
                                 <td>{{prisoner.intoPrisonDate | formatPrisonDate}}</td>
                                 <td><router-link class="agree-text" :to = '"/crimsearch/edit/"+prisoner.prisonerId'>修改</router-link></td>
-                                <td><em class="reject-text" :id = "prisoner.prisonerId" @click = "deletePrisoner($event)">删除</em></td>
+                                <td><em class="reject-text" :id = "prisoner.prisonerId" @click = "deletePrisoner($event.target)">删除</em></td>
                             </tr>    
                         </tbody>
                     </table>
@@ -101,7 +101,7 @@
                         </div>
                         <div class="modal-body">
                             <h3>确认删除?</h3>
-                            <button class="confirm-button" :id = "currentId" data-dismiss="modal" @click = "deleteConfirm($event)">确定</button>
+                            <button class="confirm-button" :id = "currentId" data-dismiss="modal" @click = "deleteConfirm">确定</button>
                             <button class="cancel-button" data-dismiss="modal">取消</button>
                         </div>
                     </div><!-- /.modal-content -->
@@ -120,6 +120,7 @@ import Remind from '../Remind.vue'
 import store from '../../store'
 import Page from '../Paginator.vue'
 import axios from 'axios'
+import Vue from 'vue'
     export default {
         data(){
             return {
@@ -128,20 +129,22 @@ import axios from 'axios'
                 statusList: "",//在监状态列表
                 prisonerList: "",//罪犯信息列表
                 prisonerSize: "",//罪犯信息条数
-                pageSize: 10,//每页显示的条数
                 currentId: "",//当前操作的罪犯ID
-                isManage: true,//是否为管理页
                 prisonName: "",//监狱名
                 prisonId: "",//所属监狱ID
                 prisonDepartmentId: "",//所属监区ID
                 status: "",//在监状态
                 number: "",//编号
                 archivesNumber: "",//档案号
+                name: "",//罪犯名
+                toUrl: "",//到达路由
+                fromUrl: "",//进入路由
                 remind:{
                     status:'',
                     msg:''
                 },
-                name: "",//罪犯名
+                isManage: true,//是否为管理页
+                pageSize: 10,//每页显示的条数
                 indexPage: 1
             }
         },
@@ -153,18 +156,6 @@ import axios from 'axios'
             }
         },
         watch:{
-            $route(to,from){//监听路由变化
-                const editUrl = "/crimsearch/edit/2";
-                const index = editUrl.lastIndexOf('/');
-                if (to.path.substring(0,index) == "/crimsearch/edit" ){//进入编辑页面
-                    this.isManage = false;//将管理页隐藏
-                } else {
-                    this.isManage = true;
-                }
-                if (from.path.substring(0,index) == "/crimsearch/edit" || from.path == '/crimadd') {//从新增或者编辑页进入
-                    this.criminalSearch(this.indexPage); 
-                }
-            },
             prisonName(){
                 let oldPrisonId = this.prisonId;
                 for (let i = 0; i< this.prisons.length; i++)  {
@@ -182,14 +173,34 @@ import axios from 'axios'
                 }else {
                     this.prisonDepartments = "";
                 }
+            },
+             $route(to,from){//监听路由变化
+                this.toUrl = to.path;
+                this.fromUrl = from.path;
+            },
+            toUrl() {
+                const editUrl = "/crimsearch/edit/2";
+                const index = editUrl.lastIndexOf('/');
+                if (this.toUrl.substring(0,index) == "/crimsearch/edit" ){//进入编辑页面
+                    this.isManage = false;//将管理页隐藏
+                } else {
+                    this.isManage = true;
+                }
+            },
+            fromUrl() {
+                const editUrl = "/crimsearch/edit/2";
+                const index = editUrl.lastIndexOf('/');
+                if (this.fromUrl.substring(0,index) == "/crimsearch/edit" || this.fromUrl == '/crimadd') {//从新增或者编辑页进入
+                    this.criminalSearch(this.indexPage); 
+                }
             }
         },
         methods:{
             //初始为编辑页时隐藏管理页
-            hideCriminalList() {
+            hideCriminalList(url) {
                 const editUrl = "/crimsearch/edit/2";
                 const index = editUrl.lastIndexOf('/');
-                if (this.$route.path.substring(0,index) == "/crimsearch/edit" ) {//进入编辑页面
+                if (url.substring(0,index) == "/crimsearch/edit" ) {//进入编辑页面
                     this.isManage = false;//将管理页隐藏
                 }
             },
@@ -215,7 +226,6 @@ import axios from 'axios'
             },
 
             getPrisonDepartInfo () {//获取监区信息
-                console.log("进入");
                 axios.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;//赋值监区列表
@@ -226,6 +236,7 @@ import axios from 'axios'
             },
 
             criminalSearch(index){
+                console.log("罪犯搜索");
                 this.indexPage =index;
                 for (let i = 0; i< this.prisons.length; i++)  {
                     if (this.prisons[i].prisonName == this.prisonName) {
@@ -236,9 +247,9 @@ import axios from 'axios'
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
                     "status": this.status,
-                    "name": this.name.replace(/(^\s*)|(\s*$)/g,""),
-                    "number": this.number.replace(/(^\s*)|(\s*$)/g,""),
-                    "archivesNumber":this.archivesNumber.replace(/(^\s*)|(\s*$)/g,""),
+                    // "name":  this.empty(this.name)[0],
+                    // "number": this.empty(this.number)[0],
+                    // "archivesNumber":this.empty(this.archivesNumber)[0],
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
@@ -254,15 +265,16 @@ import axios from 'axios'
                 });
             },
 
-            deletePrisoner (e) {//点击删除按钮
+            deletePrisoner (tar) {//点击删除按钮
+                console.log(tar)
                 $('#delCriminalConfirm').modal();
-                this.currentId = e.target.getAttribute("id");
+                this.currentId = tar.getAttribute("id");
+                console.log(this.currentId)
             },
 
-            deleteConfirm(e) {//点击确认删除
+            deleteConfirm() {//点击确认删除
                 const delUrl = 'prisoner/deletePrisoner';
-                let id = e.target.getAttribute("id");
-                axios.post(delUrl,$.param({'prisonerId':id})).then(res=>{
+                axios.post(delUrl,$.param({'prisonerId':this.currentId})).then(res=>{
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',
@@ -279,7 +291,7 @@ import axios from 'axios'
                     }
                     
                 }).catch(err=>{
-                    console.log('删除菜单列表服务器异常' + err);
+                    console.log('删除罪犯列表服务器异常' + err);
                 });
             }
 
@@ -288,13 +300,14 @@ import axios from 'axios'
             Page,
             Remind
         },
-        created(){
+        mounted(){
             this.getStatusList();
             this.getPrisonInfo();
-            this.hideCriminalList();
+            this.hideCriminalList(this.$route.path);   
         },
         updated(){
             $('#table_id_example').tableHover();
         }
     }   
+
 </script>
