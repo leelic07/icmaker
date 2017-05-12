@@ -106,6 +106,7 @@
 
 <script>
   import Page from '../Paginator.vue'
+  import axios from 'axios'
   export default {
     data(){
       return {
@@ -173,15 +174,15 @@
 
       //获取监狱账户信息
       getPrisonAccountDtos(){
-        this.$http({
-          method: 'get',
-          url: '/prisonAccount/getPrisonAccountDtos',
-          params: {
-            indexPage: this.indexPage,
-            pageSize: this.pageSize,
-            prisonId: this.prisonId
+        axios.get('/prisonAccount/getPrisonAccountDtos',
+          {
+            params: {
+              indexPage: this.indexPage,
+              pageSize: this.pageSize,
+              prisonId: this.prisonId
+            }
           }
-        }).then(res => {
+        ).then(res => {
           this.prisonAccountDtos = res.data.data.prisonAccountDtos;
           this.menuSize = res.data.data.prisonAccountDtoSize;
           this.prisonAccountsTotal = res.data.data.prisonAccountsTotal;
@@ -192,10 +193,7 @@
 
       //查询所有监狱列表
       getAllPrison(){
-        this.$http({
-          method: 'get',
-          url: '/prisoner/toAddOrEdit',
-        }).then(res => {
+        axios.get('/prisoner/toAddOrEdit').then(res => {
           let data = res.data.data;
           this.prisonList = data.prisons;
           this.prisonDepartments = data.prisonDepartments;
@@ -212,18 +210,18 @@
       //点击搜索获取账户列表
       searchAccount(index){
         this.indexPage = index;
-        this.$http({
-          method: 'get',
-          url: '/prisonAccount/getPrisonAccountDtos',
-          params: {
-            prisonId: this.prisonId,
-            prisonDepartmentId: this.prisonDepartmentId,
-            accountType: this.accountType,
-            accountName: this.accountName,
-            indexPage: this.indexPage,
-            pageSize: this.pageSize
-          }
-        }).then(res => {
+        axios.get(
+          '/prisonAccount/getPrisonAccountDtos',
+          {
+            params: {
+              prisonId: this.prisonId,
+              prisonDepartmentId: this.prisonDepartmentId,
+              accountType: this.accountType,
+              accountName: this.accountName,
+              indexPage: this.indexPage,
+              pageSize: this.pageSize
+            }
+          }).then(res => {
           this.prisonAccountDtos = res.data.data.prisonAccountDtos;
           this.menuSize = res.data.data.prisonAccountDtoSize;
           this.prisonAccountsTotal = res.data.data.prisonAccountsTotal;
@@ -234,13 +232,12 @@
 
       //点击修改获得修改的账户信息
       getPrisonAccount(prisonAccountId){
-        this.$http({
-          method: 'get',
-          url: 'prisonAccount/getPrisonAccount',
-          params: {
-            'prisonAccountId': prisonAccountId
-          }
-        }).then(res => {
+        axios.get('prisonAccount/getPrisonAccount',
+          {
+            params: {
+              'prisonAccountId': prisonAccountId
+            }
+          }).then(res => {
           let data = res.data.data;
           this.$router.push({
             path: '/account_modify' + '/' + data.prisonId + '/' + data.prisonDepartmentId + '/' + data.accountName + '/' + data.accountType + '/' + prisonAccountId
@@ -263,42 +260,53 @@
 <style lang="less" scoped>
   #right-side {
 
-    .select-box {
-      padding: 20px 50px 20px 40px;
-    }
+  .select-box {
+    padding: 20px 50px 20px 40px;
+  }
 
-    .text-box {
-      padding-left: 40px;
-    }
+  .text-box {
+    padding-left: 40px;
+  }
 
-    table {
-      tr {
-        th, td {
-          text-align: center;
-        }
-        th:last-child {
-          text-align: left;
-          padding-left: 3%;
-        }
-        td {
-          &:nth-child(6), &:last-child {
-            text-align: center;
-          }
-        }
-      }
-    }
+  table {
 
-    .account-total {
-      margin-left: 2%;
-      padding: 10px 0 15px 0;
-    }
+  tr {
 
-    .text-red {
-      color: #E96900;
-    }
-    .text-green {
-      color: #36A5B0;
-    }
+  th, td {
+    text-align: center;
+  }
+
+  th:last-child {
+    text-align: left;
+    padding-left: 3%;
+  }
+
+  td {
+
+  &
+  :nth-child(6),
+
+  &
+  :last-child {
+    text-align: center;
+  }
+
+  }
+  }
+  }
+
+  .account-total {
+    margin-left: 2%;
+    padding: 10px 0 15px 0;
+  }
+
+  .text-red {
+    color: #E96900;
+  }
+
+  .text-green {
+    color: #36A5B0;
+  }
 
   }
 </style>

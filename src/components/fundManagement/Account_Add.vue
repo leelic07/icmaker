@@ -137,10 +137,7 @@
 
       //查询所有监狱列表
       getAllPrison(){
-        axios({
-          method: 'get',
-          url: '/prisoner/toAddOrEdit',
-        }).then(res => {
+        axios.get('/prisoner/toAddOrEdit').then(res => {
           let data = res.data.data;
           this.prisonList = data.prisons;
           this.prisonDepartments = data.prisonDepartments;
