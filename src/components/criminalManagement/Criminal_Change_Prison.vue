@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col-xs-8 select-box">
                             <label for="prisonId">所属监狱</label>
-                            <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1">
+                            <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1" id = "prisonInput">
                             <datalist class="form-control hidden" id="prisonList">
                                 <option v-for = "prison in prisons" :prisonId = "prison.id">{{prison.prisonName}}</option>
                             </datalist>
@@ -166,6 +166,7 @@
 import Remind from '../Remind.vue'
 import store from '../../store'
 import Page from '../Paginator.vue'
+import axios from 'axios'
     export default{
 		data(){
 			return {
@@ -177,10 +178,8 @@ import Page from '../Paginator.vue'
                 statusList: "",//在监状态列表
                 prisonerList: "",//罪犯信息列表
                 prisonerSize: "",//罪犯信息条数
-                pageSize: 10,//每页显示的条数
                 currentId: "",//当前操作的罪犯ID
                 ids: "",//批量转监狱选中的罪犯
-                isManage: true,//是否为管理页
                 initPrisonId:"",//默认选中的转至监狱ID
                 prisonName: "",//监狱名
                 prisonId: "",//所属监狱ID
@@ -188,16 +187,17 @@ import Page from '../Paginator.vue'
                 status: "",//在监状态
                 number: "",//编号
                 archivesNumber: "",//档案号
-                toPrisonId: "",
-                toPrisonName: "",
-                toAllPrisonName: "",
+                name: "",//罪犯名
+                toPrisonId: "",//转至监狱ID
+                toPrisonName: "",//转至监狱名
+                toAllPrisonName: "",//批量转监狱名
                 toDepartmentId: "",//批量转监狱监区ID
                 toPrisonDepartmentId: "",//单个转监狱监区ID
                 remind:{
                     status:'',
                     msg:''
                 },
-                name: "",//罪犯名
+                pageSize: 10,//每页显示的条数
                 indexPage: 1
             }
 		},
@@ -214,12 +214,16 @@ import Page from '../Paginator.vue'
                 for (let i = 0; i< this.prisons.length; i++)  {
                     if (this.prisons[i].prisonName == this.prisonName) {
                         this.prisonId = this.prisons[i].id;
+                        break;
+                    }else if (this.prisonName == "") {
+                        this.prisonId = "";
+                    } else {
+                        this.prisonId = -1;
                     }
                 }
                 if (this.prisonId != oldPrisonId) {
                     this.getPrisonDepartInfo();
                 }else {
-                    this.prisonId = "";
                     this.prisonDepartments = "";
                 }
             },
@@ -228,12 +232,16 @@ import Page from '../Paginator.vue'
                 for (let i = 0; i< this.toPrisons.length; i++)  {
                     if (this.toPrisons[i].prisonName == this.toPrisonName) {
                         this.toPrisonId = this.toPrisons[i].id;
+                        break;
+                    }else if (this.toPrisonName == "") {
+                        this.toPrisonId = "";
+                    } else {
+                        this.toPrisonId = -1;
                     }
                 }
                 if (this.toPrisonId != oldToPrisonId) {
                     this.getToPrisonDepartInfo();
                 }else {
-                    this.toPrisonId = "";
                     this.toPrisonDepartments = "";
                 }
             },
@@ -242,12 +250,16 @@ import Page from '../Paginator.vue'
                 for (let i = 0; i< this.allPrisons.length; i++)  {
                     if (this.allPrisons[i].prisonName == this.toAllPrisonName) {
                         this.toPrisonId = this.allPrisons[i].id;
+                        break;
+                    }else if (this.toAllPrisonName == "") {
+                        this.toPrisonId = "";
+                    } else {
+                        this.toPrisonId = -1;
                     }
                 }
                 if (this.toPrisonId != oldToPrisonId) {
                     this.getToPrisonDepartInfo();
                 }else {
-                    this.toPrisonId = "";
                     this.toPrisonDepartments = "";
                 }
             }
@@ -258,8 +270,7 @@ import Page from '../Paginator.vue'
             },
 
             getPrisonInfo() {//根据用户信息获取监狱列表
-                this.$http.get('prisoner/toAddOrEdit').then(res=>{
-                    // console.log(res);
+                axios.get('prisoner/toAddOrEdit').then(res=>{
                     if (res.data.code == 0) {
                         this.prisons = res.data.data.prisons;//赋值监狱列表
                         if (this.prisons.length == 1) {
@@ -275,7 +286,7 @@ import Page from '../Paginator.vue'
             },
 
             getAllPrisonInfo(prisonId) {//获取所有的监狱列表
-                this.$http.get('prisoner/getAllPrison').then(res=>{
+                axios.get('prisoner/getAllPrison').then(res=>{
                     // console.log(res);
                     if (res.data.code == 0) {
                         this.allPrisons = res.data.data;//赋值全部的监狱列表
@@ -304,7 +315,7 @@ import Page from '../Paginator.vue'
             },
 
             getPrisonDepartInfo () {//获取监区信息
-                this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
+                axios.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
                     // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonDepartments = res.data.data;
@@ -315,7 +326,7 @@ import Page from '../Paginator.vue'
             },
 
             getToPrisonDepartInfo () {//获取转至的监区信息
-                this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.toPrisonId}}).then(res=>{
+                axios.get('prisoner/getDepartments',{params: {"prisonId":this.toPrisonId}}).then(res=>{
                     // console.log(res);
                     if (res.data.code == 0) {
                         this.toPrisonDepartments = res.data.data;
@@ -346,7 +357,7 @@ import Page from '../Paginator.vue'
                     "pageSize":this.pageSize
                 };
                 // console.log(searchData);
-                this.$http.get('prisoner/getPrisoners',{params:searchData}).then(res=>{
+                axios.get('prisoner/getPrisoners',{params:searchData}).then(res=>{
                     // console.log(res);
                     if (res.data.code == 0) {
                         this.prisonerList = res.data.data.prisoners;//赋值罪犯列表
@@ -395,7 +406,7 @@ import Page from '../Paginator.vue'
                         "toDepartmentId": this.toDepartmentId
                     };
                     // console.log($.param(prisonerData));
-                    this.$http.post('prisoner/transferByIds',$.param(prisonerData)).then(res=>{
+                    axios.post('prisoner/transferByIds',$.param(prisonerData)).then(res=>{
                         // console.log(res);
                         if (res.data.code == 0) {
                             this.remind = {
@@ -431,7 +442,7 @@ import Page from '../Paginator.vue'
                         "toPrisonDepartmentId": this.toPrisonDepartmentId
                     };
                     // console.log(prisonData);
-                    this.$http.post('prisoner/changePrison',$.param(prisonData)).then(res=>{
+                    axios.post('prisoner/changePrison',$.param(prisonData)).then(res=>{
                         // console.log(res);
                         if (res.data.code == 0) {
                             this.remind = {
