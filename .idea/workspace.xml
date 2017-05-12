@@ -3,13 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="de3391fa-25ff-474a-b016-ede5c82ed9e3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue" afterPath="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/karma.conf.js" afterPath="$PROJECT_DIR$/test/unit/karma.conf.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/CFD_Add_Criminal.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/CFD_Add_Criminal.spec.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_add.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_add.spec.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -27,7 +22,7 @@
     <favorites_list name="icmaker_version3.0" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.70119524">
+    <splitter split-orientation="horizontal" split-proportion="0.57366073">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Cash_Out.spec.js" pinned="false" current-in-tab="false">
@@ -53,8 +48,8 @@
           <file leaf-file-name="Criminal_Search.spec.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="123" column="28" lean-forward="false" selection-start-line="123" selection-start-column="28" selection-end-line="123" selection-end-column="28" />
+                <state relative-caret-position="-7728">
+                  <caret line="157" column="65" lean-forward="true" selection-start-line="157" selection-start-column="65" selection-end-line="157" selection-end-column="65" />
                   <folding />
                 </state>
               </provider>
@@ -63,8 +58,8 @@
           <file leaf-file-name="Account_add.spec.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_add.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="291">
-                  <caret line="165" column="45" lean-forward="false" selection-start-line="165" selection-start-column="45" selection-end-line="165" selection-end-column="45" />
+                <state relative-caret-position="394">
+                  <caret line="137" column="4" lean-forward="true" selection-start-line="128" selection-start-column="2" selection-end-line="137" selection-end-column="4" />
                   <folding>
                     <element signature="e#1#22#0" expanded="true" />
                   </folding>
@@ -72,11 +67,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Account_Management.spec.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Account_Management.spec.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-44">
-                  <caret line="103" column="36" lean-forward="false" selection-start-line="103" selection-start-column="36" selection-end-line="103" selection-end-column="36" />
+                <state relative-caret-position="384">
+                  <caret line="162" column="4" lean-forward="false" selection-start-line="162" selection-start-column="4" selection-end-line="162" selection-end-column="4" />
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
                   </folding>
@@ -84,11 +79,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Account_Modify.spec.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Account_Modify.spec.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-688">
-                  <caret line="32" column="21" lean-forward="true" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
+                <state relative-caret-position="-563">
+                  <caret line="32" column="21" lean-forward="false" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
                   </folding>
@@ -110,24 +105,24 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="Account_Add.vue" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-344">
+                  <caret line="184" column="29" lean-forward="false" selection-start-line="184" selection-start-column="29" selection-end-line="184" selection-end-column="29" />
+                  <folding>
+                    <element signature="e#2981#3015#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="Account_Management.vue" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="336">
                   <caret line="53" column="10" lean-forward="false" selection-start-line="53" selection-start-column="10" selection-end-line="53" selection-end-column="10" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Account_Add.vue" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2832">
-                  <caret line="139" column="15" lean-forward="false" selection-start-line="139" selection-start-column="15" selection-end-line="139" selection-end-column="15" />
-                  <folding>
-                    <element signature="e#2981#3015#0" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -251,9 +246,9 @@
         <option value="$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/CFD_Add_Criminal.spec.js" />
         <option value="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue" />
         <option value="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" />
-        <option value="$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue" />
         <option value="$PROJECT_DIR$/test/unit/karma.conf.js" />
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js" />
+        <option value="$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue" />
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_add.spec.js" />
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" />
       </list>
@@ -691,7 +686,7 @@
       <workItem from="1494377587130" duration="21803000" />
       <workItem from="1494405689383" duration="5227000" />
       <workItem from="1494463544899" duration="20892000" />
-      <workItem from="1494493133496" duration="2337000" />
+      <workItem from="1494493133496" duration="4438000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'webpack2.3.3' of https://github.com/leelic07/icmaker into webpack2.3.3&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
       <created>1494097356989</created>
@@ -789,7 +784,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90036000" />
+    <option name="totallyTimeSpent" value="92137000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -801,15 +796,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14732143" sideWeight="0.7206823" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.7229508" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15409836" sideWeight="0.50373137" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10819672" sideWeight="0.49626866" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23114754" sideWeight="0.49791667" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14732143" sideWeight="0.2793177" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.06065574" sideWeight="0.49791667" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.27704918" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.48673588" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29508197" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.50865054" order="7" side_tool="true" content_ui="tabs" />
@@ -1197,14 +1191,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="123" column="28" lean-forward="false" selection-start-line="123" selection-start-column="28" selection-end-line="123" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1215,30 +1201,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_add.spec.js">
+    <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="165" column="45" lean-forward="false" selection-start-line="165" selection-start-column="45" selection-end-line="165" selection-end-column="45" />
-          <folding>
-            <element signature="e#1#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-44">
-          <caret line="103" column="36" lean-forward="false" selection-start-line="103" selection-start-column="36" selection-end-line="103" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-7728">
+          <caret line="157" column="65" lean-forward="true" selection-start-line="157" selection-start-column="65" selection-end-line="157" selection-end-column="65" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2832">
-          <caret line="139" column="15" lean-forward="false" selection-start-line="139" selection-start-column="15" selection-end-line="139" selection-end-column="15" />
+        <state relative-caret-position="-344">
+          <caret line="184" column="29" lean-forward="false" selection-start-line="184" selection-start-column="29" selection-end-line="184" selection-end-column="29" />
           <folding>
             <element signature="e#2981#3015#0" expanded="true" />
           </folding>
@@ -1255,8 +1229,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-688">
-          <caret line="32" column="21" lean-forward="true" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
+        <state relative-caret-position="-563">
+          <caret line="32" column="21" lean-forward="false" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_add.spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="137" column="4" lean-forward="true" selection-start-line="128" selection-start-column="2" selection-end-line="137" selection-end-column="4" />
+          <folding>
+            <element signature="e#1#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="162" column="4" lean-forward="false" selection-start-line="162" selection-start-column="4" selection-end-line="162" selection-end-column="4" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>

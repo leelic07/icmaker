@@ -130,14 +130,14 @@ describe('Account_add.vue ajax单元测试',() => {
   let promiseCall
 
   beforeEach(() => {
-    promiseCall = sinon.stub(axios, 'get').returnsPromise()
+    promiseCall = sinon.stub(axios,'get').returnsPromise()
   })
 
   afterEach(() => {
     axios.get.restore()
   })
 
-  it('数据层：prisonList prisonDepartments属性正确',() => {
+  it('数据层：prisonList prisonDepartments属性正确',done => {
     promiseCall.resolves({
       data:{
         data:{
@@ -155,15 +155,15 @@ describe('Account_add.vue ajax单元测试',() => {
     vm.getAllPrison()
 
     // expect(vm.prisons).to.have.lengthOf(2)
-    expect(vm.prisonList[0].prisonName).to.be.equal('长沙监狱')
-    expect(vm.prisonList[0].id).to.be.equal('1')
-    expect(vm.prisonList[1].prisonName).to.be.equal('星城监狱')
-    expect(vm.prisonList[1].id).to.be.equal('5')
+    // expect(vm.prisonList[0].prisonName).to.be.equal('长沙监狱')
+    // expect(vm.prisonList[0].id).to.be.equal('1')
+    // expect(vm.prisonList[1].prisonName).to.be.equal('星城监狱')
+    // expect(vm.prisonList[1].id).to.be.equal('5')
 
     expect(vm.prisons[0].prisonName).to.be.equal('长沙监狱')
     expect(vm.prisons[0].id).to.be.equal('1')
     expect(vm.prisons[1].prisonName).to.be.equal('星城监狱')
     expect(vm.prisons[1].id).to.be.equal('5')
-    // done()
-  })
+    done()
+  });
 });

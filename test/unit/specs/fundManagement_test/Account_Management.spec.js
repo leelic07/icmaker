@@ -148,3 +148,17 @@ describe('Account_Management.vue 异步更新DOM', () => {
     });
   });
 });
+
+//Account_Management.vue ajax单元测试
+describe('Account_Management.vue ajax单元测试',() => {
+  const vm = new Vue(AccountAdd).$mount()
+  let promiseCall
+
+  beforeEach(() => {
+    promiseCall = sinon.stub(axios,'get').returnsPromise()
+  })
+
+  afterEach(() => {
+    axios.get.restore()
+  })
+});

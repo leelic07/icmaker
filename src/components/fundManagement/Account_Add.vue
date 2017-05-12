@@ -223,7 +223,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style type="text/less" lang="less" scoped>
   #right-side {
     background-color: #f5f5f5;
 
