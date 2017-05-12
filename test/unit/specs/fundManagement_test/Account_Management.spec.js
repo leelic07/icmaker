@@ -1,6 +1,9 @@
 import Vue from 'vue'
+import axios from 'axios'
+import sinon from 'sinon'
 import AccountManagement from '@/components/fundManagement/Account_Management'
-
+import sinonStubPromise from 'sinon-stub-promise'
+sinonStubPromise(sinon)
 //属性测试
 describe('AccountManagement.vue 属性测试', () => {
   it('所有监狱账户列表', () => {
@@ -147,4 +150,109 @@ describe('Account_Management.vue 异步更新DOM', () => {
       done()
     });
   });
+});
+
+//Account_Management.vue ajax单元测试
+describe('Account_Management.vue ajax单元测试',() => {
+  const vm = new Vue(AccountManagement).$mount()
+  let promiseCall
+
+  beforeEach(() => {
+    promiseCall = sinon.stub(axios,'get').returnsPromise()
+  })
+
+  afterEach(() => {
+    axios.get.restore()
+  })
+
+  it('数据层:prisonAccountDtos menuSize prisonAccountsTotal',done => {
+    promiseCall.resolves({
+      data:{
+        data:{
+          prisonAccountDtos:[{
+            prisonName:'长沙监狱',
+            prisonDepartmentName:'收押中心',
+            accountType:2,
+            accountName:'长沙监狱总账户',
+            virtualAccountNo:'10071509945001888800001',
+            total:100000
+          }],
+          prisonAccountDtoSize:1,
+          prisonAccountsTotal:200000
+        }
+      }
+    })
+    vm.getPrisonAccountDtos()
+
+    let prisonAccountDtos = vm.prisonAccountDtos[0]
+    console.log(prisonAccountDtos)
+    // expect(prisonAccountDtos).to.be.empty
+    expect(prisonAccountDtos.prisonName).to.equal('长沙监狱')
+    expect(prisonAccountDtos.prisonDepartmentName).to.equal('收押中心')
+    expect(prisonAccountDtos.accountType).to.equal(2)
+    expect(prisonAccountDtos.accountName).to.equal('长沙监狱总账户')
+    expect(prisonAccountDtos.virtualAccountNo).to.equal('10071509945001888800001')
+    expect(prisonAccountDtos.total).to.equal(100000)
+    expect(vm.menuSize).to.equal(1)
+    expect(vm.prisonAccountsTotal).to.equal(200000)
+    done()
+  });
+
+  it('数据层：prisonList prisonDepartments属性正确', done => {
+    promiseCall.resolves({
+      data: {
+        data: {
+          prisons: [{
+            id: 1,
+            prisonName: '长沙监狱'
+          }, {
+            id: 5,
+            prisonName: '星城监狱'
+          }]
+        },
+        code: 0
+      }
+    })
+    vm.getAllPrison()
+
+    expect(vm.prisonList).to.have.lengthOf(2)
+    expect(vm.prisonList[0].prisonName).to.be.equal('长沙监狱')
+    expect(vm.prisonList[0].id).to.be.equal(1)
+    expect(vm.prisonList[1].prisonName).to.be.equal('星城监狱')
+    expect(vm.prisonList[1].id).to.be.equal(5)
+    done()
+  });
+
+  it('数据层：prisonAccountDtos menuSize prisonAccountTotal',done => {
+    promiseCall.resolves({
+      data:{
+        data:{
+          prisonAccountDtos:[{
+          prisonName:'星城监狱',
+          prisonDepartmentName:'收押中心',
+          accountType:2,
+          accountName:'星城监狱总账户',
+          virtualAccountNo:'10071509945001888801586',
+          total:100000
+          }],
+          prisonAccountDtoSize:1,
+          prisonAccountsTotal:200000
+        }
+      }
+    })
+    vm.searchAccount()
+
+    let prisonAccountDtos = vm.prisonAccountDtos[0]
+    // expect(prisonAccountDtos).to.be.empty
+    expect(prisonAccountDtos.prisonName).to.equal('星城监狱')
+    expect(prisonAccountDtos.prisonDepartmentName).to.equal('收押中心')
+    expect(prisonAccountDtos.accountType).to.equal(2)
+    expect(prisonAccountDtos.accountName).to.equal('星城监狱总账户')
+    expect(prisonAccountDtos.virtualAccountNo).to.equal('10071509945001888801586')
+    expect(prisonAccountDtos.total).to.equal(100000)
+    expect(vm.menuSize).to.equal(1)
+    expect(vm.prisonAccountsTotal).to.equal(200000)
+    done()
+  });
+
 });
