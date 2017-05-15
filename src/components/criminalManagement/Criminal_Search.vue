@@ -236,11 +236,15 @@ import axios from 'axios'
       },
 
       criminalSearch(index){
-          console.log("罪犯搜索");
           this.indexPage =index;
           for (let i = 0; i< this.prisons.length; i++)  {
               if (this.prisons[i].prisonName == this.prisonName) {
                   this.prisonId = this.prisons[i].id;
+                  break;
+              } else if (this.prisonName == "") {
+                this.prisonId = "";
+              } else {
+                this.prisonId = -1;
               }
           }
           let searchData = {
@@ -268,6 +272,7 @@ import axios from 'axios'
       deletePrisoner (tar) {//点击删除按钮
           $('#delCriminalConfirm').modal();
           this.currentId = tar.getAttribute("id");
+          console.log("删除确认")
       },
 
       deleteConfirm() {//点击确认删除
