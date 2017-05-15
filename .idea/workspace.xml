@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="de3391fa-25ff-474a-b016-ede5c82ed9e3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Add.spec.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_add.spec.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/karma.conf.js" afterPath="$PROJECT_DIR$/test/unit/karma.conf.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,17 +20,15 @@
     <favorites_list name="icmaker_version3.0" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5359375">
+    <splitter split-orientation="horizontal" split-proportion="0.737931">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Account_Management.spec.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="282">
-                  <caret line="255" column="5" lean-forward="true" selection-start-line="255" selection-start-column="5" selection-end-line="255" selection-end-column="5" />
-                  <folding>
-                    <element signature="e#0#21#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="562">
+                  <caret line="254" column="10" lean-forward="true" selection-start-line="254" selection-start-column="10" selection-end-line="254" selection-end-column="10" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -45,9 +36,12 @@
           <file leaf-file-name="Criminal_Search.spec.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="149">
+                <state relative-caret-position="4728">
                   <caret line="201" column="20" lean-forward="false" selection-start-line="201" selection-start-column="20" selection-end-line="201" selection-end-column="20" />
-                  <folding />
+                  <folding>
+                    <marker date="1494583523736" expanded="true" signature="1700:1702" ph="{...}" />
+                    <marker date="1494583523736" expanded="true" signature="13773:13775" ph="{...}" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -59,8 +53,8 @@
           <file leaf-file-name="Account_Management.vue" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="236" column="21" lean-forward="true" selection-start-line="236" selection-start-column="21" selection-end-line="236" selection-end-column="21" />
+                <state relative-caret-position="24">
+                  <caret line="236" column="21" lean-forward="false" selection-start-line="236" selection-start-column="21" selection-end-line="236" selection-end-column="21" />
                   <folding>
                     <element signature="e#4119#4154#0" expanded="true" />
                   </folding>
@@ -71,7 +65,7 @@
           <file leaf-file-name="Menu_Add.vue" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/SystemManagement/Menu_Add.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-4464">
+                <state relative-caret-position="0">
                   <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
@@ -81,7 +75,7 @@
           <file leaf-file-name="Criminal_Add.vue" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Add.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="379">
+                <state relative-caret-position="6144">
                   <caret line="258" column="35" lean-forward="false" selection-start-line="258" selection-start-column="35" selection-end-line="258" selection-end-column="35" />
                   <folding>
                     <element signature="e#6917#6951#0" expanded="true" />
@@ -93,7 +87,7 @@
           <file leaf-file-name="Account_Add.vue" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="128">
+                <state relative-caret-position="3288">
                   <caret line="139" column="13" lean-forward="false" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="13" />
                   <folding>
                     <element signature="e#2981#3015#0" expanded="true" />
@@ -105,7 +99,7 @@
           <file leaf-file-name="Account_Modify.vue" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="24">
+                <state relative-caret-position="4416">
                   <caret line="185" column="41" lean-forward="false" selection-start-line="185" selection-start-column="41" selection-end-line="185" selection-end-column="41" />
                   <folding />
                 </state>
@@ -115,17 +109,10 @@
           <file leaf-file-name="Criminal_Search.vue" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="4728">
+                <state relative-caret-position="4656">
                   <caret line="197" column="14" lean-forward="false" selection-start-line="197" selection-start-column="14" selection-end-line="197" selection-end-column="14" />
                   <folding>
                     <marker date="1494551003110" expanded="true" signature="11303:11312" ph="{...}" />
-                    <marker date="1494551003110" expanded="true" signature="11303:11322" ph="{...}" />
-                    <marker date="1494551003110" expanded="true" signature="11303:11328" ph="{...}" />
-                    <marker date="1494551003110" expanded="true" signature="11303:11572" ph="{...}" />
-                    <marker date="1494551003110" expanded="true" signature="11303:11582" ph="..." />
-                    <marker date="1494551003110" expanded="true" signature="11346:11378" ph="{&quot;Page&quot;: Page...}" />
-                    <marker date="1494551003110" expanded="true" signature="11393:11503" ph="{...}" />
-                    <marker date="1494551003110" expanded="true" signature="11518:11568" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -213,8 +200,8 @@
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_add.spec.js" />
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Add.spec.js" />
         <option value="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" />
-        <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" />
         <option value="$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue" />
+        <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" />
       </list>
     </option>
   </component>
@@ -256,7 +243,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -418,6 +404,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -611,7 +598,8 @@
       <workItem from="1494405689383" duration="5227000" />
       <workItem from="1494463544899" duration="20892000" />
       <workItem from="1494493133496" duration="4438000" />
-      <workItem from="1494551146786" duration="26450000" />
+      <workItem from="1494551146786" duration="26677000" />
+      <workItem from="1494809012280" duration="2372000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'webpack2.3.3' of https://github.com/leelic07/icmaker into webpack2.3.3&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
       <created>1494097356989</created>
@@ -709,7 +697,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="118587000" />
+    <option name="totallyTimeSpent" value="121186000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -722,13 +710,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32589287" sideWeight="0.75757575" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.118303575" sideWeight="0.43119267" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15409836" sideWeight="0.50373137" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10819672" sideWeight="0.49626866" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.026229508" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32589287" sideWeight="0.24242425" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46393442" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.118303575" sideWeight="0.56880736" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.48673588" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33770493" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.50865054" order="3" side_tool="true" content_ui="tabs" />
@@ -869,10 +858,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="172">
           <caret line="420" column="17" lean-forward="true" selection-start-line="420" selection-start-column="17" selection-end-line="420" selection-end-column="17" />
-          <folding>
-            <element signature="e#3529#3536#0" expanded="false" />
-            <element signature="e#6117#6152#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -901,10 +886,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#3529#3536#0" expanded="false" />
-            <element signature="e#6117#6152#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -989,10 +970,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2688">
           <caret line="112" column="20" lean-forward="false" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="20" />
-          <folding>
-            <element signature="e#3529#3536#0" expanded="false" />
-            <element signature="e#6117#6152#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1028,7 +1005,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
           <caret line="21" column="12" lean-forward="false" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1057,17 +1033,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4728">
+        <state relative-caret-position="4656">
           <caret line="197" column="14" lean-forward="false" selection-start-line="197" selection-start-column="14" selection-end-line="197" selection-end-column="14" />
           <folding>
             <marker date="1494551003110" expanded="true" signature="11303:11312" ph="{...}" />
-            <marker date="1494551003110" expanded="true" signature="11303:11322" ph="{...}" />
-            <marker date="1494551003110" expanded="true" signature="11303:11328" ph="{...}" />
-            <marker date="1494551003110" expanded="true" signature="11303:11572" ph="{...}" />
-            <marker date="1494551003110" expanded="true" signature="11303:11582" ph="..." />
-            <marker date="1494551003110" expanded="true" signature="11346:11378" ph="{&quot;Page&quot;: Page...}" />
-            <marker date="1494551003110" expanded="true" signature="11393:11503" ph="{...}" />
-            <marker date="1494551003110" expanded="true" signature="11518:11568" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1076,9 +1045,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#21#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1086,7 +1052,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="23" column="16" lean-forward="false" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1094,9 +1059,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
           <caret line="65" column="45" lean-forward="false" selection-start-line="65" selection-start-column="45" selection-end-line="65" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#21#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1104,7 +1066,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
           <caret line="157" column="39" lean-forward="false" selection-start-line="157" selection-start-column="39" selection-end-line="157" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1112,7 +1073,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
           <caret line="200" column="23" lean-forward="false" selection-start-line="200" selection-start-column="23" selection-end-line="200" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1120,13 +1080,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4176">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
+        <state relative-caret-position="4416">
           <caret line="185" column="41" lean-forward="false" selection-start-line="185" selection-start-column="41" selection-end-line="185" selection-end-column="41" />
           <folding />
         </state>
@@ -1134,7 +1093,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/SystemManagement/Menu_Add.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4464">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -1142,7 +1101,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Add.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
+        <state relative-caret-position="6144">
           <caret line="258" column="35" lean-forward="false" selection-start-line="258" selection-start-column="35" selection-end-line="258" selection-end-column="35" />
           <folding>
             <element signature="e#6917#6951#0" expanded="true" />
@@ -1152,7 +1111,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
+        <state relative-caret-position="3288">
           <caret line="139" column="13" lean-forward="false" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="13" />
           <folding>
             <element signature="e#2981#3015#0" expanded="true" />
@@ -1164,24 +1123,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="723">
           <caret line="161" column="4" lean-forward="false" selection-start-line="161" selection-start-column="4" selection-end-line="161" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#21#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
+        <state relative-caret-position="4728">
           <caret line="201" column="20" lean-forward="false" selection-start-line="201" selection-start-column="20" selection-end-line="201" selection-end-column="20" />
-          <folding />
+          <folding>
+            <marker date="1494583523736" expanded="true" signature="1700:1702" ph="{...}" />
+            <marker date="1494583523736" expanded="true" signature="13773:13775" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="236" column="21" lean-forward="true" selection-start-line="236" selection-start-column="21" selection-end-line="236" selection-end-column="21" />
+        <state relative-caret-position="24">
+          <caret line="236" column="21" lean-forward="false" selection-start-line="236" selection-start-column="21" selection-end-line="236" selection-end-column="21" />
           <folding>
             <element signature="e#4119#4154#0" expanded="true" />
           </folding>
@@ -1190,11 +1149,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="255" column="5" lean-forward="true" selection-start-line="255" selection-start-column="5" selection-end-line="255" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="562">
+          <caret line="254" column="10" lean-forward="true" selection-start-line="254" selection-start-column="10" selection-end-line="254" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
