@@ -483,7 +483,7 @@ describe('罪犯列表数据展示与修改删除操作 deletePrisoner()',()=>{
 			address:"",
 			archivesNumber:"43450115899",
 			cardNo:"",
-			enabled:1,
+			enabled:0,
 			intoPrisonDate:1492617600000,
 			name:"李佳",
 			number:"43450115899",
@@ -579,7 +579,8 @@ describe('罪犯列表数据展示与修改删除操作 deletePrisoner()',()=>{
           expect(deleteLink.getAttribute("id")).to.equal("44")
           vm.deletePrisoner(deleteLink)
           expect(vm.currentId).to.equal("44")
-        //  expect(modalFrequency.callCount).to.equal(1)
+         // expect(modalFrequency.callCount).to.equal(1)
+
         })
 
 			  done()
