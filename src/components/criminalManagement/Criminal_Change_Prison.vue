@@ -108,7 +108,7 @@
                     <div class="modal-body">
                         <h3>选择转至监狱以及监区</h3>
                         <div class="col-xs-14 col-xs-offset-5">
-                            <input type="text" class="form-control confirm-select" list = "toPrisonList" placeholder = "请选择监狱" v-model = "toPrisonName">
+                            <input type="text" class="form-control confirm-select" list = "toPrisonList" placeholder = "请选择监狱" v-model = "toPrisonName" id = "toPrisonInput">
                             <datalist class="form-control hidden" id="toPrisonList">
                                 <option v-for = "prison in toPrisons">{{prison.prisonName}}</option>
                             </datalist>
@@ -135,7 +135,7 @@
                     <div class="modal-body">
                         <h3>选择转至监狱以及监区</h3>
                         <div class="col-xs-14 col-xs-offset-5">
-                            <input type="text" class="form-control confirm-select" list = "allPrisonList" placeholder = "请选择监狱" v-model = "toAllPrisonName">
+                            <input type="text" class="form-control confirm-select" list = "allPrisonList" placeholder = "请选择监狱" v-model = "toAllPrisonName" id = "allPrisonInput">
                             <datalist class="form-control hidden" id="allPrisonList">
                                 <option v-for = "prison in allPrisons">{{prison.prisonName}}</option>
                             </datalist>
@@ -292,8 +292,6 @@ import axios from 'axios'
                         this.allPrisons = res.data.data;//赋值全部的监狱列表
                         if (prisonId != null) {//单个转监狱需要排除自己原有的监狱
                             this.getToPrisonInfo(prisonId); 
-                        }else {
-                            this.getPrisonDepartInfo () ;//获取默认的监区列表
                         }
                     }
                 }).catch(err=>{
@@ -309,15 +307,13 @@ import axios from 'axios'
                     }
                 }
                 this.toPrisons = toPrisons;
-                if (toPrisons.length > 0) {
-                    this.getPrisonDepartInfo () ;//获取默认的监区列表
-                }
             },
 
             getPrisonDepartInfo () {//获取监区信息
                 axios.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
                     // console.log(res);
                     if (res.data.code == 0) {
+                        console.log('所有的监区信息')
                         this.prisonDepartments = res.data.data;
                     }
                 }).catch(err=>{
@@ -329,6 +325,7 @@ import axios from 'axios'
                 axios.get('prisoner/getDepartments',{params: {"prisonId":this.toPrisonId}}).then(res=>{
                     // console.log(res);
                     if (res.data.code == 0) {
+                        console.log('转至的监区信息')
                         this.toPrisonDepartments = res.data.data;
                         this.toDepartmentId = this.toPrisonDepartments[0].id;
                         this.toPrisonDepartmentId = this.toPrisonDepartments[0].id; 
@@ -350,15 +347,15 @@ import axios from 'axios'
                     "prisonId": this.prisonId,
                     "prisonDepartmentId": this.prisonDepartmentId,
                     "status": this.status,
-                    "name": this.name.replace(/(^\s*)|(\s*$)/g,""),
-                    "number": this.number.replace(/(^\s*)|(\s*$)/g,""),
-                    "archivesNumber":this.archivesNumber.replace(/(^\s*)|(\s*$)/g,""),
+                    "name": this.empty(this.name)[0],
+                    "number": this.empty(this.number)[0],
+                    "archivesNumber":this.empty(this.archivesNumber)[0],
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
                 // console.log(searchData);
                 axios.get('prisoner/getPrisoners',{params:searchData}).then(res=>{
-                    // console.log(res);
+                     console.log(res);
                     if (res.data.code == 0) {
                         this.prisonerList = res.data.data.prisoners;//赋值罪犯列表
                         this.prisonerSize = res.data.data.prisonerSize;//赋值罪犯列表数
