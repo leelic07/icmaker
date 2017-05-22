@@ -121,10 +121,10 @@
                     this.$http.get(getUrl).then(res=>{
                         if (res.data.code == 0) {//返回成功
                             this.firstMenuList = res.data.data;//一级菜单赋值
-                            if (this.$route.params.id == undefined) {
+                            let params = this.$route.params;
+                            if (params.id == undefined && params.firstMenuId == undefined) {
                                 this.menuInfo.pId = this.firstMenuList[0].id;
                             }
-                            // console.log(this.firstMenuList);
                         }
                     }).catch(err=>{
                         console.log('获取菜单列表服务器异常' + err);
@@ -176,6 +176,17 @@
                         store.dispatch('showRemind');
                     }
                 });
+            },
+
+             getSecondMenu () {
+                let firstMenuId = this.$route.params.firstMenuId;
+                if (firstMenuId != undefined) {
+                    this.menuInfo.type = 1 
+                    this.changeMenuType()
+                    this.menuInfo.pId = firstMenuId;
+                    console.log(this.menuInfo.pId)
+                }
+
             },
 
             //新增菜单
@@ -234,6 +245,7 @@
         mounted(){
             this.getEditInfo();
             this.getImgUrl();
+            this.getSecondMenu ();
         }
 	}
 </script>

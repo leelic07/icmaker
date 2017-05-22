@@ -67,7 +67,7 @@
                           <th>所属监区</th>
                           <th>在监状态</th>
                           <th>入监日期</th>
-                          <th colspan="2">操作</th>  
+                          <th colspan="3">操作</th>  
                       </tr>
                   </thead>
                   <tbody>
@@ -83,6 +83,7 @@
                           <td>{{prisoner.intoPrisonDate | formatPrisonDate}}</td>
                           <td><router-link class="agree-text edit-link" :to = '"/crimsearch/edit/"+prisoner.prisonerId'>修改</router-link></td>
                           <td><em class="reject-text delete-link" :id = "prisoner.prisonerId" @click = "deletePrisoner($event.target)">删除</em></td>
+                          <td><em class="agree-text restore-link" :id = "prisoner.prisonerId" @click = "restore($event.target)" v-if = "prisoner.status == 1">出监</em></td>
                       </tr>    
                   </tbody>
               </table>
@@ -103,6 +104,25 @@
               <div class="modal-body">
                 <h3>确认删除?</h3>
                 <button class="confirm-button" :id="currentId" data-dismiss="modal" @click="deleteConfirm">确定</button>
+                <button class="cancel-button" data-dismiss="modal">取消</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal -->
+        </div>
+
+        <!-- 出监确认框-->
+        <div class="modal modal-confirm" id="restoreConfirm" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel" aria-hidden="false">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                  &times;
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3>确认出监?</h3>
+                <button class="confirm-button" :id="currentId" data-dismiss="modal" @click="restoreConfirm">确定</button>
                 <button class="cancel-button" data-dismiss="modal">取消</button>
               </div>
             </div><!-- /.modal-content -->
@@ -269,6 +289,34 @@ import axios from 'axios'
           });
       },
 
+      restore (tar) {//点击出监按钮
+          $('#restoreConfirm').modal();
+          this.currentId = tar.getAttribute("id");
+      },
+
+      restoreConfirm() {//点击确认出监
+          const resUrl = '/prisoner/outPrison';
+          axios.post(resUrl, $.param({'prisonerId': this.currentId})).then(res => {
+            if (res.data.code == 0) {
+              this.remind = {
+                status: 'success',
+                msg: res.data.msg
+              }
+              store.dispatch('showRemind');
+              this.criminalSearch(this.indexPage);
+            } else {
+              this.remind = {
+                status: 'failed',
+                msg: res.data.msg
+              }
+              store.dispatch('showRemind');
+            }
+
+          }).catch(err => {
+            console.log(err);
+          });
+      },
+
       deletePrisoner (tar) {//点击删除按钮
           $('#delCriminalConfirm').modal();
           this.currentId = tar.getAttribute("id");
@@ -297,6 +345,7 @@ import axios from 'axios'
             console.log('删除罪犯列表服务器异常' + err);
           });
       }
+
     },
     components: {
       Page,

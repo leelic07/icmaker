@@ -104,7 +104,7 @@ export default [
 		}]
 	},
 	{
-		path:'/menu_add',
+		path:'/menu_add/:firstMenuId',
 		component:MenuAdd
 	},
 	{

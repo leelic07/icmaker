@@ -154,10 +154,10 @@ export default{
 		switch(value)
 		{
 		case 0 :
-			isEnable = "禁用";
+			isEnable = "已停用";
 			break;
 		case 1 :
-			isEnable = "启用";
+			isEnable = "已启用";
 			break;
 		default :
 			isEnable = "";
