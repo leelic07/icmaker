@@ -254,5 +254,4 @@ describe('Account_Management.vue ajax单元测试',() => {
     expect(vm.prisonAccountsTotal).to.equal(200000)
     done()
   });
-
 });
