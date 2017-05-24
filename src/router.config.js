@@ -25,6 +25,7 @@ import AccountManagement from './components/fundManagement/Account_Management.vu
 import AccountAdd from './components/fundManagement/Account_Add.vue'
 import BankAccountManagement from './components/fundManagement/Bank_Account_Management.vue'
 import BankAccountModify from './components/fundManagement/Bank_Account_Modify.vue'
+import BankAccountAdd from './components/fundManagement/Bank_Account_Add.vue'
 import FundDetail from './components/fundManagement/Fund_Detail.vue'
 import TransferApplication from './components/fundManagement/Transfer_Application.vue'
 import TransferExamine from './components/fundManagement/Transfer_Examine.vue'
@@ -41,6 +42,7 @@ import Consumption from './components/consumption/Consumption.vue'
 import Capital_Composition from './components/statistics/Capital_Composition.vue'
 import Income_Expenditure from './components/statistics/Income_Expenditure.vue'
 import Balance from './components/statistics/Balance.vue'
+import Related_Bank_Account from './components/fundManagement/Related_Bank_Account.vue'
 
 export default [
 	{
@@ -104,7 +106,7 @@ export default [
 		}]
 	},
 	{
-		path:'/menu_add',
+		path:'/menu_add/:firstMenuId?',
 		component:MenuAdd
 	},
 	{
@@ -168,12 +170,20 @@ export default [
 		component:AccountModify
 	},
 	{
-		path:'/bank_account_management/:prisonAccountId',
+		path:'/bank_account_management',
 		component:BankAccountManagement
 	},
 	{
-		path:'/bank_account_modify/:bankAccountId/:prisonBankAccountId/:prisonAccountId',
+		path:'/bank_account_modify/:bankAccountId',
 		component:BankAccountModify
+	},
+	{
+		path:'/bank_account_add',
+		component:BankAccountAdd
+	},
+	{
+		path:'/related_bank_account/:prisonAccountId',
+		component:Related_Bank_Account
 	},
 	{
 		path:'/fund_detail',

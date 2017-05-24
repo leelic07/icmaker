@@ -91,7 +91,7 @@
             <td><em class="agree-text" @click='getPrisonAccount(pad.prisonAccountId)'>修改</em></td>
             <!-- <td><em class="agree-text">银行账户管理</em></td> -->
             <td>
-              <router-link :to="'/bank_account_management/'+ pad.prisonAccountId"><em class="agree-text">银行账户管理</em>
+              <router-link :to="'/related_bank_account/'+ pad.prisonAccountId"><em class="agree-text">关联银行账户</em>
               </router-link>
             </td>
           </tr>

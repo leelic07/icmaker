@@ -86,22 +86,36 @@
 			return {
                 imgUrl1:"./static/img/add.jpg",
                 imgUrl2:"./static/img/add.jpg",
-                isSecondMenu:false,//新增类型是否为二级菜单
-                firstMenuList:'',//一级菜单列表
+                isSecondMenu:false,
+                firstMenuList:'',
+                firstMenuId:'',
                 remind:{
                     status:'',
                     msg:'',
                     path: ''
                 },
-                menuInfo:{
+                menuInfo:{//类型：0-一级菜单；1-二级菜单；
                     pId: "",
                     menuName: "",
-                    type: 0,   //类型：0-一级菜单；1-二级菜单；
+                    type: 0,   
                     isEnable: 1,
                     pageUrl: ""
                 }
 			}
 		},
+        watch:{
+            $route() {
+                this.firstMenuId = this.$route.params.firstMenuId;
+                console.log(this.firstMenuId)
+                if (this.firstMenuId != undefined) {//新增二级菜单
+                    this.menuInfo.type = 1;
+                }else{
+                    this.menuInfo.type = 0;
+                }
+                this.changeMenuType()
+                this.getSecondMenu()
+            }
+        },
         computed: {
             remindShow:{
                 get(){
@@ -121,10 +135,10 @@
                     this.$http.get(getUrl).then(res=>{
                         if (res.data.code == 0) {//返回成功
                             this.firstMenuList = res.data.data;//一级菜单赋值
-                            if (this.$route.params.id == undefined) {
+                            let params = this.$route.params;
+                            if (params.id == undefined && params.firstMenuId == undefined) {
                                 this.menuInfo.pId = this.firstMenuList[0].id;
-                            }
-                            // console.log(this.firstMenuList);
+                            }   
                         }
                     }).catch(err=>{
                         console.log('获取菜单列表服务器异常' + err);
@@ -141,7 +155,6 @@
                          this.menuInfo = res.data.data;//赋值单个菜单信息
                          this.imgUrl1 =this.menuInfo.menuIconUrl == null ? this.imgUrl1 : this.menuInfo.menuIconUrl;
                          this.imgUrl2 =this.menuInfo.menuActiveIconUrl == null ? this.imgUrl2 : this.menuInfo.menuActiveIconUrl;
-                        // console.log(this.menuInfo);
                         this.changeMenuType();//调用控制第一级菜单下拉列表是否显示的函数
                     }
                 }).catch(err=>{
@@ -178,6 +191,15 @@
                 });
             },
 
+             getSecondMenu () {
+                if (this.firstMenuId != undefined) {
+                    this.menuInfo.type = 1 
+                    this.changeMenuType()
+                    this.menuInfo.pId = this.firstMenuId;
+                }
+
+            },
+
             //新增菜单
             addMenu(){
                 let menuInfo = this.menuInfo;
@@ -198,7 +220,6 @@
                         'menuIconUrl':imgUrl1,
                         'menuActiveIconUrl':imgUrl2
                     };
-                    // console.log(addData);
                     this.$http.post(addUrl,$.param(addData)).then(res=>{
                         // console.log(res);
                         if (res.data.code == 0) {//返回成功
@@ -232,8 +253,10 @@
             Remind
         },
         mounted(){
+            this.firstMenuId = this.$route.params.firstMenuId;
             this.getEditInfo();
             this.getImgUrl();
+            this.getSecondMenu ();
         }
 	}
 </script>

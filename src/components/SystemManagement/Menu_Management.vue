@@ -2,68 +2,67 @@
     <div class="box">
 	<!-- 右侧内容-->
         <div id="right-side" class="col-xs-20 pull-right" v-if = "isManage">
-            <!--搜索框部分-->
-            <div class="col-xs-24 search">
-                <div class="col-xs-23 search-box">
-                    <div class="col-xs-23 search-inner-box">
-                        <div class="row">
-                            <div class="col-xs-8 select-box">
-                                <label for="name">菜单类别</label>
-                                <select class="form-control" id="searchMenuType">
-                                    <option value = "">全部</option>
-                                    <option value = 0>一级菜单</option>
-                                    <option value = 1>二级菜单</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-8 col-xs-push-1 text-box">
-                                <label for="name">菜单名称</label>
-                                <input type="text" class="form-control" id="searchMenuName" v-model = "searchMenuName">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4 col-xs-push-10 button-box">
-                                <input type="button" value="搜索" class="search-button" @click = "searchMenu(1)">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--表格部分-->
-            <div class="col-xs-24 form">
-                <div class="col-xs-23">
-                    <table class="display table ic-table" id="table_id_example">
+            <div class = "menulist-box col-xs-23">
+                <div class = "menulist-tit-box col-xs-23">
+                    <table class="display menu-table ic-table col-xs-24">
                         <thead>
                             <tr>
+                                <th class = "col-xs-8">菜单名称</th>
+                                <th class = "col-xs-3">状态</th>
+                                <th class = "col-xs-5">路径</th>
+                                <th class = "col-xs-4">创建时间</th>
                                 <th></th>
-                                <th>菜单类别</th>
-                                <th>一级菜单名称</th>
-                                <th>二级菜单名称</th>
-                                <th>菜单路径</th>
-                                <th>状态</th>
-                                <th>创建时间</th>
-                                <th colspan="3">操作</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for = "menu in menuList">
-                                <td></td>
-                                <td>{{menu.type | formatMenuType}}</td>
-                                <td>{{menu.firstMenuName}}</td>
-                                <td>{{menu.secondMenuName}}</td>
-                                <td>{{menu.pageUrl}}</td>
-                                <td>{{menu.isEnable | formatIsEnable}}</td>
-                                <td>{{menu.createdAt | formatDate}}</td>
-                                <td v-if = "menu.isEnable == 0"><em class="agree-text" :id = "menu.id" @click = "enubleMenu($event,1)">启用</em></td>
-                                <td v-else><em class="agree-text" :id = "menu.id" @click = "enubleMenu($event,0)">停用</em></td>
-                                <td><em class="reject-text" :id = "menu.id" @click = "deleteMenu($event)">删除</em></td>
-                                <td><router-link class="agree-text" :id = "menu.id" :to='"/menu_management/edit/"+menu.id'>编辑</router-link></td>
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
-                <!-- 表格底部-->
-                <Page :itemSize = "menuSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "searchMenu"></Page>
+                
+                <div class="panel-group menulist-body-box col-xs-24" id="accordion">
+                    <div class="panel panel-default menulist-item-box col-xs-24" v-for = "menus in menuList">
+                        <div class="col-xs-24 clearfix">
+                            <table class="display menu-table ic-table pull-left col-xs-23">
+                                <tr>
+                                    <td class = "col-xs-4"><em class = "firstMenuName">{{menus.firstMenuName}}</em></td>
+                                    <td class = "button col-xs-4">
+                                        <router-link class="agree-button" :id = "menus.id" :to='"/menu_add/"+menus.id' v-if = "menus.isEnable == 1">新增二级菜单</router-link>
+                                    </td>
+                                    <td class = "col-xs-3">
+                                        <em class ="active-text" v-if = "menus.isEnable == 1">{{menus.isEnable | formatIsEnable}}</em>
+                                        <em v-else>{{menus.isEnable | formatIsEnable}}</em>
+                                    </td>
+                                    <td class = "col-xs-5">{{menus.pageUrl}}</td>
+                                    <td class = "col-xs-4">{{menus.createdAt | formatDate}}</td>
+                                    <td v-if = "menus.isEnable == 0"><em class="agree-text" :id = "menus.id" @click = "enubleMenu($event,1)">启用</em></td>
+                                    <td v-else><em class="agree-text" :id = "menus.id" @click = "enubleMenu($event,0)">停用</em></td>
+                                    <td><em class="reject-text" :id = "menus.id" @click = "deleteMenu($event)">删除</em></td>
+                                    <td><router-link class="agree-text" :id = "menus.id" :to='"/menu_management/edit/"+menus.id'>编辑</router-link></td>
+                                </tr>
+                            </table>
+                            <div class = "collapseBtn pull-left col-xs-1" v-if = "menus.sublist.length > 0 && menus.isEnable == 1">
+                                <a :class = "{'collapsed':!menus.isSpread}" data-toggle="collapse" data-parent="#accordion" :href='"#collapseOne"+menus.id'>
+                                </a>
+                            </div>
+                        </div>
+                        <div :id='"collapseOne"+menus.id'  class="panel-collapse collapse col-xs-23" :class = "{'in':menus.isSpread}" v-if = "menus.sublist.length > 0 && menus.isEnable == 1">
+                            <table class="display menu-table ic-table col-xs-24">
+                                <tr  v-for = "sub in menus.sublist">
+                                    <td class = "col-xs-8">{{sub.secondMenuName}}</td>
+                                    <td class = "col-xs-3">
+                                        <em class ="active-text" v-if = "sub.isEnable == 1">{{sub.isEnable | formatIsEnable}}</em>
+                                        <em v-else>{{sub.isEnable | formatIsEnable}}</em>
+                                    </td>
+                                    <td class = "col-xs-5">{{sub.pageUrl}}</td>
+                                    <td class = "col-xs-4">{{sub.createdAt | formatDate}}</td>
+                                    <td v-if = "sub.isEnable == 0"><em class="agree-text" :id = "sub.id" @click = "enubleMenu($event,1)">启用</em></td>
+                                    <td v-else><em class="agree-text" :id = "sub.id" @click = "enubleMenu($event,0)">停用</em></td>
+                                    <td><em class="reject-text" :id = "sub.id" @click = "deleteMenu($event)">删除</em></td>
+                                    <td><router-link class="agree-text" :id = "sub.id" :to='"/menu_management/edit/"+sub.id'>编辑</router-link></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
             <!--模态框-->
@@ -94,17 +93,87 @@
     
     </div>
 </template>
+<style lang="less" scoped>
+    .agree-text {
+        color: #1aa3ab;
+    }
+    .reject-text {
+        color: #ff1616;
+    }
+    .active-text {
+        color: #ffae78;
+    }
+    .box,#right-side {
+        min-height: 100%;
+    }
+    .menulist-box {
+        margin-top: 80px;
+        margin-left: 20px;
 
+        .menulist-tit-box {
+            margin-bottom: 15px;
+        }
+        .panel {
+            background-color: transparent;
+            border: 0;
+            box-shadow: 0 0 0;
+        }
+        .menulist-item-box {
+            margin-bottom: 15px;
+        }
+        .menu-table {
+            tr {
+                height: 40px;
+            }
+            tr:nth-of-type(even){
+                background: #f9f9f9;
+            }
+            th,td {
+               padding-left: 20px;
+               overflow: hidden;
+            }
+            .agree-button {
+                width: 60%;
+                display: block;
+                text-align: center;
+                height: 30px;
+                line-height: 30px;
+                text-decoration: none;
+            }
+        }
+        table{
+            background: #fff;
+            color: #666;
+            tr {
+                border-bottom: 1px solid #eee;
+                .firstMenuName {
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .collapseBtn {
+        height: 51px;
+        border: 1px solid #eee;
+        background-color: #fff;
+        a {
+            display: block;
+            height: 51px;
+            background:url(../../../static/img/arrow-down.png) no-repeat center;
+        }
+        a.collapsed {
+            background:url(../../../static/img/arrow-up.png) no-repeat center;
+        }
+    }
+</style>
 <script>
 import Remind from '../Remind.vue'
 import store from '../../store'
-import Page from '../Paginator.vue'
 	export default {
 		data(){
 			return {
-                pageSize : 10,//每页的数据条数
 				menuList : '',//菜单列表信息
-                menuSize: '',//总条数
                 currentId:'',//当前操作的菜单的ID
                 searchMenuName: '',
                 remind:{
@@ -112,11 +181,9 @@ import Page from '../Paginator.vue'
                     msg:''
                 },
                 isManage: true,
-                indexPage: 1
 			}
 		},
         components:{
-            Page,
             Remind
         },
         computed: {
@@ -136,27 +203,26 @@ import Page from '../Paginator.vue'
                     this.isManage = true;
                 }
                 if (from.path.substring(0,index) == "/menu_management/edit" || from.path == '/menu_add') {//从新增或者编辑页进入
-                    this.searchMenu(this.indexPage); 
+                    this.searchMenu(); 
                 }
             }
         },
 		methods:{
             //搜索菜单栏列表
-            searchMenu(index){
-                this.indexPage = index;
+            searchMenu(){
                 const getUrl = 'menu/getMenus';
-                let getData = {
-                    'type' : $('#searchMenuType').val(),
-                    'menuName' :this.searchMenuName.replace(/(^\s*)|(\s*$)/g,""),
-                    'indexPage' : this.indexPage,
-                    'pageSize' : this.pageSize
-                };
-                // console.log(getData);
-                this.$http.get(getUrl,{params: getData}).then(res=>{
-                    // console.log(res);
+                this.$http.get(getUrl).then(res=>{
+                    console.log(res);
                     if (res.data.code == 0) {
                         this.menuList = res.data.data.menuDtos;
-                        this.menuSize = res.data.data.menuSize;
+                        //控制初始启用了的菜单的第一条是展开状态，其他是闭合的
+                        for (let i = 0;i < this.menuList.length;i++) {
+                            this.menuList[i].isSpread = false;
+                            if(this.menuList[i].isEnable == 1) {
+                                this.menuList[i].isSpread = true;
+                                break;
+                            }
+                        }
                     }
                 }).catch(err=>{
                     console.log('获取菜单列表服务器异常' + err);
@@ -185,7 +251,7 @@ import Page from '../Paginator.vue'
                const delUrl = 'menu/deleteMenu';
                this.$http.post(delUrl,$.param({'id':id})).then(res=>{
                     if (res.data.code == 0) {//返回成功
-                        this.searchMenu(this.indexPage);
+                        this.searchMenu();
                         store.dispatch('reloadSide');
                         this.remind = {
                             status:'success',
@@ -235,7 +301,7 @@ import Page from '../Paginator.vue'
 		},
         mounted(){
             //加载菜单列表
-            this.searchMenu(this.indexPage); 
+            this.searchMenu(); 
             //初始为编辑页时隐藏管理页
             this.hideMenuList();
         },
