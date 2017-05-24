@@ -5,7 +5,7 @@
             <div class="col-xs-24 search">
                 <div class="col-xs-23 search-box">
                     <div class="col-xs-12  remind">
-                        <div class="col-xs-8">新增银行账户</div>
+                        <div class="col-xs-8">编辑银行账户</div>
                         <div class="col-xs-16 col-xs-pull-2">所有选项皆为必填项</div>
                     </div>
                     <div class="col-xs-23 search-inner-box">
@@ -35,6 +35,20 @@
                                         <option value=''>请选择</option>
                                         <option v-for='bank in banks' :value='bank.id' v-text='bank.bankName'></option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 label-box">
+                                    <label class="pull-right" for="name"><em class="important">*</em>所属监狱 </label>
+                                </div>
+                                <div class="col-xs-18 select-box">
+                                    <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName'
+                                        v-if='prisonList.length > 1'>
+                                    <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1'
+                                        disabled>
+                                    <datalist id="prisons">
+                                        <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
+                                    </datalist>
                                 </div>
                             </div>
                             
@@ -95,13 +109,33 @@ import store from '../../store'
 	export default{
 		data(){
 			return{
+                prisonList:[],
+                bankAccount:'',
+                prisonId: '',
+                prisonName: '',
 				prisonBankAccountId:'',
 				bankAccountId:'',
     			prisonAccountId:'',
                 banks:[],
-                bankAccount:[]
 			}
 		},
+        watch: {
+            //根据监狱名称得到监狱ID
+            prisonName(){
+                this.prisonId = '';
+                if (this.prisonName != '') {
+                $.each(this.prisonList, (index, value) => {
+                    if (value.prisonName == this.prisonName) {
+                    this.prisonId = value.id;
+                    }
+                });
+                this.prisonId == '' ? this.prisonId = -1 : '';
+                } else {
+                this.prisonId = '';
+                }
+            }
+
+        },
 		computed:{
 			remindShow:{
 				get(){
@@ -110,6 +144,21 @@ import store from '../../store'
 			}
 		},
 		methods:{
+            //查询所有监狱列表
+            getAllPrison(){
+                this.$http.get('/prisoner/toAddOrEdit').then(res => {
+                    let data = res.data.data;
+                    this.prisonList = data.prisons;
+                    this.getBankAccountInfo();
+                    if (this.prisonList.length == 1) {
+                        this.prisonId = this.prisonList[0].id;
+                        this.prisonName = this.prisonList[0].prisonName;
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+
 			//获取所有银行
             getBanks(){
                 this.$http({
@@ -117,30 +166,28 @@ import store from '../../store'
                     url:'prisonBankAccount/getBanks'
                 }).then(res=>{
                     this.banks = res.data.data;
-                    this.getPrisonBankAccounts();
                 }).catch(err=>{
                     console.log(err);
                 });
             },
 
-            //获取监狱银行账户列表
-            getPrisonBankAccounts(){
+            //获取银行账户初始数据
+            getBankAccountInfo(){
                 this.$http({
                     method:'get',
-                    url:'/prisonBankAccount/getPrisonBankAccounts',
+                    url:'/prisonBankAccount/getBankAccount',
                     params:{
-                        prisonAccountId:this.prisonAccountId
+                        bankAccountId:this.bankAccountId
                     }
                 }).then(res=>{
-                    // console.log(res.data.data);
-                    let bankAccountList = res.data.data;
-                    // console.log(bankAccountList);
-                    $.each(bankAccountList,(index,value)=>{
-                    	if(value.bankAccountId == this.bankAccountId){
-                    		this.bankAccount = value;
-                    	}
+                    this.bankAccount = res.data.data;
+                    this.prisonId = this.bankAccount.prisonId;
+                    console.log(this.prisonList)
+                    $.each(this.prisonList, (index, value) => {
+                        if (value.id == this.prisonId) {
+                            this.prisonName = value.prisonName;
+                        }
                     });
-
                 }).catch(err=>{
                     console.log(err);
                 });
@@ -181,9 +228,8 @@ import store from '../../store'
                             bankAccountNo:bankAccount.bankAccountNo,
                             isPublic:bankAccount.isPublic,
                             isSameBank:bankAccount.isSameBank,
-                            prisonAccountId:this.prisonAccountId,
-                            prisonBankAccountId:this.prisonBankAccountId,
-                            bankAccountId:this.bankAccountId
+                            bankAccountId:this.bankAccountId,
+                            prisonId:this.prisonId
                         }
                     }).then(res=>{
                         if(res.data.code == 0){
@@ -197,7 +243,6 @@ import store from '../../store'
                                 status:'failed',
                                 msg:res.data.msg
                             };
-                            console.log(res.data.code,res.data.msg);
                         }
                         store.dispatch('showRemind');
                     }).catch(err=>{
@@ -210,9 +255,8 @@ import store from '../../store'
 			Remind
 		},
 		mounted(){
-            this.prisonBankAccountId = this.$route.params.prisonBankAccountId;
+            this.getAllPrison();
             this.bankAccountId = this.$route.params.bankAccountId;
-            this.prisonAccountId = this.$route.params.prisonAccountId;
 			this.getBanks();
 		}
 	}

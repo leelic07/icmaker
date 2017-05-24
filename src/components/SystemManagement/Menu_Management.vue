@@ -145,7 +145,7 @@
             background: #fff;
             color: #666;
             tr {
-                border-bottom: 1px solid #ccc;
+                border-bottom: 1px solid #eee;
                 .firstMenuName {
                     font-size: 16px;
                     font-weight: bold;
@@ -155,7 +155,7 @@
     }
     .collapseBtn {
         height: 51px;
-        border: 1px solid #ccc;
+        border: 1px solid #eee;
         background-color: #fff;
         a {
             display: block;

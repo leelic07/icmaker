@@ -104,7 +104,7 @@ axios.interceptors.response.use(function(response){
 
 // axios.defaults.baseURL='http://10.10.10.126:8080//icmaker/';
 
-// axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
+ axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
 
 // axios.defaults.baseURL='http://localhost:8080/icmaker/';
 
@@ -114,7 +114,7 @@ axios.interceptors.response.use(function(response){
 
 // axios.defaults.baseURL='http://10.10.10.107:8080//icmaker/';
 
-axios.defaults.baseURL='http://10.10.10.111:8080//icmaker/';
+//axios.defaults.baseURL='http://10.10.10.111:8080//icmaker/';
 
 //设置路由
 const router = new VueRouter({
