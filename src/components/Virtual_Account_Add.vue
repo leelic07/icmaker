@@ -87,7 +87,7 @@
         },
 		methods:{
             getAccountTypeList(){//初始化账号类型列表
-                this.accountTypeList = [{//罪犯虚拟银行  监狱虚拟银行
+                this.accountTypeList = [{
                     "value": 0,
                     "name": "罪犯虚拟银行"
                 },{

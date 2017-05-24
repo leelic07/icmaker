@@ -7,13 +7,26 @@
                 <div class="col-xs-23 search-box">
                     <div class="col-xs-23 search-inner-box">
                         <div class="row">
-                            <div class="col-xs-8 select-box">
+                            <div class="col-xs-6 select-box">
+                                <label for="prisonId">所属监狱</label>
+                                <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1">
+                                <datalist class="form-control hidden" id="prisonList">
+                                    <option v-for = "prison in prisons">{{prison.prisonName}}</option>
+                                </datalist>
+                            </div>
+                            <div class="col-xs-6 select-box">
+                                <label for="status">账号类型</label>
+                                <select class="form-control" id="status" v-model = "accountType">
+                                    <option v-for = "account in accountTypeList" :value = "account.value">{{account.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-6 select-box">
                                 <label for="status">状态</label>
                                 <select class="form-control" id="status" v-model = "status">
                                     <option v-for = "status in statusList" :value = "status.value">{{status.name}}</option>
                                 </select>
                             </div>
-                            <div class="col-xs-8 text-box">
+                            <div class="col-xs-6 text-box">
                                 <label for="accountNo">虚拟账号</label>
                                 <input type="text" class="form-control" id="accountNo" v-model = "accountNo">
                             </div>
@@ -122,12 +135,17 @@ import {mapGetters,mapMutations} from 'vuex'
 	export default {
 		data(){
 			return{
+                prisons: "",//监狱列表
+                prisonName: "",//监狱名
+                prisonId: "",//监狱ID
+                accountTypeList: "",//账号类型列表
                 statusList: "",//状态列表
                 detailList: "",//明细列表
                 virtualAccount: "",//明细列表里的虚拟账户
                 accountNo: "",//虚拟账号
                 accountId: "",//虚拟账号ID
                 status: "",//状态
+                accountType: "",//账号类型
                 accountList: "",//虚拟账号信息列表
                 accountSize: "",//虚拟账号信息总条数
                 remind:{
@@ -138,6 +156,21 @@ import {mapGetters,mapMutations} from 'vuex'
                 indexPage: 1
 			}
 		},
+        watch: {
+            prisonName(){
+                let oldPrisonId = this.prisonId;
+                for (let i = 0; i < this.prisons.length; i++) {
+                    if (this.prisons[i].prisonName == this.prisonName) {
+                        this.prisonId = this.prisons[i].id;
+                        break;
+                    } else if (this.prisonName == "") {
+                        this.prisonId = "";
+                    } else {
+                        this.prisonId = -1;
+                    }
+                }
+            }
+        },
         computed: {
             remindShow:{
                 get(){
@@ -146,25 +179,64 @@ import {mapGetters,mapMutations} from 'vuex'
             }
         },
         methods:{
-            getStatusList(){//赋值状态列表
-                this.statusList = [{"value":"","name":"全部"},{"value":1,"name":"可用"},{"value":2,"name":"已绑定"}]
+            getAccountTypeList(){//初始化账号类型列表
+                this.accountTypeList = [{
+                    "value":"",
+                    "name":"全部"
+                },{
+                    "value": 0,
+                    "name": "罪犯虚拟银行"
+                },{
+                    "value": 1,
+                    "name": "监狱虚拟银行"
+                },{
+                    "value": 2,
+                    "name": "监狱局"
+                }]
+            },
+
+            getStatusList(){//初始化状态列表
+                this.statusList = [{
+                    "value":"",
+                    "name":"全部"
+                },{
+                    "value":1,
+                    "name":"可用"
+                },{
+                    "value":2,
+                    "name":"已绑定"
+                }]
+            },
+
+            getPrisonInfo() {//根据用户信息获取监狱信息
+                this.$http.get('prisoner/toAddOrEdit').then(res => {
+                    if (res.data.code == 0) {
+                    this.prisons = res.data.data.prisons;//赋值监狱列表
+                    if (this.prisons.length == 1) {
+                        this.prisonName = this.prisons[0].prisonName;
+                        this.prisonId = this.prisons[0].id;
+                    }
+                    this.accountNoList(this.indexPage);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
             },
 
             accountNoList(index) {
                 this.indexPage = index;
                 let searchData = {
-                    "accountNo": this.accountNo.replace(/(^\s*)|(\s*$)/g,""),
+                    "accountNo": this.empty(this.accountNo)[0],
                     "status": this.status,
+                    "prisonId": this.prisonId,
+                    "type": this.accountType,
                     "indexPage":this.indexPage,
                     "pageSize":this.pageSize
                 };
-                // console.log(searchData);
                 this.$http.get('icCard/accountList',{params:searchData}).then(res=>{
-                    // console.log("列表");
-                    // console.log(res);
                     if (res.data.code == 0) {
-                        this.accountList = res.data.data.accounts;//赋值虚拟账户列表
-                        this.accountSize = res.data.data.accountSize;//赋值虚拟账户列表数
+                        this.accountList = res.data.data.accounts;
+                        this.accountSize = res.data.data.accountSize;
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -177,13 +249,11 @@ import {mapGetters,mapMutations} from 'vuex'
                 let detailData = {
                     "accountId": this.accountId
                 };
-                // console.log(detailData);
                 this.$http.get('icCard/accountDetail',{params:detailData}).then(res=>{
-                    console.log("列表");
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.detailList = res.data.data.details;//赋值虚拟账号详情列表
-                        this.virtualAccount = res.data.data.virtualAccount;//赋值虚拟账号详情列表
+                        this.detailList = res.data.data.details;
+                        this.virtualAccount = res.data.data.virtualAccount;
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -200,7 +270,6 @@ import {mapGetters,mapMutations} from 'vuex'
                     "accountId": this.accountId
                 };
                 this.$http.post('icCard/deleteAccount',$.param(deleteData)).then(res=>{
-                    // console.log(res);
                     if (res.data.code == 0) {
                         this.remind = {
                             status:'success',
@@ -227,8 +296,9 @@ import {mapGetters,mapMutations} from 'vuex'
         mounted(){
             $('#table_id_example').tableHover();
             $('#table_id_example').select(); 
+            this.getAccountTypeList();
             this.getStatusList();
-            this.accountNoList(this.indexPage);
+            this.getPrisonInfo();
         }
 	}
 </script>

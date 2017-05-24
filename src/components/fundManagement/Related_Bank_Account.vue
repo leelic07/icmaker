@@ -248,6 +248,7 @@
 
       //获得所有银行账户列表信息
       searchAccount(index){
+        console.log(index)
         this.indexPage = index;
         this.$http({
           method: 'get',
@@ -269,7 +270,7 @@
         });
       },
 
-      //获取选中的银行账户的序列号
+      //获取选中的银行账户的id
       getSelectedAccount(){
         let checkedInfo = $(".info-list-check").filter(".active");
         if (checkedInfo.length > 0) {
@@ -313,6 +314,7 @@
               msg: res.data.msg,
             };
             this.getRelatedBank()
+            this.searchAccount(this.indexPage)
             $(".info-check").removeClass("active")
 
           } else {
@@ -349,6 +351,7 @@
               msg: res.data.msg,
             };
             this.getRelatedBank()
+            this.searchAccount(this.indexPage)
           } else {
             this.remind = {
               status: 'failed',
