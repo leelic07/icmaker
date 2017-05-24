@@ -65,16 +65,16 @@
           </tr>
           </thead>
           <tbody>
-            <tr v-for="col in cashOutList">
-              <td></td>
-              <td>{{col.prison_name}}</td>
-              <td>{{col.prison_department_name}}</td>
-              <td>{{col.archives_number}}</td>
-              <td>{{col.name}}</td>
-              <td>{{col.virtual_account_no}}</td>
-              <td>{{col.total | currency}}</td>
-              <td><em class="agree-text" @click="cashOut(col.prisoner_id,col.total)">取现</em></td>
-            </tr>
+          <tr v-for="col in cashOutList">
+            <td></td>
+            <td>{{col.prison_name}}</td>
+            <td>{{col.prison_department_name}}</td>
+            <td>{{col.archives_number}}</td>
+            <td>{{col.name}}</td>
+            <td>{{col.virtual_account_no}}</td>
+            <td>{{col.total | currency}}</td>
+            <td><em class="agree-text" @click="cashOut(col.prisoner_id,col.total)">取现</em></td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -266,6 +266,7 @@
             name: this.name.replace(/(^\s*)|(\s*$)/g, ""),
             archivesNumber: this.archivesNumber.replace(/(^\s*)|(\s*$)/g, ""),
             idCardNo: this.idCardNo.replace(/(^\s*)|(\s*$)/g, ""),
+            flag:1
           }
         }).then(res => {
           if (res.data.code == 0) {
@@ -304,7 +305,8 @@
           params: {
             indexPage: this.indexPage,
             pageSize: this.pageSize,
-            prisonId: this.prisonId
+            prisonId: this.prisonId,
+            flag: 1
           }
         }).then(res => {
           if (res.data.code == 0) {
@@ -327,7 +329,7 @@
   }
 </script>
 
-<style lang='less' scoped>
+<style type="text/less" lang='less' scoped>
   #cashOutConfirm {
     .modal-body {
       h3 {
