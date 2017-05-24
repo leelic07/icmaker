@@ -3,9 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="de3391fa-25ff-474a-b016-ede5c82ed9e3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue" afterPath="$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue" afterPath="$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.js" afterPath="$PROJECT_DIR$/src/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" afterPath="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,14 +25,24 @@
     <favorites_list name="icmaker_version3.0" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.58407736">
+    <splitter split-orientation="horizontal" split-proportion="0.36299765">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="Account_Management.spec.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Account_Management.spec.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-80">
-                  <caret line="159" column="19" lean-forward="false" selection-start-line="159" selection-start-column="19" selection-end-line="159" selection-end-column="19" />
+                <state relative-caret-position="6048">
+                  <caret line="256" column="0" lean-forward="false" selection-start-line="256" selection-start-column="0" selection-end-line="256" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Bank_Account_Management.spec.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="3687">
+                  <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -38,8 +51,38 @@
           <file leaf-file-name="Account_Modify.spec.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="362">
-                  <caret line="96" column="2" lean-forward="false" selection-start-line="96" selection-start-column="2" selection-end-line="96" selection-end-column="2" />
+                <state relative-caret-position="-518">
+                  <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="10">
+                  <caret line="115" column="60" lean-forward="false" selection-start-line="115" selection-start-column="60" selection-end-line="115" selection-end-column="60" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Criminal_Search.vue" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-2875">
+                  <caret line="180" column="16" lean-forward="false" selection-start-line="180" selection-start-column="16" selection-end-line="180" selection-end-column="16" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Bank_Account_Management.vue" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Bank_Account_Management.vue">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-87">
+                  <caret line="316" column="6" lean-forward="false" selection-start-line="316" selection-start-column="6" selection-end-line="316" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
@@ -52,8 +95,8 @@
           <file leaf-file-name="Account_Management.vue" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="312">
-                  <caret line="233" column="40" lean-forward="true" selection-start-line="233" selection-start-column="40" selection-end-line="233" selection-end-column="40" />
+                <state relative-caret-position="5592">
+                  <caret line="233" column="40" lean-forward="false" selection-start-line="233" selection-start-column="40" selection-end-line="233" selection-end-column="40" />
                   <folding>
                     <element signature="e#4119#4154#0" expanded="true" />
                   </folding>
@@ -61,11 +104,63 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Account_Modify.vue" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Account_Modify.vue" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1200">
-                  <caret line="237" column="19" lean-forward="true" selection-start-line="237" selection-start-column="19" selection-end-line="237" selection-end-column="19" />
+                <state relative-caret-position="1680">
+                  <caret line="71" column="33" lean-forward="false" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Cash_Out.vue" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2208">
+                  <caret line="92" column="12" lean-forward="false" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="12" />
+                  <folding>
+                    <element signature="e#4175#4210#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="App.vue" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/App.vue">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="216">
+                  <caret line="9" column="11" lean-forward="true" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/index.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-211">
+                  <caret line="3" column="26" lean-forward="true" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Left-side.vue" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/components/Left-side.vue">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-360">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Cancel.vue" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/components/Cancel.vue">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="503">
+                  <caret line="342" column="47" lean-forward="false" selection-start-line="342" selection-start-column="33" selection-end-line="342" selection-end-column="47" />
                   <folding />
                 </state>
               </provider>
@@ -84,8 +179,8 @@
           <file leaf-file-name="Criminal_Fund_Distribution.vue" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1632">
-                  <caret line="68" column="18" lean-forward="false" selection-start-line="68" selection-start-column="18" selection-end-line="68" selection-end-column="18" />
+                <state relative-caret-position="4416">
+                  <caret line="184" column="26" lean-forward="false" selection-start-line="184" selection-start-column="26" selection-end-line="184" selection-end-column="26" />
                   <folding />
                 </state>
               </provider>
@@ -133,11 +228,9 @@
       <list>
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Fund_Detail.spec.js" />
         <option value="$PROJECT_DIR$/src/components/consumption/Consumption.vue" />
-        <option value="$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue" />
         <option value="$PROJECT_DIR$/src/components/fundManagement/Bank_Account_Management.vue" />
         <option value="$PROJECT_DIR$/src/components/Login.vue" />
         <option value="$PROJECT_DIR$/src/components/fundManagement/Fund_Detail.vue" />
-        <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue" />
         <option value="$PROJECT_DIR$/src/components/fundManagement/Transfer_Application.vue" />
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js" />
         <option value="$PROJECT_DIR$/src/components/fundManagement/Transfer_Examine.vue" />
@@ -153,9 +246,13 @@
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_add.spec.js" />
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Add.spec.js" />
         <option value="$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue" />
-        <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" />
         <option value="$PROJECT_DIR$/test/unit/specs/criminalManagement/Criminal_Search.spec.js" />
+        <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js" />
         <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js" />
+        <option value="$PROJECT_DIR$/test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js" />
+        <option value="$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue" />
+        <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue" />
+        <option value="$PROJECT_DIR$/src/main.js" />
       </list>
     </option>
   </component>
@@ -177,7 +274,7 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1358" />
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1382" />
     <option name="height" value="744" />
@@ -198,6 +295,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -356,15 +454,230 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SystemManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="statistics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="photoLoading" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loginLoading" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loading" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fundManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="criminalManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="criminalFundManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icmaker_version5.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consumption" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/package.json" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="nodejs_interpreter_path" value="D:/Nodejs/node" />
     <property name="nodejs.mocha.mocha_node_package_dir" value="G:\IC-Card\icmaker_version3.0\node_modules\mocha" />
@@ -553,7 +866,16 @@
       <workItem from="1494463544899" duration="20892000" />
       <workItem from="1494493133496" duration="4438000" />
       <workItem from="1494551146786" duration="26677000" />
-      <workItem from="1494809012280" duration="27811000" />
+      <workItem from="1494809012280" duration="27978000" />
+      <workItem from="1494896003999" duration="17712000" />
+      <workItem from="1494981787607" duration="11521000" />
+      <workItem from="1495071689331" duration="1053000" />
+      <workItem from="1495156676706" duration="7307000" />
+      <workItem from="1495413826636" duration="4401000" />
+      <workItem from="1495512225312" duration="1455000" />
+      <workItem from="1495519733285" duration="1130000" />
+      <workItem from="1495521505472" duration="16000" />
+      <workItem from="1495528072009" duration="3535000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'webpack2.3.3' of https://github.com/leelic07/icmaker into webpack2.3.3&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
       <created>1494097356989</created>
@@ -651,7 +973,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146625000" />
+    <option name="totallyTimeSpent" value="194922000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -663,15 +985,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.8305648" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.04613095" sideWeight="0.5885246" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15409836" sideWeight="0.50373137" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10819672" sideWeight="0.49626866" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.013114754" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.16943522" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.04613095" sideWeight="0.41147542" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.036065575" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.48673588" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33770493" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.50865054" order="3" side_tool="true" content_ui="tabs" />
@@ -731,41 +1053,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Fund_Distribution.spec.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Transfer_Application.spec.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2976">
-          <caret line="124" column="6" lean-forward="true" selection-start-line="124" selection-start-column="6" selection-end-line="124" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/consumption/Consumption.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2862">
-          <caret line="106" column="30" lean-forward="false" selection-start-line="106" selection-start-column="30" selection-end-line="106" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Fund_Detail.spec.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5076">
-          <caret line="188" column="0" lean-forward="true" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Fund_Distribution.spec.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -892,24 +1179,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Bank_Account_Management.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="316" column="6" lean-forward="false" selection-start-line="316" selection-start-column="6" selection-end-line="316" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Fund_Detail.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2520">
           <caret line="9" column="24" lean-forward="false" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="100" column="18" lean-forward="false" selection-start-line="100" selection-start-column="18" selection-end-line="100" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -962,25 +1235,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1632">
-          <caret line="68" column="18" lean-forward="false" selection-start-line="68" selection-start-column="18" selection-end-line="68" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/Criminal_Fund_Distribution.spec.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
           <caret line="110" column="4" lean-forward="false" selection-start-line="110" selection-start-column="4" selection-end-line="110" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1016,7 +1274,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1024,9 +1281,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6144">
           <caret line="258" column="35" lean-forward="false" selection-start-line="258" selection-start-column="35" selection-end-line="258" selection-end-column="35" />
-          <folding>
-            <element signature="e#6917#6951#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1034,9 +1288,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3288">
           <caret line="139" column="13" lean-forward="false" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="13" />
-          <folding>
-            <element signature="e#2981#3015#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1051,26 +1302,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="410">
           <caret line="658" column="6" lean-forward="false" selection-start-line="658" selection-start-column="6" selection-end-line="658" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Management.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="233" column="40" lean-forward="true" selection-start-line="233" selection-start-column="40" selection-end-line="233" selection-end-column="40" />
+        <state relative-caret-position="5592">
+          <caret line="233" column="40" lean-forward="false" selection-start-line="233" selection-start-column="40" selection-end-line="233" selection-end-column="40" />
           <folding>
             <element signature="e#4119#4154#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="197" column="14" lean-forward="false" selection-start-line="197" selection-start-column="14" selection-end-line="197" selection-end-column="14" />
-          <folding>
-            <marker date="1494811999556" expanded="true" signature="11472:11481" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1083,26 +1323,108 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue">
+    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1200">
-          <caret line="237" column="19" lean-forward="true" selection-start-line="237" selection-start-column="19" selection-end-line="237" selection-end-column="19" />
+        <state relative-caret-position="4416">
+          <caret line="184" column="26" lean-forward="false" selection-start-line="184" selection-start-column="26" selection-end-line="184" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js">
+    <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Modify.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="96" column="2" lean-forward="false" selection-start-line="96" selection-start-column="2" selection-end-line="96" selection-end-column="2" />
+        <state relative-caret-position="1680">
+          <caret line="71" column="33" lean-forward="false" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Management.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-80">
-          <caret line="159" column="19" lean-forward="false" selection-start-line="159" selection-start-column="19" selection-end-line="159" selection-end-column="19" />
+        <state relative-caret-position="6048">
+          <caret line="256" column="0" lean-forward="false" selection-start-line="256" selection-start-column="0" selection-end-line="256" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10">
+          <caret line="115" column="60" lean-forward="false" selection-start-line="115" selection-start-column="60" selection-end-line="115" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Account_Modify.spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-518">
+          <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3687">
+          <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Search.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2875">
+          <caret line="180" column="16" lean-forward="false" selection-start-line="180" selection-start-column="16" selection-end-line="180" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Bank_Account_Management.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-87">
+          <caret line="316" column="6" lean-forward="false" selection-start-line="316" selection-start-column="6" selection-end-line="316" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Cash_Out.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2208">
+          <caret line="92" column="12" lean-forward="false" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="12" />
+          <folding>
+            <element signature="e#4175#4210#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Cancel.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="503">
+          <caret line="342" column="47" lean-forward="false" selection-start-line="342" selection-start-column="33" selection-end-line="342" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="9" column="11" lean-forward="true" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-211">
+          <caret line="3" column="26" lean-forward="true" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Left-side.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-360">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

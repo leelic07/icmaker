@@ -107,7 +107,6 @@
       }
     },
     methods: {
-
       //查询所有监狱列表
       getAllPrison(){
         this.$http({
@@ -253,7 +252,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style type="text/less" lang="less" scoped>
   #right-side {
     background-color: #f5f5f5;
 

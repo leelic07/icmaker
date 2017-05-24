@@ -42,7 +42,6 @@ Object.keys(Validate).forEach((key)=>{
   Vue.prototype[key] = Validate[key];
 });
 
-
 Vue.use(VueRouter);
 Vue.use(Loading);
 Vue.use(LoginLoading);
@@ -60,7 +59,7 @@ axios.interceptors.request.use(function(config){
   }else{
     store.dispatch('showLoading');
   }
-	
+
 	// console.log(config);
   // config.headers.Authorization = `token ${store.state.mutations.token}`;
   if(config.method == 'get'){
@@ -68,8 +67,8 @@ axios.interceptors.request.use(function(config){
       config.params.userId = window.localStorage.getItem('userId');
     }else{
       config.url += '?userId=' + window.localStorage.getItem('userId');
-    }  
-  }	
+    }
+  }
   if(config.method == 'post' && config.url != config.baseURL+'login'){
   	config.data += '&userId=' + window.localStorage.getItem('userId');
   }
@@ -85,7 +84,7 @@ axios.interceptors.response.use(function(response){
   // console.log(response);
 	return response;
 },function(err){
-  	return Promise.reject(err);
+  return Promise.reject(err);
 });
 
 //ajax url头部设置
@@ -96,7 +95,7 @@ axios.interceptors.response.use(function(response){
 
 axios.defaults.baseURL='http://106.14.18.98:8080//icmaker/';
 
-//axios.defaults.baseURL='http://10.10.10.2:8080/icmaker/';
+// axios.defaults.baseURL='http://10.10.10.2:8080/icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.117:8080/icmaker/';
 
@@ -108,13 +107,16 @@ axios.defaults.baseURL='http://106.14.18.98:8080//icmaker/';
 
 // axios.defaults.baseURL='http://localhost:8080/icmaker/';
 
-//axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
+// axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.127:8080//icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.107:8080//icmaker/';
 
+// axios.defaults.baseURL='http://10.10.10.106:8080//icmaker/';
+
 //axios.defaults.baseURL='http://10.10.10.111:8080//icmaker/';
+
 
 //设置路由
 const router = new VueRouter({
@@ -137,7 +139,6 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
-
 
 new Vue({
 	router,
