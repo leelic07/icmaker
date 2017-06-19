@@ -95,9 +95,34 @@
             </button>
           </div>
           <div class="modal-body">
-            <h3>取现</h3>
-            <div class="col-xs-24">
-              <input type="text" class="form-control fee-input" placeholder="输入取现金额" v-model='cash'>
+            <h2>取现</h2>
+            <div class="clearfix bind-info">
+                <img :src="bindIcInfo.prisoner.imgUrl" alt="" class="pull-left bind-img">
+                <ul class="pull-left clearfix bind-info-list">
+                    <li class="clearfix"><span class="pull-left info-label">罪犯名</span><span class="pull-right">{{bindIcInfo.prisoner.name}}</span></li>
+                    <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{bindIcInfo.prison}}</span></li>
+                    <li class="clearfix"><span class="pull-left info-label">所属监区</span><span class="pull-right">{{bindIcInfo.department}}</span></li>
+                    <li class="clearfix"><span class="pull-left info-label">档案号</span><span class="pull-right">{{bindIcInfo.prisoner.archivesNumber}}</span></li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 label-box">
+                    <label class="pull-right" for="name"><em class="important">*</em>取现类型 </label>
+                </div>
+                <div class="col-xs-18 select-box">
+                    <select class="form-control" v-model='bankAccount.bankId'>
+                        <option value=''>请选择</option>
+                        <option v-for='bank in banks' :value='bank.id' v-text='bank.bankName'></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 label-box">
+                    <label class="pull-right" for="name"><em class="important">*</em>取现金额 </label>
+                </div>
+                <div class="col-xs-18 select-box">
+                    <input type="text" class="form-control fee-input" v-model='cash'>
+                </div>
             </div>
             <button class="confirm-button" @click='withdrawCash()'>确定</button>
             <button class="cancel-button" data-dismiss="modal">取消</button>
