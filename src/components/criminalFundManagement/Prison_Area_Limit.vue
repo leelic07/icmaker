@@ -82,17 +82,17 @@
                         </div>
                         <div class="col-xs-24">
                             <div class="form-group fee-input clearfix">
-                                <label for="dayMoney" class="col-xs-6 pull-left">日限额：</label>
+                                <label for="dayMoney" class="col-xs-6 pull-left">B卡日限额：</label>
                                 <div class="col-xs-18 pull-left">
                                     <input type="text" class="form-control" id="dayMoney" placeholder="输入日限额" v-model = "dayMoney">
                                 </div>
                             </div>
                             <div class="form-group fee-input clearfix">
-                                <label for="monthMoney" class="col-xs-6 pull-left">月限额：</label>
+                                <label for="monthMoney" class="col-xs-6 pull-left">总月限额：</label>
                                 <div class="col-xs-18 pull-left">
                                     <input type="text" class="form-control" id="monthMoney" placeholder="输入月限额" v-model = "monthMoney">
                                 </div>
-                            </div>   
+                            </div>
                         </div>
                         <button class="confirm-button" @click = "setFundConfirm">保存</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
