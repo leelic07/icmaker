@@ -46,19 +46,21 @@
             <th></th>
             <th>所属监狱</th>
             <th>所属监区</th>
-            <th>日限额(元)</th>
-            <th>月限额(元)</th>
+            <th>处遇等级</th>
+            <th>B卡日限额</th>
+            <th>总月限额</th>
             <th>操作</th>
           </tr>
           </thead>
           <tbody>
-          <tr v-for = "fund in fundList">
+          <tr>
             <td></td>
-            <td>{{fund.prison_name}}</td>
-            <td>{{fund.prison_department_name}}</td>
-            <td>{{fund.day_money | setCurrency}}</td>
-            <td>{{fund.month_money | setCurrency}}</td>
-            <td><em class="agree-text" :monthMoney = "fund.month_money" :dayMoney = "fund.day_money" :prisonId = "fund.prison_id" :departId = "fund.prison_department_id" :id="fund.id" :departName = "fund.prison_department_name" :prisonName = "fund.prison_name" @click = "setFund($event)">设置</em></td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td><em class="agree-text" @click = "setFund($event)">设置</em></td>
           </tr>
           </tbody>
         </table>
@@ -91,13 +93,13 @@
               <div class="form-group fee-input clearfix">
                 <label for="dayMoney" class="col-xs-6 pull-left">B卡日限额：</label>
                 <div class="col-xs-18 pull-left">
-                  <input type="text" class="form-control" id="dayMoney" placeholder="输入日限额" v-model = "dayMoney">
+                  <input type="text" class="form-control" id="dayMoney" placeholder="输入B卡日限额" >
                 </div>
               </div>
               <div class="form-group fee-input clearfix">
                 <label for="monthMoney" class="col-xs-6 pull-left">总月限额：</label>
                 <div class="col-xs-18 pull-left">
-                  <input type="text" class="form-control" id="monthMoney" placeholder="输入月限额" v-model = "monthMoney">
+                  <input type="text" class="form-control" id="monthMoney" placeholder="输入总月限额" >
                 </div>
               </div>
             </div>
@@ -217,6 +219,10 @@
           console.log(err);
         });
       },
+
+      setFund (e) {
+        $('#setConfirm').modal();
+      }
     },
     components:{
       Page,

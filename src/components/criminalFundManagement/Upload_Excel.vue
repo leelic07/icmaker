@@ -1,44 +1,6 @@
 <template>
   <!-- 右侧内容-->
   <div id="right-side" class="col-xs-20 pull-right">
-    <!--搜索框部分-->
-    <div class="col-xs-24 search">
-      <div class="col-xs-23 search-box">
-        <div class="col-xs-23 search-inner-box">
-          <div class="row">
-            <div class="col-xs-8 select-box">
-              <!-- <label for="name">所属监狱</label>
-              <select class="form-control" v-model='prisonId'>
-                  <option value=''>全部</option>
-                  <option v-for='prison in prisonList' :value='prison.id' v-text='prison.prisonName'></option>
-              </select> -->
-              <label for="name">所属监狱</label>
-              <input list="prisons" placeholder="全部" class='form-control' v-model='prisonName'
-                     v-if='prisonList.length > 1'>
-              <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1'
-                     disabled>
-              <datalist id="prisons">
-                <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
-              </datalist>
-            </div>
-            <div class="col-xs-8 select-box">
-              <label for="name">资金分配类型</label>
-              <select class="form-control" v-model='type'>
-                <option value=''>全部</option>
-                <!-- <option value='0'>家属汇款</option> -->
-                <option value='0'>低报酬</option>
-                <option value='1'>IC卡资金</option>
-              </select>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-4 col-xs-push-10 button-box">
-              <input type="button" value="搜索" class="search-button" @click='searchLocation()'>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!--表格部分-->
     <div class="col-xs-24 form">
@@ -48,30 +10,62 @@
             <tr>
               <th></th>
               <th>所属监狱</th>
-              <th>资金分配类型</th>
-              <th>可分配余额(元)</th>
-              <th>操作</th>
+              <th>所属监区</th>
+              <th>罪犯名</th>
+              <th>罪犯编号</th>
+              <th>分配金额</th>
+              <th>提示</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for='cfal in criminalFundAllocationList'>
-              <td :id='cfal.prison_id'></td>
-              <td v-text='cfal.prison_name'></td>
-              <td>{{cfal.type | locationType}}</td>
-              <td>{{cfal.money | currency}}</td>
-              <td class="col-xs-5">
-                <router-link
-                  :to="'/cfd_add_criminal/'+ cfal.prison_id + '/' + cfal.id + '/' + cfal.type + '/' + cfal.money"
-                  class="agree-text">选择罪犯
-                </router-link>
-                <router-link to="" class="reject-text">上传excel文件</router-link>
-              </td>
-            </tr>
+          <tr >
+            <td></td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
           </tbody>
         </table>
       </div>
+
       <!-- 表单底部-->
       <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchLocation'></Page>
+
+      <div class="remarkBox pull-left col-xs-23">
+
+        <div class="col-xs-1">
+          <label for="remark" class="pull-left col-xs-24">备注</label>
+        </div>
+
+        <div class="col-xs-12">
+          <input id="remark" type="text" class="col-xs-24">
+        </div>
+
+        <div class="col-xs-1">
+          <span class="remind-text pull-left col-xs-24 text-center">必填</span>
+        </div>
+
+      </div>
+
+      <div class="confirm pull-left col-xs-23">
+
+        <div class="col-xs-13">
+          <button class="pull-right">确认分配</button>
+        </div>
+
+        <div class="col-xs-5">
+          <span>罪犯信息错误，无法分配</span>
+        </div>
+
+        <div class="col-xs-6">
+          <button class="">重新上传</button>
+        </div>
+
+      </div>
+
     </div>
   </div>
 </template>
@@ -184,7 +178,49 @@
 </script>
 
 <style type="text/less" lang="less" scoped>
+  @white:#fff;
+  @gray:#C1C1C1;
+  @textGray:#B8B8B8;
+  *{
+    border:1px solid #000;
+  }
   .reject-text{
     margin-left:15%;
+    color:#ff1616;
+  }
+  .form{
+    margin-top:81px;
+  }
+
+  .remarkBox{
+    margin-left:2%;
+    background:@white;
+    margin-bottom:20px;
+    padding:20px 10px 15px 10px;
+    border:1px solid #E9E9E9;
+    >div{
+      &:first-child{
+        margin-left:1%;
+      }
+
+      &:nth-child(2){
+        input{
+          height:30px;
+          margin-top:-5px;
+        }
+      }
+    }
+    .remind-text{
+      color:#ff1616;
+    }
+  }
+
+  .confirm{
+
+  }
+
+  .button(@bgColor,@color,@height,@width){
+    background:@gray;
+    color:@white;
   }
 </style>

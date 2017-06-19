@@ -39,6 +39,7 @@ import CFD_AddCriminal from './components/criminalFundManagement/CFD_Add_Crimina
 import CriminalFundDistribution from './components/criminalFundManagement/Criminal_Fund_Distribution.vue'
 import CashOut from './components/criminalFundManagement/Cash_Out.vue'
 import SetLevelLimit from './components/criminalFundManagement/Set_Level_Limit.vue'
+import UploadExcel from './components/criminalFundManagement/Upload_Excel.vue'
 import Consumption from './components/consumption/Consumption.vue'
 import Capital_Composition from './components/statistics/Capital_Composition.vue'
 import Income_Expenditure from './components/statistics/Income_Expenditure.vue'
@@ -249,6 +250,10 @@ export default [
   {
     path:'/set_level_limit',
     component:SetLevelLimit
+  },
+  {
+    path:'/upload_excel',
+    component:UploadExcel
   },
 	{
 		path:'*',
