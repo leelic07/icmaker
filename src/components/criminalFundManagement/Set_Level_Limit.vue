@@ -65,6 +65,7 @@
           </tbody>
         </table>
       </div>
+
       <!-- 表单底部-->
       <Page :itemSize = "fundSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getFundList"></Page>
     </div>
@@ -126,6 +127,7 @@
   }
   }
 </style>
+
 <script>
   import Remind from '../Remind.vue'
   import store from '../../store'
@@ -223,6 +225,7 @@
       setFund (e) {
         $('#setConfirm').modal();
       }
+
     },
     components:{
       Page,
@@ -236,7 +239,7 @@
   }
 </script>
 
-<style lang='less' scoped>
+<style type="text/less" lang='less' scoped>
   #setConfirm{
   h3{
     font-weight:bold;

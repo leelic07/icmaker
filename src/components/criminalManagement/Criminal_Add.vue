@@ -92,7 +92,7 @@
                         </div>
                         <div class="col-xs-6 col-xs-push-9">
                             <input type="button" value="确认" class="add-button" @click = "commitPrisonerInfo">
-                        </div>    
+                        </div>
                     </div>
                 </form>
             </div>
@@ -101,13 +101,14 @@
         <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg' :path = 'remind.path'></Remind>
     </div>
 </template>
-<style lang="less" scoped>
+
+<style type="text/less" lang="less" scoped>
 .upload-box {
     position: relative;
     .upload-btn {
         opacity: 0;
         z-index: 1000;
-        position: absolute; 
+        position: absolute;
         left: 0;
         top: 0;
         height: 120px;
@@ -119,10 +120,12 @@
     }
 }
 </style>
+
 <script>
     import Remind from '../Remind.vue'
     import store from '../../store'
     import Util from '../../../static/js/util.js'
+
     export default {
         data (){
             return{
@@ -218,7 +221,7 @@
                             }
                             let prisonId = this.prisonerInfo.prisonId;
                             // console.log("prisonId" + this.prisonerInfo.prisonId);
-                            let prisonDepartmentId = this.prisonerInfo.prisonDepartmentId;   
+                            let prisonDepartmentId = this.prisonerInfo.prisonDepartmentId;
                             this.getPrisonDepartInfo(prisonDepartmentId);//获取监区信息
                             this.imgUrl = this.prisonerInfo.imgUrl;
                         }
@@ -226,7 +229,7 @@
                         console.log(err);
                     });
                 }
-                
+
             },
             getPrisonInfo() {//根据用户信息获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
@@ -250,7 +253,7 @@
                             this.prisonerInfo.prisonDepartmentId = this.prisonDepartments[0].id;
                         } else {
                             this.prisonerInfo.prisonDepartmentId = departId;
-                        }   
+                        }
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -321,7 +324,7 @@
                         }).catch(err=>{
                             console.log('新增服务器异常' + err);
                         });
-                }    
+                }
             },
             formatDate(value) {
                 let buling = val => {
@@ -332,9 +335,9 @@
                     return val;
                 };
                 let now=new Date(value);
-                let year=now.getFullYear();     
-                let month=buling(now.getMonth()+1);     
-                let date=buling(now.getDate()); 
+                let year=now.getFullYear();
+                let month=buling(now.getMonth()+1);
+                let date=buling(now.getDate());
                 return year+"-"+month+"-"+date+" ";
             }
         },

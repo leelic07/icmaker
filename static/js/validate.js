@@ -10,7 +10,7 @@ export default{
                 if(arguments[i] == ''){
                     return true;//为空
                 }
-            }  
+            }
         }
         return false;//不为空
     },
@@ -40,15 +40,30 @@ export default{
     //判断图片格式是否正确
     isImg(){
         if (!this.isNull(arguments[0])) {
-            let fileName = arguments[0].name;
-            let type = fileName.substr(fileName.lastIndexOf(".")).toLowerCase();
-            if (type!='.bmp'&&type!='.png'&&type!='.gif'&&type!='.jpg'&&type!='.jpeg') {
-                return false;
-            }else {
-                return true;
-            }
-        }else {
+          let fileName = arguments[0].name;
+          let type = fileName.substr(fileName.lastIndexOf(".")).toLowerCase();
+          if (type!='.bmp'&&type!='.png'&&type!='.gif'&&type!='.jpg'&&type!='.jpeg') {
             return false;
+          } else {
+            return true;
+          }
+        } else {
+          return false;
+        }
+    },
+
+    //判断Excel表格是否正确
+    isExcel(){
+        if (!this.isNull(arguments[0])) {
+          let fileName = arguments[0].name;
+          let type = fileName.substr(fileName.lastIndexOf(".")).toLowerCase();
+          if (type != '.xlsx') {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          return false;
         }
     },
 
@@ -96,13 +111,13 @@ export default{
             }else{
                 arguments[i] = arguments[i].toFixed(2);
                 args.push(arguments[i]);
-            } 
+            }
         };
         if(arguments.length == 1){
             return args[0];
         }else{
             return args;
-        }  
+        }
     },
 
     //小数点两位之后禁止输入
@@ -116,20 +131,20 @@ export default{
 
     //钱单位转化为分
     toCent(){
-        let args = []; 
+        let args = [];
         for(let i = 0;i < arguments.length;i++){
             if(!this.isNumber(arguments[i])){
                 return [];
             }else{
                 arguments[i] = Math.round(arguments[i] * 100);
                 args.push(arguments[i]);
-            }   
+            }
         }
         if(arguments.length == 1){
             return args[0];
         }else{
             return args;
-        }  
+        }
     },
 
     //判断是否是银行账号
@@ -145,7 +160,7 @@ export default{
                 if(!pattBankAccount.test(Number(arguments[i]))){
                     return false;//不是银行账号
                 }
-            } 
+            }
         }
         return true;//是银行账号
     },
@@ -161,7 +176,7 @@ export default{
                 if(!pattBankNo.test(Number(arguments[i]))){
                     return false;//不是银行行号
                 }
-            } 
+            }
         }
         return true;//是银行行号
     },
@@ -170,7 +185,7 @@ export default{
     trim(){
         let args = [];
         for(let i = 0;i < arguments.length;i++){
-            if(this.isNull(arguments[i])){ 
+            if(this.isNull(arguments[i])){
                 args.push('');
             }else{
                 args.push(arguments[i].toString().replace(/^(\s*)|(\s*)$/g,''));
@@ -180,7 +195,7 @@ export default{
             return args[0];
         }else{
             return args;
-        }   
+        }
     },
 
 
@@ -198,7 +213,7 @@ export default{
             return args[0];
         }else{
             return args;
-        }   
+        }
     },
 
     //是否为正整数或浮点数

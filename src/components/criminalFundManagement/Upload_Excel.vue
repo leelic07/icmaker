@@ -32,7 +32,7 @@
       </div>
 
       <!-- 表单底部-->
-      <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchLocation'></Page>
+      <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='getCriminalFundDistribution()'></Page>
 
       <div class="remarkBox pull-left col-xs-23">
 
@@ -53,37 +53,49 @@
       <div class="confirm pull-left col-xs-23">
 
         <div class="col-xs-13">
-          <button class="pull-right">确认分配</button>
+          <button class="pull-right" :disabled="hasErrMsg" @click="confirmDistribution()">确认分配</button>
         </div>
 
         <div class="col-xs-5">
-          <span>罪犯信息错误，无法分配</span>
+          <span class="col-xs-24 text-center">罪犯信息错误，无法分配</span>
         </div>
 
         <div class="col-xs-6">
           <button class="">重新上传</button>
+          <input type='file' id="file" @change="reUploadExcel()">
         </div>
 
       </div>
 
     </div>
+
+    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
+
   </div>
+
 </template>
 
 <script>
   import Page from '../Paginator.vue'
+  import axios from 'axios'
+  import store from '../../store'
 
-  export default{
-    data(){
+  export default {
+    data() {
       return {
         indexPage: 1,
         pageSize: 10,
         menuSize: '',
         prisonId: '',
         prisonName: '',
-        type: '',
+        type: '',//类型
         prisonList: [],
         criminalFundAllocationList: [],
+
+        dataId: '',//excel文件id
+        remark: '',//备注
+
+        hasErrMsg:false,//有错误信息
         remind: {
           status: '',
           msg: ''
@@ -106,7 +118,7 @@
         } else {
           this.prisonId = '';
         }
-      }
+      },
     },
     methods: {
       //查询所有监狱列表
@@ -125,54 +137,65 @@
           console.log(err);
         });
       },
-
-      //查询罪犯资金分配列表
-      getLocationList(){
-        this.$http({
-          method: 'get',
-          url: '/criminalFundAllocationList',
-          params: {
-            indexPage: this.indexPage,
-            pageSize: this.pageSize
+      //确认分配
+      confirmDistribution() {
+        axios.get('prisonCapital/addPrisonerCapitalIncome').then(res => {
+          console.log(res.data);
+          if (res.data.code == 0) {
+            this.criminalFundAllocationList = res.data;
           }
-        }).then(res => {
-          let data = res.data.data;
-          this.criminalFundAllocationList = data.criminalFundAllocationList;
-          this.menuSize = data.criminalFundAllocationListSize;
         }).catch(err => {
           console.log(err);
         });
       },
-
-      //点击搜索查询罪犯资金分配列表
-      searchLocation(index){
-        this.indexPage = index;
-        this.$http({
-          method: 'get',
-          url: '/criminalFundAllocationList',
-          params: {
-            prisonId: this.prisonId,
-            type: this.type,
-            indexPage: this.indexPage,
-            pageSize: this.pageSize
+      //罪犯资金分配查询
+      getCriminalFundDistribution(indexPage){
+        axios.get('prisonCapital/getPrisonerCapitalIncomeData',{
+          params:{
+            indexPage:this.indexPage,
+            pageSize:this.page,
+            dataId:this.dataId,
           }
         }).then(res => {
-          let data = res.data.data;
-          this.criminalFundAllocationList = data.criminalFundAllocationList;
-          this.menuSize = data.criminalFundAllocationListSize;
+          console.log(res.data);
+          if (res.data.code == 0) {
+
+          }
         }).catch(err => {
           console.log(err);
         });
+      },
+      //重新上传
+      reUploadExcel() {
+        axios({
+          url: 'prisonCapital/clearCachePrisonerCapitalIncome',
+          method: 'post',
+          data: this.dataId
+        }).then((res) => {
+          console.log(res.data);
+          if(res.data.code == 0){
+            this.remind = {
+              status: 'success',
+              msg: '重新上传成功',
+              path:'/criminal_fund_distribution'
+            };
+            store.dispatch('showRemind');
+//            this.$router.push({
+//              path:'/criminal_fund_distribution'
+//            });
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+      },
+      components: {
+        Page
+      },
+      mounted() {
+        this.getAllPrison();
+        this.getLocationList();
+        $('#table_id_example').tableHover();
       }
-
-    },
-    components: {
-      Page
-    },
-    mounted(){
-      this.getAllPrison();
-      this.getLocationList();
-      $('#table_id_example').tableHover();
     }
   }
 </script>
@@ -181,9 +204,10 @@
   @white:#fff;
   @gray:#C1C1C1;
   @textGray:#B8B8B8;
-  *{
-    border:1px solid #000;
-  }
+  @green:#1AA3AB;
+  /**{*/
+    /*border:1px solid #000;*/
+  /*}*/
   .reject-text{
     margin-left:15%;
     color:#ff1616;
@@ -216,11 +240,43 @@
   }
 
   .confirm{
-
+    padding-top:15px;
+    padding-bottom:15px;
+    margin-bottom:25px;
+    >div{
+      &:first-child{
+        button{
+          .button(@green,@white,35px,150px);
+        }
+      }
+      &:nth-child(2){
+        span{
+          color:@textGray;
+          line-height:35px;
+        }
+      }
+      &:nth-child(3){
+        position:relative;
+        button{
+          .button(@green,@white,35px,150px);
+        }
+        input{
+          position:absolute;
+          width:57%;
+          height:35px;
+          top:0;
+          opacity:0;
+        }
+      }
+    }
   }
 
-  .button(@bgColor,@color,@height,@width){
-    background:@gray;
-    color:@white;
+  .button(@bgColor,@color,@height,@width) {
+    background:@bgColor;
+    color:@color;
+    height:@height;
+    width:@width;
+    border:none;
+    border-radius:2px;
   }
 </style>

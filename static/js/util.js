@@ -21,7 +21,7 @@ $.fn.select = function(){
     $(this).on('click','.info-check',function(){
         let _this = $(this);
         if(_this.parents('thead')){
-            if(_this.hasClass('active')){      
+            if(_this.hasClass('active')){
                 _this.removeClass('active').parents('thead').siblings('tbody').find('.info-check').removeClass('active');
                 // store.dispatch('cancelSelectAll');
             }else{
@@ -115,5 +115,28 @@ export default {
                 console.log("上传图片错误，错误码：" + oReq.status);
             }
         };
+    },
+
+    //上传Excel表格
+    readExcel(file,_this,dataName){
+      console.log('Excel');
+      console.log(dataName);
+      let oMyForm = new FormData();
+      oMyForm.append("fileId", file);
+      let oReq = new XMLHttpRequest();
+      oReq.open("POST", "http://10.10.10.101:8080/icmaker/prisonCapital/importPrisonerCapitalIncome");
+      oReq.send(oMyForm);
+      oReq.onload = function(oEvent) {
+        if (oReq.status == 200) {
+          let response = $.parseJSON(this.response);
+          if (response.code == 0) {//上传Excel成功
+            // _this[dataName] = response.data.imgUrl;
+            // window.location.href = 'http://localhost:8081/#/criminal_fund_distribution';
+            console.log('上传成功');
+          }
+        } else {
+          console.log("上传Excel错误，错误码：" + oReq.status);
+        }
+      };
     }
 }

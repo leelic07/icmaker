@@ -129,7 +129,8 @@
         <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
-<style lang="less" scoped>
+
+<style type="text/less" lang="less" scoped>
     button[disabled]{
        background: #999 !important ;
        border: 1px solid #999;
@@ -140,10 +141,12 @@
         }
     }
 </style>
+
 <script>
 import Remind from '../Remind.vue'
 import store from '../../store'
 import Page from '../Paginator.vue'
+
 	export default {
 		data(){
 			return{
@@ -364,17 +367,17 @@ import Page from '../Paginator.vue'
                             console.log('批量配置资金服务器异常' + err);
                         });
                     }
-                }      
+                }
             }
 		},
 		components:{
 			Page,
-            Remind
+      Remind
 		},
 		mounted(){
 			$('#table_id_example').tableHover();
 			$('#table_id_example').select();
-            this.getPrisonInfo();
+      this.getPrisonInfo();
 		}
 	}
 </script>

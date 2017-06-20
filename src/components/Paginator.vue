@@ -11,7 +11,7 @@ import '../../static/js/jquery.pagination.min.js'
 		props: ['itemSize','pageSize','indexPage'],//itemSize:总条数  pageSize:每页显示的条数
 		data(){
 			return{
-				
+
 			}
 		},
 		watch:{
@@ -40,7 +40,6 @@ import '../../static/js/jquery.pagination.min.js'
 							let now = api.getCurrent();
 							//console.log('.M-box2')
 							_this.$emit("search",now);
-
 						}
 					});
 				}
