@@ -20,8 +20,8 @@
         <h4 class="col-xs-2 col-xs-offset-1">罪犯信息</h4>
       </div>
       <div class="col-xs-23 information">
-        <div class="col-xs-19">
-          <div class="col-xs-3">
+        <div class="col-xs-10">
+          <div class="col-xs-4">
             <img :src="prisonerInfo.imgUrl" alt="罪犯照片"/>
             <photoLoading v-show='photoLoadingShow'></photoLoading>
           </div>
@@ -40,6 +40,42 @@
             </li>
             <li class="col-xs-12">
               <p class="col-xs-12">档案号</p>
+              <p class="col-xs-12">{{prisonerInfo.archivesNumber}}</p>
+            </li>
+            <li class="col-xs-12">
+              <p class="col-xs-12">处遇等级</p>
+              <p class="col-xs-12">{{prisonerInfo.archivesNumber}}</p>
+            </li>
+          </ul>
+        </div>
+        <div class="col-xs-4">
+          <ul class="col-xs-19 col-xs-offset-1">
+            <li class="col-xs-24">
+              <p class="col-xs-12">A类余额</p>
+              <p class="col-xs-12">{{prisonerInfo.prisonerName}}</p>
+            </li>
+            <li class="col-xs-24">
+              <p class="col-xs-12">B类余额</p>
+              <p class="col-xs-12">{{prisonerInfo.prisonName}}</p>
+            </li>
+          </ul>
+        </div>
+        <div class="col-xs-5">
+          <ul class="col-xs-19 col-xs-offset-1">
+            <li class="col-xs-24">
+              <p class="col-xs-12">当天已消费金额</p>
+              <p class="col-xs-12">{{prisonerInfo.prisonerName}}</p>
+            </li>
+            <li class="col-xs-24">
+              <p class="col-xs-12">当天可消费金额</p>
+              <p class="col-xs-12">{{prisonerInfo.prisonName}}</p>
+            </li>
+            <li class="col-xs-24">
+              <p class="col-xs-12">当月已消费金额</p>
+              <p class="col-xs-12">{{prisonerInfo.prisonDepartmentName}}</p>
+            </li>
+            <li class="col-xs-24">
+              <p class="col-xs-12">当月可消费金额</p>
               <p class="col-xs-12">{{prisonerInfo.archivesNumber}}</p>
             </li>
           </ul>
@@ -127,6 +163,7 @@
             this.show = true;
             this.prisonerInfo = res.data.data;
             this.prisonerId = this.prisonerInfo.prisonerId;
+           // $('#money').focus();
             store.dispatch('hidePhotoLoading');
           }
         }).catch(err => {
@@ -195,6 +232,7 @@
 
 <style lang="less" scoped>
   #right-side {
+    height: 100%;
     background-color: #f5f5f5;
     .search-box {
       .search-inner-box {
@@ -206,7 +244,14 @@
     .criminal-info {
       .information {
         > div {
-          padding: 30px 0 0 1%;
+          padding: 25px 0 10px 1%;
+          height: 190px;
+        }
+        ul {
+          margin-top: 0;
+          li {
+            padding: 10px 7% 10px 2%;
+          }
         }
       }
     }
@@ -218,9 +263,10 @@
     .information {
       img {
         width: 100%;
-        height: 150px;
+        height: 110px;
       }
       > div {
+        border-right: 1px solid #EAEAEA;
         &:nth-child(1) {
           > div {
             &:nth-child(1) {

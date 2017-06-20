@@ -31,6 +31,8 @@ export default{
 			return '商户账户';
 		}else if(accountType == 2){
 			return '监狱总账户';
+		}else if(accountType == 4){
+			return '监狱资金分配账户';
 		}
 	},
 

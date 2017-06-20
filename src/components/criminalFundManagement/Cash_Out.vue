@@ -106,9 +106,9 @@
                 </ul>
             </div>
             <ul class="clearfix bind-info-list">
-                <li class="clearfix"><span class="pull-left info-label">A卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.aTotal | currency}}</span></li>
-                <li class="clearfix"><span class="pull-left info-label">B卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.bTotal | currency}}</span></li>
-                <li class="clearfix"><span class="pull-left info-label">总余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.total | currency}}</span></li>
+                <li class="clearfix"><span class="pull-left info-label">A卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.aTotal | currency}} 元</span></li>
+                <li class="clearfix"><span class="pull-left info-label">B卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.bTotal | currency}} 元</span></li>
+                <li class="clearfix"><span class="pull-left info-label">总余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.total | currency}} 元</span></li>
             </ul>
             <hr>
             <div class="line"></div>
@@ -118,8 +118,7 @@
                 </div>
                 <div class="col-xs-18">
                     <select class="form-control" v-model = "type">
-                        <option value=0>请选择</option>
-                        <!--<option v-for='bank in banks' :value='bank.id' v-text='bank.bankName'></option>-->
+                        <option v-for='cashType in CashOutInfo.cashTypeList' :value='cashType.value' v-text='cashType.text'></option>
                     </select>
                 </div>
             </div>
@@ -246,6 +245,7 @@
           }).then(res => {
             console.log(res);
             this.CashOutInfo = res.data.data;
+            this.type = this.CashOutInfo.cashTypeList[0].value;
           }).catch(err => {
             console.log(err);
           });

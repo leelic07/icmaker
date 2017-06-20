@@ -53,6 +53,7 @@
                     <thead>
                         <tr>
                             <th><div class="info-check"></div></th>
+                            <th>申请ID</th>
                             <th>所属监狱</th>
                             <th>所属监区</th>
                             <th>姓名</th>
@@ -66,13 +67,14 @@
                     </thead>
                     <tbody>
                         <tr v-for = "exam in examList">
-                            <td><div class="info-check info-list-check" :id = "exam.applyId"></div></td>
+                            <td><div class="info-check info-list-check" :id = "exam.id"></div></td>
+                            <td>{{exam.id}}</td>
                             <td>{{exam.prisonName}}</td>
                             <td>{{exam.prisonDepartmentName}}</td>
                             <td>{{exam.name}}</td>
                             <td>{{exam.number}}</td>
                             <td>{{exam.virtualNo}}</td>
-                            <td>{{exam.type | formatCashOutType}}</td>
+                            <td>{{exam.typeName}}</td>
                             <td>{{exam.cash | currency}}</td>
                             <td>{{exam.optherName}}</td>
                             <td><em class="agree-text" @click="receive($event,1,1)" :id = "exam.id">同意</em></td>
@@ -97,10 +99,15 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h3 v-if = "verifyType == 1">确认同意取现</h3>
+                        <h3 v-if = "verifyType == 1">确认同意取现?</h3>
                         <template v-if = "verifyType == 2">
-                            <h3>确认拒绝取现</h3>
-                            <input type="text" class="form-control" id="remark" v-model = "remark" placeholder = "请输入拒绝理由">
+                            <h3>确认拒绝取现?</h3>
+                            <div class="form-group clearfix col-xs-20 input-box col-xs-offset-4">
+                                <label for="verifyNote" class="pull-left col-xs-5">拒绝原因 :</label>
+                                <div class="col-xs-15">
+                                    <input type="text" class="form-control pull-left" id="remark" v-model = "remark">
+                                </div> 
+                            </div>
                         </template>
                         <button class="confirm-button" data-dismiss="modal" @click = "receiveConfirm(verifyType,examType)">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
@@ -223,6 +230,7 @@ export default{
         receive(e,verifyType,examType){//verifyType 1-同意 2-拒绝 examType 1-单条 2-批量
             this.verifyType = verifyType;
             this.examType = examType;
+            this.remark = "";
             if (examType == 1) {
                 this.recordId = e.target.getAttribute("id");
                 $('#examConfirm').modal();
@@ -247,57 +255,65 @@ export default{
         },
 
         receiveConfirm(verifyType,examType) {
-            // console.log(examType);
-            if (examType == 1) {
-                let receiveData = {
-                    "id": this.recordId,
-                    "status": this.verifyType,
-                    "remark":this.remark
-                };
-                this.$http.post("/prisonerAccount/authWithdrawCash",$.param(receiveData)).then(res=>{
-                    // console.log(res);
-                    if (res.data.code == 0) {//返回成功
-                        this.remind = {
-                            status:'success',
-                            msg:res.data.msg
+            if (this.verifyType == 1 || !this.isNull(this.remark)) {
+                if (examType == 1) {
+                    let receiveData = {
+                        "id": this.recordId,
+                        "status": this.verifyType,
+                        "remark":this.remark
+                    };
+                    this.$http.post("/prisonerAccount/authWithdrawCash",$.param(receiveData)).then(res=>{
+                        // console.log(res);
+                        if (res.data.code == 0) {//返回成功
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                            this.getExamList(this.indexPage);
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
                         }
-                        this.getExamList(this.indexPage);
-                    }else {
-                        this.remind = {
-                            status:'failed',
-                            msg:res.data.msg
+                        store.dispatch('showRemind');
+                    }).catch(err=>{
+                        console.log('审核服务器异常' + err);
+                    });
+                }else if (examType == 2) {
+                    let receiveData = {
+                        "ids": this.ids,
+                        "status": this.verifyType,
+                        "remark":this.remark
+                    };
+                    this.$http.post("/prisonerAccount/batchAuthWithdrawCash",$.param(receiveData)).then(res=>{
+                        // console.log(res);
+                        if (res.data.code == 0) {//返回成功
+                            this.remind = {
+                                status:'success',
+                                msg:res.data.msg
+                            }
+                            this.getExamList(this.indexPage);
+                            $(".info-check").removeClass("active");
+                        }else {
+                            this.remind = {
+                                status:'failed',
+                                msg:res.data.msg
+                            }
                         }
-                    }
-                    store.dispatch('showRemind');
-                }).catch(err=>{
-                    console.log('审核服务器异常' + err);
-                });
-            }else if (examType == 2) {
-                let receiveData = {
-                    "ids": this.ids,
-                    "verifyType": this.verifyType,
-                    "remark":this.remark
-                };
-                this.$http.post("icCard/applyVerifies",$.param(receiveData)).then(res=>{
-                    // console.log(res);
-                    if (res.data.code == 0) {//返回成功
-                        this.remind = {
-                            status:'success',
-                            msg:res.data.msg
-                        }
-                        this.getExamList(this.indexPage);
-                        $(".info-check").removeClass("active");
-                    }else {
-                        this.remind = {
-                            status:'failed',
-                            msg:res.data.msg
-                        }
-                    }
-                    store.dispatch('showRemind');
-                }).catch(err=>{
-                    console.log('审核服务器异常' + err);
-                });
+                        store.dispatch('showRemind');
+                    }).catch(err=>{
+                        console.log('审核服务器异常' + err);
+                    });
+                }
+            }else {
+                this.remind = {
+                    status:'warn',
+                    msg:"拒绝理由不能为空"
+                }
+                store.dispatch('showRemind');
             }
+            
         },
     },
     components:{
@@ -313,7 +329,9 @@ export default{
 </script>
 
 <style lang="less" scoped>
-    h3{
-        font-weight:bold;
-    }
+    .modal {
+        .input-box {
+            margin-top: 20px;
+        }
+    }  
 </style>
