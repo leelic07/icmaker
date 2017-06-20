@@ -104,7 +104,8 @@
         <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
-<style lang="less" scoped>
+
+<style type="text/less" lang="less" scoped>
     button[disabled]{
        background: #999 !important ;
        border: 1px solid #999;
@@ -116,6 +117,7 @@
         }
     }
 </style>
+
 <script>
 import Remind from '../Remind.vue'
 import store from '../../store'
