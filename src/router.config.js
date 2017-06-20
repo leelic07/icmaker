@@ -31,6 +31,7 @@ import TransferApplication from './components/fundManagement/Transfer_Applicatio
 import TransferExamine from './components/fundManagement/Transfer_Examine.vue'
 import AccountModify from './components/fundManagement/Account_Modify.vue'
 import FundDistribution from './components/fundManagement/Fund_Distribution.vue'
+import PrisonTotalAccount from './components/fundManagement/Prison_Total_Account.vue'
 import CriminalFundLimit from './components/criminalFundManagement/Criminal_Fund_Limit.vue'
 import PrisonAreaLimit from './components/criminalFundManagement/Prison_Area_Limit.vue'
 import PrisonLimit from './components/criminalFundManagement/Prison_Limit.vue'
@@ -38,6 +39,7 @@ import CriminalFundDetail from './components/criminalFundManagement/Criminal_Fun
 import CFD_AddCriminal from './components/criminalFundManagement/CFD_Add_Criminal.vue'
 import CriminalFundDistribution from './components/criminalFundManagement/Criminal_Fund_Distribution.vue'
 import CashOut from './components/criminalFundManagement/Cash_Out.vue'
+import CashOutExamine from './components/criminalFundManagement/Cash_Out_Examine.vue'
 import SetLevelLimit from './components/criminalFundManagement/Set_Level_Limit.vue'
 import UploadExcel from './components/criminalFundManagement/Upload_Excel.vue'
 import Consumption from './components/consumption/Consumption.vue'
@@ -196,6 +198,10 @@ export default [
 		component:FundDistribution
 	},
 	{
+		path:'/prison_total_account',
+		component:PrisonTotalAccount
+	},
+	{
 		path:'/transfer_application',
 		component:TransferApplication
 	},
@@ -230,6 +236,10 @@ export default [
 	{
 		path:'/cash_out',
 		component:CashOut
+	},
+	{
+		path:'/cash_out_examine',
+		component:CashOutExamine
 	},
 	{
 		path:'/consumption',

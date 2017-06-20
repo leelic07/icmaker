@@ -18,10 +18,6 @@
               <label class="pull-right" for="name"><em class="important">*</em>所属监狱 :</label>
             </div>
             <div class="col-xs-6 select-box">
-              <!-- <select class="form-control" v-model='prisonId'>
-                  <option value=''>请选择</option>
-                  <option v-for='prison in prisonList' v-text='prison.prisonName' :value='prison.id'></option>
-              </select> -->
               <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName'
                      v-if='prisonList.length > 1'>
               <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1'
@@ -51,7 +47,8 @@
                 <option value=''>请选择</option>
                 <option value='0'>财务账户</option>
                 <option value='1'>商户账户</option>
-                <option value='2'>监狱总账户</option>
+                <option value='2'>监狱账户</option>
+                <option value='4'>资金分配类型账户</option>
               </select>
             </div>
           </div>

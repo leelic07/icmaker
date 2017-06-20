@@ -29,26 +29,35 @@
         <!--已分配金额，已分配类型部分-->
         <div class="col-xs-24 distribution" v-if='prisonCapitalAssignsList != []'>
             <div class="col-xs-23 distribution-innerbox">
-
+                
                 <div v-for='pcal in prisonCapitalAssignsList' class="col-xs-24 distributionItem">
-                    <div class="col-xs-10">
+                    <div class="col-xs-8">
+                        <div class="col-xs-10">
+                            <label for="" class="pull-left">分配类别:</label>
+                        </div>
+                        <div class="col-xs-14">
+                            <p class='text-center'>{{pcal.accountName}}</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-8">
+                        <div class="col-xs-10">
+                            <label for="" class="pull-left">虚拟账户:</label>
+                        </div>
+                        <div class="col-xs-14">
+                            <p class='text-center'>{{pcal.virtualAccountNo}}</p>
+                        </div>
+                    </div> 
+                    <div class="col-xs-8">
                         <div class="col-xs-8">
                             <label for="" class="pull-left">已分配金额:</label>
                         </div>
                         <div class="col-xs-14">
                             <p class='text-center'>{{pcal.money | currency}}</p>
                         </div>
-                    </div>
-                    <div class="col-xs-14">
-                        <div class="col-xs-6">
-                            <label for="" class="pull-left">已分配类别:</label>
-                        </div>
-                        <div class="col-xs-11">
-                            <p class='text-center'>{{pcal.type | distributionType}}</p>
-                        </div>
-                    </div>
-                </div>
+                    </div>   
+                </div>     
             </div>
+        </div>
         </div>
 
         <!--分配金额,分配类型部分-->
@@ -58,22 +67,21 @@
                 <div v-for='di in distributionItems' class="col-xs-24 distributionItem">
                     <div class="col-xs-10">
                         <div class="col-xs-7">
-                            <label for="" class="pull-left">分配金额</label>
+                            <label for="" class="pull-left">分配类别</label>
                         </div>
                         <div class="col-xs-14">
-                            <input type="text" class="form-control" v-model='di.money'/>
+                            <select class="form-control" v-model='di.type'>
+                                <option value="">请选择</option>
+                            	<option :value = "pcal.prisonAccountId" v-for='pcal in prisonCapitalAssignsList'>{{pcal.accountName}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-xs-14">
                         <div class="col-xs-5">
-                            <label for="" class="pull-left">分配类别</label>
+                            <label for="" class="pull-left">分配金额</label>
                         </div>
                         <div class="col-xs-11">
-                            <select class="form-control" v-model='di.type'>
-                            	<option value=''>全部</option>
-                                <option value='0'>低报酬</option>
-                                <option value='1'>IC卡资金</option>
-                            </select>
+                            <input type="text" class="form-control" v-model='di.money'/>
                         </div>
                         <div class="col-xs-8 addDistribution">
                             <a href="#" class="col-xs-10 col-xs-offset-3" @click='addDistribution($event)'>
@@ -156,7 +164,7 @@ import store from '../../store'
                     method:'get',
                     url:'/prisonCapital/getPrisonCapitalAssigns'
                 }).then(res=>{
-                    // console.log(res.data.data);
+                    console.log(res.data.data);
                     let data = res.data.data;
                     if(res.data.code == 0){
                         this.avilableTotal = data.avilableTotal;
@@ -199,7 +207,7 @@ import store from '../../store'
                     $.each(this.distributionItems,(index,value)=>{
                         distributionItemsTem.push({
                             'money':value.money,
-                            'type':value.type
+                            'prisonAccountId':value.type
                         });
                     });
 
