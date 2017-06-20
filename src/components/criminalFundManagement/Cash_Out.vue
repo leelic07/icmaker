@@ -88,7 +88,7 @@
     <div class="modal modal-confirm modal-bind" id="cashOutConfirm" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="false">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" v-if = "isCashOut">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
               &times;
@@ -97,31 +97,38 @@
           <div class="modal-body">
             <h2>取现</h2>
             <div class="clearfix bind-info">
-                <img :src="bindIcInfo.prisoner.imgUrl" alt="" class="pull-left bind-img">
+                <img :src="CashOutInfo.prisoner.imgUrl" alt="" class="pull-left bind-img">
                 <ul class="pull-left clearfix bind-info-list">
-                    <li class="clearfix"><span class="pull-left info-label">罪犯名</span><span class="pull-right">{{bindIcInfo.prisoner.name}}</span></li>
-                    <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{bindIcInfo.prison}}</span></li>
-                    <li class="clearfix"><span class="pull-left info-label">所属监区</span><span class="pull-right">{{bindIcInfo.department}}</span></li>
-                    <li class="clearfix"><span class="pull-left info-label">档案号</span><span class="pull-right">{{bindIcInfo.prisoner.archivesNumber}}</span></li>
+                    <li class="clearfix"><span class="pull-left info-label">罪犯名</span><span class="pull-right">{{CashOutInfo.prisoner.name}}</span></li>
+                    <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{CashOutInfo.prison.prisonName}}</span></li>
+                    <li class="clearfix"><span class="pull-left info-label">所属监区</span><span class="pull-right">{{CashOutInfo.prison.prisonDepartmentName}}</span></li>
+                    <li class="clearfix"><span class="pull-left info-label">编号</span><span class="pull-right">{{CashOutInfo.prisoner.number}}</span></li>
                 </ul>
             </div>
+            <ul class="clearfix bind-info-list">
+                <li class="clearfix"><span class="pull-left info-label">A卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.aTotal | currency}}</span></li>
+                <li class="clearfix"><span class="pull-left info-label">B卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.bTotal | currency}}</span></li>
+                <li class="clearfix"><span class="pull-left info-label">总余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.total | currency}}</span></li>
+            </ul>
+            <hr>
+            <div class="line"></div>
             <div class="row">
                 <div class="col-xs-6 label-box">
-                    <label class="pull-right" for="name"><em class="important">*</em>取现类型 </label>
+                    <label class = "pull-left info-label" for="name">取现类型 </label>
                 </div>
-                <div class="col-xs-18 select-box">
-                    <select class="form-control" v-model='bankAccount.bankId'>
-                        <option value=''>请选择</option>
-                        <option v-for='bank in banks' :value='bank.id' v-text='bank.bankName'></option>
+                <div class="col-xs-18">
+                    <select class="form-control" v-model = "type">
+                        <option value=0>请选择</option>
+                        <!--<option v-for='bank in banks' :value='bank.id' v-text='bank.bankName'></option>-->
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-6 label-box">
-                    <label class="pull-right" for="name"><em class="important">*</em>取现金额 </label>
+                    <label class = "pull-left info-label" for="name">取现金额 </label>
                 </div>
-                <div class="col-xs-18 select-box">
-                    <input type="text" class="form-control fee-input" v-model='cash'>
+                <div class="col-xs-18">
+                    <input type="text" class="form-control" v-model = "cash">
                 </div>
             </div>
             <button class="confirm-button" @click='withdrawCash()'>确定</button>
@@ -147,6 +154,10 @@
         cashOutSize: '',
         prisonId: '',
         prisonerId: '',
+        isCashOut: false,
+        CashOutInfo: '',
+        type: '',
+        cash: '',
         prisonName: '',
         prisonDepartmentId: '',
         prisonList: [],
@@ -224,7 +235,20 @@
         this.cash = '';
         this.prisonerId = prisonerId;
         this.total = total;
+        this.isCashOut = true;
         $('#cashOutConfirm').modal();
+        this.$http({
+            method: 'get',
+            url: '/prisonerAccount/getCashPage',
+            params: {
+              prisonerId: this.prisonerId
+            }
+          }).then(res => {
+            console.log(res);
+            this.CashOutInfo = res.data.data;
+          }).catch(err => {
+            console.log(err);
+          });
       },
 
       //点击确定取现按钮
@@ -249,8 +273,9 @@
         if (!isNull && isEnough) {
           this.$http({
             method: 'post',
-            url: '/prisonerAccount/withdrawCash',
+            url: '/prisonerAccount/applyWithdrawCash',
             params: {
+              type: this.type,
               cash: this.toCent(this.cash),
               prisonerId: this.prisonerId
             }
@@ -359,6 +384,28 @@
     .modal-body {
       h3 {
         font-weight: bold;
+      }
+      .label-box {
+        height: 35px;
+        line-height: 35px;
+        color: #999;
+      }
+      .row {
+        margin-bottom: 20px;
+      }
+      hr {
+        width: 597px;
+        border-top-color: #ccc;
+        margin-left: -100px;
+      }
+      ul {
+        li {
+          line-height: 35px;
+          height: 35px;
+        }
+      }
+      .info-label {
+        color: #666;
       }
       .confirm-button {
         margin-top: 12px;

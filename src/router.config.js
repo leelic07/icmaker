@@ -38,6 +38,7 @@ import CriminalFundDetail from './components/criminalFundManagement/Criminal_Fun
 import CFD_AddCriminal from './components/criminalFundManagement/CFD_Add_Criminal.vue'
 import CriminalFundDistribution from './components/criminalFundManagement/Criminal_Fund_Distribution.vue'
 import CashOut from './components/criminalFundManagement/Cash_Out.vue'
+import CashOutExamine from './components/criminalFundManagement/Cash_Out_Examine.vue'
 import SetLevelLimit from './components/criminalFundManagement/Set_Level_Limit.vue'
 import Consumption from './components/consumption/Consumption.vue'
 import Capital_Composition from './components/statistics/Capital_Composition.vue'
@@ -229,6 +230,10 @@ export default [
 	{
 		path:'/cash_out',
 		component:CashOut
+	},
+	{
+		path:'/cash_out_examine',
+		component:CashOutExamine
 	},
 	{
 		path:'/consumption',
