@@ -1,6 +1,6 @@
 <template>
     <div id="ward">
-        <!--搜索框部分-->   
+        <!--搜索框部分-->
         <div class="col-xs-24 search tab-search">
             <div class="col-xs-23 search-box tab-search-box">
                 <div class="col-xs-23 search-inner-box">
@@ -25,7 +25,7 @@
                                 <option value="">全部</option>
                                 <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
-                        </div>  
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-8 select-box">
@@ -38,7 +38,7 @@
                     <div class="row">
                         <div class="col-xs-4 col-xs-push-10 button-box">
                             <input type="button" value="搜索" class="search-button" @click = "applyList(1)">
-                        </div>    
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
         </div>
 
         <!--表格部分-->
-        
+
         <!--转监区审核-->
         <div class="col-xs-24 form">
             <div class="col-xs-23">
@@ -73,7 +73,7 @@
                             <th>转至监区</th>
                             <th>入监日期</th>
                             <th>审核状态</th>
-                            <th colspan="2">操作</th>  
+                            <th colspan="2">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,14 +91,14 @@
                             <td>{{transfer.status | formatExamStatus}}</td>
                             <td><em class="agree-text" :id="transfer.transferId" @click = "transferExam($event,1,1)" v-show = "transfer.status == 0">同意</em></td>
                             <td><em class="reject-text" :id="transfer.transferId"  @click = "transferExam($event,1,2)" v-show = "transfer.status == 0">拒绝</em></td>
-                        </tr>  
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <!-- 表单底部-->
             <Page :itemSize = "transferSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "applyList"></Page>
         </div>
-        
+
         <!-- 同意确认框-->
         <div class="modal modal-confirm modal-examine" id="agreeTransferConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
             <div class="modal-dialog">
@@ -132,7 +132,7 @@
                             <label for="verifyNote" class="pull-left col-xs-5">拒绝原因 :</label>
                             <div class="col-xs-15">
                                 <input type="text" class="form-control pull-left" id="verifyNote">
-                            </div> 
+                            </div>
                         </div>
                         <button class="confirm-button" :id = "currentId" data-dismiss="modal" @click = "transferConfirm($event,2)">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
@@ -158,7 +158,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        
+
         <!-- 拒绝确认框-->
         <div class="modal modal-confirm modal-examine" id="rejectAllTransferConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
             <div class="modal-dialog">
@@ -174,7 +174,7 @@
                             <label for="verifyNote" class="pull-left col-xs-5">拒绝原因 :</label>
                             <div class="col-xs-15">
                                 <input type="text" class="form-control pull-left" id="verifyNote">
-                            </div> 
+                            </div>
                         </div>
                         <button class="confirm-button" :id = "currentId" data-dismiss="modal" @click = "transferAllConfirm($event,2)">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
@@ -252,7 +252,7 @@ import Page from '../Paginator.vue'
         methods:{
             getExamStatus() {
                 this.examStatus = [{"value":0,"name":"审核中"},{"value":" ","name":"全部"},{"value":1,"name":"审核成功"},{"value":2,"name":"审核失败"}];
-            }, 
+            },
 
             getPrisonInfo() {//获取监狱信息
                 this.$http.get('prisoner/toAddOrEdit').then(res=>{
@@ -339,7 +339,7 @@ import Page from '../Paginator.vue'
                         }
                         store.dispatch('showRemind');
                     }
-                } 
+                }
             },
 
             transferConfirm(e,type) {//对转监进行审核
@@ -373,7 +373,7 @@ import Page from '../Paginator.vue'
             transferAllConfirm(e,type) {//对转监进行批量审核
                 let transferAllData = {
                     "verifyType": type,
-                    "ids": this.choiseIds.join(',') 
+                    "ids": this.choiseIds.join(',')
                 };
                 // console.log(transferAllData);
                 this.$http.post('prisoner/transferVerifyByIds',$.param(transferAllData)).then(res=>{

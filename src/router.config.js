@@ -231,7 +231,12 @@ export default [
 	},
 	{
 		path:'/criminal_fund_distribution',
-		component:CriminalFundDistribution
+		component:CriminalFundDistribution,
+    children:[{
+      //path:'/criminal_fund_distribution/upload_excel/:prisonCapitalIncomes',
+       path:'/criminal_fund_distribution/upload_excel',
+      component:UploadExcel
+    }]
 	},
 	{
 		path:'/cash_out',

@@ -86,6 +86,7 @@
             <h3>设置罪犯限额</h3>
             <div class="clearfix bind-info">
               <ul class="pull-left clearfix bind-info-list">
+                <li class="clearfix"><span class="pull-left info-label">罪犯名</span><span class="pull-right">{{currentPrisonName}}</span></li>
                 <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{currentPrisonName}}</span></li>
                 <li class="clearfix"><span class="pull-left info-label">所属监区</span><span class="pull-right">{{currentDepartName}}</span></li>
               </ul>

@@ -127,8 +127,8 @@
     import Util from '../../../static/js/util.js'
 
     export default {
-        data (){
-            return{
+        data () {
+            return {
                 imgUrl:"./static/img/add.jpg",
                 prisons: "",
                 prisonerId: "",
@@ -152,7 +152,7 @@
             }
         },
         watch: {
-            prisonName(){
+            prisonName() {
                 let oldPrisonId = this.prisonerInfo.prisonId;
                 for (let i = 0; i< this.prisons.length; i++)  {
                     if (this.prisons[i].prisonName == this.prisonName) {
@@ -162,7 +162,7 @@
                 if (this.prisonerInfo.prisonId != oldPrisonId) {
                     this.getPrisonDepartInfo();
                 }
-            }
+            },
         },
         computed: {
             remindShow:{
@@ -171,7 +171,7 @@
                 }
             }
         },
-        methods:{
+        methods: {
             dateInit(){
                 $('.date').datetimepicker({
                     language:'zh-CN',
@@ -192,8 +192,8 @@
                 $("#imgUrlBtn").on("change",function (e) {
                     let file = e.target.files[0];
                     if (self.isImg(file)) {
-                         Util.readImgUrl(file,self,'imgUrl');
-                    }else {
+                        Util.readImgUrl(file,self,'imgUrl');
+                    } else {
                         self.remind = {
                             status:'warn',
                             msg:'请上传格式正确的图片文件'

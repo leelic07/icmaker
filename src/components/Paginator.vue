@@ -22,7 +22,6 @@ import '../../static/js/jquery.pagination.min.js'
 		methods:{
 			pageInit(_this){
 				$('.M-box2').html(' ');
-				//console.log("hhhhhh")
 				if (this.itemSize/this.pageSize > 1) {
 				//	console.log($('.M-box2').pagination())
 					$('.M-box2').pagination({

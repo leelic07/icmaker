@@ -2,6 +2,7 @@
   <!-- 右侧内容-->
   <div id="right-side" class="col-xs-20 pull-right">
     <!--搜索框部分-->
+    <div v-if="isDistribution">
     <div class="col-xs-24 search">
       <div class="col-xs-23 search-box">
         <div class="col-xs-23 search-inner-box">
@@ -26,8 +27,13 @@
               <select class="form-control" v-model='type'>
                 <option value=''>全部</option>
                 <!-- <option value='0'>家属汇款</option> -->
-                <option value='0'>低报酬</option>
-                <option value='1'>IC卡资金</option>
+                <option value='0'>财务账户</option>
+                <option value='1'>商户账户</option>
+                <option value="2">监狱总账户</option>
+                <option value="3">监狱总局账户</option>
+                <option value="4">零花钱</option>
+                <option value="5">IC卡资金账户</option>
+                <option value="6">低报酬</option>
               </select>
             </div>
           </div>
@@ -46,7 +52,7 @@
         <input type="button" value="下载excel模板" class="reject-button" @click="downLoadTemplate()">
       </div>
       <div class="col-xs-2">
-        <input type="file" value="上传excel" id="upload">
+        <!--<input type="file" value="上传excel" id="upload">-->
       </div>
     </div>
 
@@ -65,9 +71,9 @@
           </thead>
           <tbody>
             <tr v-for='cfal,index in criminalFundAllocationList'>
-              <td :id='cfal.prison_id'></td>
-              <td v-text='cfal.prison_name'></td>
-              <td>{{cfal.type | locationType}}</td>
+              <td :id='cfal.prisonId'></td>
+              <td v-text='cfal.prisonName'></td>
+              <td>{{cfal.accountName}}</td>
               <td>{{cfal.money | currency}}</td>
               <td class="col-xs-5">
                 <router-link
@@ -76,7 +82,7 @@
                 </router-link>
                 <!--<router-link to="" class="reject-text">上传excel文件</router-link>-->
                 <a href="#" @click="$event.preventDefault()" class="reject-text">上传excel文件</a>
-                <input class="file" type="file" :id="index">
+                <input class="file" type="file" :id="index" :uploadType="cfal.type" :prisonName="cfal.prisonName">
               </td>
             </tr>
           </tbody>
@@ -84,7 +90,11 @@
       </div>
       <!-- 表单底部-->
       <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchLocation'></Page>
+      </div>
     </div>
+    <!--<router-view :excelData="prisonCapitalIncomes"></router-view>-->
+    <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" :dataId="dataId"></UploadExcel>
+
   </div>
 </template>
 
@@ -92,6 +102,8 @@
   import Page from '../Paginator.vue'
   import axios from 'axios'
   import Util from '../../../static/js/util.js'
+  import store from '../../store'
+  import UploadExcel from './Upload_Excel.vue'
 
   export default{
     data(){
@@ -105,6 +117,14 @@
         type: '',
         prisonList: [],
         criminalFundAllocationList: [],
+        prisonCapitalIncomes: [],
+        prisonCapitalIncomesList:[],
+        uploadSuccess:'',
+        isDistribution:true,
+        toUrl:'',
+        fromUrl:'',
+        uploadType:'',//上传Excel类型
+//        remindShow:'',
         remind: {
           status: '',
           msg: ''
@@ -126,6 +146,38 @@
           }
         } else {
           this.prisonId = '';
+        }
+      },
+      prisonCapitalIncomes(){
+          this.isDistribution = false;
+//        console.log(this.prisonCapitalIncomes);
+//        this.$emit('prisonCapitalIncomes',this.prisonCapitalIncomes);
+
+//        this.$router.push({
+//        //  path:'/criminal_fund_distribution/upload_excel/'+this.prisonCapitalIncomes
+//          path:'/criminal_fund_distribution/upload_excel'
+//        });
+
+      },
+      $route(to, from) {//监听路由变化
+        this.toUrl = to.path;
+        this.fromUrl = from.path;
+      },
+      toUrl() {
+        let url = window.location.href;
+//        console.log(url);
+        let index = url.lastIndexOf('/');
+        console.log(this.toUrl.substring(0, index));
+        if (this.toUrl.substring(0, index) == '/criminal_fund_distribution/upload_excel') {
+          this.isDistribution = false;
+        } else {
+          this.isDistribution = true;
+        }
+      },
+      fromUrl() {
+        const editUrl = '/criminal_fund_distribution/upload_excel';
+        if(this.fromUrl == '/criminal_fund_distribution/upload_excel'){
+//          this.isManage = false;
         }
       }
     },
@@ -173,7 +225,7 @@
       },
 
       //点击搜索查询罪犯资金分配列表
-      searchLocation(index){
+      searchLocation(index) {
         this.indexPage = index;
         this.$http({
           method: 'get',
@@ -193,19 +245,18 @@
         });
       },
       downLoadTemplate() {
-          //  axios.get('prisonCapital/downTemplate');
-          window.location.href="http://10.10.10.101:8080/icmaker/prisonCapital/downTemplate";
+          window.location.href="http://10.10.10.101:8080/icmaker/downTemplate";
       },
       uploadExcel() {
-
         let self = this;
-        console.log('upload');
-
-        $("#upload").on("change",function (e) {
+        $('#table_id_example').on("change",".file",function(e) {
           let file = e.target.files[0];
-          console.log(file);
+//          console.log(e.target.getAttribute('uploadType'));
+          let uploadType = e.target.getAttribute('uploadType');
+          let prisonName = e.target.getAttribute('prisonName');
+//          console.log(file);
           if (self.isExcel(file)) {
-            Util.readExcel(file,self,'ExcelUrl');
+            Util.readExcel(file,self,'prisonCapitalIncomes','dataId',uploadType,prisonName);
           } else {
             self.remind = {
               status:'warn',
@@ -213,58 +264,17 @@
             }
             store.dispatch('showRemind');
           }
-
         });
-//        this.$router.push({
-//          path:'/upload_excel'
-//        });
-//        console.log('ok');
-
-//        $('[type=file]').on('change',function(e){
-//          let file = event.target.files[0];
-//          let formdata;
-//          formdata = new FormData();
-//          formdata.append('fileId',file);
-////          formdata.append('action','test');
-//
-//          axios({
-//            url:'prisonCapital/importPrisonerCapitalIncome',
-//            method:'post',
-//            data:formdata,
-////            headers: { 'Content-Type': 'multipart/form-data' }
-//          }).then((res)=>{
-//            console.log(res.data);
-//            if(res.data.code == 0){
-//
-//            }
-//          }).catch(err => {
-//            console.log(err);
-//          })
-//        })
-
-//        console.log(event.target.files[0]);
-//        $.ajaxFileUpload({
-//          url:'http://10.10.10.101:8080/icmaker/prisonCapital/importPrisonerCapitalIncome',
-//          secureuri:false,
-//          fileElementId:fileIndex,//文件选择框的id属性（必须）
-//          dataType: 'json',
-//          success: function (data, status){
-//            if(data.code == 0){
-//
-//            }
-//          },
-//          error: function (data, status, e){
-//            console.log(data);
-//          }
-//        });
-        }
-      },
-    components: {
-      Page
+      }
     },
-    mounted(){
+    components: {
+      Page,
+      UploadExcel
+    },
+    mounted() {
       this.getAllPrison();
       this.getLocationList();
+      console.log($('#upload'));
       this.uploadExcel();
       //this.downLoadTemplate();
       $('#table_id_example').tableHover();

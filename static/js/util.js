@@ -118,25 +118,32 @@ export default {
     },
 
     //上传Excel表格
-    readExcel(file,_this,dataName){
-      console.log('Excel');
-      console.log(dataName);
+    readExcel(file,_this,dataName,dataId,uploadType,prisonName){
+      // console.log(dataName);
+      let success = false;
       let oMyForm = new FormData();
       oMyForm.append("fileId", file);
       let oReq = new XMLHttpRequest();
-      oReq.open("POST", "http://10.10.10.101:8080/icmaker/prisonCapital/importPrisonerCapitalIncome");
+      let userId = window.localStorage.getItem('userId');
+      oReq.open("POST", "http://10.10.10.101:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
       oReq.send(oMyForm);
       oReq.onload = function(oEvent) {
         if (oReq.status == 200) {
           let response = $.parseJSON(this.response);
           if (response.code == 0) {//上传Excel成功
-            // _this[dataName] = response.data.imgUrl;
-            // window.location.href = 'http://localhost:8081/#/criminal_fund_distribution';
-            console.log('上传成功');
+            // console.log(response.data);
+            let prisonerCapitalIncomes = response.data.prisonerCapitalIncomes;
+            $.each(prisonerCapitalIncomes,(index,value)=> {
+              value.type = uploadType;
+              value.prisonName = prisonName;
+            });
+            _this[dataName] = response.data;
+            success = true;
           }
         } else {
           console.log("上传Excel错误，错误码：" + oReq.status);
         }
       };
+      return success;
     }
 }

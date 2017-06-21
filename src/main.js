@@ -63,14 +63,15 @@ axios.interceptors.request.use(function(config){
 
 	// console.log(config);
   // config.headers.Authorization = `token ${store.state.mutations.token}`;
-  if(config.method == 'get'){
+  if(config.method == 'get') {
     if(config.params){
       config.params.userId = window.localStorage.getItem('userId');
     }else{
       config.url += '?userId=' + window.localStorage.getItem('userId');
     }
   }
-  if(config.method == 'post' && config.url != config.baseURL+'login'){
+
+  if(config.method == 'post' && config.url != config.baseURL+'login') {
   	config.data += '&userId=' + window.localStorage.getItem('userId');
   }
   return config;

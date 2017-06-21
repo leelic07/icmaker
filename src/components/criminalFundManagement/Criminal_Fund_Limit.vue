@@ -127,6 +127,7 @@
         </div>
 
         <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+
     </div>
 </template>
 
