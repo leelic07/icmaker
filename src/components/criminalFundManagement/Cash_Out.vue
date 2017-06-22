@@ -200,7 +200,6 @@
       }
     },
     computed: {
-
       //获得提示模态框状态
       remindShow: {
         get(){
@@ -234,8 +233,6 @@
         this.cash = '';
         this.prisonerId = prisonerId;
         this.total = total;
-        this.isCashOut = true;
-        $('#cashOutConfirm').modal();
         this.$http({
             method: 'get',
             url: '/prisonerAccount/getCashPage',
@@ -243,9 +240,10 @@
               prisonerId: this.prisonerId
             }
           }).then(res => {
-            console.log(res);
             this.CashOutInfo = res.data.data;
             this.type = this.CashOutInfo.cashTypeList[0].value;
+            this.isCashOut = true;
+            $('#cashOutConfirm').modal();
           }).catch(err => {
             console.log(err);
           });

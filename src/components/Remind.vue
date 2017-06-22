@@ -1,6 +1,6 @@
 <template>
 	<!-- Small modal -->
-	<div id='remindConfirm' class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	<div id='remindConfirm' class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" @keyup.enter = "hideRemind">
 	  <div class="modal-dialog modal-sm" role="document">
 	    <div class="modal-content">
 	    	<!--成功-->
@@ -74,6 +74,10 @@ import store from '../store'
 						});
 					}
 				});
+			},
+
+			hideRemind () {
+				$('.bs-example-modal-sm').modal("hide");
 			}
 		},
 		mounted(){

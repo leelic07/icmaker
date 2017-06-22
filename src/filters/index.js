@@ -30,9 +30,13 @@ export default{
 		}else if(accountType == 1){
 			return '商户账户';
 		}else if(accountType == 2){
-			return '监狱总账户';
+			return '挂起资金账户';
 		}else if(accountType == 4){
-			return '监狱资金分配账户';
+			return '零花钱账户';
+		}else if(accountType == 5){
+			return 'IC卡账户';
+		}else if(accountType == 6){
+			return '低报酬账户';
 		}
 	},
 
@@ -379,8 +383,52 @@ export default{
 		}
 	},
 
+	//监狱资金明细类别
+	prisonFundType(value) {
+		let fundType = "";
+		switch(Number(value))
+		{
+		case 0 :
+			fundType = "内部资金分配";
+			break;
+		case 1 :
+			fundType = "犯人取现入账";
+			break;
+		case 2 :
+			fundType = "外部汇款入账";
+			break;
+		case 4 :
+			fundType = "内部转账出账";
+			break;
+		case 5 :
+			fundType = "外部转账出账";
+			break;
+		case 6 :
+			fundType = "内部转账入账";
+			break;
+		case 7 :
+			fundType = "罪犯低报酬资金分配";
+			break;	
+		case 8 :
+			fundType = "罪犯IC卡资金分配";
+			break;	
+		case 9 :
+			fundType = "罪犯刷卡入账";
+			break;
+		case 10 :
+			fundType = "制卡费入账";
+			break;	
+		case 11 :
+			fundType = "罪犯零花钱资金分配";
+			break;	
+		default :
+			fundType = "";
+		}
+		return fundType;
+	},
 
-   //资金明细类别
+
+   //罪犯资金明细类别
 	formatFundType(value) {
 		let fundType = "";
 		switch(Number(value))

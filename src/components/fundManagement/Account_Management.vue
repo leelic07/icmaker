@@ -34,7 +34,10 @@
                 <option value=''>全部</option>
                 <option value='0'>财务账户</option>
                 <option value='1'>商户账户</option>
-                <option value='2'>监狱总账户</option>
+                <option value='2'>挂起资金账户</option>
+                <option value='4'>零花钱账户</option>
+                <option value='5'>IC卡账户</option>
+                <option value='6'>低报酬账户</option>
               </select>
             </div>
           </div>

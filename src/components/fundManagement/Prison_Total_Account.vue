@@ -3,10 +3,10 @@
     <div id="right-side" class="col-xs-20 pull-right">
         <!--监狱资金总收入，总支出-->
         <div class='row'>
-            <div class='prison-total col-xs-23'>
+            <div class='prison-total col-xs-23' v-if = "countTotal != ''">
                 <ul>
-                    <li class='pull-left text-green'>所有监狱总金额: <span
-                        class='text-red'>2000元</span></li>
+                    <li class='pull-left text-green'>所有监狱总金额 <span
+                        class='text-red'>{{countTotal | currency}}元</span></li>
                     </li>
                 </ul>
             </div>
@@ -14,36 +14,32 @@
 
         <!--表格部分-->
         <div class="col-xs-24 account-table-box">
-            <div class="col-xs-23">
+            <div class="col-xs-23" style = "margin-bottom: 10px;" v-for = "account in prisonAccountInfo">
                 <table class="display table ic-table table-bordered">
                     <thead>
                         <tr>
-                            <th colspan = "2">长沙监狱总余额 <span class='text-red'>3015648<em class="">元</em></span></th>  
+                            <th colspan = "2">{{account.prisonName}}总余额 <span class='text-red'>{{account.prisonTotal | currency}}<em class="text-small">元</em></span></th>  
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan = "2">监狱罪犯总余额: <span class='text-red'>3015648元</span></td>
+                            <td colspan = "2">监狱罪犯总余额: <span class='text-red'>{{account.prisonerTotal | currency}}元</span></td>
                         </tr>  
                         <tr>
-                            <td rowspan = "3" width = "300">监狱账户总余额: <span class='text-red'>3015648元</span></td>
-                            <td>商户账户总余额: <span class='text-red'>3015648元</span></td>
+                            <td :rowspan = "account.data.length + 1" width = "300">监狱账户总余额: <span class='text-red'>{{account.prisonAccountTotal | currency}}元</span></td>
                         </tr>   
-                        <tr>
-                            <td>商户账户总余额: <span class='text-red'>3015648元</span></td>
-                        </tr> 
-                        <tr>
-                            <td>商户账户总余额: <span class='text-red'>3015648元</span></td>
-                        </tr> 
+                        <tr v-for = "data in account.data">
+                            <td>{{data.accountName}}余额: <span class='text-red'>{{data.total | currency}}元</span></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <div class = "form">
+        <div class = "form" v-if = "countTotal != ''">
             <div></div>
             <!-- 表单底部-->
-            <Page :itemSize = "accountSize" :pageSize = "pageSize" :indexPage = "indexPage"></Page>
+            <Page :itemSize = "accountSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search='getAccountInfo'></Page>
         </div>
          
         <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
@@ -59,7 +55,8 @@
         data(){
             return {
                 indexPage: 1,
-                pageSize: 10,
+                pageSize: 3,
+                countTotal: '',
                 accountSize: '',
                 prisonAccountInfo: ''
             }
@@ -76,18 +73,20 @@
                 this.indexPage = index;
                 this.$http({
                     method: 'get',
-                    url: 'prisonCapital/getPrisonCapitalDetails',
+                    url: 'prisonAccount/getPrisonAccountTotals',
                     params: {
                         indexPage: this.indexPage,
                         pageSize: this.pageSize,
                     }
                 }).then(res => {
                     let data = res.data.data;
-                    this.prisonAccountInfo = data.prisonCapitalDetailDtos;
-                    this.accountSize = data.prisonCapitalDetailDtoSize;
+                    console.log(data);
+                    this.countTotal = data.countTotal;
+                    this.prisonAccountInfo = data.prisonAccountListDtos;
+                    this.accountSize = data.prisonAccountListDtoSize;
                     
                 }).catch(err => {
-                console.log(err);
+                    console.log(err);
                 });
             }
         },
@@ -108,7 +107,7 @@
         .row:nth-child(1){
             margin: 100px 0 20px 30px;
         }
-
+        
         .account-table-box {
             .table {
                 background: #fff;
@@ -129,7 +128,10 @@
         }
 
         .prison-total {
-            font-size: 18px;
+            font-size: 16px;
+        }
+        .text-small {
+            font-size: 14px;
         }
 
         .text-red {
