@@ -145,5 +145,28 @@ export default {
         }
       };
       return success;
-    }
+    },
+
+  //上传Excel表格
+  readUploadExcel(file,_this,url){
+    // console.log(dataName);
+    let oMyForm = new FormData();
+    oMyForm.append("fileId", file);
+    let oReq = new XMLHttpRequest();
+    let userId = window.localStorage.getItem('userId');
+    oReq.open("POST", url+"?userId="+userId);
+    oReq.send(oMyForm);
+    oReq.onload = function(oEvent) {
+      if (oReq.status == 200) {
+          let response = $.parseJSON(this.response);
+        if (response.code == 0) {//上传Excel成功
+          _this['prisonerLevels'] = response.data.prisonerLevels;
+          _this['prisonerLevelSize'] = response.data.prisonLevelSize;
+        }
+      } else {
+        console.log("上传Excel错误，错误码：" + oReq.status);
+      }
+    };
+  }
+
 }
