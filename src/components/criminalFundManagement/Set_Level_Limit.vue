@@ -65,6 +65,7 @@
           </tbody>
         </table>
       </div>
+
       <!-- 表单底部-->
       <Page :itemSize = "fundSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getFundList"></Page>
     </div>
@@ -85,6 +86,7 @@
             <h3>设置罪犯限额</h3>
             <div class="clearfix bind-info">
               <ul class="pull-left clearfix bind-info-list">
+                <li class="clearfix"><span class="pull-left info-label">罪犯名</span><span class="pull-right">{{currentPrisonName}}</span></li>
                 <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{currentPrisonName}}</span></li>
                 <li class="clearfix"><span class="pull-left info-label">所属监区</span><span class="pull-right">{{currentDepartName}}</span></li>
               </ul>
@@ -126,6 +128,7 @@
   }
   }
 </style>
+
 <script>
   import Remind from '../Remind.vue'
   import store from '../../store'
@@ -223,6 +226,7 @@
       setFund (e) {
         $('#setConfirm').modal();
       }
+
     },
     components:{
       Page,
@@ -236,7 +240,7 @@
   }
 </script>
 
-<style lang='less' scoped>
+<style type="text/less" lang='less' scoped>
   #setConfirm{
   h3{
     font-weight:bold;

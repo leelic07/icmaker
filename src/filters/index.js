@@ -94,7 +94,7 @@ export default{
 		default :
 			status = "";
 		}
-		return status;	
+		return status;
 	},
 
     //在监状态过滤器
@@ -185,9 +185,9 @@ export default{
 			return null;
 		}else {
 			let now=new Date(value);
-			let year=now.getFullYear();     
-			let month=buling(now.getMonth()+1);     
-			let date=buling(now.getDate()); 
+			let year=now.getFullYear();
+			let month=buling(now.getMonth()+1);
+			let date=buling(now.getDate());
 			let hour=buling(now.getHours());
 			let minute=buling(now.getMinutes());
 			let second=buling(now.getSeconds());
@@ -208,8 +208,8 @@ export default{
 			return null;
 		}else {
 			let now=new Date(value);
-			let year=now.getFullYear();     
-			let month=buling(now.getMonth()+1);     
+			let year=now.getFullYear();
+			let month=buling(now.getMonth()+1);
 			let date=buling(now.getDate());
 			return year+"-"+month+"-"+date+" ";
 		}
@@ -259,7 +259,7 @@ export default{
 			return '同行';
 		}
 	},
-	
+
 	//公私标识过滤器
 	isPublic(isPublic){
 		if(isPublic == '0'){
@@ -353,7 +353,7 @@ export default{
 			return '同行';
 		}
 	},
-	
+
 	//公私标识过滤器
 	isPublic(isPublic){
 		if(isPublic == '0'){
@@ -461,12 +461,29 @@ export default{
 	locationType(type){
 		let locationTye = '';
 		switch(type){
-			case 0 :
-				locationTye = '低报酬';
+			case '0' :
+				locationTye = '财务账户';
 				break;
-			case 1 :
-				locationTye = 'IC卡资金'
+			case '1' :
+				locationTye = '商户账户';
 				break;
+      case '2' :
+        locationTye = '监狱总账户';
+        break;
+      case '3' :
+        locationTye = '监狱总账户';
+        break;
+      case '4' :
+        locationTye = '零花钱';
+        break;
+      case '5' :
+        locationTye = 'IC卡资金账户';
+        break;
+      case '6' :
+        locationTye = '低报酬';
+        break;
+      default :
+        locationTye = "";
 		}
 		return locationTye;
 	},
@@ -487,7 +504,7 @@ export default{
 		}else {
 			return '.00';
 		}
-		
+
 	},
 
 	//监狱资金管理--资金明细--状态过滤器
@@ -518,7 +535,7 @@ export default{
 			return word.substr(0,5) + "...";
 		}else {
 			return "";
-		}	
+		}
 	}
 
 }

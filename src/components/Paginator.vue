@@ -11,7 +11,7 @@ import '../../static/js/jquery.pagination.min.js'
 		props: ['itemSize','pageSize','indexPage'],//itemSize:总条数  pageSize:每页显示的条数
 		data(){
 			return{
-				
+
 			}
 		},
 		watch:{
@@ -22,7 +22,6 @@ import '../../static/js/jquery.pagination.min.js'
 		methods:{
 			pageInit(_this){
 				$('.M-box2').html(' ');
-				//console.log("hhhhhh")
 				if (this.itemSize/this.pageSize > 1) {
 				//	console.log($('.M-box2').pagination())
 					$('.M-box2').pagination({
@@ -40,7 +39,6 @@ import '../../static/js/jquery.pagination.min.js'
 							let now = api.getCurrent();
 							//console.log('.M-box2')
 							_this.$emit("search",now);
-
 						}
 					});
 				}

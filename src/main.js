@@ -14,6 +14,7 @@ import '../static/js/bootstrap.min.js'
 import '../static/css/datepicker/bootstrap-datetimepicker.min.js'
 import '../static/css/datepicker/bootstrap-datetimepicker.zh-CN.js'
 import '../static/js/util.js'
+import '../static/js/ajaxfileupload.js'
 import 'babel-polyfill'
 
 
@@ -62,20 +63,23 @@ axios.interceptors.request.use(function(config){
 
 	// console.log(config);
   // config.headers.Authorization = `token ${store.state.mutations.token}`;
-  if(config.method == 'get'){
+  if(config.method == 'get') {
     if(config.params){
       config.params.userId = window.localStorage.getItem('userId');
     }else{
       config.url += '?userId=' + window.localStorage.getItem('userId');
     }
   }
-  if(config.method == 'post' && config.url != config.baseURL+'login'){
+
+  if(config.method == 'post' && config.url != config.baseURL+'login') {
   	config.data += '&userId=' + window.localStorage.getItem('userId');
   }
   return config;
 },function(err){
 	return Promise.reject(err);
 });
+
+// axios.defaults.withCredentials=true;
 
 //ajax响应拦截器
 axios.interceptors.response.use(function(response){
@@ -93,7 +97,7 @@ axios.interceptors.response.use(function(response){
 
 // axios.defaults.baseURL='http://10.10.10.130:8080/icmaker/';
 
-axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
+// axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.2:8080/icmaker/';
 
@@ -119,6 +123,7 @@ axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 //axios.defaults.baseURL='http://10.10.10.111:8080//icmaker/';
 
+axios.defaults.baseURL='http://10.10.10.101:8080/icmaker/';
 
 //设置路由
 const router = new VueRouter({
