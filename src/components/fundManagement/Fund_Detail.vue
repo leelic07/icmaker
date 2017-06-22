@@ -38,6 +38,7 @@
                 <option value='8'>罪犯IC卡资金分配</option>
                 <option value='9'>罪犯刷卡入账</option>
                 <option value='10'>罪犯制卡费入账</option>
+                <option value='11'>罪犯零花钱资金分配</option>
               </select>
             </div>
             <div class="col-xs-8 select-box">
@@ -88,14 +89,17 @@
             <th></th>
             <th>所属监狱</th>
             <th>所属监区</th>
+            <th>流水号</th>
+            <th>类别</th>
             <th>账户名</th>
-            <th>账号</th>
+            <!--<th>账号</th>-->
             <th>对方账户名</th>
-            <th>对方账号</th>
+            <!--<th>对方账号</th>-->
             <th>金额(元)</th>
             <th>交易时间</th>
             <th>状态</th>
-            <th>备注</th>
+            <th colspan = 2>操作</th>
+            <!--<th>备注</th>-->
           </tr>
           </thead>
           <tbody>
@@ -103,16 +107,20 @@
             <td :id='pcdd.prisonCapitalDetailId'></td>
             <td v-text='pcdd.prisonName'></td>
             <td v-text='pcdd.prisonDepartmetName'></td>
+            <td v-text='pcdd.capitalSerialNo'></td>
+            <td>{{pcdd.type | prisonFundType}}</td>
             <td v-text='pcdd.accountName'></td>
-            <td v-text='pcdd.accountNo'></td>
+            <!--<td v-text='pcdd.accountNo'></td>-->
             <td v-text='pcdd.toAccountName'></td>
-            <td v-text='pcdd.toAccountNo'></td>
+            <!--<td v-text='pcdd.toAccountNo'></td>-->
             <td v-if='pcdd.capitalType == 0'>{{pcdd.money | currency}}</td>
             <td v-else-if='pcdd.capitalType == 1' class='text-red'>+{{pcdd.money | currency}}</td>
             <td v-else-if='pcdd.capitalType == 2' class='text-green'>-{{pcdd.money | currency}}</td>
             <td>{{pcdd.createdAt | formatDate}}</td>
             <td>{{pcdd.status | fundDetailStatus}}</td>
-            <td v-text='pcdd.remark'></td>
+            <td><em class="agree-text" @click = "inDetail">查看明细</em></td>
+            <td><em class="agree-text" @click = "withdraw">撤回</em></td>
+            <!--<td v-text='pcdd.remark'></td>-->
           </tr>
           </tbody>
         </table>
@@ -182,6 +190,7 @@
             prisonId: this.prisonId
           }
         }).then(res => {
+          console.log(res);
           let data = res.data.data;
           this.prisonCapitalDetailDtos = data.prisonCapitalDetailDtos;
           this.menuSize = data.prisonCapitalDetailDtoSize;
@@ -227,6 +236,7 @@
             endDateStr: $('#endTime').val()
           }
         }).then(res => {
+          console.log(res);
           let data = res.data.data;
           // if(res.data.code == 0){
           //     this.prisonCapitalDetailDtos = data.prisonCapitalDetailDtos;
@@ -249,6 +259,14 @@
         }).catch(err => {
           console.log(err);
         });
+      },
+
+      inDetail() {
+
+      },
+
+      withdraw() {
+
       },
 
       dateInit(){

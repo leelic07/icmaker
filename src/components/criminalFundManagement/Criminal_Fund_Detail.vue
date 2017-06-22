@@ -93,16 +93,15 @@
 	                        <th></th>
 	                        <th>所属监狱</th>
 	                        <th>所属监区</th>
-	                        <th>档案号</th>
-							<!--<th>编号</th>-->
+	                        <th>1订单号</th>
 	                        <th>姓名</th>
+                            <th>1编号</th>
 	                        <th>类别</th>
 	                        <th>对方账户名</th>
-                            <th>对方账户</th>
 	                        <th>交易金额(元)</th>
 	                        <th>余额(元)</th>
 	                        <th>交易时间</th>
-	                        <th>备注</th>
+                            <th colspan = 2>操作</th>
 	                    </tr>
                     </thead>
                     <tbody>
@@ -110,17 +109,18 @@
 							<td></td>
 	                        <td>{{detail.prison_name}}</td>
 	                        <td>{{detail.prison_department_name}}</td>
-	                        <td>{{detail.archives_number}}</td>
-							<!--<td>{{detail.number}}</td>-->
+							<td>{{detail.number}}</td>
 	                        <td>{{detail.name}}</td>
+                            <td>{{detail.number}}</td>
 	                        <td>{{detail.type | formatFundType}}</td>
 	                        <td>{{detail.otherAccountName}}</td>
-                            <td>{{detail.otherAccountNo}}</td>
 	                        <td v-if='detail.type >= 3' class='text-red'>+{{detail.money | currency}}</td>
                             <td v-else-if='detail.type <3' class='text-green'>-{{detail.money | currency}}</td>
 	                        <td>{{detail.balance | currency}}</td>
 	                        <td>{{detail.createTime | formatDate}}</td>
-	                        <td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark | formatRemark}}</a></td>
+                            <td><em class="agree-text">查看明细</em></td>
+                            <td><em class="agree-text">撤回</em></td>
+	                        <!--<td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark | formatRemark}}</a></td>-->
 	                    </tr>
                     </tbody>
                 </table>
