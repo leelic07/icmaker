@@ -151,6 +151,7 @@
         dayMoney: "",//日限制额度
         monthMoney: "",//月限制额度
         typeId: 1,//0-按监狱限额；1-按监区限额
+        levelDetails:'',//等级明细
         remind:{
           status:'',
           msg:''
@@ -222,7 +223,23 @@
           console.log(err);
         });
       },
+      //罪犯分级明细查询
+      getLevelDetails(){
+        axios.get('/prisoner/levelDetails',{
+          params:{
+            prisonerId:this.prisonerId,
+            indexPage:this.indexPage,
+            pageSize:this.pageSize
+          }
+        }).then(res=>{
+          if(res.data.code == 10000){
+            this.levelDetails = res.data.levelDetails;
 
+          }
+        }).catch(err=>{
+          console.log(err);
+        });
+      },
       setFund (e) {
         $('#setConfirm').modal();
       }
@@ -236,6 +253,7 @@
       $('#table_id_example').tableHover();
       $('#table_id_example').select();
       this.getPrisonInfo();
+      this.getLevelDetails();
     }
   }
 </script>

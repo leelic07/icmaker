@@ -124,7 +124,6 @@
         toUrl:'',
         fromUrl:'',
         uploadType:'',//上传Excel类型
-//        remindShow:'',
         remind: {
           status: '',
           msg: ''
@@ -165,7 +164,6 @@
       },
       toUrl() {
         let url = window.location.href;
-//        console.log(url);
         let index = url.lastIndexOf('/');
         console.log(this.toUrl.substring(0, index));
         if (this.toUrl.substring(0, index) == '/criminal_fund_distribution/upload_excel') {
@@ -177,7 +175,6 @@
       fromUrl() {
         const editUrl = '/criminal_fund_distribution/upload_excel';
         if(this.fromUrl == '/criminal_fund_distribution/upload_excel'){
-//          this.isManage = false;
         }
       }
     },
@@ -251,10 +248,9 @@
         let self = this;
         $('#table_id_example').on("change",".file",function(e) {
           let file = e.target.files[0];
-//          console.log(e.target.getAttribute('uploadType'));
+          //console.log(e.target.getAttribute('uploadType'));
           let uploadType = e.target.getAttribute('uploadType');
           let prisonName = e.target.getAttribute('prisonName');
-//          console.log(file);
           if (self.isExcel(file)) {
             Util.readExcel(file,self,'prisonCapitalIncomes','dataId',uploadType,prisonName);
           } else {
@@ -266,6 +262,7 @@
           }
         });
       }
+
     },
     components: {
       Page,

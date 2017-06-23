@@ -4,29 +4,30 @@
 
     <!--表格部分-->
     <div class="col-xs-24 form">
+
       <div class="col-xs-23">
         <table class="display table ic-table" id="table_id_example">
           <thead>
-          <tr>
-            <th></th>
-            <th>所属监狱</th>
-            <th>资金分配类型</th>
-            <th>罪犯名</th>
-            <th>罪犯编号</th>
-            <th>分配金额</th>
-            <th>提示</th>
-          </tr>
+            <tr>
+              <th></th>
+              <th>所属监狱</th>
+              <th>资金分配类型</th>
+              <th>罪犯名</th>
+              <th>罪犯编号</th>
+              <th>分配金额</th>
+              <th>提示</th>
+            </tr>
           </thead>
           <tbody>
-          <tr v-for="pcil in prisonerCapitalIncomesList">
-            <td></td>
-            <td v-text="pcil.prisonName"></td>
-            <td>{{pcil.type | locationType}}</td>
-            <td v-text="pcil.name"></td>
-            <td v-text="pcil.number"></td>
-            <td v-text="pcil.money"></td>
-            <td class="reject-text" v-text="pcil.tips"></td>
-          </tr>
+            <tr v-for="pcil in prisonerCapitalIncomesList">
+              <td></td>
+              <td v-text="pcil.prisonName"></td>
+              <td>{{pcil.type | locationType}}</td>
+              <td v-text="pcil.name"></td>
+              <td v-text="pcil.number"></td>
+              <td v-text="pcil.money"></td>
+              <td class="reject-text" v-text="pcil.tips"></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -54,11 +55,11 @@
       <div class="confirm pull-left col-xs-23">
 
         <div class="col-xs-13">
-          <button class="pull-right"  @click="confirmDistribution()">确认分配</button>
+          <button class="pull-right" :disabled="hasErrMsg" @click="confirmDistribution()">确认分配</button>
         </div>
 
-        <div class="col-xs-5">
-          <span class="col-xs-24 text-center">罪犯信息错误，无法分配</span>
+        <div class="col-xs-5" >
+          <span v-show="hasErrMsg" class="col-xs-24 text-center">罪犯信息错误，无法分配</span>
         </div>
 
         <div class="col-xs-6">
@@ -83,6 +84,7 @@
   import axios from 'axios'
   import store from '../../store'
   import CriminalFundDistribution from './Criminal_Fund_Distribution.vue'
+  import Remind from '../Remind.vue'
 
   export default {
     props: ['excelData', 'dataId'],
@@ -93,7 +95,6 @@
         menuSize: '',
         prisonId: '',
         prisonName: '',
-//        type: '',//类型
         prisonList: [],
         criminalFundAllocationList: [],
 
@@ -101,10 +102,10 @@
         prisonerCapitalIncomesList: [],
         prisonerCapitalIncomeSize: '',
 
-//        dataId: '',//excel文件id
+        dataId: '',//excel文件id
         remark: '',//备注
-        prison_name:'',
-        type:'',
+        prison_name:'',//分配资金列表监狱名称
+        type:'',//类型
         cfdshow: false,//控制显示
 
         hasErrMsg: false,//有错误信息
@@ -118,6 +119,7 @@
       excelData() {
         //console.log("excelgaidf");
         console.log(this.excelData);
+        console.log(this.excelData.dataId);
         this.dataId = this.excelData.dataId;
         this.prisonerCapitalIncomesList = this.excelData.prisonerCapitalIncomes;
         this.prisonerCapitalIncomeSize = this.excelData.prisonerCapitalIncomeSize;
@@ -179,16 +181,39 @@
       },
       //确认分配
       confirmDistribution() {
-        axios.post('/addPrisonerCapitalIncome',{
-            params:{
-              dataId:this.dataId,
-              type:this.type,
-              remark:this.remark
-            }
-        }).then(res => {
-          console.log(res.data);
-          if (res.data.code == 0) {
+        if(this.isNull(this.remark)) {
+          console.log('return');
+          this.remind = {
+            status: 'warn',
+            msg: '请填写备注信息',
+          };
+          store.dispatch('showRemind');
+          return;
+        }
 
+        let confirmData = {
+          dataId:this.dataId,
+          type:this.type,
+          remark:this.remark
+        }
+
+        this.$http({
+          method: 'post',
+          url: '/addPrisonerCapitalIncome',
+          params:confirmData
+        }).then(res => {
+          if(res.data.code == 0){
+            this.remind = {
+              status: 'success',
+              msg: '分配上传成功',
+            };
+            store.dispatch('showRemind');
+          }else{
+            this.remind = {
+              status: 'warn',
+              msg:res.data.msg
+            };
+            store.dispatch('showRemind');
           }
         }).catch(err => {
           console.log(err);
@@ -204,7 +229,7 @@
             dataId: this.dataId,
           }
         }).then(res => {
-//          console.log(res.data);
+
           if (res.data.code == 0) {
             console.log(res.data.data.prisonerCapitalIncomes);
             console.log(res.data.data.prisonerCapitalIncomeSize);
@@ -215,6 +240,7 @@
                 value.prisonName = this.prison_name;
             });
           }
+
         }).catch(err => {
           console.log(err);
         });
@@ -222,7 +248,6 @@
 
       //重新上传
       reUploadExcel() {
-//        console.log('reupload');
         axios({
           url: '/clearCachePrisonerCapitalIncome',
           method: 'post',
@@ -233,7 +258,6 @@
             this.remind = {
               status: 'success',
               msg: '重新上传成功',
-              path: '/criminal_fund_distribution'
             };
             store.dispatch('showRemind');
           }
@@ -247,11 +271,9 @@
       CriminalFundDistribution
     },
     mounted() {
-//        this.getAllPrison();
-//        this.getLocationList();
       $('#table_id_example').tableHover();
     },
-    updated(){
+    updated() {
       $('#table_id_example').tableHover();
     }
   }
