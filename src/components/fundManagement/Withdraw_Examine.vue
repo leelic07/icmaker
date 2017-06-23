@@ -6,27 +6,23 @@
             <div class="col-xs-23 search-box">
                 <div class="col-xs-23 search-inner-box">
                     <div class="row">
-                        <div class="col-xs-6 select-box">
+                        <div class="col-xs-8 select-box">
                             <label for="prisonId">所属监狱</label>
                             <input type="text" class="form-control" list = "prisonList" placeholder = "全部" v-model = "prisonName" :disabled = "prisons.length == 1">
                             <datalist class="form-control hidden" id="prisonList">
                                 <option v-for = "prison in prisons" :prisonId = "prison.id">{{prison.prisonName}}</option>
                             </datalist>
                         </div>
-                        <div class="col-xs-6 select-box">
+                        <div class="col-xs-8 select-box">
                             <label for="prisonDepartmentId">所属监区</label>
                             <select class="form-control" id="prisonDepartmentId" v-model = "prisonDepartmentId">
                                 <option value="">全部</option>
                                 <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
                             </select>
                         </div>
-                        <div class="col-xs-6 text-box">
-                            <label for="name">罪犯名</label>
-                            <input type="text" class="form-control" id="name" v-model = "name">
-                        </div>
-                        <div class="col-xs-6 text-box">
-                            <label for="number">编号</label>
-                            <input type="text" class="form-control" id="number" v-model = "number">
+                        <div class="col-xs-8 text-box">
+                            <label for="number">流水号</label>
+                            <input type="text" class="form-control" id="serialNo" v-model = "serialNo">
                         </div>
                     </div>
                     <div class="row">
@@ -43,21 +39,20 @@
                 <table class="display table ic-table" id="table_id_example">
                     <thead>
                         <tr>
-                            <th>申请ID</th>
                             <th>所属监狱</th>
-                            <th>所属监区</th>
-                            <th>姓名</th>
-                            <th>编号</th>
-                            <th>虚拟账号</th>
-                            <th>取现类别</th>
-                            <th>取现金额</th>
+                            <th>1流水号</th>
+                            <th>类别</th>
+                            <th>账户名</th>
+                            <th>对方账户名</th>
+                            <th>金额</th>
+                            <th>申请时间</th>
                             <th>申请人</th>
+                            <th>撤回理由</th>
                             <th colspan="2">操作</th>  
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for = "exam in examList">
-                            <td>{{exam.id}}</td>
                             <td>{{exam.prisonName}}</td>
                             <td>{{exam.prisonDepartmentName}}</td>
                             <td>{{exam.name}}</td>
@@ -66,8 +61,8 @@
                             <td>{{exam.typeName}}</td>
                             <td>{{exam.cash | currency}}</td>
                             <td>{{exam.optherName}}</td>
-                            <td><em class="agree-text" @click="receive($event,1,1)" :id = "exam.id">同意</em></td>
-                            <td><em class="reject-text" @click="receive($event,2,1)" :id = "exam.id">拒绝</em></td>
+                            <td><em class="agree-text" @click="receive($event,1)" :id = "exam.id">同意</em></td>
+                            <td><em class="reject-text" @click="receive($event,2)" :id = "exam.id">拒绝</em></td>
                         </tr>   
                     </tbody>
                 </table>
@@ -98,7 +93,7 @@
                                 </div> 
                             </div>
                         </template>
-                        <button class="confirm-button" data-dismiss="modal" @click = "receiveConfirm(verifyType,examType)">确定</button>
+                        <button class="confirm-button" data-dismiss="modal" @click = "receiveConfirm(verifyType)">确定</button>
                         <button class="cancel-button" data-dismiss="modal">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -123,17 +118,15 @@ export default{
             prisonName: "",//监狱名
             prisonId: "",//监狱ID
             prisonDepartmentId: "",//监区ID
-            name: "",//罪犯名
-            virtualAccount: "",//虚拟账号
-            number: "",//编号
+            serialNo:"",
             recordId: "",//审核选中的ID
-            ids: "",//批量审核选中ID
             verifyType: "",//审核类型 1-同意 2-拒绝
             remark: "",
             remind:{
                 status:'',
                 msg:''
             },
+            type: 2,
             pageSize: 10,
             indexPage: 1
 		}
@@ -200,12 +193,12 @@ export default{
             let searchData = {
                 "prisonId": this.prisonId,
                 "prisonDepartmentId": this.prisonDepartmentId,
-                "name": this.name.replace(/(^\s*)|(\s*$)/g,""),
-                "number": this.number.replace(/(^\s*)|(\s*$)/g,""),
+                "serialNo": this.serialNo.replace(/(^\s*)|(\s*$)/g,""),
+                "type":this.type,
                 "indexPage":this.indexPage,
                 "pageSize":this.pageSize
             };
-            this.$http.get('prisonerAccount/getCashhis',{params:searchData}).then(res=>{
+            this.$http.get('/prisonerAccount/getRecallhis',{params:searchData}).then(res=>{
                 console.log(res);
                 if (res.data.code == 0) {
                     this.examList = res.data.data.cashhisList;
@@ -216,85 +209,38 @@ export default{
             });
         },
 
-        receive(e,verifyType,examType){//verifyType 1-同意 2-拒绝 examType 1-单条 2-批量
+        receive(e,verifyType){//verifyType 1-同意 2-拒绝
             this.verifyType = verifyType;
-            this.examType = examType;
             this.remark = "";
-            if (examType == 1) {
-                this.recordId = e.target.getAttribute("id");
-                $('#examConfirm').modal();
-            }else if (examType == 2) {
-                let checkedInfo = $(".info-list-check").filter(".active");
-                if (checkedInfo.length > 0) {
-                    let prisonerIds = new Array();//批量转监狱罪犯审核的ID数组
-                    for (let i = 0;i < checkedInfo.length; i ++) {
-                        prisonerIds.push(checkedInfo[i].getAttribute("id"));
-                    }
-                    this.ids = prisonerIds.join(',');
-                    $('#examConfirm').modal();
-                } else {
-                    this.remind = {
-                        status:'warn',
-                        msg:'请先勾选审核的取现数据'
-                     }
-                     store.dispatch('showRemind');
-                }
-            }
-           
+            this.recordId = e.target.getAttribute("id");
+            $('#examConfirm').modal();
         },
 
-        receiveConfirm(verifyType,examType) {
+        receiveConfirm(verifyType) {
             if (this.verifyType == 1 || !this.isNull(this.remark)) {
-                if (examType == 1) {
-                    let receiveData = {
-                        "id": this.recordId,
-                        "status": this.verifyType,
-                        "remark":this.remark
-                    };
-                    this.$http.post("/prisonerAccount/authWithdrawCash",$.param(receiveData)).then(res=>{
-                        // console.log(res);
-                        if (res.data.code == 0) {//返回成功
-                            this.remind = {
-                                status:'success',
-                                msg:res.data.msg
-                            }
-                            this.getExamList(this.indexPage);
-                        }else {
-                            this.remind = {
-                                status:'failed',
-                                msg:res.data.msg
-                            }
+                let receiveData = {
+                    "id": this.recordId,
+                    "status": this.verifyType,
+                    "remark":this.remark
+                };
+                this.$http.post("/prisonerAccount/authRecall",$.param(receiveData)).then(res=>{
+                    // console.log(res);
+                    if (res.data.code == 0) {//返回成功
+                        this.remind = {
+                            status:'success',
+                            msg:res.data.msg
                         }
-                        store.dispatch('showRemind');
-                    }).catch(err=>{
-                        console.log('审核服务器异常' + err);
-                    });
-                }else if (examType == 2) {
-                    let receiveData = {
-                        "ids": this.ids,
-                        "status": this.verifyType,
-                        "remark":this.remark
-                    };
-                    this.$http.post("/prisonerAccount/batchAuthWithdrawCash",$.param(receiveData)).then(res=>{
-                        // console.log(res);
-                        if (res.data.code == 0) {//返回成功
-                            this.remind = {
-                                status:'success',
-                                msg:res.data.msg
-                            }
-                            this.getExamList(this.indexPage);
-                            $(".info-check").removeClass("active");
-                        }else {
-                            this.remind = {
-                                status:'failed',
-                                msg:res.data.msg
-                            }
+                        this.getExamList(this.indexPage);
+                    }else {
+                        this.remind = {
+                            status:'failed',
+                            msg:res.data.msg
                         }
-                        store.dispatch('showRemind');
-                    }).catch(err=>{
-                        console.log('审核服务器异常' + err);
-                    });
-                }
+                    }
+                    store.dispatch('showRemind');
+                }).catch(err=>{
+                    console.log('审核服务器异常' + err);
+                });
             }else {
                 this.remind = {
                     status:'warn',

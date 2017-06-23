@@ -427,6 +427,24 @@ export default{
 		return fundType;
 	},
 
+	//罪犯资金明细交易状态
+	dealStatus(value) {
+		let status = "";
+		switch(Number(value))
+		{
+		case -1 :
+			status = "交易失败";
+			break;
+		case 0 :
+			status = "处理中";
+			break;
+		case 1 :
+			status = "交易成功";
+			break;
+		
+		}
+		return status;
+	},
 
    //罪犯资金明细类别
 	formatFundType(value) {
@@ -451,6 +469,9 @@ export default{
 		case 5 :
 			fundType = "IC卡资金";
 			break;
+		case 6 :
+			fundType = "零花钱";
+			break;
 		default :
 			fundType = "";
 		}
@@ -467,23 +488,23 @@ export default{
 			case '1' :
 				locationTye = '商户账户';
 				break;
-      case '2' :
-        locationTye = '监狱总账户';
-        break;
-      case '3' :
-        locationTye = '监狱总账户';
-        break;
-      case '4' :
-        locationTye = '零花钱';
-        break;
-      case '5' :
-        locationTye = 'IC卡资金账户';
-        break;
-      case '6' :
-        locationTye = '低报酬';
-        break;
-      default :
-        locationTye = "";
+			case '2' :
+				locationTye = '监狱总账户';
+				break;
+			case '3' :
+				locationTye = '监狱总账户';
+				break;
+			case '4' :
+				locationTye = '零花钱';
+				break;
+			case '5' :
+				locationTye = 'IC卡资金账户';
+				break;
+			case '6' :
+				locationTye = '低报酬';
+				break;
+			default :
+				locationTye = "";
 		}
 		return locationTye;
 	},

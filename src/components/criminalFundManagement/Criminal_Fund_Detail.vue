@@ -93,13 +93,14 @@
 	                        <th></th>
 	                        <th>所属监狱</th>
 	                        <th>所属监区</th>
-	                        <th>1订单号</th>
+	                        <th>流水号</th>
 	                        <th>姓名</th>
-                            <th>1编号</th>
+                            <th>编号</th>
 	                        <th>类别</th>
 	                        <th>对方账户名</th>
 	                        <th>交易金额(元)</th>
 	                        <th>余额(元)</th>
+                            <th>交易状态</th>
 	                        <th>交易时间</th>
                             <th colspan = 2>操作</th>
 	                    </tr>
@@ -109,7 +110,7 @@
 							<td></td>
 	                        <td>{{detail.prison_name}}</td>
 	                        <td>{{detail.prison_department_name}}</td>
-							<td>{{detail.number}}</td>
+							<td>{{detail.capitalSerialNo}}</td>
 	                        <td>{{detail.name}}</td>
                             <td>{{detail.number}}</td>
 	                        <td>{{detail.type | formatFundType}}</td>
@@ -117,9 +118,10 @@
 	                        <td v-if='detail.type >= 3' class='text-red'>+{{detail.money | currency}}</td>
                             <td v-else-if='detail.type <3' class='text-green'>-{{detail.money | currency}}</td>
 	                        <td>{{detail.balance | currency}}</td>
+                            <td>{{detail.status | dealStatus}}</td>
 	                        <td>{{detail.createTime | formatDate}}</td>
-                            <td><em class="agree-text">查看明细</em></td>
-                            <td><em class="agree-text">撤回</em></td>
+                            <td><em class="agree-text" @click = "inDetail(detail.capitalSerialNo,detail.capitalType)">明细</em></td>
+                            <td><em class="agree-text" @click = "inWithdraw(detail.capitalSerialNo,detail.money)">撤回</em></td>
 	                        <!--<td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark | formatRemark}}</a></td>-->
 	                    </tr>
                     </tbody>
@@ -128,6 +130,87 @@
             <!-- 表单底部-->
             <Page :itemSize = "detailSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getDetailList"></Page>
         </div>
+
+        <!--模态框-->
+
+        <!--查看明细 -->
+        <div class="modal modal-confirm modal-bind" id="detailConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                            &times;
+                        </button>
+                        <h3 class = "detail-tit">查看明细</h3>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table detail-table" v-if = "detailInfo != ''">
+                            <tr>
+                                <td width = "200">流水号</td>
+                                <td width = "250">{{capitalSerialNo}}</td>
+                            </tr>
+                            <tr>
+                                <td>姓名</td>
+                                <td>{{detailInfo.accountName}}</td>
+                            </tr>
+                            <tr>
+                                <td>账号</td>
+                                <td>{{detailInfo.accountNo}}</td>
+                            </tr>
+                            <tr>
+                                <td>对方账户名</td>
+                                <td>{{detailInfo.toAccountName}}</td>
+                            </tr>
+                            <tr>
+                                <td>对方账号</td>
+                                <td>{{detailInfo.toAccountNo}}</td>
+                            </tr>
+                            <tr v-show = "detailInfo.cashTypeName != null">
+                                <td>取现类型</td>
+                                <td>{{detailInfo.cashTypeName}}</td>
+                            </tr>
+                            <tr>
+                                <td>备注</td>
+                                <td>{{detailInfo.remark}}</td>   
+                            </tr>
+                        </table>
+                        <button class="detail-button" data-dismiss="modal">确定</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!-- 撤回确认框--> 
+        <div class="modal modal-bind modal-confirm" id="withdrawConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                            &times;
+                        </button>
+                        <h3 class = "detail-tit">撤回资金</h3>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table detail-table">
+                            <tr>
+                                <td width = "200">流水号</td>
+                                <td width = "250">{{withdraw.serialNo}}</td>
+                            </tr>
+                            <tr>
+                                <td>撤回资金</td>
+                                <td>{{withdraw.money|currency}}元</td>
+                            </tr>
+                            <tr>
+                                <td colspan = "2"><textarea class="form-control" cols="53" rows="4" v-model = "withdraw.reason" placeholder = "撤回理由..."></textarea></td>
+                            </tr>
+                        </table>
+                        <button class="confirm-button" @click = "withdrawConfirm">保存</button>
+                        <button class="cancel-button" data-dismiss="modal">取消</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        
     </div>
 </template>
 
@@ -156,7 +239,14 @@
 				pageSize: 10,
                 indexPage: 1,
                 incomeTotal:'',//罪犯收入总金额
-                outTotal:''//罪犯支出总金额
+                outTotal:'',//罪犯支出总金额
+                withdraw:{
+                    money:'',
+                    serialNo:'',
+                    reason:''
+                },
+                detailInfo:"",
+                capitalSerialNo:""
 			}
 		},
         watch: {
@@ -251,7 +341,7 @@
                 };
                 // console.log(searchData);
                 this.$http.get('criminalFundDetailList',{params:searchData}).then(res=>{
-                    // console.log(res);
+                     console.log(res);
                     if (res.data.code == 0) {
                         this.detailList = res.data.data.criminalFundDetailList;
                         this.detailSize = res.data.data.criminalFundDetailListSize;
@@ -262,6 +352,63 @@
                     console.log(err);
                 });
 			},
+
+            inDetail(capitalSerialNo,capitalType) {
+                this.capitalSerialNo = capitalSerialNo;
+                $("#detailConfirm").modal();
+                let detailData = {
+                    "capitalSerialNo": capitalSerialNo,
+                    "capitalType":capitalType
+                };
+                this.$http.get('getCriminalFundDetail',{params:detailData}).then(res=>{
+                    console.log(res);
+                    if (res.data.code == 0) {
+                        this.detailInfo = res.data.data;
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            inWithdraw(capitalSerialNo,money) {
+                this.withdraw.money = money;
+                this.withdraw.serialNo = capitalSerialNo;
+                $("#withdrawConfirm").modal();
+            },
+
+            withdrawConfirm() {
+                if (this.isNull(this.withdraw.reason)) {
+                this.remind = {
+                    status: 'warn',
+                    msg: '请填写撤回理由'
+                };
+                store.dispatch('showRemind');
+                }else {
+                this.$http({
+                    method: 'post',
+                    url: '/prisonerAccount/applyRecall',
+                    'params': this.withdraw
+                    }).then(res => {
+                    if (res.data.code == 0) {
+                        this.remind = {
+                        status: 'success',
+                        msg: res.data.msg
+                        }
+                    } else {
+                        this.remind = {
+                        status: 'failed',
+                        msg: res.data.msg
+                        }
+                        console.log(res.data.code, res.data.msg);
+                    }
+                    store.dispatch('showRemind');
+                    $('#withdrawConfirm').modal('hide');
+                    this.searchDetail(this.indexPage);
+                    }).catch(err => {
+                    console.log(err);
+                    });
+                } 
+            },
 
 			dateInit(){
 				$('.date').datetimepicker({
@@ -323,6 +470,25 @@
         }
         .text-green{
             color:#36A5B0;
+        }
+
+        .detail-tit {
+            margin-bottom: 40px;
+            margin-top: 40px;
+        }
+
+        .detail-table {
+            tr {
+                height: 38px;
+                td:nth-child(1) {
+                text-align: left;
+                color: #999;
+                }
+
+                td:nth-child(2) {
+                text-align: right;
+                }
+            }
         }
     }
 </style>

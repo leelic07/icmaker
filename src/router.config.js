@@ -32,6 +32,7 @@ import TransferExamine from './components/fundManagement/Transfer_Examine.vue'
 import AccountModify from './components/fundManagement/Account_Modify.vue'
 import FundDistribution from './components/fundManagement/Fund_Distribution.vue'
 import PrisonTotalAccount from './components/fundManagement/Prison_Total_Account.vue'
+import WithdrawExamine from './components/fundManagement/Withdraw_Examine.vue'
 import CriminalFundLimit from './components/criminalFundManagement/Criminal_Fund_Limit.vue'
 import PrisonAreaLimit from './components/criminalFundManagement/Prison_Area_Limit.vue'
 import PrisonLimit from './components/criminalFundManagement/Prison_Limit.vue'
@@ -197,6 +198,10 @@ export default [
 	{
 		path:'/fund_distribution',
 		component:FundDistribution
+	},
+	{
+		path:'/withdraw_examine',
+		component:WithdrawExamine
 	},
 	{
 		path:'/prison_total_account',
