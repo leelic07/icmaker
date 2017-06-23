@@ -42,7 +42,8 @@
                             <th>所属监狱</th>
                             <th>流水号</th>
                             <th>类别</th>
-                            <th>账户名</th>
+                            <th>姓名</th>
+                            <th>编号</th>
                             <th>对方账户名</th>
                             <th>金额</th>
                             <th>申请时间</th>
@@ -55,13 +56,14 @@
                         <tr v-for = "exam in examList">
                             <td>{{exam.prisonName}}</td>
                             <td>{{exam.serialNo}}</td>
-                            <td>{{exam.type | formatFundType}}</td>
-                            <td>{{exam.fromAccountName}}</td>
+                            <td>{{exam.type}}</td>
+                            <td>{{exam.name}}</td>
+                            <td>{{exam.number}}</td>
                             <td>{{exam.toAccountName}}</td>
                             <td>{{exam.money | currency}}</td>
-                            <td>{{exam.createTime | formatDate}}</td>
-                            <td>{{exam.userName}}</td>
-                            <td>{{exam.reason }}</td>
+                            <td>{{exam.createTime | }}</td>
+                            <td>{{exam.optherName}}</td>
+                            <td>{{exam.reason | formatDate}}</td>
                             <td><em class="agree-text" @click="receive($event,1)" :id = "exam.id">同意</em></td>
                             <td><em class="reject-text" @click="receive($event,2)" :id = "exam.id">拒绝</em></td>
                         </tr>   
@@ -127,7 +129,7 @@ export default{
                 status:'',
                 msg:''
             },
-            type: 2,
+            type: 1,
             pageSize: 10,
             indexPage: 1
 		}

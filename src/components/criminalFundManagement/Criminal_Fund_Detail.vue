@@ -121,7 +121,7 @@
                             <td>{{detail.status | dealStatus}}</td>
 	                        <td>{{detail.createTime | formatDate}}</td>
                             <td><em class="agree-text" @click = "inDetail(detail.capitalSerialNo,detail.capitalType)">明细</em></td>
-                            <td><em class="agree-text" @click = "inWithdraw(detail.capitalSerialNo,detail.money)">撤回</em></td>
+                            <td><em class="agree-text" @click = "inWithdraw(detail.capitalSerialNo,detail.money)" v-show = "(detail.type == 0 || detail.type == 1 || detail.type == 2) && detail.status == 1">撤回</em></td>
 	                        <!--<td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark | formatRemark}}</a></td>-->
 	                    </tr>
                     </tbody>

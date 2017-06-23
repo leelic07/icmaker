@@ -44,6 +44,7 @@ import CashOutExamine from './components/criminalFundManagement/Cash_Out_Examine
 import SetLevelLimit from './components/criminalFundManagement/Set_Level_Limit.vue'
 import UploadExcel from './components/criminalFundManagement/Upload_Excel.vue'
 import CriminalLevelApplication from './components/criminalFundManagement/Criminal_Level_Application.vue'
+import CriminalWithdrawExamine from './components/criminalFundManagement/Criminal_Withdraw_Examine.vue'
 import Consumption from './components/consumption/Consumption.vue'
 import Capital_Composition from './components/statistics/Capital_Composition.vue'
 import Income_Expenditure from './components/statistics/Income_Expenditure.vue'
@@ -230,6 +231,10 @@ export default [
 	{
 		path:'/criminal_fund_detail',
 		component:CriminalFundDetail
+	},
+	{
+		path:'/criminal_withdraw_examine',
+		component:CriminalWithdrawExamine
 	},
 	{
 		path:'/cfd_add_criminal/:prisonId/:prisonCapitalAssignId/:type/:money',

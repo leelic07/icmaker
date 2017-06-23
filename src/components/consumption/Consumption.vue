@@ -63,20 +63,20 @@
         <div class="col-xs-5">
           <ul class="col-xs-19 col-xs-offset-1">
             <li class="col-xs-24">
-              <p class="col-xs-14">当天已消费金额</p>
-              <p class="col-xs-10">{{prisonerInfo.dayConsume| currency}}元</p>
+              <p class="col-xs-16">当天已消费金额</p>
+              <p class="col-xs-8">{{prisonerInfo.dayConsume| currency}}元</p>
             </li>
             <li class="col-xs-24">
-              <p class="col-xs-14">当天可消费金额</p>
-              <p class="col-xs-10">{{prisonerInfo.dayMoneyLimit| currency}}元</p>
+              <p class="col-xs-16">当天可消费金额</p>
+              <p class="col-xs-8">{{prisonerInfo.dayMoneyLimit| currency}}元</p>
             </li>
             <li class="col-xs-24">
-              <p class="col-xs-14">当月已消费金额</p>
-              <p class="col-xs-10">{{prisonerInfo.monthConsume| currency}}元</p>
+              <p class="col-xs-16">当月已消费金额</p>
+              <p class="col-xs-8">{{prisonerInfo.monthConsume| currency}}元</p>
             </li>
             <li class="col-xs-24">
-              <p class="col-xs-14">当月可消费金额</p>
-              <p class="col-xs-10">{{prisonerInfo.monthMoneyLimit| currency}}元</p>
+              <p class="col-xs-16">当月可消费金额</p>
+              <p class="col-xs-8">{{prisonerInfo.monthMoneyLimit| currency}}元</p>
             </li>
           </ul>
         </div>

@@ -12,7 +12,10 @@
                 <option value=''>全部</option>
                 <option value='0'>财务账户</option>
                 <option value='1'>商户账户</option>
-                <option value='2'>监狱总账户</option>
+                <option value='2'>挂起资金账户</option>
+                <option value='4'>零花钱账户</option>
+                <option value='5'>IC卡账户</option>
+                <option value='6'>低报酬账户</option>
               </select>
             </div>
             <div class="col-xs-8 select-box">
@@ -23,6 +26,7 @@
               <label for="name">转账类型</label>
               <select class="form-control" v-model='type'>
                 <option value=''>全部</option>
+                <option value='0'>资金分配</option>
                 <option value='4'>内部转账</option>
                 <option value='5'>外部转账</option>
               </select>

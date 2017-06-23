@@ -114,7 +114,9 @@
             <td>{{pcdd.createdAt | formatDate}}</td>
             <td>{{pcdd.status | fundDetailStatus}}</td>
             <td><em class="agree-text" @click = "inDetail(pcdd.prisonCapitalDetailId)">明细</em></td>
-            <td><em class="agree-text" @click = "inWithdraw(pcdd.capitalSerialNo,pcdd.money)">撤回</em></td>
+            <td><em class="agree-text" @click = "inWithdraw(pcdd.capitalSerialNo,pcdd.money)"
+             v-show = "(pcdd.type == 0 || pcdd.type == 4 || pcdd.type == 7 || pcdd.type == 8 || pcdd.type == 11)&& pcdd.status == 3">
+             撤回</em></td>
           </tr>
           </tbody>
         </table>
