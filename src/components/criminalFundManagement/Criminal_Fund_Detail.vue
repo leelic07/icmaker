@@ -381,6 +381,7 @@
             },
 
             inWithdraw(capitalSerialNo,money) {
+                this.withdraw.reason = "";
                 this.withdraw.money = money;
                 this.withdraw.serialNo = capitalSerialNo;
                 $("#withdrawConfirm").modal();
