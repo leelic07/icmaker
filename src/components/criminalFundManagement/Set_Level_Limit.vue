@@ -13,24 +13,24 @@
                 <option v-for = "prison in prisons" :prisonId = "prison.id">{{prison.prisonName}}</option>
               </datalist>
             </div>
-            <div class="col-xs-8 select-box">
-            <label for="prisonDepartmentId">所属监区</label>
-            <select class="form-control" id="prisonDepartmentId" v-model = "prisonDepartmentId">
-              <option value="">全部</option>
-              <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
-            </select>
-          </div>
+            <!--<div class="col-xs-8 select-box">-->
+              <!--<label for="prisonDepartmentId">所属监区</label>-->
+              <!--<select class="form-control" id="prisonDepartmentId" v-model = "prisonDepartmentId">-->
+                <!--<option value="">全部</option>-->
+                <!--<option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>-->
+              <!--</select>-->
+            <!--</div>-->
           <div class="col-xs-8 select-box">
             <label for="prisonDepartmentId">处遇等级</label>
-            <select class="form-control" id="" v-model="traitement">
+            <select class="form-control" id="" >
               <option value="">全部</option>
-              <option ></option>
+              <option v-for="ll in levelList" :value="ll.id" v-text="ll.levelName"></option>
             </select>
           </div>
           </div>
           <div class="row">
             <div class="col-xs-4 col-xs-push-10 button-box">
-              <input type="button" value="搜索" class="search-button" @click = "getFundList(1)">
+              <input type="button" value="搜索" class="search-button" @click="getLevels()">
             </div>
           </div>
         </div>
@@ -42,32 +42,30 @@
       <div class="col-xs-23">
         <table class="display table ic-table" id="table_id_example">
           <thead>
-          <tr>
-            <th></th>
-            <th>所属监狱</th>
-            <th>所属监区</th>
-            <th>处遇等级</th>
-            <th>B卡日限额</th>
-            <th>总月限额</th>
-            <th>操作</th>
-          </tr>
+            <tr>
+              <th></th>
+              <th>所属监狱</th>
+              <th>处遇等级</th>
+              <th>B卡日限额</th>
+              <th>总月限额</th>
+              <th>操作</th>
+            </tr>
           </thead>
           <tbody>
-          <tr>
-            <td></td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td><em class="agree-text" @click = "setFund($event)">设置</em></td>
-          </tr>
+            <tr v-for="le in levels">
+              <td :id="le.id"></td>
+              <td v-text="le.prisonName"></td>
+              <td v-text="le.levelName"></td>
+              <td v-text="le.dayMoney"></td>
+              <td v-text="le.monthMoney"></td>
+              <td><em class="agree-text"  @click="setFund($event,le.id,le.dayMoney,le.monthMoney,le.prisonName,le.levelName)" >设置</em></td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <!-- 表单底部-->
-      <Page :itemSize = "fundSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getFundList"></Page>
+      <Page :itemSize = "levelSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "getLevels"></Page>
     </div>
 
 
@@ -86,26 +84,25 @@
             <h3>设置罪犯限额</h3>
             <div class="clearfix bind-info">
               <ul class="pull-left clearfix bind-info-list">
-                <li class="clearfix"><span class="pull-left info-label">罪犯名</span><span class="pull-right">{{currentPrisonName}}</span></li>
-                <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{currentPrisonName}}</span></li>
-                <li class="clearfix"><span class="pull-left info-label">所属监区</span><span class="pull-right">{{currentDepartName}}</span></li>
+                <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{setLevelPrisonName}}</span></li>
+                <li class="clearfix"><span class="pull-left info-label">处遇等级</span><span class="pull-right">{{levelName}}</span></li>
               </ul>
             </div>
             <div class="col-xs-24">
               <div class="form-group fee-input clearfix">
                 <label for="dayMoney" class="col-xs-6 pull-left">B卡日限额：</label>
                 <div class="col-xs-18 pull-left">
-                  <input type="text" class="form-control" id="dayMoney" placeholder="输入B卡日限额" >
+                  <input type="text" class="form-control" id="dayMoney" placeholder="输入B卡日限额" v-model="dayMoney">
                 </div>
               </div>
               <div class="form-group fee-input clearfix">
                 <label for="monthMoney" class="col-xs-6 pull-left">总月限额：</label>
                 <div class="col-xs-18 pull-left">
-                  <input type="text" class="form-control" id="monthMoney" placeholder="输入总月限额" >
+                  <input type="text" class="form-control" id="monthMoney" placeholder="输入总月限额" v-model="monthMoney">
                 </div>
               </div>
             </div>
-            <button class="confirm-button" @click = "setFundConfirm">保存</button>
+            <button class="confirm-button" @click="setLevelMoney()">保存</button>
             <button class="cancel-button" data-dismiss="modal">取消</button>
           </div>
         </div><!-- /.modal-content -->
@@ -133,21 +130,19 @@
   import Remind from '../Remind.vue'
   import store from '../../store'
   import Page from '../Paginator.vue'
+  import axios from 'axios'
+
   export default{
-    data(){
-      return{
+    data() {
+      return {
         prisons: "",//监狱列表
         prisonDepartments: "",//监区列表
         prisonName: "",//监狱名
         prisonId: "",//监狱ID
         prisonDepartmentId: "",//监区ID
-        fundList: "",//个人罪犯消费列表
-        fundSize: "",//个人罪犯消费列表总条数
+
         id: "",//新增时候为-999 修改时候为具体数字
-        currentPrisonId: "",//当前操作的监狱ID
-        currentPrisonName: "",//当前操作的监狱名
-        currentDepartId: "",//当前操作的监区ID
-        currentDepartName: "",//当前操作的监区名
+
         dayMoney: "",//日限制额度
         monthMoney: "",//月限制额度
         typeId: 1,//0-按监狱限额；1-按监区限额
@@ -158,18 +153,22 @@
         },
         pageSize: 10,
         indexPage: 1,
-        traitement:""//处遇等级
+        levels:[],//处遇等级分页查询列表
+        levelSize:'',//处遇等级长度
+        levelList:[],//处遇等级列表
+        levelId:'',//处遇等级Id
+        setLevelPrisonName:''//设置处遇等级监狱名称
       }
     },
     computed: {
-      remindShow:{
-        get(){
+      remindShow: {
+        get() {
           return store.getters.remindShow;
         }
       }
     },
     watch: {
-      prisonName(){
+      prisonName() {
         let oldPrisonId = this.prisonId;
         for (let i = 0; i< this.prisons.length; i++)  {
           if (this.prisons[i].prisonName == this.prisonName) {
@@ -183,7 +182,9 @@
           this.prisonDepartments = "";
         }
       },
-
+      prisonId(){
+        this.getLevelsByPrisonId();
+      },
       //删除小数点两位后的数字
       dayMoney(){
         this.dayMoney = this.saveTwo(this.dayMoney);
@@ -195,7 +196,7 @@
     },
     methods:{
       getPrisonInfo() {//根据用户信息获取监狱信息
-        this.$http.get('prisoner/toAddOrEdit').then(res=>{
+        this.$http.get('prisoner/toAddOrEdit').then(res=> {
           // console.log(res);
           if (res.data.code == 0) {
             this.prisons = res.data.data.prisons;//赋值监狱列表
@@ -204,46 +205,83 @@
               this.prisonId = this.prisons[0].id;
               this.getPrisonDepartInfo();
             }
-            this.getFundList(this.indexPage);
+            this.getLevels(this.indexPage);
           }
-        }).catch(err=>{
+        }).catch(err=> {
           console.log(err);
         });
       },
 
-      getPrisonDepartInfo () {//获取监区信息
-        this.prisonDepartments = "";
-        this.prisonDepartmentId = "";
-        this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
+      getLevelsByPrisonId () {//获取处遇等级信息
+        this.$http.get('level/getLevelsByPrisonId',{
+          params:{
+            prisonId:this.prisonId
+          }
+        }).then(res=> {
           // console.log(res);
           if (res.data.code == 0) {
-            this.prisonDepartments = res.data.data;//赋值监区列表
+            this.levelList = res.data.data;
           }
-        }).catch(err=>{
+        }).catch(err=> {
           console.log(err);
-        });
+        })
       },
-      //罪犯分级明细查询
-      getLevelDetails(){
-        axios.get('/prisoner/levelDetails',{
+
+      //获取处遇等级查询列表
+      getLevels(indexPage) {
+//        console.log('level');
+        this.indexPage = indexPage;
+        axios.get('/level/getLevels',{
           params:{
-            prisonerId:this.prisonerId,
+            prisonId:this.prisonId,
+            levelName:this.levelName,
             indexPage:this.indexPage,
             pageSize:this.pageSize
           }
         }).then(res=>{
-          if(res.data.code == 10000){
-            this.levelDetails = res.data.levelDetails;
-
+          if(res.data.code == 0){
+            this.levels = res.data.data.levels;
+            this.levelSize = res.data.data.levelSize;
           }
         }).catch(err=>{
           console.log(err);
         });
       },
-      setFund (e) {
+      //点击设置执行的方法
+      setFund (e,levelId,dayMoney,monthMoney,setLevelPrisonName,levelName) {
+        this.levelId = levelId;
+        this.dayMoney = dayMoney;
+        this.monthMoney = monthMoney;
+        this.setLevelPrisonName = setLevelPrisonName;
+        this.levelName = levelName;
         $('#setConfirm').modal();
+      },
+      setLevelMoney() {
+//        console.log(this.levelId,typeof parseInt(this.dayMoney),typeof parseInt(this.monthMoney));
+        axios.post('/level/setLevelMoney',{
+          params:{
+            levelId:this.levelId,
+            dayMoney:parseInt(this.dayMoney),
+            monthMoney:parseInt(this.monthMoney)
+          }
+        }).then(res=>{
+          if(res.data.code == 0){
+            this.remind = {
+              status: 'success',
+              msg: '设置处遇等级成功',
+            };
+            store.dispatch('showRemind');
+          }else{
+            this.remind = {
+              status: 'warn',
+              msg: res.data.msg,
+            };
+            store.dispatch('showRemind');
+          }
+        }).catch(err=>{
+          console.log(err);
+        });
       }
-
     },
     components:{
       Page,
@@ -253,7 +291,6 @@
       $('#table_id_example').tableHover();
       $('#table_id_example').select();
       this.getPrisonInfo();
-      this.getLevelDetails();
     }
   }
 </script>
