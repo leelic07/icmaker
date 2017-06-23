@@ -125,7 +125,7 @@ export default {
       oMyForm.append("fileId", file);
       let oReq = new XMLHttpRequest();
       let userId = window.localStorage.getItem('userId');
-      oReq.open("POST", "http://10.10.10.101:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
+      oReq.open("POST", "http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
       oReq.send(oMyForm);
       oReq.onload = function(oEvent) {
         if (oReq.status == 200) {

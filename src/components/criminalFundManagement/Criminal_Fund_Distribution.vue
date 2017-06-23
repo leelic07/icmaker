@@ -99,14 +99,15 @@
 </template>
 
 <script>
+
   import Page from '../Paginator.vue'
   import axios from 'axios'
   import Util from '../../../static/js/util.js'
   import store from '../../store'
   import UploadExcel from './Upload_Excel.vue'
 
-  export default{
-    data(){
+  export default {
+    data() {
       return {
         indexPage: 1,
         pageSize: 10,
@@ -149,14 +150,6 @@
       },
       prisonCapitalIncomes(){
           this.isDistribution = false;
-//        console.log(this.prisonCapitalIncomes);
-//        this.$emit('prisonCapitalIncomes',this.prisonCapitalIncomes);
-
-//        this.$router.push({
-//        //  path:'/criminal_fund_distribution/upload_excel/'+this.prisonCapitalIncomes
-//          path:'/criminal_fund_distribution/upload_excel'
-//        });
-
       },
       $route(to, from) {//监听路由变化
         this.toUrl = to.path;
@@ -180,7 +173,7 @@
     },
     computed: {
       remindShow: {
-        get(){
+        get() {
           return store.getters.remindShow;
         }
       }
@@ -242,7 +235,7 @@
         });
       },
       downLoadTemplate() {
-          window.location.href="http://10.10.10.101:8080/icmaker/downTemplate";
+          window.location.href="http://106.14.18.98:8080/icmaker/downTemplate";
       },
       uploadExcel() {
         let self = this;
@@ -261,8 +254,7 @@
             store.dispatch('showRemind');
           }
         });
-      }
-
+      },
     },
     components: {
       Page,
