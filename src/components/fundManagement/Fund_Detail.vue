@@ -92,35 +92,29 @@
             <th>流水号</th>
             <th>类别</th>
             <th>账户名</th>
-            <!--<th>账号</th>-->
             <th>对方账户名</th>
-            <!--<th>对方账号</th>-->
             <th>金额(元)</th>
             <th>交易时间</th>
             <th>状态</th>
             <th colspan = 2>操作</th>
-            <!--<th>备注</th>-->
           </tr>
           </thead>
           <tbody>
           <tr v-for='pcdd in prisonCapitalDetailDtos'>
             <td :id='pcdd.prisonCapitalDetailId'></td>
             <td v-text='pcdd.prisonName'></td>
-            <td v-text='pcdd.prisonDepartmetName'></td>
+            <td v-text='pcdd.prisonDepartmentName'></td>
             <td v-text='pcdd.capitalSerialNo'></td>
             <td>{{pcdd.type | prisonFundType}}</td>
             <td v-text='pcdd.accountName'></td>
-            <!--<td v-text='pcdd.accountNo'></td>-->
             <td v-text='pcdd.toAccountName'></td>
-            <!--<td v-text='pcdd.toAccountNo'></td>-->
             <td v-if='pcdd.capitalType == 0'>{{pcdd.money | currency}}</td>
             <td v-else-if='pcdd.capitalType == 1' class='text-red'>+{{pcdd.money | currency}}</td>
             <td v-else-if='pcdd.capitalType == 2' class='text-green'>-{{pcdd.money | currency}}</td>
             <td>{{pcdd.createdAt | formatDate}}</td>
             <td>{{pcdd.status | fundDetailStatus}}</td>
-            <td><em class="agree-text" @click = "inDetail">查看明细</em></td>
-            <td><em class="agree-text" @click = "withdraw">撤回</em></td>
-            <!--<td v-text='pcdd.remark'></td>-->
+            <td><em class="agree-text" @click = "inDetail(pcdd.prisonCapitalDetailId)">明细</em></td>
+            <td><em class="agree-text" @click = "inWithdraw(pcdd.capitalSerialNo,pcdd.money)">撤回</em></td>
           </tr>
           </tbody>
         </table>
@@ -129,6 +123,83 @@
       <!-- 表单底部-->
       <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchDetail'></Page>
     </div>
+
+    <!--模态框-->
+
+    <!--查看明细 -->
+    <div class="modal modal-confirm modal-bind" id="detailConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                        &times;
+                    </button>
+                    <h3 class = "detail-tit">查看明细</h3>
+                </div>
+                <div class="modal-body">
+                    <table class="table detail-table" v-if = "detailInfo != ''">
+                        <tr>
+                            <td width = "200">流水号</td>
+                            <td width = "250">{{detailInfo.capitalSerialNo}}</td>
+                        </tr>
+                        <tr>
+                            <td>账户名</td>
+                            <td>{{detailInfo.accountName}}</td>
+                        </tr>
+                        <tr>
+                            <td>账号</td>
+                            <td>{{detailInfo.accountNo}}</td>
+                        </tr>
+                        <tr>
+                            <td>对方账户名</td>
+                            <td>{{detailInfo.toAccountName}}</td>
+                        </tr>
+                        <tr>
+                            <td>对方账号</td>
+                            <td>{{detailInfo.toAccountNo}}</td>
+                        </tr>
+                        <tr>
+                            <td>备注</td>
+                            <td>{{detailInfo.remark}}</td>   
+                        </tr>
+                    </table>
+                    <button class="detail-button" data-dismiss="modal">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!-- 撤回确认框--> 
+    <div class="modal modal-bind modal-confirm" id="withdrawConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                        &times;
+                    </button>
+                    <h3 class = "detail-tit">撤回资金</h3>
+                </div>
+                <div class="modal-body">
+                    <table class="table detail-table">
+                        <tr>
+                            <td width = "200">流水号</td>
+                            <td width = "250">{{withdraw.serialNo}}</td>
+                        </tr>
+                        <tr>
+                            <td>撤回资金</td>
+                            <td>{{withdraw.money|currency}}元</td>
+                        </tr>
+                        <tr>
+                            <td colspan = "2"><textarea class="form-control" cols="53" rows="4" v-model = "withdraw.reason" placeholder = "撤回理由..."></textarea></td>
+                        </tr>
+                    </table>
+                    <button class="confirm-button" @click = "withdrawConfirm">保存</button>
+                    <button class="cancel-button" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+      </div>
+
     <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
   </div>
 </template>
@@ -150,7 +221,13 @@
         prisonCapitalDetailDtos: [],
         prisonName: '',
         prisonCapitalIncomeTotal: '',//监狱资金收入总金额
-        prisonCapitalOutTotal: ''//监狱资金支出总金额
+        prisonCapitalOutTotal: '',//监狱资金支出总金额
+        detailInfo: '',
+        withdraw:{
+          money:'',
+          serialNo:'',
+          reason:''
+        }
       }
     },
     computed: {
@@ -261,12 +338,59 @@
         });
       },
 
-      inDetail() {
-
+      inDetail(prisonCapitalDetailId) {
+        $("#detailConfirm").modal();
+        let detailData = {
+            "prisonCapitalDetailId": prisonCapitalDetailId
+        };
+        this.$http.get('prisonCapital/getPrisonCapitalDetailsDetails',{params:detailData}).then(res=>{
+            console.log(res);
+            if (res.data.code == 0) {
+                this.detailInfo = res.data.data;
+            }
+        }).catch(err=>{
+            console.log(err);
+        });
       },
 
-      withdraw() {
+      inWithdraw(capitalSerialNo,money) {
+        this.withdraw.money = money;
+        this.withdraw.serialNo = capitalSerialNo;
+        $("#withdrawConfirm").modal();
+      },
 
+      withdrawConfirm() {
+        if (this.isNull(this.withdraw.reason)) {
+          this.remind = {
+            status: 'warn',
+            msg: '请填写撤回理由'
+          };
+          store.dispatch('showRemind');
+        }else {
+          this.$http({
+              method: 'post',
+              url: '/prisonerAccount/applyRecall',
+              'params': this.withdraw
+            }).then(res => {
+              if (res.data.code == 0) {
+                this.remind = {
+                  status: 'success',
+                  msg: res.data.msg
+                }
+              } else {
+                this.remind = {
+                  status: 'failed',
+                  msg: res.data.msg
+                }
+                console.log(res.data.code, res.data.msg);
+              }
+              store.dispatch('showRemind');
+              $('#withdrawConfirm').modal('hide');
+              this.searchDetail(this.indexPage);
+            }).catch(err => {
+              console.log(err);
+            });
+        } 
       },
 
       dateInit(){
@@ -323,6 +447,25 @@
     }
     .text-green {
       color: #4DB983;
+    }
+
+    .detail-tit {
+      margin-bottom: 40px;
+      margin-top: 40px;
+    }
+
+    .detail-table {
+      tr {
+        height: 38px;
+        td:nth-child(1) {
+          text-align: left;
+          color: #999;
+        }
+
+        td:nth-child(2) {
+           text-align: right;
+        }
+      }
     }
   }
 </style>
