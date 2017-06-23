@@ -211,11 +211,14 @@
             </div><!-- /.modal -->
         </div>
         
+        <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 </template>
 
 <script>
+    import Remind from '../Remind.vue'
 	import Page from '../Paginator.vue'
+    import store from '../../store'
 	export default {
 		data(){
 			return{
@@ -249,6 +252,13 @@
                 capitalSerialNo:""
 			}
 		},
+        computed: {
+            remindShow:{
+                get(){
+                    return store.getters.remindShow;
+                }
+            }
+        },
         watch: {
             prisonName(){
                 let oldPrisonId = this.prisonId;
@@ -378,32 +388,33 @@
 
             withdrawConfirm() {
                 if (this.isNull(this.withdraw.reason)) {
-                this.remind = {
-                    status: 'warn',
-                    msg: '请填写撤回理由'
-                };
-                store.dispatch('showRemind');
+                    console.log('每天');
+                    this.remind = {
+                        status: 'warn',
+                        msg: '请填写撤回理由'
+                    };
+                    store.dispatch('showRemind');
                 }else {
                 this.$http({
                     method: 'post',
                     url: '/prisonerAccount/applyRecall',
                     'params': this.withdraw
                     }).then(res => {
+                        console.log(res);
                     if (res.data.code == 0) {
                         this.remind = {
-                        status: 'success',
-                        msg: res.data.msg
+                            status: 'success',
+                            msg: res.data.msg
                         }
                     } else {
                         this.remind = {
-                        status: 'failed',
-                        msg: res.data.msg
+                            status: 'failed',
+                            msg: res.data.msg
                         }
-                        console.log(res.data.code, res.data.msg);
                     }
-                    store.dispatch('showRemind');
+                   store.dispatch('showRemind');
                     $('#withdrawConfirm').modal('hide');
-                    this.searchDetail(this.indexPage);
+                    this.getDetailList(this.indexPage);
                     }).catch(err => {
                     console.log(err);
                     });
@@ -427,7 +438,8 @@
 		},
 
 		components:{
-			Page
+			Page,
+            Remind
 		},
 
 		mounted(){
