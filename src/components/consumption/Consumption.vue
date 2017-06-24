@@ -114,7 +114,7 @@
                 </div>
                 <div class="modal-body">
                     <h3>确认给{{prisonerInfo.prisonerName}}消费{{money}}元？</h3>
-                    <button class="confirm-button" :class = "{'active-button':opt[0]}" data-dismiss="modal" @click = "consumeConfirm" autofocus>确定</button>
+                    <button class="confirm-button" :class = "{'active-button':opt[0]}" data-dismiss="modal" @click = "consumeConfirm">确定</button>
                     <button class="cancel-button" :class = "{'active-button':opt[1]}" data-dismiss="modal">取消</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -224,6 +224,7 @@
       },
 
       consumeConfirm(e) {
+        console.log(e.type =="click");
        if (e.keyCode == 39 ) {//右键
           this.activeIndex = this.activeIndex == 1 ? -1 : this.activeIndex;
           this.activeIndex ++ ;
@@ -236,10 +237,10 @@
         }
         this.$set(this.opt,this.activeIndex,true);
 
-        if (e.keyCode == 13) {//回车
+        if (e.keyCode == 13 || e.type =="click") {//回车
           if (this.activeIndex == 1) {//在取消按钮处回车
             $("#consumeConfirm").modal("hide");
-          }else if (this.activeIndex == 0) {//在确定按钮处回车
+          }else if (this.activeIndex == 0 || e.type =="click") {//在确定按钮处回车
             let money = this.toCent(this.empty(this.money)[0]);
             let prisonerData = {
               "prisonerId": this.prisonerId,

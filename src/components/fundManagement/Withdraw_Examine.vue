@@ -44,7 +44,7 @@
                             <th>类别</th>
                             <th>账户名</th>
                             <th>对方账户名</th>
-                            <th>金额</th>
+                            <th>金额(元)</th>
                             <th>申请时间</th>
                             <th>申请人</th>
                             <th>撤回理由</th>
@@ -55,7 +55,7 @@
                         <tr v-for = "exam in examList">
                             <td>{{exam.prisonName}}</td>
                             <td>{{exam.serialNo}}</td>
-                            <td>{{exam.type | formatFundType}}</td>
+                            <td>{{exam.type | prisonFundType}}</td>
                             <td>{{exam.fromAccountName}}</td>
                             <td>{{exam.toAccountName}}</td>
                             <td>{{exam.money | currency}}</td>

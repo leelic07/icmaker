@@ -441,7 +441,9 @@ export default{
 		case 1 :
 			status = "交易成功";
 			break;
-		
+		case 4 :
+			status = "已撤回";
+			break;
 		}
 		return status;
 	},
@@ -546,6 +548,9 @@ export default{
 				break;
 			case -1 :
 				fundStatus = '交易失败';
+				break;
+			case 4 :
+				fundStatus = "已撤回";
 				break;
 		}
 		return fundStatus;
