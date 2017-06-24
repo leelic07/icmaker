@@ -127,6 +127,7 @@
 </style>
 
 <script>
+
   import Remind from '../Remind.vue'
   import store from '../../store'
   import Page from '../Paginator.vue'

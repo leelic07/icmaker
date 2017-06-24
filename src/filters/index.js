@@ -114,7 +114,7 @@ export default{
 		return status;
 	},
 
-    //账户类型过滤器
+  //账户类型过滤器
 	formatUserType(value) {
 		let userType = "";
 		switch(Number(value))
@@ -137,7 +137,7 @@ export default{
 		return userType;
 	},
 
-    //菜单类别过滤器
+  //菜单类别过滤器
 	formatMenuType(value) {
 		let menuType = "";
 		switch(Number(value))
@@ -408,19 +408,19 @@ export default{
 			break;
 		case 7 :
 			fundType = "罪犯低报酬资金分配";
-			break;	
+			break;
 		case 8 :
 			fundType = "罪犯IC卡资金分配";
-			break;	
+			break;
 		case 9 :
 			fundType = "罪犯刷卡入账";
 			break;
 		case 10 :
 			fundType = "制卡费入账";
-			break;	
+			break;
 		case 11 :
 			fundType = "罪犯零花钱资金分配";
-			break;	
+			break;
 		default :
 			fundType = "";
 		}

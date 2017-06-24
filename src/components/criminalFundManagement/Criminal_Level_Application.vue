@@ -20,50 +20,43 @@
           <thead>
           <tr>
             <th></th>
-            <th>所属监狱</th>
-            <th>资金分配类型</th>
-            <th>罪犯名</th>
+            <th>罪犯姓名</th>
             <th>罪犯编号</th>
-            <th>分配金额</th>
-            <th>提示</th>
+            <th>申请等级</th>
+            <th>备注</th>
           </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="pl in prisonerLevels">
               <td></td>
-              <td>2</td>
-              <td>2</td>
-              <td>2</td>
-              <td>2</td>
-              <td>2</td>
-              <td>2</td>
+              <td v-text="pl.name"></td>
+              <td v-text="pl.number"></td>
+              <td v-text="pl.level"></td>
+              <td class="reject-text" v-text="pl.tips"></td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <!-- 表单底部-->
-      <Page :itemSize='prisonerCapitalIncomeSize' :pageSize='pageSize' :indexPage='indexPage'
+      <Page :itemSize='prisonerLevelSize' :pageSize='pageSize' :indexPage='indexPage'
             v-on:search='getPrisonerLevelData'></Page>
 
       <div class="confirm pull-left col-xs-23">
 
-        <div class="col-xs-13">
-          <button class="pull-right"  @click="addPrisonerLevel()">确认上传</button>
+        <div class="col-xs-10">
+          <button class="pull-right" :disabled="hasErrMsg" :class="{disabledBtn:hasErrMsg}"  @click="addPrisonerLevel()">确认上传</button>
         </div>
 
-        <!--<div class="col-xs-5">-->
-          <!--<span class="col-xs-24 text-center">罪犯信息错误，无法分配</span>-->
-        <!--</div>-->
+        <div class="col-xs-11 col-xs-offset-3">
+          <button class="pul" @click="reUploadExcel()">重新上传</button>
+        </div>
 
-        <!--<div class="col-xs-6">-->
-          <!--<button class="" @click="reUploadExcel()">重新上传</button>-->
-        <!--</div>-->
       </div>
 
     </div>
 
-    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
+    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
 
@@ -88,10 +81,12 @@
         prisonId: '',
         prisonName: '',
         prisonList: [],
-
         prisonerLevels:[],
         prisonerLevelSize:'',
-
+        uploadExcelUrl:'http://10.10.10.112:8080/icmaker/level/importPrisonerLevel',
+        downloadExcelUrl:'http://10.10.10.112:8080/icmaker/level/downLevelTemplate',
+        hasErrMsg:true,//有错误信息
+        dataId:'',//excelId
         remind: {
           status: '',
           msg: ''
@@ -115,11 +110,24 @@
           this.prisonId = '';
         }
       },
-      computed: {
-        remindShow: {
-          get() {
-            return store.getters.remindShow;
+      prisonerLevels() {
+        $.each(this.prisonerLevels, (index, value) => {
+          if (value.tips == '数据存在问题，请检查') {
+            this.hasErrMsg = true;
+            return;
+          }else{
+            this.hasErrMsg = false;
           }
+        });
+      },
+      dataId(){
+         this.hasErrMsg = false;
+      }
+    },
+    computed: {
+      remindShow: {
+        get() {
+          return store.getters.remindShow;
         }
       }
     },
@@ -141,19 +149,19 @@
         });
       },
       downLevelTemplate() {
-//        window.location.href = "http://106.14.18.98:8080/icmaker/level/downLevelTemplate";
-        window.location.href = "http://localhost:8080/icmaker/level/downLevelTemplate";
+        //window.location.href = "http://106.14.18.98:8080/icmaker/level/downLevelTemplate";
+        window.location.href = this.downloadExcelUrl;
       },
       //上传excel文件
       criminalLevelImport(e) {
-//        console.log('import');
         let self = this;
+        let uploadExcelUrl = this.uploadExcelUrl;
+
         $('#ExcelId').on("change",function(e) {
-          console.log('important');
           let file = e.target.files[0];
           if (self.isExcel(file)) {
-//            Util.readUploadExcel(file,self,"http://106.14.18.98:8080/icmaker/level/importPrisonerLevel");
-            Util.readUploadExcel(file,self,"http://localhost:8080/icmaker/level/importPrisonerLevel");
+//          Util.readUploadExcel(file,self,"http://106.14.18.98:8080/icmaker/level/importPrisonerLevel");
+            Util.readUploadExcel(file,self,store,uploadExcelUrl);
           } else {
             self.remind = {
               status:'warn',
@@ -181,33 +189,70 @@
             console.log(err);
         })
       },
+
       //添加罪犯资金分配
       addPrisonerLevel() {
-        axios.get('/level/getPrisonerLevelData',{
-          params:{
-            dataId:this.dataId
-          }
+        let dataId = this.dataId;
+        console.log(this.dataId,dataId);
+
+        axios({
+          url: '/level/addPrisonerLevel',
+          method: 'post',
+          data: this.dataId
         }).then(res=>{
           if(res.data.code == 0){
+            this.remind = {
+              status: 'success',
+              msg: '上传成功',
+            };
+            store.dispatch('showRemind');
+          } else {
+            this.remind = {
+              status: 'warn',
+              msg: res.data.msg,
+            };
+            store.dispatch('showRemind');
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+      },
+
+      //重新上传
+      reUploadExcel() {
+        axios({
+          url: '/level/clearCachePrisonerLevel',
+          method: 'post',
+          data: this.dataId
+        }).then((res) => {
+          console.log(res.data);
+          if (res.data.code == 0) {
+            this.prisonerLevels = '';
             this.remind = {
               status: 'success',
               msg: '重新上传成功',
             };
             store.dispatch('showRemind');
+          } else {
+            this.remind = {
+              status: 'warn',
+              msg:res.data.msg,
+            };
+            store.dispatch('showRemind');
           }
-        }).catch(err=>{
+        }).catch(err => {
           console.log(err);
         })
-      },
-
+      }
     },
     components: {
       Page,
-      CriminalFundDistribution
+      CriminalFundDistribution,
+      Remind
     },
     mounted() {
       this.criminalLevelImport();
-      this.getPrisonerLevelData();
+//      this.getPrisonerLevelData();
       $('#table_id_example').tableHover();
     },
     updated() {
@@ -283,9 +328,8 @@
         }
       }
       &:nth-child(2) {
-        span {
-          color: @textGray;
-          line-height: 35px;
+        button {
+          .button(@green, @white, 35px, 150px);
         }
       }
       &:nth-child(3) {
@@ -302,6 +346,10 @@
         }
       }
     }
+  }
+
+  .disabledBtn{
+    background-color:#C1C1C1 !important
   }
 
   .button(@bgColor,@color,@height,@width) {

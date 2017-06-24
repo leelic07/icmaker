@@ -73,6 +73,8 @@
 <script>
   import Remind from '../Remind.vue'
   import store from '../../store'
+  import Page from '../Paginator.vue'
+
   export default {
     data(){
       return {
@@ -235,7 +237,8 @@
       }
     },
     components: {
-      Remind
+      Remind,
+      Page
     },
     beforeCreate(){
       //判断参数 prisonDepartmentId 是否为null

@@ -50,6 +50,9 @@ import Capital_Composition from './components/statistics/Capital_Composition.vue
 import Income_Expenditure from './components/statistics/Income_Expenditure.vue'
 import Balance from './components/statistics/Balance.vue'
 import Related_Bank_Account from './components/fundManagement/Related_Bank_Account.vue'
+import CriminalDetails from './components/criminalManagement/Criminal_Details.vue'
+import TreatmentLevelExamine from './components/criminalManagement/Treatment_Level_Examine.vue'
+
 
 export default [
 	{
@@ -134,7 +137,10 @@ export default [
 		children:[{
 			path:'/crimsearch/edit/:id',
 			component:Criminal_Add
-		}]
+		},{
+		  path:'/crimsearch/criminal_details/:prisonerId',
+      component:CriminalDetails
+    }]
 	},
 	{
 		path:'/crimexamine',
@@ -284,6 +290,14 @@ export default [
   {
     path:'/upload_excel',
     component:UploadExcel
+  },
+  {
+    path:'/criminal_details',
+    component:CriminalDetails
+  },
+  {
+    path:'/treatment_level_examine',
+    component:TreatmentLevelExamine
   },
 	{
 		path:'*',

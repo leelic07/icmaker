@@ -92,8 +92,8 @@
       <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchLocation'></Page>
       </div>
     </div>
-    <!--<router-view :excelData="prisonCapitalIncomes"></router-view>-->
-    <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" :dataId="dataId"></UploadExcel>
+
+    <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" v-on:isDistribution="isDistribution()"></UploadExcel>
 
   </div>
 </template>
@@ -247,7 +247,7 @@
           let uploadType = e.target.getAttribute('uploadType');
           let prisonName = e.target.getAttribute('prisonName');
           if (self.isExcel(file)) {
-            Util.readExcel(file,self,'prisonCapitalIncomes','dataId',uploadType,prisonName);
+            Util.readExcel(file,self,store,'prisonCapitalIncomes','dataId',uploadType,prisonName);
           } else {
             self.remind = {
               status:'warn',
@@ -257,6 +257,9 @@
           }
         });
       },
+      isDistribution(isDistribution) {
+        this.isDistribution = isDistribution;
+      }
     },
     components: {
       Page,

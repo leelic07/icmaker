@@ -211,7 +211,7 @@
     },
     methods: {
       //获取监狱账户信息
-      getPrisonAccountDtos(){
+      getPrisonAccountDtos() {
         this.$http({
           method: 'get',
           url: '/prisonAccount/getPrisonAccountDtos',
@@ -228,7 +228,7 @@
         });
       },
       //点击搜索获取账户列表
-      searchAccount(index){
+      searchAccount(index) {
         this.indexPage = index;
         this.$http({
           method: 'get',
@@ -248,7 +248,7 @@
         })
       },
       //点击申请转账初始化数据
-      transferApplication(prisonAccountId, money){
+      transferApplication(prisonAccountId, money) {
         this.bankId = '';
         this.bankAccountId = '';
         this.type = 5;
@@ -298,15 +298,6 @@
 
       //点击保存提交转账申请
       saveTransfer(type, prisonAccountId){
-        // if(this.isNull(type,prisonAccountId)){
-        //     this.remind = {
-        //         status:'warn',
-        //         msg:'选项不能为空'
-        //     };
-
-        //     store.dispatch('showRemind');
-        //     return;
-        // }else
         if (!this.isNumber(this.transferMoney) || this.transferMoney == 0) {
           this.remind = {
             status: 'warn',

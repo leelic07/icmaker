@@ -142,6 +142,7 @@ import Remind from '../Remind.vue'
 import store from '../../store'
 import Page from '../Paginator.vue'
 import axios from 'axios'
+
     export default {
         data(){
             return {
@@ -201,8 +202,10 @@ import axios from 'axios'
         },
         toUrl() {
           const editUrl = "/crimsearch/edit/2";
+          const detailsUrl = "/crimsearch/criminal_details/2";
           const index = editUrl.lastIndexOf('/');
-          if (this.toUrl.substring(0, index) == "/crimsearch/edit") {//进入编辑页面
+          const dIndex = detailsUrl.lastIndexOf('/');
+          if (this.toUrl.substring(0, index) == "/crimsearch/edit" || this.toUrl.substring(0, dIndex) == "/crimsearch/criminal_details") {//进入编辑页面
             this.isManage = false;//将管理页隐藏
           } else {
             this.isManage = true;
@@ -210,8 +213,10 @@ import axios from 'axios'
         },
         fromUrl() {
           const editUrl = "/crimsearch/edit/2";
+          const detailsUrl = "/crimsearch/criminal_details/2";
           const index = editUrl.lastIndexOf('/');
-          if (this.fromUrl.substring(0, index) == "/crimsearch/edit" || this.fromUrl == '/crimadd') {//从新增或者编辑页进入
+          const dIndex = detailsUrl.lastIndexOf('/');
+          if (this.fromUrl.substring(0, index) == "/crimsearch/edit" || this.fromUrl == '/crimadd' || this.toUrl.substring(0, dIndex) == "/crimsearch/criminal_details") {//从新增或者编辑页进入
             this.criminalSearch(this.indexPage);
           }
         }
@@ -346,10 +351,11 @@ import axios from 'axios'
             console.log('删除罪犯列表服务器异常' + err);
           });
       },
-      levelDetails(e,prisonerId){
-
+      levelDetails(e,prisonerId) {
+        this.$router.push({
+          path:'/crimsearch/criminal_details/'+prisonerId
+        });
       }
-
     },
     components: {
       Page,

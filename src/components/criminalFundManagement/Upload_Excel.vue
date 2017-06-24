@@ -55,7 +55,7 @@
       <div class="confirm pull-left col-xs-23">
 
         <div class="col-xs-13">
-          <button class="pull-right" :disabled="hasErrMsg" @click="confirmDistribution()">确认分配</button>
+          <button class="pull-right" :class="{disabledBtn:hasErrMsg}" :disabled="hasErrMsg" @click="confirmDistribution()">确认分配</button>
         </div>
 
         <div class="col-xs-5" >
@@ -87,7 +87,7 @@
   import Remind from '../Remind.vue'
 
   export default {
-    props: ['excelData', 'dataId'],
+    props: ['excelData'],
     data() {
       return {
         indexPage: 1,
@@ -117,7 +117,6 @@
     },
     watch: {
       excelData() {
-        //console.log("excelgaidf");
         console.log(this.excelData);
         console.log(this.excelData.dataId);
         this.dataId = this.excelData.dataId;
@@ -129,6 +128,8 @@
           if (value.tips) {
             this.hasErrMsg = true;
             return;
+          } else {
+            this.hasErrMsg = false;
           }
         });
       },
@@ -154,11 +155,11 @@
           this.prisonId = '';
         }
       },
-      computed: {
-        remindShow: {
-          get() {
-            return store.getters.remindShow;
-          }
+    },
+    computed: {
+      remindShow: {
+        get() {
+          return store.getters.remindShow;
         }
       }
     },
@@ -182,7 +183,6 @@
       //确认分配
       confirmDistribution() {
         if(this.isNull(this.remark)) {
-          console.log('return');
           this.remind = {
             status: 'warn',
             msg: '请填写备注信息',
@@ -203,6 +203,7 @@
           params:confirmData
         }).then(res => {
           if(res.data.code == 0){
+            this.$emit('isDistribution',true);
             this.remind = {
               status: 'success',
               msg: '分配上传成功',
@@ -229,10 +230,7 @@
             dataId: this.dataId,
           }
         }).then(res => {
-
           if (res.data.code == 0) {
-            console.log(res.data.data.prisonerCapitalIncomes);
-            console.log(res.data.data.prisonerCapitalIncomeSize);
             this.prisonerCapitalIncomesList = res.data.data.prisonerCapitalIncomes;
             this.prisonerCapitalIncomeSize = res.data.data.prisonerCapitalIncomeSize;
             $.each(this.prisonerCapitalIncomesList,(index,value)=>{
@@ -268,7 +266,8 @@
     },
     components: {
       Page,
-      CriminalFundDistribution
+      CriminalFundDistribution,
+      Remind
     },
     mounted() {
       $('#table_id_example').tableHover();
@@ -349,6 +348,10 @@
         }
       }
     }
+  }
+
+  .disabledBtn{
+    background-color:#C1C1C1 !important
   }
 
   .button(@bgColor,@color,@height,@width) {

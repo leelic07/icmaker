@@ -111,6 +111,7 @@ export default {
                 let response = $.parseJSON(this.response);
                 if (response.code == 0) {//图片上传成功
                     _this[dataName] = response.data.imgUrl;
+
                 }
             } else {
                 console.log("上传图片错误，错误码：" + oReq.status);
@@ -119,15 +120,16 @@ export default {
     },
 
     //上传Excel表格
-    readExcel(file,_this,dataName,dataId,uploadType,prisonName){
+    //罪犯资金分配
+    readExcel(file,_this,store,dataName,dataId,uploadType,prisonName){
       // console.log(dataName);
-      let success = false;
       let oMyForm = new FormData();
       oMyForm.append("fileId", file);
       let oReq = new XMLHttpRequest();
       let userId = window.localStorage.getItem('userId');
       // oReq.open("POST", "http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
-      oReq.open("POST", "http://localhost:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
+      // oReq.open("POST", "http://localhost:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
+      oReq.open("POST", "http://10.10.10.112/icmaker/importPrisonerCapitalIncome?userId="+userId);
       oReq.send(oMyForm);
       oReq.onload = function(oEvent) {
         if (oReq.status == 200) {
@@ -140,17 +142,27 @@ export default {
               value.prisonName = prisonName;
             });
             _this[dataName] = response.data;
-            success = true;
+            _this['remind'] = {
+              status:'success',
+              msg:response.msg
+            }
+            store.dispatch('showRemind');
+          } else {
+            _this['remind'] = {
+              status:'warn',
+              msg:response.msg
+            }
+            store.dispatch('showRemind');
           }
         } else {
           console.log("上传Excel错误，错误码：" + oReq.status);
         }
       };
-      return success;
     },
 
   //上传Excel表格
-  readUploadExcel(file,_this,url){
+  //罪犯等级申请
+  readUploadExcel(file,_this,store,url){
     // console.log(dataName);
     let oMyForm = new FormData();
     oMyForm.append("fileId", file);
@@ -164,6 +176,18 @@ export default {
         if (response.code == 0) {//上传Excel成功
           _this['prisonerLevels'] = response.data.prisonerLevels;
           _this['prisonerLevelSize'] = response.data.prisonLevelSize;
+          _this['dataId'] = response.data.dataId;
+          _this['remind'] = {
+            status:'success',
+            msg:response.msg
+          }
+          store.dispatch('showRemind');
+        } else {
+          _this['remind'] = {
+            status:'warn',
+            msg:response.msg
+          }
+          store.dispatch('showRemind');
         }
       } else {
         console.log("上传Excel错误，错误码：" + oReq.status);
