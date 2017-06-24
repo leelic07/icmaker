@@ -133,7 +133,7 @@
     },
     watch: {
       //根据监狱名称得到监狱ID
-      prisonName(){
+      prisonName() {
         this.prisonId = '';
         if (this.prisonName != '') {
           $.each(this.prisonList, (index, value) => {
@@ -148,7 +148,7 @@
           this.prisonId = '';
         }
       },
-      prisonCapitalIncomes(){
+      prisonCapitalIncomes() {
           this.isDistribution = false;
       },
       $route(to, from) {//监听路由变化
@@ -168,6 +168,7 @@
       fromUrl() {
         const editUrl = '/criminal_fund_distribution/upload_excel';
         if(this.fromUrl == '/criminal_fund_distribution/upload_excel'){
+
         }
       }
     },
@@ -235,7 +236,8 @@
         });
       },
       downLoadTemplate() {
-          window.location.href="http://106.14.18.98:8080/icmaker/downTemplate";
+//        window.location.href="http://106.14.18.98:8080/icmaker/downTemplate";
+        window.location.href="http://localhost:8080/icmaker/downTemplate";
       },
       uploadExcel() {
         let self = this;

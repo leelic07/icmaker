@@ -103,7 +103,8 @@ export default {
         let oMyForm = new FormData();
         oMyForm.append("file", file);
         let oReq = new XMLHttpRequest();
-        oReq.open("POST", "http://106.14.18.98:8080/icmaker/fileUpload");
+        // oReq.open("POST", "http://106.14.18.98:8080/icmaker/fileUpload");
+        oReq.open("POST", "http://localhost:8080/icmaker/fileUpload");
         oReq.send(oMyForm);
         oReq.onload = function(oEvent) {
             if (oReq.status == 200) {
@@ -125,7 +126,8 @@ export default {
       oMyForm.append("fileId", file);
       let oReq = new XMLHttpRequest();
       let userId = window.localStorage.getItem('userId');
-      oReq.open("POST", "http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
+      // oReq.open("POST", "http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
+      oReq.open("POST", "http://localhost:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
       oReq.send(oMyForm);
       oReq.onload = function(oEvent) {
         if (oReq.status == 200) {

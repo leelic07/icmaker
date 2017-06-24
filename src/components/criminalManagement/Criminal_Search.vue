@@ -67,7 +67,7 @@
                           <th>所属监区</th>
                           <th>在监状态</th>
                           <th>入监日期</th>
-                          <th colspan="3">操作</th>  
+                          <th colspan="3">操作</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -84,7 +84,8 @@
                           <td><router-link class="agree-text edit-link" :to = '"/crimsearch/edit/"+prisoner.prisonerId'>修改</router-link></td>
                           <td><em class="reject-text delete-link" :id = "prisoner.prisonerId" @click = "deletePrisoner($event.target)">删除</em></td>
                           <td><em class="agree-text restore-link" :id = "prisoner.prisonerId" @click = "restore($event.target)" v-if = "prisoner.status == 1">出监</em></td>
-                      </tr>    
+                          <td><em class="agree-text restore-link" :id = "prisoner.prisonerId" @click = "levelDetails($event.target,prisoner.prisonerId)">明细</em></td>
+                      </tr>
                   </tbody>
               </table>
           </div>
@@ -344,6 +345,9 @@ import axios from 'axios'
           }).catch(err => {
             console.log('删除罪犯列表服务器异常' + err);
           });
+      },
+      levelDetails(e,prisonerId){
+
       }
 
     },

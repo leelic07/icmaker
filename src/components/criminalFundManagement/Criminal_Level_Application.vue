@@ -141,7 +141,8 @@
         });
       },
       downLevelTemplate() {
-        window.location.href = "http://106.14.18.98:8080/icmaker/level/downLevelTemplate";
+//        window.location.href = "http://106.14.18.98:8080/icmaker/level/downLevelTemplate";
+        window.location.href = "http://localhost:8080/icmaker/level/downLevelTemplate";
       },
       //上传excel文件
       criminalLevelImport(e) {
@@ -151,7 +152,8 @@
           console.log('important');
           let file = e.target.files[0];
           if (self.isExcel(file)) {
-            Util.readUploadExcel(file,self,"http://106.14.18.98:8080/icmaker/level/importPrisonerLevel");
+//            Util.readUploadExcel(file,self,"http://106.14.18.98:8080/icmaker/level/importPrisonerLevel");
+            Util.readUploadExcel(file,self,"http://localhost:8080/icmaker/level/importPrisonerLevel");
           } else {
             self.remind = {
               status:'warn',

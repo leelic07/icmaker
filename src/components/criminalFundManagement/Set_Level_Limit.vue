@@ -283,11 +283,11 @@
         });
       }
     },
-    components:{
+    components: {
       Page,
       Remind
     },
-    mounted(){
+    mounted() {
       $('#table_id_example').tableHover();
       $('#table_id_example').select();
       this.getPrisonInfo();
