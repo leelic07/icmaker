@@ -338,7 +338,7 @@
       //处遇等级审核同意
       agreeExamine() {
         this.$http.post('/level/levelVerifies',$.param({
-          ids:this.ids,
+          ids:this.ids.join(','),
           verifyType:1,
         })).then(res=> {
           if(res.data.code == 0) {
@@ -383,6 +383,7 @@
             }
             store.dispatch('showRemind');
             this.getPrisonerLevelRecords();
+            $('#rejectConfirm').modal('hide');
           } else {
             this.remind = {
               status: 'warn',

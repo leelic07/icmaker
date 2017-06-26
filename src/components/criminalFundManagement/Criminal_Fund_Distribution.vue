@@ -76,10 +76,11 @@
               <td>{{cfal.accountName}}</td>
               <td>{{cfal.money | currency}}</td>
               <td class="col-xs-5">
-                <router-link
-                  :to="'/cfd_add_criminal/'+ cfal.prison_id + '/' + cfal.id + '/' + cfal.type + '/' + cfal.money"
-                  class="agree-text">选择罪犯
-                </router-link>
+                <!--<router-link-->
+                  <!--:to="'/cfd_add_criminal/'+ cfal.prison_id + '/' + cfal.id + '/' + cfal.type + '/' + cfal.money"-->
+                  <!--class="agree-text">选择罪犯-->
+                <!--</router-link>-->
+
                 <!--<router-link to="" class="reject-text">上传excel文件</router-link>-->
                 <a href="#" @click="$event.preventDefault()" class="reject-text">上传excel文件</a>
                 <input class="file" type="file" :id="index" :uploadType="cfal.type" :prisonName="cfal.prisonName">
@@ -96,6 +97,7 @@
       </div>
     </div>
     <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" v-on:isDistribution="isDistribution()"></UploadExcel>
+
     <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
   </div>
 </template>
@@ -296,7 +298,7 @@
               position:absolute;
               width:35%;
               top:30%;
-              left:40%;
+              left:20%;
               opacity:0;
             }
           }
