@@ -49,14 +49,15 @@
         </div>
 
         <div class="col-xs-11 col-xs-offset-3">
-          <button class="pul" @click="reUploadExcel()">重新上传</button>
+          <button class="pull-left" @click="clearCache()" id="reUpload">取消</button>
+          <!--<input type="file" class="col-xs-8">-->
         </div>
 
       </div>
 
     </div>
 
-    <!--<Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>-->
+    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
 
@@ -83,8 +84,10 @@
         prisonList: [],
         prisonerLevels:[],
         prisonerLevelSize:'',
-        uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
-        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
+//        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/level/importPrisonerLevel',
+//        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/level/downLevelTemplate',
+        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/level/importPrisonerLevel',
+        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/level/downLevelTemplate',
         hasErrMsg:true,//有错误信息
         dataId:'',//excelId
         remind: {
@@ -228,19 +231,36 @@
       },
 
       //重新上传
-      reUploadExcel() {
+//      reUploadExcel() {
+//        $('#reUpload').on("change", function (e) {
+//          let file = e.target.files[0];
+//          if (self.isExcel(file)) {
+//            Util.readUploadExcel(file, self, store, uploadExcelUrl,'reUpload');
+//          } else {
+//            self.remind = {
+//              status: 'warn',
+//              msg: '请上传格式正确的Excel文件'
+//            }
+//            store.dispatch('showRemind');
+//          }
+//        });
+//      },
+
+      clearCache(){
         axios.post('/level/clearCachePrisonerLevel',
         $.param({
           dataId:this.dataId
         })).then((res) => {
           console.log(res.data);
+
           if (res.data.code == 0) {
             this.prisonerLevels = '';
-            this.remind = {
-              status: 'success',
-              msg: '重新上传成功',
-            };
-            store.dispatch('showRemind');
+//            this.remind = {
+//              status: 'success',
+//              msg: '取消成功',
+//            };
+//            store.dispatch('showRemind');
+//            window.location.reload();
           } else {
             this.remind = {
               status: 'warn',
@@ -250,7 +270,7 @@
           }
         }).catch(err => {
           console.log(err);
-        })
+        });
       }
     },
     components: {
@@ -260,8 +280,8 @@
     },
     mounted() {
       this.criminalLevelImport();
-
       $('#table_id_example').tableHover();
+//      this.reUploadExcel();
     },
     updated() {
       $('#table_id_example').tableHover();
@@ -336,8 +356,14 @@
         }
       }
       &:nth-child(2) {
+        position:relative;
         button {
+          position:absolute;
           .button(@green, @white, 35px, 150px);
+        }
+        input {
+          height:35px;
+          opacity:0;
         }
       }
       &:nth-child(3) {
