@@ -260,7 +260,7 @@
 //              msg: '取消成功',
 //            };
 //            store.dispatch('showRemind');
-//            window.location.reload();
+            window.location.reload();
           } else {
             this.remind = {
               status: 'warn',
