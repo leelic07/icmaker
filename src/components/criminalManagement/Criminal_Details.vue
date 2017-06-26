@@ -40,8 +40,9 @@
           <tbody>
             <tr v-for="pl in logList">
               <td>{{pl.createdAt | formatDate}}</td>
-              <td v-if="pl.sysFlag == 1">设置成功</td>
-              <td class="reject-text" v-if="pl.sysFlag == 0">设置失败</td>
+              <td v-if="pl.status == 1">设置成功</td>
+              <td class="reject-text" v-if="pl.status == 0">未完成设置</td>
+              <td class="reject-text" v-if="pl.status == 2">设置失败</td>
               <td v-text="pl.levelName"></td>
             </tr>
           </tbody>

@@ -66,6 +66,7 @@
                           <th>所属监狱</th>
                           <th>所属监区</th>
                           <th>在监状态</th>
+                          <th>处遇等级</th>
                           <th>入监日期</th>
                           <th colspan="3">操作</th>
                       </tr>
@@ -80,6 +81,7 @@
                           <td>{{prisoner.prisonName}}</td>
                           <td>{{prisoner.prisonDepartmentName}}</td>
                           <td>{{prisoner.status | formatStatus}}</td>
+                          <td>{{prisoner.levelName}}</td>
                           <td>{{prisoner.intoPrisonDate | formatPrisonDate}}</td>
                           <td><router-link class="agree-text edit-link" :to = '"/crimsearch/edit/"+prisoner.prisonerId'>修改</router-link></td>
                           <td><em class="reject-text delete-link" :id = "prisoner.prisonerId" @click = "deletePrisoner($event.target)">删除</em></td>
