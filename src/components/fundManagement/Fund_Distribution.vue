@@ -48,7 +48,7 @@
                         </div>
                     </div> 
                     <div class="col-xs-8">
-                        <div class="col-xs-8">
+                        <div class="col-xs-10">
                             <label for="" class="pull-left">已分配金额:</label>
                         </div>
                         <div class="col-xs-14">
@@ -58,7 +58,7 @@
                 </div>     
             </div>
         </div>
-        </div>
+        
 
         <!--分配金额,分配类型部分-->
         <div class="col-xs-24 distribution">
