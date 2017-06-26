@@ -90,11 +90,13 @@
       </div>
       <!-- 表单底部-->
       <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchLocation'></Page>
+
+
+
       </div>
     </div>
-
     <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" v-on:isDistribution="isDistribution()"></UploadExcel>
-
+    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
   </div>
 </template>
 
@@ -105,6 +107,7 @@
   import Util from '../../../static/js/util.js'
   import store from '../../store'
   import UploadExcel from './Upload_Excel.vue'
+  import Remind from '../Remind.vue'
 
   export default {
     data() {
@@ -125,6 +128,8 @@
         toUrl:'',
         fromUrl:'',
         uploadType:'',//上传Excel类型
+        uploadExcelUrl:'http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome',
+        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/downTemplate',
         remind: {
           status: '',
           msg: ''
@@ -158,7 +163,7 @@
       toUrl() {
         let url = window.location.href;
         let index = url.lastIndexOf('/');
-        console.log(this.toUrl.substring(0, index));
+
         if (this.toUrl.substring(0, index) == '/criminal_fund_distribution/upload_excel') {
           this.isDistribution = false;
         } else {
@@ -167,7 +172,7 @@
       },
       fromUrl() {
         const editUrl = '/criminal_fund_distribution/upload_excel';
-        if(this.fromUrl == '/criminal_fund_distribution/upload_excel'){
+        if(this.fromUrl == '/criminal_fund_distribution/upload_excel') {
 
         }
       }
@@ -236,8 +241,7 @@
         });
       },
       downLoadTemplate() {
-//        window.location.href="http://106.14.18.98:8080/icmaker/downTemplate";
-        window.location.href="http://localhost:8080/icmaker/downTemplate";
+        window.location.href = this.downloadExcelUrl;
       },
       uploadExcel() {
         let self = this;
@@ -247,7 +251,7 @@
           let uploadType = e.target.getAttribute('uploadType');
           let prisonName = e.target.getAttribute('prisonName');
           if (self.isExcel(file)) {
-            Util.readExcel(file,self,store,'prisonCapitalIncomes','dataId',uploadType,prisonName);
+            Util.readExcel(file,self,self.uploadExcelUrl,store,'prisonCapitalIncomes','dataId',uploadType,prisonName);
           } else {
             self.remind = {
               status:'warn',
@@ -263,7 +267,8 @@
     },
     components: {
       Page,
-      UploadExcel
+      UploadExcel,
+      Remind
     },
     mounted() {
       this.getAllPrison();

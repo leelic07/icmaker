@@ -9,18 +9,18 @@
 				    <h3 class="panel-title text-center">成功</h3>
 			  	</div>
 		  		<div class="panel-body text-center" v-text='msg'>
-	    			
-				</div>
+
+				  </div>
 			</div>
-			
+
 			<!--失败-->
 			<div v-else-if="status == 'failed'" class="panel panel-danger">
 			  	<div class="panel-heading">
 				    <h3 class="panel-title text-center">失败</h3>
 			  	</div>
 		  		<div class="panel-body text-center" v-text='msg'>
-	    			
-				</div>
+
+				  </div>
 			</div>
 
 			<!--警告-->
@@ -29,8 +29,8 @@
 				    <h3 class="panel-title text-center">警告</h3>
 			  	</div>
 		  		<div class="panel-body text-center" v-text='msg'>
-	    			
-				</div>
+
+				  </div>
 			</div>
 
 			<!--默认-->
@@ -39,8 +39,8 @@
 				    <h3 class="panel-title text-center">默认</h3>
 			  	</div>
 		  		<div class="panel-body text-center" v-text='msg'>
-	    			
-				</div>
+
+				  </div>
 			</div>
 	    </div>
 	  </div>
@@ -83,7 +83,7 @@ import store from '../store'
 		mounted(){
 			this.remindInit();
 			this.remindDestroy();
-		}		
+		}
 	}
 </script>
 
@@ -92,5 +92,5 @@ import store from '../store'
 		.panel{
 			margin-bottom:0;
 		}
-	}	
+	}
 </style>

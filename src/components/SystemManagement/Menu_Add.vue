@@ -1,5 +1,4 @@
 <template>
-    
 	<!-- 右侧内容-->
         <div id="right-side" class="col-xs-20 pull-right">
             <!--搜索框部分-->
@@ -9,7 +8,7 @@
                         <div class="row">
                             <div class="col-xs-3 label-box">
                                 <label for="name">菜单类型 :</label>
-                            </div>    
+                            </div>
                             <div class="col-xs-6 select-box" >
                                 <select class="form-control" @change = "changeMenuType" id="menuType" v-model = "menuInfo.type">
                                     <option value = 0>一级菜单</option>
@@ -74,6 +73,7 @@
             </div>
 
             <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg' :path = 'remind.path'></Remind>
+
         </div>
 </template>
 
@@ -97,7 +97,7 @@
                 menuInfo:{//类型：0-一级菜单；1-二级菜单；
                     pId: "",
                     menuName: "",
-                    type: 0,   
+                    type: 0,
                     isEnable: 1,
                     pageUrl: ""
                 }
@@ -138,7 +138,7 @@
                             let params = this.$route.params;
                             if (params.id == undefined && params.firstMenuId == undefined) {
                                 this.menuInfo.pId = this.firstMenuList[0].id;
-                            }   
+                            }
                         }
                     }).catch(err=>{
                         console.log('获取菜单列表服务器异常' + err);
@@ -193,11 +193,10 @@
 
              getSecondMenu () {
                 if (this.firstMenuId != undefined) {
-                    this.menuInfo.type = 1 
+                    this.menuInfo.type = 1
                     this.changeMenuType()
                     this.menuInfo.pId = this.firstMenuId;
                 }
-
             },
 
             //新增菜单
@@ -229,24 +228,24 @@
                                 path: '/menu_management'
                             }
                             store.dispatch('showRemind');
-                            store.dispatch('reloadSide');      
+                            store.dispatch('reloadSide');
                         } else {
                             this.remind = {
                                 status:'failed',
                                 msg:res.data.msg
                             }
                             store.dispatch('showRemind');
-                       }  
+                       }
                     }).catch(err=>{
                         console.log('新增服务器异常' + err);
-                    });      
+                    });
                 }else{
                     this.remind = {
                         status:'warn',
                         msg:'请填写完整后再进行提交'
                     }
                     store.dispatch('showRemind');
-                }    
+                }
             }
 		},
         components:{
@@ -263,7 +262,7 @@
 
 <style lang="less" scoped>
     #right-side{
-        background-color:#f5f5f5; 
+        background-color:#f5f5f5;
         .select-box{
             padding:10px;
         }
@@ -290,7 +289,7 @@
             .upload-btn {
                 opacity: 0;
                 z-index: 1000;
-                position: absolute; 
+                position: absolute;
                 left: 0;
                 top: 0;
                 width: 120px;

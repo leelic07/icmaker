@@ -215,13 +215,11 @@
     methods: {
       getPrisonInfo() {//根据用户信息获取监狱信息
         this.$http.get('prisoner/toAddOrEdit').then(res=>{
-          // console.log(res);
           if (res.data.code == 0) {
             this.prisons = res.data.data.prisons;//赋值监狱列表
             if (this.prisons.length == 1) {
               this.prisonName = this.prisons[0].prisonName;
               this.prisonId = this.prisons[0].id;
-//              this.getPrisonDepartInfo();
             }
             this.getFundList(this.indexPage);
           }
@@ -231,8 +229,6 @@
       },
 
       getPrisonDepartInfo () {//获取监区信息
-//        this.prisonDepartments = "";
-//        this.prisonDepartmentId = "";
         this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
           if (res.data.code == 0) {
             this.prisonDepartments = res.data.data;//赋值监区列表
@@ -248,7 +244,6 @@
             prisonId:this.prisonId
           }
         }).then(res=> {
-          // console.log(res);
           if (res.data.code == 0) {
             this.levelList = res.data.data;
           }
@@ -289,13 +284,13 @@
             indexPage:this.indexPage,
             pageSize:this.pageSize
           }
-        }).then(res=>{
-          if(res.data.code == 0){
+        }).then(res=> {
+          if(res.data.code == 0) {
             console.log(res.data);
             this.records = res.data.data.records;
             this.recordSize = res.data.data.recordSize;
           }
-        }).catch(err=>{
+        }).catch(err=> {
             console.log(err);
         })
       },
@@ -340,63 +335,20 @@
         }
       },
 
-
       //处遇等级审核同意
       agreeExamine() {
-
-//        let params = {};
-//        let url = '';
-//        if (this.ids.length > 1) {
-//          params = {
-//            reviewStatus: 1,
-//            prisonCapitalDetailIds: this.ids.join(',')
-//          }
-//          url = '/prisonCapital/batchReviewCapitalTransfers';
-//        } else if (this.ids.length == 1) {
-//          params = {
-//            reviewStatus: 1,
-//            prisonCapitalDetailId: this.ids.join(',')
-//          }
-//          url = '/prisonCapital/reviewCapitalTransfers';
-//        }
-//
-//        this.$http({
-//          method: 'post',
-//          'url': url,
-//          'params': params
-//        }).then(res => {
-//          if (res.data.code == 0) {
-//            this.remind = {
-//              status: 'success',
-//              msg: res.data.msg
-//            }
-//            this.searchRecord(this.indexPage);
-//          } else {
-//            this.remind = {
-//              status: 'failed',
-//              msg: res.data.msg
-//            }
-//            console.log(res.data.code, res.data.msg);
-//          }
-//
-//          store.dispatch('showRemind');
-//        }).catch(err => {
-//          console.log(err);
-//        });
-//        console.log( typeof parseInt(this.ids.join(',')));
-        this.$http.post('/level/levelRecordVerify',{
-          data:{
-            recordId:this.ids.join(','),
-            verifyType:1,
-          }
-        }).then(res=> {
+        this.$http.post('/level/levelVerifies',$.param({
+          ids:this.ids,
+          verifyType:1,
+        })).then(res=> {
           if(res.data.code == 0) {
             this.remind = {
               status: 'success',
               msg: res.data.msg
             }
             store.dispatch('showRemind');
-          }else {
+            this.getPrisonerLevelRecords();
+          } else {
             this.remind = {
               status: 'warn',
               msg: res.data.msg
@@ -409,81 +361,36 @@
       },
 
       //处遇等级审核拒绝
-      rejectExamine(){
-//        let params = {};
-//        let url = '';
-//        if (this.isNull(this.remark)) {
-//          this.remind = {
-//            status: 'warn',
-//            msg: '请填写拒绝理由'
-//          };
-//          store.dispatch('showRemind');
-//          return;
-//        }
-//
-//        if (this.ids.length > 1) {
-//          params = {
-//            reviewStatus: 2,
-//            prisonCapitalDetailIds: this.ids.join(','),
-//            remark: this.remark
-//          }
-//          url = '/prisonCapital/batchReviewCapitalTransfers';
-//        } else if (this.ids.length == 1) {
-//          params = {
-//            reviewStatus: 2,
-//            prisonCapitalDetailId: this.ids.join(','),
-//            remark: this.remark
-//          }
-//          url = '/prisonCapital/reviewCapitalTransfers';
-//        }
-//
-//        this.$http({
-//          method: 'post',
-//          'url': url,
-//          'params': params
-//        }).then(res => {
-//          if (res.data.code == 0) {
-//            this.remind = {
-//              status: 'success',
-//              msg: res.data.msg
-//            }
-//            this.searchRecord(this.indexPage);
-//          } else {
-//            this.remind = {
-//              status: 'failed',
-//              msg: res.data.msg
-//            }
-//            console.log(res.data.code, res.data.msg);
-//          }
-//          store.dispatch('showRemind');
-//          $('#rejectConfirm').modal('hide');
-//          this.remark = '';
-//        }).catch(err => {
-//          console.log(err);
-//        });
+      rejectExamine() {
+        if (this.isNull(this.remark)) {
+          this.remind = {
+            status: 'warn',
+            msg: '请填写拒绝理由'
+          };
+          store.dispatch('showRemind');
+          return;
+        }
 
-        this.$http({
-          method: 'post',
-          'url': url,
-          'params': params
-        }).then(res => {
-          if (res.data.code == 0) {
+        this.$http.post('/level/levelVerifies',$.param({
+          ids:this.ids.join(','),
+          verifyType:2,
+          remark:this.remark
+        })).then(res=> {
+          if(res.data.code == 0) {
             this.remind = {
               status: 'success',
               msg: res.data.msg
             }
-            this.searchRecord(this.indexPage);
+            store.dispatch('showRemind');
+            this.getPrisonerLevelRecords();
           } else {
             this.remind = {
-              status: 'failed',
+              status: 'warn',
               msg: res.data.msg
             }
-            console.log(res.data.code, res.data.msg);
+            store.dispatch('showRemind');
           }
-          store.dispatch('showRemind');
-          $('#rejectConfirm').modal('hide');
-          this.remark = '';
-        }).catch(err => {
+        }).catch(err=> {
           console.log(err);
         });
       }
@@ -503,14 +410,14 @@
 
 <style type="text/less" lang="less" scoped>
   #right-side {
-  .select-box {
-    padding: 20px 50px 20px 40px;
-  }
+    .select-box {
+      padding: 20px 50px 20px 40px;
+    }
 
-  #rejectConfirm {
-  textarea {
-    margin-top: 30px;
-  }
-  }
+    #rejectConfirm {
+      textarea {
+        margin-top: 30px;
+      }
+    }
   }
 </style>

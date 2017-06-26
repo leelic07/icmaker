@@ -70,7 +70,7 @@
 
     </div>
 
-    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
+    <!--<Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>-->
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
 
@@ -117,8 +117,6 @@
     },
     watch: {
       excelData() {
-        console.log(this.excelData);
-        console.log(this.excelData.dataId);
         this.dataId = this.excelData.dataId;
         this.prisonerCapitalIncomesList = this.excelData.prisonerCapitalIncomes;
         this.prisonerCapitalIncomeSize = this.excelData.prisonerCapitalIncomeSize;
@@ -126,19 +124,22 @@
           this.prison_name =  value.prisonName;
           this.type = value.type;
           if (value.tips) {
-            this.hasErrMsg = true;
+            this.hasErrMsg = false;
             return;
           } else {
-            this.hasErrMsg = false;
+            this.hasErrMsg = true;
           }
         });
+        console.log(this.hasErrMsg)
       },
+
       uploadType() {
         console.log(this.uploadType);
         $.each(this.prisonerCapitalIncomesList, (index, value) => {
           value.type = this.uploadType;
         });
       },
+
       //根据监狱名称得到监狱ID
       prisonName() {
         this.prisonId = '';
@@ -165,7 +166,7 @@
     },
     methods: {
       //查询所有监狱列表
-      getAllPrison(){
+      getAllPrison() {
         this.$http({
           method: 'get',
           url: '/prisoner/toAddOrEdit',
@@ -180,6 +181,7 @@
           console.log(err);
         });
       },
+
       //确认分配
       confirmDistribution() {
         if(this.isNull(this.remark)) {
@@ -209,7 +211,7 @@
               msg: '分配上传成功',
             };
             store.dispatch('showRemind');
-          }else{
+          } else {
             this.remind = {
               status: 'warn',
               msg:res.data.msg
@@ -220,6 +222,7 @@
           console.log(err);
         });
       },
+
       //罪犯资金分配查询
       getCriminalFundDistribution(indexPage) {
         this.indexPage = indexPage;
@@ -238,7 +241,6 @@
                 value.prisonName = this.prison_name;
             });
           }
-
         }).catch(err => {
           console.log(err);
         });
@@ -246,13 +248,12 @@
 
       //重新上传
       reUploadExcel() {
-        axios({
-          url: '/clearCachePrisonerCapitalIncome',
-          method: 'post',
-          data: this.dataId
-        }).then((res) => {
-          console.log(res.data);
+        axios.post('/clearCachePrisonerCapitalIncome',$.param({
+          dataId:this.dataId
+        })).then((res) => {
+//          console.log(res.data);
           if (res.data.code == 0) {
+            this.$emit('isDistribution',true);
             this.remind = {
               status: 'success',
               msg: '重新上传成功',

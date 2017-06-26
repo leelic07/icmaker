@@ -104,7 +104,7 @@ export default {
         oMyForm.append("file", file);
         let oReq = new XMLHttpRequest();
         oReq.open("POST", "http://106.14.18.98:8080/icmaker/fileUpload");
-        //oReq.open("POST", "http://localhost:8080/icmaker/fileUpload");
+        // oReq.open("POST", "http://localhost:8080/icmaker/fileUpload");
         oReq.send(oMyForm);
         oReq.onload = function(oEvent) {
             if (oReq.status == 200) {
@@ -121,27 +121,24 @@ export default {
 
     //上传Excel表格
     //罪犯资金分配
-    readExcel(file,_this,store,dataName,dataId,uploadType,prisonName){
-      // console.log(dataName);
+    readExcel(file,_this,url,store,dataName,dataId,uploadType,prisonName) {
       let oMyForm = new FormData();
       oMyForm.append("fileId", file);
       let oReq = new XMLHttpRequest();
       let userId = window.localStorage.getItem('userId');
-      // oReq.open("POST", "http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
-      // oReq.open("POST", "http://localhost:8080/icmaker/importPrisonerCapitalIncome?userId="+userId);
-      oReq.open("POST", "http://10.10.10.112/icmaker/importPrisonerCapitalIncome?userId="+userId);
+      oReq.open("POST", url+"?userId="+userId+'&type='+uploadType);
       oReq.send(oMyForm);
       oReq.onload = function(oEvent) {
         if (oReq.status == 200) {
           let response = $.parseJSON(this.response);
           if (response.code == 0) {//上传Excel成功
-            // console.log(response.data);
             let prisonerCapitalIncomes = response.data.prisonerCapitalIncomes;
-            $.each(prisonerCapitalIncomes,(index,value)=> {
+            $.each(prisonerCapitalIncomes,(index,value) => {
               value.type = uploadType;
               value.prisonName = prisonName;
             });
             _this[dataName] = response.data;
+
             _this['remind'] = {
               status:'success',
               msg:response.msg
@@ -162,7 +159,7 @@ export default {
 
   //上传Excel表格
   //罪犯等级申请
-  readUploadExcel(file,_this,store,url){
+  readUploadExcel(file,_this,store,url) {
     // console.log(dataName);
     let oMyForm = new FormData();
     oMyForm.append("fileId", file);
@@ -174,14 +171,10 @@ export default {
       if (oReq.status == 200) {
           let response = $.parseJSON(this.response);
         if (response.code == 0) {//上传Excel成功
-          _this['prisonerLevels'] = response.data.prisonerLevels;
-          _this['prisonerLevelSize'] = response.data.prisonLevelSize;
+          // _this['prisonerLevels'] = response.data.prisonerLevels;
+          // _this['prisonerLevelSize'] = response.data.prisonLevelSize;
           _this['dataId'] = response.data.dataId;
-          _this['remind'] = {
-            status:'success',
-            msg:response.msg
-          }
-          store.dispatch('showRemind');
+          _this['getPrisonerLevelData']();
         } else {
           _this['remind'] = {
             status:'warn',
@@ -194,5 +187,4 @@ export default {
       }
     };
   }
-
 }

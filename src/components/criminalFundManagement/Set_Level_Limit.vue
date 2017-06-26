@@ -22,11 +22,12 @@
             <!--</div>-->
           <div class="col-xs-8 select-box">
             <label for="prisonDepartmentId">处遇等级</label>
-            <select class="form-control" id="" >
+            <select class="form-control" id="" v-model="levelId">
               <option value="">全部</option>
               <option v-for="ll in levelList" :value="ll.id" v-text="ll.levelName"></option>
             </select>
           </div>
+
           </div>
           <div class="row">
             <div class="col-xs-4 col-xs-push-10 button-box">
@@ -133,7 +134,7 @@
   import Page from '../Paginator.vue'
   import axios from 'axios'
 
-  export default{
+  export default {
     data() {
       return {
         prisons: "",//监狱列表
@@ -193,12 +194,12 @@
 
       monthMoney(){
         this.monthMoney = this.saveTwo(this.monthMoney);
-      }
+      },
+
     },
-    methods:{
+    methods: {
       getPrisonInfo() {//根据用户信息获取监狱信息
         this.$http.get('prisoner/toAddOrEdit').then(res=> {
-          // console.log(res);
           if (res.data.code == 0) {
             this.prisons = res.data.data.prisons;//赋值监狱列表
             if (this.prisons.length == 1) {
@@ -219,7 +220,6 @@
             prisonId:this.prisonId
           }
         }).then(res=> {
-          // console.log(res);
           if (res.data.code == 0) {
             this.levelList = res.data.data;
           }
@@ -230,12 +230,11 @@
 
       //获取处遇等级查询列表
       getLevels(indexPage) {
-//        console.log('level');
         this.indexPage = indexPage;
         axios.get('/level/getLevels',{
           params:{
             prisonId:this.prisonId,
-            levelName:this.levelName,
+            levelId:this.levelId,
             indexPage:this.indexPage,
             pageSize:this.pageSize
           }
@@ -248,6 +247,7 @@
           console.log(err);
         });
       },
+
       //点击设置执行的方法
       setFund (e,levelId,dayMoney,monthMoney,setLevelPrisonName,levelName) {
         this.levelId = levelId;
@@ -257,22 +257,21 @@
         this.levelName = levelName;
         $('#setConfirm').modal();
       },
+
       setLevelMoney() {
-//        console.log(this.levelId,typeof parseInt(this.dayMoney),typeof parseInt(this.monthMoney));
-        axios.post('/level/setLevelMoney',{
-          params:{
-            levelId:this.levelId,
-            dayMoney:parseInt(this.dayMoney),
-            monthMoney:parseInt(this.monthMoney)
-          }
-        }).then(res=>{
+        //console.log(this.levelId,typeof parseInt(this.dayMoney),typeof parseInt(this.monthMoney));
+        axios.post('/level/setLevelMoney',$.param({
+          levelId:this.levelId,
+          dayMoney:parseInt(this.dayMoney),
+          monthMoney:parseInt(this.monthMoney)
+        })).then(res=> {
           if(res.data.code == 0){
             this.remind = {
               status: 'success',
               msg: '设置处遇等级成功',
             };
             store.dispatch('showRemind');
-          }else{
+          } else {
             this.remind = {
               status: 'warn',
               msg: res.data.msg,
