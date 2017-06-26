@@ -97,6 +97,7 @@ let setCookie = (name,value,time) => {
 }
 
 export default {
+
     //上传读取图片路径
     readImgUrl(file,_this,dataName){
         console.log(dataName);
@@ -104,18 +105,17 @@ export default {
         oMyForm.append("file", file);
         let oReq = new XMLHttpRequest();
         oReq.open("POST", "http://106.14.18.98:8080/icmaker/fileUpload");
-        // oReq.open("POST", "http://localhost:8080/icmaker/fileUpload");
         oReq.send(oMyForm);
         oReq.onload = function(oEvent) {
-            if (oReq.status == 200) {
-                let response = $.parseJSON(this.response);
-                if (response.code == 0) {//图片上传成功
-                    _this[dataName] = response.data.imgUrl;
+          if (oReq.status == 200) {
+              let response = $.parseJSON(this.response);
+              if (response.code == 0) {//图片上传成功
+                  _this[dataName] = response.data.imgUrl;
 
-                }
-            } else {
-                console.log("上传图片错误，错误码：" + oReq.status);
-            }
+              }
+          } else {
+              console.log("上传图片错误，错误码：" + oReq.status);
+          }
         };
     },
 
@@ -159,8 +159,8 @@ export default {
 
   //上传Excel表格
   //罪犯等级申请
-  readUploadExcel(file,_this,store,url) {
-    // console.log(dataName);
+  readUploadExcel(file,_this,store,url,reUpload) {
+
     let oMyForm = new FormData();
     oMyForm.append("fileId", file);
     let oReq = new XMLHttpRequest();
@@ -175,6 +175,9 @@ export default {
           // _this['prisonerLevelSize'] = response.data.prisonLevelSize;
           _this['dataId'] = response.data.dataId;
           _this['getPrisonerLevelData']();
+          if(reUpload){
+            _this['clearCache']();
+          }
         } else {
           _this['remind'] = {
             status:'warn',

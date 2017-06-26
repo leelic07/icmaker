@@ -159,6 +159,7 @@
         levelSize:'',//处遇等级长度
         levelList:[],//处遇等级列表
         levelId:'',//处遇等级Id
+        leId:'',
         setLevelPrisonName:''//设置处遇等级监狱名称
       }
     },
@@ -250,7 +251,7 @@
 
       //点击设置执行的方法
       setFund (e,levelId,dayMoney,monthMoney,setLevelPrisonName,levelName) {
-        this.levelId = levelId;
+        this.leId = levelId;
         this.dayMoney = dayMoney;
         this.monthMoney = monthMoney;
         this.setLevelPrisonName = setLevelPrisonName;
@@ -261,7 +262,7 @@
       setLevelMoney() {
         //console.log(this.levelId,typeof parseInt(this.dayMoney),typeof parseInt(this.monthMoney));
         axios.post('/level/setLevelMoney',$.param({
-          levelId:this.levelId,
+          levelId:this.leId,
           dayMoney:parseInt(this.dayMoney),
           monthMoney:parseInt(this.monthMoney)
         })).then(res=> {

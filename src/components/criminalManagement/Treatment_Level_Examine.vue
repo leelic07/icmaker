@@ -147,7 +147,6 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal -->
     </div>
-
     <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
   </div>
 </template>
