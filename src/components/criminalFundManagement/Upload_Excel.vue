@@ -70,7 +70,7 @@
 
     </div>
 
-    <!--<Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>-->
+    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :path="remind.path"></Remind>
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
 
@@ -251,12 +251,13 @@
         axios.post('/clearCachePrisonerCapitalIncome',$.param({
           dataId:this.dataId
         })).then((res) => {
-//          console.log(res.data);
+
           if (res.data.code == 0) {
             this.$emit('isDistribution',true);
             this.remind = {
               status: 'success',
               msg: '重新上传成功',
+              path:'/criminal_fund_distribution'
             };
             store.dispatch('showRemind');
           }
