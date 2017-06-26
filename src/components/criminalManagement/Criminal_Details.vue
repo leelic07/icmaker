@@ -39,7 +39,7 @@
           </thead>
           <tbody>
             <tr v-for="pl in logList">
-              <td>{{pl.createdAt}}</td>
+              <td>{{pl.createdAt | formatDate}}</td>
               <td v-if="pl.sysFlag == 1">设置成功</td>
               <td class="reject-text" v-if="pl.sysFlag == 0">设置失败</td>
               <td v-text="pl.levelName"></td>
@@ -106,7 +106,6 @@
       getEditInfo() {//点击编辑时获取角色原有的权限和信息
         let id = this.$route.params.id;
         this.$http.get('/role/getRole',{params:{'roleId':id}}).then(res=>{
-          // console.log(res);
           if (res.data.code == 0) {
             let editInfo = res.data.data;
             this.roleName = editInfo.roleName;//绑定角色名称
@@ -125,12 +124,9 @@
           console.log(err);
         });
       },
-
+      //获取处遇等级列表
       getLevelDetails() {
-//        this.indexPage = '';
-//        if(indexPage){
-//          this.indexPage = indexPage;
-//        }
+        this.indexPage = '';
         axios.get('/prisoner/levelDetails',{
             params:{
                 prisonerId:this.prisonerId,
@@ -147,6 +143,29 @@
           }
         }).catch(err=>{
             console.log(err);
+        });
+      },
+      //搜索处遇等级明细列表
+      searchLevelDetails(indexPage){
+        if(indexPage) {
+          this.indexPage = indexPage;
+        }
+        axios.get('/prisoner/levelDetails',{
+          params:{
+            prisonerId:this.prisonerId,
+            indexPage:this.indexPage,
+            pageSize:this.pageSize
+          }
+        }).then(res=>{
+          if(res.data.code == 0){
+            this.logList = res.data.data.logs;
+            this.logSize = res.data.data.logSize;
+            this.prisonerName = res.data.data.logs[0].name;
+            this.archivesNumber = res.data.data.prisoner.archivesNumber;
+            console.log(this.prisonerName,this.archivesNumber);
+          }
+        }).catch(err=>{
+          console.log(err);
         });
       }
     },

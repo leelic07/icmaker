@@ -56,7 +56,7 @@
 
     </div>
 
-    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
+    <!--<Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>-->
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
 
@@ -83,8 +83,8 @@
         prisonList: [],
         prisonerLevels:[],
         prisonerLevelSize:'',
-        uploadExcelUrl:'http://10.10.10.112:8080/icmaker/level/importPrisonerLevel',
-        downloadExcelUrl:'http://10.10.10.112:8080/icmaker/level/downLevelTemplate',
+        uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
+        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
         hasErrMsg:true,//有错误信息
         dataId:'',//excelId
         remind: {
@@ -112,17 +112,17 @@
       },
       prisonerLevels() {
         $.each(this.prisonerLevels, (index, value) => {
-          if (value.tips == '数据存在问题，请检查') {
-            this.hasErrMsg = true;
-            return;
-          }else{
-            this.hasErrMsg = false;
-          }
-        });
-      },
-      dataId(){
-         this.hasErrMsg = false;
-      }
+            if (value.tips == '数据存在问题，请检查') {
+              this.hasErrMsg = true;
+              return;
+            } else {
+              this.hasErrMsg = false;
+            }
+          });
+        },
+        dataId() {
+          this.hasErrMsg = false;
+        }
     },
     computed: {
       remindShow: {
@@ -149,7 +149,7 @@
         });
       },
       downLevelTemplate() {
-        //window.location.href = "http://106.14.18.98:8080/icmaker/level/downLevelTemplate";
+//        window.location.href = "http://106.14.18.98:8080/icmaker/level/downLevelTemplate";
         window.location.href = this.downloadExcelUrl;
       },
       //上传excel文件
@@ -173,33 +173,42 @@
       },
       //分页获取罪犯资金分配数据
       getPrisonerLevelData(indexPage) {
-        this.indexPage = indexPage;
+        if(indexPage) {
+          this.indexPage = indexPage;
+        }
         axios.get('/level/getPrisonerLevelData',{
-            params:{
-              indexPage:this.indexPage,
-              pageSize:this.pageSize,
-              dataId:this.dataId
+          params:{
+            indexPage:this.indexPage,
+            pageSize:this.pageSize,
+            dataId:this.dataId
+          }
+        }).then(res=> {
+          if(res.data.code == 0) {
+            this.prisonerLevels = res.data.data.prisonerLevels;
+            this.prisonerLevelSize = res.data.data.prisonLevelSize;
+            this.remind = {
+              status:'success',
+              msg:res.data.msg
             }
-        }).then(res=>{
-            if(res.data.code == 0){
-              this.prisonerLevels = res.data.data.prisonerLevels;
-              this.prisonerLevelSize = res.data.data.prisonLevelSize;
+            store.dispatch('showRemind');
+          } else {
+            this.remind = {
+              status:'warn',
+              msg:res.data.msg
             }
-        }).catch(err=>{
+            store.dispatch('showRemind');
+          }
+        }).catch(err=> {
             console.log(err);
         })
       },
 
       //添加罪犯资金分配
       addPrisonerLevel() {
-        let dataId = this.dataId;
-        console.log(this.dataId,dataId);
-
-        axios({
-          url: '/level/addPrisonerLevel',
-          method: 'post',
-          data: this.dataId
-        }).then(res=>{
+        axios.post('/level/addPrisonerLevel',
+        $.param({
+          dataId:this.dataId
+        })).then(res=>{
           if(res.data.code == 0){
             this.remind = {
               status: 'success',
@@ -220,11 +229,10 @@
 
       //重新上传
       reUploadExcel() {
-        axios({
-          url: '/level/clearCachePrisonerLevel',
-          method: 'post',
-          data: this.dataId
-        }).then((res) => {
+        axios.post('/level/clearCachePrisonerLevel',
+        $.param({
+          dataId:this.dataId
+        })).then((res) => {
           console.log(res.data);
           if (res.data.code == 0) {
             this.prisonerLevels = '';
@@ -252,7 +260,7 @@
     },
     mounted() {
       this.criminalLevelImport();
-//      this.getPrisonerLevelData();
+
       $('#table_id_example').tableHover();
     },
     updated() {

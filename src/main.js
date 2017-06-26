@@ -74,7 +74,7 @@ axios.interceptors.request.use(function(config){
   if(config.method == 'post' && config.url != config.baseURL+'login') {
   	config.data += '&userId=' + window.localStorage.getItem('userId');
   }
-  return config;
+    return config;
   },function(err){
     return Promise.reject(err);
   });
@@ -82,12 +82,11 @@ axios.interceptors.request.use(function(config){
 // axios.defaults.withCredentials=true;
 
 //ajax响应拦截器
-axios.interceptors.response.use(function(response){
+axios.interceptors.response.use(function(response) {
   store.dispatch('hideLoginLoading');
 	store.dispatch('hideLoading');
-  // console.log(response);
 	return response;
-},function(err){
+},function(err) {
   return Promise.reject(err);
 });
 
@@ -125,7 +124,10 @@ axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.101:8080/icmaker/';
 
-// axios.defaults.baseURL='http://10.10.10.112:8080/icmaker/';
+// axios.defaults.baseURL='http://10.10.10.100:8080/icmaker/';
+
+// axios.defaults.baseURL='http://10.10.10.113:8080/icmaker/';
+
 
 //设置路由
 const router = new VueRouter({
@@ -134,19 +136,19 @@ const router = new VueRouter({
 
 //判断是否已经登录
 router.beforeEach((to, from, next) => {
-    if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-        if (window.localStorage.getItem('userId')) {  // 通过vuex state获取当前的token是否存在
-            next();
-            window.scrollTo(0, 0);
-        }else {
-          next({
-              path: '/login',
-              query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-          });
-        }
-    }else {
-        next();
-    }
+  if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+      if (window.localStorage.getItem('userId')) {  // 通过vuex state获取当前的token是否存在
+          next();
+          window.scrollTo(0, 0);
+      }else {
+        next({
+            path: '/login',
+            query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+        });
+      }
+  } else {
+      next();
+  }
 });
 
 new Vue({
