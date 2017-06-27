@@ -188,7 +188,7 @@
     },
     methods: {
       //查询所有监狱列表
-      getAllPrison(){
+      getAllPrison() {
         this.$http({
           method: 'get',
           url: '/prisoner/toAddOrEdit',
@@ -249,7 +249,6 @@
         let self = this;
         $('#table_id_example').on("change",".file",function(e) {
           let file = e.target.files[0];
-          //console.log(e.target.getAttribute('uploadType'));
           let uploadType = e.target.getAttribute('uploadType');
           let prisonName = e.target.getAttribute('prisonName');
           if (self.isExcel(file)) {
@@ -298,7 +297,7 @@
               position:absolute;
               width:35%;
               top:30%;
-              left:20%;
+              left:17%;
               opacity:0;
             }
           }

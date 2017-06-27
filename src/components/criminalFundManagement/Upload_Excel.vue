@@ -70,7 +70,7 @@
 
     </div>
 
-    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :path="remind.path"></Remind>
+    <!--<Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :path="remind.path"></Remind>-->
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
 
@@ -130,7 +130,18 @@
             this.hasErrMsg = true;
           }
         });
-        console.log(this.hasErrMsg)
+
+//        for(let i=0; i<this.prisonerCapitalIncomesList.length; i++) {
+//
+//          if (this.prisonerCapitalIncomesList[i].tips == '数据存在问题，请检查') {
+//            this.hasErrMsg = true;
+//            break;
+//          }else{
+//            this.hasErrMsg = false;
+//          }
+//        }
+
+
       },
 
       uploadType() {
