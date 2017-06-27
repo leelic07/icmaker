@@ -111,7 +111,6 @@ export default {
               let response = $.parseJSON(this.response);
               if (response.code == 0) {//图片上传成功
                   _this[dataName] = response.data.imgUrl;
-
               }
           } else {
               console.log("上传图片错误，错误码：" + oReq.status);
@@ -149,6 +148,7 @@ export default {
               msg:response.msg
             }
             store.dispatch('showRemind');
+            _this['isDistribution'] = false;
           }
         } else {
           console.log("上传Excel错误，错误码：" + oReq.status);
@@ -159,7 +159,6 @@ export default {
   //上传Excel表格
   //罪犯等级申请
   readUploadExcel(file,_this,store,url,reUpload) {
-
     let oMyForm = new FormData();
     oMyForm.append("fileId", file);
     let oReq = new XMLHttpRequest();

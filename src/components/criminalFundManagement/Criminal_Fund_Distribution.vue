@@ -97,9 +97,7 @@
       </div>
     </div>
 
-    <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" :remind="remind" v-on:isDistribution="isDistribution()"></UploadExcel>
-
-
+    <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" :remind="remind"></UploadExcel>
 
   </div>
 </template>
@@ -160,7 +158,7 @@
         }
       },
       prisonCapitalIncomes() {
-          this.isDistribution = false;
+        this.isDistribution = false;
       },
       $route(to, from) {//监听路由变化
         this.toUrl = to.path;

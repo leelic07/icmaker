@@ -105,8 +105,7 @@
         prison_name:'',//分配资金列表监狱名称
         type:'',//类型
         cfdshow: false,//控制显示
-
-        hasErrMsg: false,//有错误信息
+        hasErrMsg: true,//有错误信息
 //        remind:{
 //          status:'',
 //          msg:''
@@ -118,7 +117,6 @@
         this.dataId = this.excelData.dataId;
         this.prisonerCapitalIncomesList = this.excelData.prisonerCapitalIncomes;
         this.prisonerCapitalIncomeSize = this.excelData.prisonerCapitalIncomeSize;
-
         for(let i=0; i<this.prisonerCapitalIncomesList.length; i++) {
           this.prison_name = this.prisonerCapitalIncomesList[i].prisonName;
           this.type = this.prisonerCapitalIncomesList[i].type;
