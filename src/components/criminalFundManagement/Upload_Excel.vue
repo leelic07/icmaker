@@ -25,7 +25,7 @@
               <td>{{pcil.type | locationType}}</td>
               <td v-text="pcil.name"></td>
               <td v-text="pcil.number"></td>
-              <td v-text="pcil.money"></td>
+              <td>{{pcil.money | currency}}</td>
               <td class="reject-text" v-text="pcil.tips"></td>
             </tr>
           </tbody>
@@ -70,12 +70,10 @@
 
     </div>
 
-    <!--<Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :path="remind.path"></Remind>-->
+    <Remind v-if='remindShow' :reload="remind.reload" :status='remind.status' :msg='remind.msg'></Remind>
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
-
   </div>
-
 </template>
 
 <script>
@@ -87,7 +85,7 @@
   import Remind from '../Remind.vue'
 
   export default {
-    props: ['excelData'],
+    props: ['excelData','remind'],
     data() {
       return {
         indexPage: 1,
@@ -109,10 +107,10 @@
         cfdshow: false,//控制显示
 
         hasErrMsg: false,//有错误信息
-        remind: {
-          status: '',
-          msg: ''
-        }
+//        remind:{
+//          status:'',
+//          msg:''
+//        }
       }
     },
     watch: {
@@ -120,32 +118,20 @@
         this.dataId = this.excelData.dataId;
         this.prisonerCapitalIncomesList = this.excelData.prisonerCapitalIncomes;
         this.prisonerCapitalIncomeSize = this.excelData.prisonerCapitalIncomeSize;
-        $.each(this.prisonerCapitalIncomesList, (index, value) => {
-          this.prison_name =  value.prisonName;
-          this.type = value.type;
-          if (value.tips) {
-            this.hasErrMsg = false;
-            return;
-          } else {
+
+        for(let i=0; i<this.prisonerCapitalIncomesList.length; i++) {
+          this.prison_name = this.prisonerCapitalIncomesList[i].prisonName;
+          this.type = this.prisonerCapitalIncomesList[i].type;
+          if (this.prisonerCapitalIncomesList[i].tips) {
             this.hasErrMsg = true;
+            break;
+          } else {
+            this.hasErrMsg = false;
           }
-        });
-
-//        for(let i=0; i<this.prisonerCapitalIncomesList.length; i++) {
-//
-//          if (this.prisonerCapitalIncomesList[i].tips == '数据存在问题，请检查') {
-//            this.hasErrMsg = true;
-//            break;
-//          }else{
-//            this.hasErrMsg = false;
-//          }
-//        }
-
-
+        }
       },
 
       uploadType() {
-        console.log(this.uploadType);
         $.each(this.prisonerCapitalIncomesList, (index, value) => {
           value.type = this.uploadType;
         });
@@ -201,37 +187,36 @@
             msg: '请填写备注信息',
           };
           store.dispatch('showRemind');
-          return;
-        }
-
-        let confirmData = {
-          dataId:this.dataId,
-          type:this.type,
-          remark:this.remark
-        }
-
-        this.$http({
-          method: 'post',
-          url: '/addPrisonerCapitalIncome',
-          params:confirmData
-        }).then(res => {
-          if(res.data.code == 0){
-            this.$emit('isDistribution',true);
-            this.remind = {
-              status: 'success',
-              msg: '分配上传成功',
-            };
-            store.dispatch('showRemind');
-          } else {
-            this.remind = {
-              status: 'warn',
-              msg:res.data.msg
-            };
-            store.dispatch('showRemind');
+        } else {
+          let confirmData = {
+            dataId:this.dataId,
+            type:this.type,
+            remark:this.remark
           }
-        }).catch(err => {
-          console.log(err);
-        });
+
+          this.$http({
+            method: 'post',
+            url: '/addPrisonerCapitalIncome',
+            params:confirmData
+          }).then(res => {
+            if(res.data.code == 0){
+              this.remind = {
+                status: 'success',
+                msg: '分配上传成功',
+                reload:true
+              };
+              store.dispatch('showRemind');
+            } else {
+              this.remind = {
+                status: 'warn',
+                msg:res.data.msg
+              };
+              store.dispatch('showRemind');
+            }
+          }).catch(err => {
+            console.log(err);
+          });
+        }
       },
 
       //罪犯资金分配查询
@@ -262,15 +247,8 @@
         axios.post('/clearCachePrisonerCapitalIncome',$.param({
           dataId:this.dataId
         })).then((res) => {
-
           if (res.data.code == 0) {
-            this.$emit('isDistribution',true);
-            this.remind = {
-              status: 'success',
-              msg: '重新上传成功',
-              path:'/criminal_fund_distribution'
-            };
-            store.dispatch('showRemind');
+            window.location.reload();
           }
         }).catch(err => {
           console.log(err);
@@ -284,6 +262,7 @@
     },
     mounted() {
       $('#table_id_example').tableHover();
+//      store.dispatch('showRemind');
     },
     updated() {
       $('#table_id_example').tableHover();

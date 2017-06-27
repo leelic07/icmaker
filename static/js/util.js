@@ -99,7 +99,7 @@ let setCookie = (name,value,time) => {
 export default {
 
     //上传读取图片路径
-    readImgUrl(file,_this,dataName){
+    readImgUrl(file,_this,dataName) {
         console.log(dataName);
         let oMyForm = new FormData();
         oMyForm.append("file", file);
@@ -138,7 +138,6 @@ export default {
               value.prisonName = prisonName;
             });
             _this[dataName] = response.data;
-
             _this['remind'] = {
               status:'success',
               msg:response.msg

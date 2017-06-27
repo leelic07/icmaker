@@ -55,7 +55,7 @@ import store from '../store'
 
 			}
 		},
-		props:['status','msg','back','path'],
+		props:['status','msg','back','path','reload'],
 		methods:{
 			//显示模态框
 			remindInit(){
@@ -72,7 +72,9 @@ import store from '../store'
 						this.$router.push({
 							path:this.path
 						});
-					}
+					}else if(this.reload){
+            window.location.reload();
+          }
 				});
 			},
 

@@ -92,13 +92,15 @@
       <!-- 表单底部-->
       <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchLocation'></Page>
 
-
+      <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
 
       </div>
     </div>
-    <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" v-on:isDistribution="isDistribution()"></UploadExcel>
 
-    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
+    <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" :remind="remind" v-on:isDistribution="isDistribution()"></UploadExcel>
+
+
+
   </div>
 </template>
 
@@ -132,6 +134,8 @@
         uploadType:'',//上传Excel类型
         uploadExcelUrl:'http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome',
         downloadExcelUrl:'http://106.14.18.98:8080/icmaker/downTemplate',
+//        uploadExcelUrl:'http://10.10.10.112:8080/icmaker/importPrisonerCapitalIncome',
+//        downloadExcelUrl:'http://10.10.10.112:8080/icmaker/downTemplate',
         remind: {
           status: '',
           msg: ''
@@ -242,9 +246,11 @@
           console.log(err);
         });
       },
+      //下载excel
       downLoadTemplate() {
         window.location.href = this.downloadExcelUrl;
       },
+      //上传excel
       uploadExcel() {
         let self = this;
         $('#table_id_example').on("change",".file",function(e) {
@@ -274,9 +280,7 @@
     mounted() {
       this.getAllPrison();
       this.getLocationList();
-      console.log($('#upload'));
       this.uploadExcel();
-      //this.downLoadTemplate();
       $('#table_id_example').tableHover();
     }
   }
