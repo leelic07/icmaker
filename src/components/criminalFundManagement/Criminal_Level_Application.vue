@@ -174,6 +174,7 @@
           }
         });
       },
+
       //分页获取罪犯资金分配数据
       getPrisonerLevelData(indexPage) {
         if(indexPage) {
@@ -188,7 +189,7 @@
         }).then(res=> {
           if(res.data.code == 0) {
             this.prisonerLevels = res.data.data.prisonerLevels;
-            this.prisonerLevelSize = res.data.data.prisonLevelSize;
+            this.prisonerLevelSize = res.data.data.prisonerLevelSize;
             this.remind = {
               status:'success',
               msg:res.data.msg
