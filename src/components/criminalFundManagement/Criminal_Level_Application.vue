@@ -40,7 +40,7 @@
 
       <!-- 表单底部-->
       <Page :itemSize='prisonerLevelSize' :pageSize='pageSize' :indexPage='indexPage'
-            v-on:search='getPrisonerLevelData'></Page>
+            v-on:search='searchPrisonerLevelData'></Page>
 
       <div class="confirm pull-left col-xs-23">
 
@@ -86,8 +86,12 @@
         prisonerLevelSize:'',
 //        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/level/importPrisonerLevel',
 //        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/level/downLevelTemplate',
-        uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
-        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
+//         uploadExcelUrl:'http://192.168.1.52:8080/icmaker/level/importPrisonerLevel',
+//         downloadExcelUrl:'http://192.168.1.52:8080/icmaker/level/downLevelTemplate',
+          uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
+          downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
+//        uploadExcelUrl:'http://localhost:8080/icmaker/level/importPrisonerLevel',
+//        downloadExcelUrl:'http://localhost:8080/icmaker/level/downLevelTemplate',
         hasErrMsg:true,//有错误信息
         dataId:'',//excelId
         remind: {
@@ -176,10 +180,7 @@
       },
 
       //分页获取罪犯资金分配数据
-      getPrisonerLevelData(indexPage) {
-        if(indexPage) {
-          this.indexPage = indexPage;
-        }
+      getPrisonerLevelData() {
         axios.get('/level/getPrisonerLevelData',{
           params:{
             indexPage:this.indexPage,
@@ -195,6 +196,33 @@
               msg:res.data.msg
             }
             store.dispatch('showRemind');
+          } else {
+            this.remind = {
+              status:'warn',
+              msg:res.data.msg
+            }
+            store.dispatch('showRemind');
+          }
+        }).catch(err=> {
+            console.log(err);
+        })
+      },
+
+      //分页获取罪犯资金分配数据
+      searchPrisonerLevelData(indexPage) {
+        if(indexPage) {
+          this.indexPage = indexPage;
+        }
+        axios.get('/level/getPrisonerLevelData',{
+          params:{
+            indexPage:this.indexPage,
+            pageSize:this.pageSize,
+            dataId:this.dataId
+          }
+        }).then(res=> {
+          if(res.data.code == 0) {
+            this.prisonerLevels = res.data.data.prisonerLevels;
+            this.prisonerLevelSize = res.data.data.prisonerLevelSize;
           } else {
             this.remind = {
               status:'warn',

@@ -93,7 +93,7 @@ export default{
 
     //可以为空或者是合法的身份证号
     isCard(){
-        let pattNum = new RegExp("^\\d{17}(\\d|x)$");
+        let pattNum = new RegExp("^\\d{17}(\\d|x|X)$");
         for(let i = 0;i < arguments.length;i++){
             if(!this.isNull(arguments[i]) && !pattNum.test(arguments[i])){
                 return false;
