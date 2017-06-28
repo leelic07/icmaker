@@ -103,7 +103,7 @@
       </div>
 
       <!-- 表单底部-->
-      <Page :itemSize='recordSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search=''></Page>
+      <Page :itemSize='recordSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='getPrisonerLevelRecords'></Page>
 
     </div>
 
