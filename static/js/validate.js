@@ -1,7 +1,7 @@
 export default{
 	//判断是否为空
     isNull(){
-        for(let i = 0;i < arguments.length;i++){
+        for(let i = 0;i < arguments.length;i++) {
             if(arguments[i] == null || arguments[i] == undefined || arguments[i] === ''){
                 return true;//为空
             }else{

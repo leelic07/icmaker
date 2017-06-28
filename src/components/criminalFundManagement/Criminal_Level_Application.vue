@@ -86,8 +86,8 @@
         prisonerLevelSize:'',
 //        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/level/importPrisonerLevel',
 //        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/level/downLevelTemplate',
-        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/level/importPrisonerLevel',
-        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/level/downLevelTemplate',
+        uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
+        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
         hasErrMsg:true,//有错误信息
         dataId:'',//excelId
         remind: {
@@ -114,18 +114,18 @@
         }
       },
       prisonerLevels() {
-        $.each(this.prisonerLevels, (index, value) => {
-            if (value.tips == '数据存在问题，请检查') {
-              this.hasErrMsg = true;
-              return;
-            } else {
+        for(let i=0; i<this.prisonerLevels.length; i++) {
+          if (this.prisonerLevels[i].tips == '数据存在问题，请检查') {
+            this.hasErrMsg = true;
+            break;
+          }else{
               this.hasErrMsg = false;
-            }
-          });
-        },
-        dataId() {
-          this.hasErrMsg = false;
+          }
         }
+      },
+      dataId() {
+//        this.hasErrMsg = false;
+      }
     },
     computed: {
       remindShow: {
@@ -254,13 +254,13 @@
           console.log(res.data);
 
           if (res.data.code == 0) {
-            this.prisonerLevels = '';
+//            this.prisonerLevels = '';
 //            this.remind = {
 //              status: 'success',
 //              msg: '取消成功',
 //            };
 //            store.dispatch('showRemind');
-//            window.location.reload();
+            window.location.reload();
           } else {
             this.remind = {
               status: 'warn',

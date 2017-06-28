@@ -92,13 +92,13 @@
       <!-- 表单底部-->
       <Page :itemSize='menuSize' :pageSize='pageSize' :indexPage='indexPage' v-on:search='searchLocation'></Page>
 
-
+      <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
 
       </div>
     </div>
-    <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" v-on:isDistribution="isDistribution()"></UploadExcel>
 
-    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
+    <UploadExcel v-show="!isDistribution" :excelData="prisonCapitalIncomes" :remind="remind"></UploadExcel>
+
   </div>
 </template>
 
@@ -132,6 +132,8 @@
         uploadType:'',//上传Excel类型
         uploadExcelUrl:'http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome',
         downloadExcelUrl:'http://106.14.18.98:8080/icmaker/downTemplate',
+//        uploadExcelUrl:'http://10.10.10.112:8080/icmaker/importPrisonerCapitalIncome',
+//        downloadExcelUrl:'http://10.10.10.112:8080/icmaker/downTemplate',
         remind: {
           status: '',
           msg: ''
@@ -156,7 +158,7 @@
         }
       },
       prisonCapitalIncomes() {
-          this.isDistribution = false;
+        this.isDistribution = false;
       },
       $route(to, from) {//监听路由变化
         this.toUrl = to.path;
@@ -188,7 +190,7 @@
     },
     methods: {
       //查询所有监狱列表
-      getAllPrison(){
+      getAllPrison() {
         this.$http({
           method: 'get',
           url: '/prisoner/toAddOrEdit',
@@ -242,14 +244,15 @@
           console.log(err);
         });
       },
+      //下载excel
       downLoadTemplate() {
         window.location.href = this.downloadExcelUrl;
       },
+      //上传excel
       uploadExcel() {
         let self = this;
         $('#table_id_example').on("change",".file",function(e) {
           let file = e.target.files[0];
-          //console.log(e.target.getAttribute('uploadType'));
           let uploadType = e.target.getAttribute('uploadType');
           let prisonName = e.target.getAttribute('prisonName');
           if (self.isExcel(file)) {
@@ -275,9 +278,7 @@
     mounted() {
       this.getAllPrison();
       this.getLocationList();
-      console.log($('#upload'));
       this.uploadExcel();
-      //this.downLoadTemplate();
       $('#table_id_example').tableHover();
     }
   }
@@ -298,7 +299,7 @@
               position:absolute;
               width:35%;
               top:30%;
-              left:20%;
+              left:17%;
               opacity:0;
             }
           }

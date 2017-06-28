@@ -258,7 +258,7 @@
         this.levelName = levelName;
         $('#setConfirm').modal();
       },
-
+      //设置处遇等级
       setLevelMoney() {
         //console.log(this.levelId,typeof parseInt(this.dayMoney),typeof parseInt(this.monthMoney));
         axios.post('/level/setLevelMoney',$.param({
@@ -272,6 +272,7 @@
               msg: '设置处遇等级成功',
             };
             store.dispatch('showRemind');
+            $('#setConfirm').modal('hide');
           } else {
             this.remind = {
               status: 'warn',
