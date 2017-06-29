@@ -57,8 +57,8 @@
               <td :id="le.id"></td>
               <td v-text="le.prisonName"></td>
               <td v-text="le.levelName"></td>
-              <td v-text="le.dayMoney"></td>
-              <td v-text="le.monthMoney"></td>
+              <td>{{le.dayMoney}}</td>
+              <td>{{le.monthMoney}}</td>
               <td><em class="agree-text"  @click="setFund($event,le.id,le.dayMoney,le.monthMoney,le.prisonName,le.levelName)" >设置</em></td>
             </tr>
           </tbody>
@@ -240,7 +240,11 @@
             pageSize:this.pageSize
           }
         }).then(res=>{
-          if(res.data.code == 0){
+          if(res.data.code == 0) {
+            $.each(res.data.data.levels,(index,value)=>{
+              value.dayMoney = value.dayMoney/100;
+              value.monthMoney = value.monthMoney/100;
+            });
             this.levels = res.data.data.levels;
             this.levelSize = res.data.data.levelSize;
           }
@@ -258,13 +262,14 @@
         this.levelName = levelName;
         $('#setConfirm').modal();
       },
+
       //设置处遇等级
       setLevelMoney() {
         //console.log(this.levelId,typeof parseInt(this.dayMoney),typeof parseInt(this.monthMoney));
         axios.post('/level/setLevelMoney',$.param({
           levelId:this.leId,
-          dayMoney:parseInt(this.dayMoney),
-          monthMoney:parseInt(this.monthMoney)
+          dayMoney:this.toCent(this.dayMoney),
+          monthMoney:this.toCent(this.monthMoney)
         })).then(res=> {
           if(res.data.code == 0){
             this.remind = {

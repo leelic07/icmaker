@@ -74,6 +74,7 @@
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
   </div>
+
 </template>
 
 <script>
@@ -106,10 +107,6 @@
         type:'',//类型
         cfdshow: false,//控制显示
         hasErrMsg: true,//有错误信息
-//        remind:{
-//          status:'',
-//          msg:''
-//        }
       }
     },
     watch: {

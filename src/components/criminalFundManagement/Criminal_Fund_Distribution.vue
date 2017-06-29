@@ -130,10 +130,16 @@
         toUrl:'',
         fromUrl:'',
         uploadType:'',//上传Excel类型
-        uploadExcelUrl:'http://192.168.1.52:8080/icmaker/importPrisonerCapitalIncome',
-        downloadExcelUrl:'http://192.168.1.52:8080/icmaker/downTemplate',
+//        uploadExcelUrl:'http://192.168.1.52:8080/icmaker/importPrisonerCapitalIncome',
+//        downloadExcelUrl:'http://192.168.1.52:8080/icmaker/downTemplate',
 //        uploadExcelUrl:'http://10.10.10.112:8080/icmaker/importPrisonerCapitalIncome',
 //        downloadExcelUrl:'http://10.10.10.112:8080/icmaker/downTemplate',
+//        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/importPrisonerCapitalIncome',
+//        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/downTemplate',
+          uploadExcelUrl:'http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome',
+          downloadExcelUrl:'http://106.14.18.98:8080/icmaker/downTemplate',
+//        uploadExcelUrl:'http://localhost:8080/icmaker/importPrisonerCapitalIncome',
+//        downloadExcelUrl:'http://localhost:8080/icmaker/downTemplate',
         remind: {
           status: '',
           msg: ''

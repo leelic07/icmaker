@@ -86,10 +86,12 @@
         prisonerLevelSize:'',
 //        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/level/importPrisonerLevel',
 //        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/level/downLevelTemplate',
-        // uploadExcelUrl:'http://192.168.1.52:8080/icmaker/level/importPrisonerLevel',
-        // downloadExcelUrl:'http://192.168.1.52:8080/icmaker/level/downLevelTemplate',
-        uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
-        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
+//         uploadExcelUrl:'http://192.168.1.52:8080/icmaker/level/importPrisonerLevel',
+//         downloadExcelUrl:'http://192.168.1.52:8080/icmaker/level/downLevelTemplate',
+          uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
+          downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
+//        uploadExcelUrl:'http://localhost:8080/icmaker/level/importPrisonerLevel',
+//        downloadExcelUrl:'http://localhost:8080/icmaker/level/downLevelTemplate',
         hasErrMsg:true,//有错误信息
         dataId:'',//excelId
         remind: {
@@ -189,7 +191,6 @@
           if(res.data.code == 0) {
             this.prisonerLevels = res.data.data.prisonerLevels;
             this.prisonerLevelSize = res.data.data.prisonerLevelSize;
-            // console.log(this.pirsonerLevels,this.prisonerLevelSize);
             this.remind = {
               status:'success',
               msg:res.data.msg
