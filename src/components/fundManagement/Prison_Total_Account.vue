@@ -3,7 +3,7 @@
     <div id="right-side" class="col-xs-20 pull-right">
         <!--监狱资金总收入，总支出-->
         <div class='row'>
-            <div class='prison-total col-xs-23' v-if = "countTotal != ''">
+            <div class='prison-total col-xs-23' v-if = "countTotal !== ''">
                 <ul>
                     <li class='pull-left text-green'>所有监狱总金额 <span
                         class='text-red'>{{countTotal | currency}}元</span></li>
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div class = "form" v-if = "countTotal != ''">
+        <div class = "form" v-if = "countTotal !== ''">
             <div></div>
             <!-- 表单底部-->
             <Page :itemSize = "accountSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search='getAccountInfo'></Page>
@@ -80,7 +80,6 @@
                     }
                 }).then(res => {
                     let data = res.data.data;
-                    console.log(data);
                     this.countTotal = data.countTotal;
                     this.prisonAccountInfo = data.prisonAccountListDtos;
                     this.accountSize = data.prisonAccountListDtoSize;
