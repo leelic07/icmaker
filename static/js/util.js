@@ -41,7 +41,7 @@ $.fn.select = function(){
 
 
 //新增角色全选
-$.fn.selectRole = function(){
+$.fn.selectRole = function() {
     $(this).on('click','.info-check',function(){
         let _this = $(this);
         if(_this.hasClass('active')){
@@ -97,14 +97,17 @@ let setCookie = (name,value,time) => {
 }
 
 export default {
-
     //上传读取图片路径
     readImgUrl(file,_this,dataName) {
         console.log(dataName);
         let oMyForm = new FormData();
         oMyForm.append("file", file);
         let oReq = new XMLHttpRequest();
-        oReq.open("POST", "http://192.168.1.52:8080/icmaker/fileUpload");
+        // oReq.open("POST", "http://192.168.1.52:8080/icmaker/fileUpload");
+        // oReq.open("POST", "http://10.10.10.100:8080/icmaker/fileUpload");
+        // oReq.open("POST", "http://localhost:8080/icmaker/fileUpload");
+        // oReq.open("POST", "http://106.14.18.98:8080/icmaker/fileUpload");
+        oReq.open("POST", "http://10.10.10.114:8080/icmaker/fileUpload");
         oReq.send(oMyForm);
         oReq.onload = function(oEvent) {
           if (oReq.status == 200) {
@@ -120,7 +123,7 @@ export default {
 
     //上传Excel表格
     //罪犯资金分配
-    readExcel(file,_this,url,store,dataName,dataId,uploadType,prisonName) {
+    readExcel(file,_this,url,store,dataName,dataId,uploadType,prisonName,accountName) {
       let oMyForm = new FormData();
       oMyForm.append("fileId", file);
       let oReq = new XMLHttpRequest();
@@ -135,6 +138,7 @@ export default {
             $.each(prisonerCapitalIncomes,(index,value) => {
               value.type = uploadType;
               value.prisonName = prisonName;
+              value.accountName = accountName;
             });
             _this[dataName] = response.data;
             _this['remind'] = {

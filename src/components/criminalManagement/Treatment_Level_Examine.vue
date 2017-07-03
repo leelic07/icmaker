@@ -82,6 +82,7 @@
               <th>现处遇等级</th>
               <th>申请人</th>
               <th>申请时间</th>
+              <th>备注</th>
             </tr>
           </thead>
           <tbody>
@@ -97,6 +98,7 @@
               <td v-text="rs.levelName"></td>
               <td v-text="rs.userName"></td>
               <td>{{rs.createdAt | formatDate}}</td>
+              <td></td>
             </tr>
           </tbody>
         </table>

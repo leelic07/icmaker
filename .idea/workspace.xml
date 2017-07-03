@@ -3,8 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="de3391fa-25ff-474a-b016-ede5c82ed9e3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/Examine.vue" afterPath="$PROJECT_DIR$/src/components/Examine.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue" afterPath="$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Level_Application.vue" afterPath="$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Level_Application.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalFundManagement/Upload_Excel.vue" afterPath="$PROJECT_DIR$/src/components/criminalFundManagement/Upload_Excel.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalManagement/Change_Right_Tab.vue" afterPath="$PROJECT_DIR$/src/components/criminalManagement/Change_Right_Tab.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Add.vue" afterPath="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Add.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/criminalManagement/Treatment_Level_Examine.vue" afterPath="$PROJECT_DIR$/src/components/criminalManagement/Treatment_Level_Examine.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.js" afterPath="$PROJECT_DIR$/src/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/util.js" afterPath="$PROJECT_DIR$/static/js/util.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -23,57 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Criminal_Fund_Distribution.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue">
+      <file leaf-file-name="Examine.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Examine.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="135" column="75" lean-forward="false" selection-start-line="135" selection-start-column="75" selection-end-line="135" selection-end-column="75" />
-              <folding>
-                <element signature="e#4058#4093#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Upload_Excel.vue" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Upload_Excel.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="86" column="18" lean-forward="true" selection-start-line="86" selection-start-column="18" selection-end-line="86" selection-end-column="18" />
-              <folding>
-                <element signature="e#2334#2369#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Criminal_Level_Application.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Level_Application.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1176">
-              <caret line="124" column="7" lean-forward="false" selection-start-line="124" selection-start-column="7" selection-end-line="124" selection-end-column="7" />
-              <folding>
-                <element signature="e#2026#2061#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Remind.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Remind.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="888">
-              <caret line="75" column="37" lean-forward="false" selection-start-line="75" selection-start-column="37" selection-end-line="75" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="util.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/util.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-668">
-              <caret line="112" column="57" lean-forward="false" selection-start-line="112" selection-start-column="57" selection-end-line="112" selection-end-column="57" />
+            <state relative-caret-position="-696">
+              <caret line="227" column="30" lean-forward="false" selection-start-line="227" selection-start-column="30" selection-end-line="227" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -82,56 +42,68 @@
       <file leaf-file-name="Treatment_Level_Examine.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Treatment_Level_Examine.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3144">
-              <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
+            <state relative-caret-position="-1217">
+              <caret line="101" column="17" lean-forward="true" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
               <folding>
-                <element signature="e#5979#6014#0" expanded="true" />
+                <element signature="e#6052#6087#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Criminal_Details.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Details.vue">
+      <file leaf-file-name="Criminal_Fund_Distribution.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="39" column="17" lean-forward="false" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+            <state relative-caret-position="305">
+              <caret line="149" column="9" lean-forward="true" selection-start-line="149" selection-start-column="9" selection-end-line="149" selection-end-column="9" />
               <folding>
-                <element signature="e#1776#1810#0" expanded="true" />
+                <element signature="e#4090#4125#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="validate.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/validate.js">
+      <file leaf-file-name="Upload_Excel.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Upload_Excel.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="3" column="48" lean-forward="false" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
+            <state relative-caret-position="3696">
+              <caret line="235" column="11" lean-forward="false" selection-start-line="235" selection-start-column="11" selection-end-line="235" selection-end-column="11" />
+              <folding>
+                <element signature="e#2415#2450#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="util.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/js/util.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="110" column="27" lean-forward="true" selection-start-line="110" selection-start-column="27" selection-end-line="110" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main.js">
+      <file leaf-file-name="Criminal_Level_Application.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Level_Application.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="90" column="2" lean-forward="false" selection-start-line="90" selection-start-column="2" selection-end-line="90" selection-end-column="2" />
+            <state relative-caret-position="340">
+              <caret line="102" column="7" lean-forward="true" selection-start-line="102" selection-start-column="7" selection-end-line="102" selection-end-column="7" />
               <folding>
-                <element signature="e#0#21#0" expanded="true" />
+                <element signature="e#2029#2064#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Set_Level_Limit.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Set_Level_Limit.vue">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="274" column="40" lean-forward="false" selection-start-line="274" selection-start-column="40" selection-end-line="274" selection-end-column="40" />
+            <state relative-caret-position="-576">
+              <caret line="114" column="49" lean-forward="false" selection-start-line="114" selection-start-column="49" selection-end-line="114" selection-end-column="49" />
               <folding>
-                <element signature="e#5063#5097#0" expanded="true" />
+                <element signature="e#0#21#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -148,8 +120,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>prisonDepartmentId</find>
-      <find>点击</find>
       <find>时间</find>
       <find>addPrisonerLevel</find>
       <find>axios</find>
@@ -162,7 +132,6 @@
       <find>uploadExcelUrl</find>
       <find>setLevelMoney</find>
       <find>downloadExcelUrl</find>
-      <find>getPrisonerLevelData</find>
       <find>uploadType</find>
       <find>tips</find>
       <find>hasErrMsg</find>
@@ -178,6 +147,9 @@
       <find>remark</find>
       <find>isD</find>
       <find>confirmDistribution</find>
+      <find>getPrisonerLevelData</find>
+      <find>prisonerLevelSize</find>
+      <find>accountName</find>
     </findStrings>
     <replaceStrings>
       <replace>axios</replace>
@@ -220,7 +192,6 @@
         <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Prison_Area_Limit.vue" />
         <option value="$PROJECT_DIR$/config/index.js" />
         <option value="$PROJECT_DIR$/src/components/fundManagement/Fund_Distribution.vue" />
-        <option value="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Add.vue" />
         <option value="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Examine_Ward.vue" />
         <option value="$PROJECT_DIR$/src/components/Paginator.vue" />
         <option value="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Level_Application.vue" />
@@ -232,15 +203,18 @@
         <option value="$PROJECT_DIR$/src/components/SystemManagement/Menu_Add.vue" />
         <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Limit.vue" />
         <option value="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Details.vue" />
-        <option value="$PROJECT_DIR$/src/components/criminalManagement/Treatment_Level_Examine.vue" />
-        <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Level_Application.vue" />
-        <option value="$PROJECT_DIR$/src/main.js" />
-        <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Set_Level_Limit.vue" />
         <option value="$PROJECT_DIR$/static/js/validate.js" />
         <option value="$PROJECT_DIR$/src/components/Remind.vue" />
+        <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Set_Level_Limit.vue" />
+        <option value="$PROJECT_DIR$/src/components/criminalManagement/Change_Right_Tab.vue" />
+        <option value="$PROJECT_DIR$/src/components/criminalManagement/Criminal_Add.vue" />
+        <option value="$PROJECT_DIR$/src/components/Examine.vue" />
+        <option value="$PROJECT_DIR$/src/components/criminalManagement/Treatment_Level_Examine.vue" />
+        <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Upload_Excel.vue" />
         <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue" />
         <option value="$PROJECT_DIR$/static/js/util.js" />
-        <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Upload_Excel.vue" />
+        <option value="$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Level_Application.vue" />
+        <option value="$PROJECT_DIR$/src/main.js" />
       </list>
     </option>
   </component>
@@ -662,8 +636,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -835,8 +809,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="npm.build" />
-        <item index="1" class="java.lang.String" itemvalue="npm.dev" />
+        <item index="0" class="java.lang.String" itemvalue="npm.dev" />
+        <item index="1" class="java.lang.String" itemvalue="npm.build" />
         <item index="2" class="java.lang.String" itemvalue="npm.unit" />
         <item index="3" class="java.lang.String" itemvalue="Mocha.Fund_Detail.vue 异步更新DOM.prisonCapitalDetailDtos改变 table变化" />
         <item index="4" class="java.lang.String" itemvalue="Mocha.Transfer_Application.vue 异步更新DOM测试.prisonList改变 input的变化" />
@@ -885,7 +859,12 @@
       <workItem from="1498264945016" duration="44766000" />
       <workItem from="1498316174761" duration="307000" />
       <workItem from="1498438637296" duration="37608000" />
-      <workItem from="1498524861426" duration="22618000" />
+      <workItem from="1498524861426" duration="25124000" />
+      <workItem from="1498616792249" duration="14578000" />
+      <workItem from="1498707407537" duration="3251000" />
+      <workItem from="1498721051547" duration="5535000" />
+      <workItem from="1498785422075" duration="14446000" />
+      <workItem from="1499043953511" duration="6750000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'webpack2.3.3' of https://github.com/leelic07/icmaker into webpack2.3.3&#10;&#10;# Conflicts:&#10;#&#9;src/main.js&#10;#&#9;test/unit/specs/fundManagement_test/Bank_Account_Management.spec.js">
       <created>1494097356989</created>
@@ -983,7 +962,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="467344000" />
+    <option name="totallyTimeSpent" value="514410000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -996,13 +975,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16741072" sideWeight="0.5322034" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23586309" sideWeight="0.6111111" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15409836" sideWeight="0.50373137" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10819672" sideWeight="0.49626866" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16741072" sideWeight="0.46779662" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.032786883" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23586309" sideWeight="0.3888889" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20327869" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.48673588" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33770493" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13277134" sideWeight="0.50865054" order="3" side_tool="true" content_ui="tabs" />
@@ -1083,34 +1063,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test/unit/karma.conf.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="23" column="16" lean-forward="false" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/CFD_Add_Criminal.spec.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="157" column="39" lean-forward="false" selection-start-line="157" selection-start-column="39" selection-end-line="157" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/specs/criminalFundManagement_test/Cash_Out.spec.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="200" column="23" lean-forward="false" selection-start-line="200" selection-start-column="23" selection-end-line="200" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/SystemManagement/Menu_Management.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4176">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/fundManagement/Account_Add.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3288">
@@ -1251,13 +1203,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Add.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2136">
-          <caret line="128" column="20" lean-forward="true" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Examine_Prison.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-360">
@@ -1325,9 +1270,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="676">
           <caret line="300" column="4" lean-forward="true" selection-start-line="300" selection-start-column="4" selection-end-line="300" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#42#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1342,7 +1284,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1464">
           <caret line="355" column="23" lean-forward="false" selection-start-line="355" selection-start-column="19" selection-end-line="355" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1357,39 +1298,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-6065">
           <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding>
-            <element signature="e#5996#6030#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Treatment_Level_Examine.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3144">
-          <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
-          <folding>
-            <element signature="e#5979#6014#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="90" column="2" lean-forward="false" selection-start-line="90" selection-start-column="2" selection-end-line="90" selection-end-column="2" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Set_Level_Limit.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="274" column="40" lean-forward="false" selection-start-line="274" selection-start-column="40" selection-end-line="274" selection-end-column="40" />
-          <folding>
-            <element signature="e#5063#5097#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1397,9 +1305,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1407,17 +1312,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="455">
           <caret line="174" column="12" lean-forward="false" selection-start-line="174" selection-start-column="2" selection-end-line="174" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Details.vue">
+    <entry file="file://$PROJECT_DIR$/src/components/Remind.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
-          <caret line="39" column="17" lean-forward="false" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
-          <folding>
-            <element signature="e#1776#1810#0" expanded="true" />
-          </folding>
+          <caret line="75" column="37" lean-forward="false" selection-start-line="75" selection-start-column="37" selection-end-line="75" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -1425,52 +1326,113 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="3" column="48" lean-forward="false" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Remind.vue">
+    <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Details.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="888">
-          <caret line="75" column="37" lean-forward="false" selection-start-line="75" selection-start-column="37" selection-end-line="75" selection-end-column="37" />
-          <folding />
+        <state relative-caret-position="936">
+          <caret line="39" column="17" lean-forward="false" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Level_Application.vue">
+    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Set_Level_Limit.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1176">
-          <caret line="124" column="7" lean-forward="false" selection-start-line="124" selection-start-column="7" selection-end-line="124" selection-end-column="7" />
+        <state relative-caret-position="6312">
+          <caret line="266" column="23" lean-forward="false" selection-start-line="266" selection-start-column="23" selection-end-line="266" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Withdraw_Examine.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-744">
+          <caret line="2" column="4" lean-forward="false" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Change_Right_Tab.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="37" column="4" lean-forward="false" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../时间控件/laydate/laydate/laydate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Criminal_Add.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-48">
+          <caret line="235" column="9" lean-forward="true" selection-start-line="235" selection-start-column="9" selection-end-line="235" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/criminalManagement/Treatment_Level_Examine.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1217">
+          <caret line="101" column="17" lean-forward="true" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
           <folding>
-            <element signature="e#2026#2061#0" expanded="true" />
+            <element signature="e#6052#6087#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue">
+    <entry file="file://$PROJECT_DIR$/src/components/Examine.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="135" column="75" lean-forward="false" selection-start-line="135" selection-start-column="75" selection-end-line="135" selection-end-column="75" />
-          <folding>
-            <element signature="e#4058#4093#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/util.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-668">
-          <caret line="112" column="57" lean-forward="false" selection-start-line="112" selection-start-column="57" selection-end-line="112" selection-end-column="57" />
+        <state relative-caret-position="-696">
+          <caret line="227" column="30" lean-forward="false" selection-start-line="227" selection-start-column="30" selection-end-line="227" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Upload_Excel.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="86" column="18" lean-forward="true" selection-start-line="86" selection-start-column="18" selection-end-line="86" selection-end-column="18" />
+        <state relative-caret-position="3696">
+          <caret line="235" column="11" lean-forward="false" selection-start-line="235" selection-start-column="11" selection-end-line="235" selection-end-column="11" />
           <folding>
-            <element signature="e#2334#2369#0" expanded="true" />
+            <element signature="e#2415#2450#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Fund_Distribution.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="149" column="9" lean-forward="true" selection-start-line="149" selection-start-column="9" selection-end-line="149" selection-end-column="9" />
+          <folding>
+            <element signature="e#4090#4125#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/util.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="110" column="27" lean-forward="true" selection-start-line="110" selection-start-column="27" selection-end-line="110" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/criminalFundManagement/Criminal_Level_Application.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="102" column="7" lean-forward="true" selection-start-line="102" selection-start-column="7" selection-end-line="102" selection-end-column="7" />
+          <folding>
+            <element signature="e#2029#2064#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-576">
+          <caret line="114" column="49" lean-forward="false" selection-start-line="114" selection-start-column="49" selection-end-line="114" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>

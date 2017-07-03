@@ -64,9 +64,9 @@ axios.interceptors.request.use(function(config){
 	// console.log(config);
   // config.headers.Authorization = `token ${store.state.mutations.token}`;
   if(config.method == 'get') {
-    if(config.params){
+    if(config.params) {
       config.params.userId = window.localStorage.getItem('userId');
-    }else{
+    } else {
       config.url += '?userId=' + window.localStorage.getItem('userId');
     }
   }
@@ -96,7 +96,7 @@ axios.interceptors.response.use(function(response) {
 
 // axios.defaults.baseURL='http://10.10.10.130:8080/icmaker/';
 
-axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
+// axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.2:8080/icmaker/';
 
@@ -110,9 +110,9 @@ axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 //axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
 
- //axios.defaults.baseURL='http://localhost:8080/icmaker/';
+ // axios.defaults.baseURL='http://localhost:8080/icmaker/';
 
-// axios.defaults.baseURL='http://10.10.10.114:8080//icmaker/';
+axios.defaults.baseURL='http://10.10.10.114:8080/icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.127:8080//icmaker/';
 
@@ -129,7 +129,6 @@ axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 // axios.defaults.baseURL='http://10.10.10.113:8080/icmaker/';
 
 // axios.defaults.baseURL='http://192.168.1.52:8080/icmaker/';
-
 
 //设置路由
 const router = new VueRouter({

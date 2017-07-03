@@ -83,7 +83,7 @@
 
                 <!--<router-link to="" class="reject-text">上传excel文件</router-link>-->
                 <a href="#" @click="$event.preventDefault()" class="reject-text">上传excel文件</a>
-                <input class="file" type="file" :id="index" :uploadType="cfal.type" :prisonName="cfal.prisonName">
+                <input class="file" type="file" :id="index" :uploadType="cfal.type" :prisonName="cfal.prisonName" :accountName="cfal.accountName">
               </td>
             </tr>
           </tbody>
@@ -121,6 +121,7 @@
         prisonId: '',
         prisonName: '',
         type: '',
+        accountName:'',//账户名
         prisonList: [],
         criminalFundAllocationList: [],
         prisonCapitalIncomes: [],
@@ -136,10 +137,13 @@
 //        downloadExcelUrl:'http://10.10.10.112:8080/icmaker/downTemplate',
 //        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/importPrisonerCapitalIncome',
 //        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/downTemplate',
-          uploadExcelUrl:'http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome',
-          downloadExcelUrl:'http://106.14.18.98:8080/icmaker/downTemplate',
+//          uploadExcelUrl:'http://106.14.18.98:8080/icmaker/importPrisonerCapitalIncome',
+//          downloadExcelUrl:'http://106.14.18.98:8080/icmaker/downTemplate',
 //        uploadExcelUrl:'http://localhost:8080/icmaker/importPrisonerCapitalIncome',
 //        downloadExcelUrl:'http://localhost:8080/icmaker/downTemplate',
+          uploadExcelUrl:'http://10.10.10.114:8080/icmaker/importPrisonerCapitalIncome',
+          downloadExcelUrl:'http://10.10.10.114:8080/icmaker/downTemplate',
+
         remind: {
           status: '',
           msg: ''
@@ -261,8 +265,9 @@
           let file = e.target.files[0];
           let uploadType = e.target.getAttribute('uploadType');
           let prisonName = e.target.getAttribute('prisonName');
+          let accountName = e.target.getAttribute('accountName');
           if (self.isExcel(file)) {
-            Util.readExcel(file,self,self.uploadExcelUrl,store,'prisonCapitalIncomes','dataId',uploadType,prisonName);
+            Util.readExcel(file,self,self.uploadExcelUrl,store,'prisonCapitalIncomes','dataId',uploadType,prisonName,accountName);
           } else {
             self.remind = {
               status:'warn',

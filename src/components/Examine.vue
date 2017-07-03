@@ -78,7 +78,7 @@
                             <th>所属监区</th>
                             <th>申请类别</th>
                             <th>申请人</th>
-                            <th colspan="2">操作</th>  
+                            <th colspan="2">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,7 +95,7 @@
                             <td>{{exam.userName}}</td>
                             <td><em class="agree-text" @click="receive($event,1,1)" :id = "exam.applyId">同意</em></td>
                             <td><em class="reject-text" @click="receive($event,2,1)" :id = "exam.applyId">拒绝</em></td>
-                        </tr>   
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -132,6 +132,7 @@
 import Remind from './Remind.vue'
 import store from './../store'
 import Page from './Paginator.vue'
+
 export default{
 	data(){
 		return{
@@ -176,7 +177,7 @@ export default{
             }
             if (this.prisonId != oldPrisonId) {
                 this.getPrisonDepartInfo();
-            }else {
+            } else {
                 this.prisonId = "";
                 this.prisonDepartments = "";
             }
@@ -271,7 +272,7 @@ export default{
                      store.dispatch('showRemind');
                 }
             }
-           
+
         },
 
         receiveConfirm(verifyType,examType) {

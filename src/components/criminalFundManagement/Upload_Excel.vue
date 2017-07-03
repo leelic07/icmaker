@@ -11,6 +11,7 @@
             <tr>
               <th></th>
               <th>所属监狱</th>
+              <th>资金分配账户</th>
               <th>资金分配类型</th>
               <th>罪犯名</th>
               <th>罪犯编号</th>
@@ -22,6 +23,7 @@
             <tr v-for="pcil in prisonerCapitalIncomesList">
               <td></td>
               <td v-text="pcil.prisonName"></td>
+              <td v-text="pcil.accountName"></td>
               <td>{{pcil.type | locationType}}</td>
               <td v-text="pcil.name"></td>
               <td v-text="pcil.number"></td>
