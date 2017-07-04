@@ -70,7 +70,7 @@
         firstMenuList:"",
         secondMenuList:"",
         indexPage:1,
-        pageSize:'',
+        pageSize:10,
         prisonId:'',
 //        prisonerId:'',
         logList:'',//罪犯列表
