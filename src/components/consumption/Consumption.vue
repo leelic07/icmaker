@@ -224,7 +224,7 @@
       },
 
       consumeConfirm(e) {
-        console.log(e.type =="click");
+      console.log(e.type =="click");
        if (e.keyCode == 39 ) {//右键
           this.activeIndex = this.activeIndex == 1 ? -1 : this.activeIndex;
           this.activeIndex ++ ;
@@ -272,7 +272,7 @@
               console.log('新增服务器异常' + err);
             });
           }
-        }  
+        }
       }
     },
     components: {
@@ -289,7 +289,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style type="text/less" lang="less" scoped>
   #right-side {
     height: 100%;
     background-color: #f5f5f5;

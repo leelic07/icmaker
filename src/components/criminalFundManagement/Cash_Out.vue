@@ -172,7 +172,7 @@
     },
     watch: {
       //根据监狱名称得到监狱ID
-      prisonName(){
+      prisonName() {
         this.prisonId = '';
         if (this.prisonName != '') {
           $.each(this.prisonList, (index, value) => {
@@ -187,7 +187,7 @@
       },
 
       //监听监狱ID
-      prisonId(){
+      prisonId() {
         let pd = this.prisonDepartments;
         let pdt = this.prisonDepartmentsTem;
         pdt.splice(0, pdt.length);
@@ -195,7 +195,7 @@
       },
 
       //删除小数点两位后的数字
-      cash(){
+      cash() {
         this.cash = this.saveTwo(this.cash);
       }
     },

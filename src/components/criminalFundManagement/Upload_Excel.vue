@@ -2,6 +2,25 @@
   <!-- 右侧内容-->
   <div class="col-xs-24 pull-right">
 
+    <div class="col-xs-23 message">
+
+      <div class="col-xs-5">
+        <div class="pull-left agree-text">资金分配账户：</div>
+        <div class="pull-left reject-text">{{accountName}}</div>
+      </div>
+
+      <div class="col-xs-5">
+        <div class="pull-left agree-text">可分配金额（元）：</div>
+        <div class="pull-left reject-text">{{balance}}元</div>
+      </div>
+
+      <div class="col-xs-5">
+        <div class="pull-left agree-text">待分配金额（元）：</div>
+        <div class="pull-left reject-text">{{totalMoney}}元</div>
+      </div>
+
+    </div>
+
     <!--表格部分-->
     <div class="col-xs-24 form">
 
@@ -11,7 +30,7 @@
             <tr>
               <th></th>
               <th>所属监狱</th>
-              <th>资金分配账户</th>
+              <!--<th>资金分配账户</th>-->
               <th>资金分配类型</th>
               <th>罪犯名</th>
               <th>罪犯编号</th>
@@ -23,7 +42,7 @@
             <tr v-for="pcil in prisonerCapitalIncomesList">
               <td></td>
               <td v-text="pcil.prisonName"></td>
-              <td v-text="pcil.accountName"></td>
+              <!--<td v-text="pcil.accountName"></td>-->
               <td>{{pcil.type | locationType}}</td>
               <td v-text="pcil.name"></td>
               <td v-text="pcil.number"></td>
@@ -79,6 +98,105 @@
 
 </template>
 
+<style type="text/less" lang="less" scoped>
+  @white: #fff;
+  @gray: #C1C1C1;
+  @textGray: #B8B8B8;
+  @green: #1AA3AB;
+  @marginLeft:2%;
+
+  /**{*/
+  /*border:1px solid #000;*/
+  /*}*/
+
+  .reject-text {
+    /*margin-left: 15%;*/
+    color: #ff1616;
+  }
+
+  .agree-text {
+    color: #1AA3AB;
+  }
+
+  .message {
+    margin-top: 90px;
+    margin-left:@marginLeft;
+    margin-bottom:15px;
+  }
+
+  /*.form {*/
+
+  /*}*/
+
+  .remarkBox {
+    margin-left: 2%;
+    background: @white;
+    margin-bottom: 20px;
+    padding: 20px 10px 15px 10px;
+    border: 1px solid #E9E9E9;
+    > div {
+      &:first-child {
+        margin-left: 1%;
+      }
+
+      &:nth-child(2) {
+        input {
+          height: 30px;
+          margin-top: -5px;
+        }
+      }
+    }
+    .remind-text {
+      color: #ff1616;
+    }
+  }
+
+  .confirm {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    > div {
+      &:first-child {
+        button {
+          .button(@green, @white, 35px, 150px);
+        }
+      }
+      &:nth-child(2) {
+        span {
+          color: @textGray;
+          line-height: 35px;
+        }
+      }
+      &:nth-child(3) {
+        position: relative;
+        button {
+          .button(@green, @white, 35px, 150px);
+        }
+        input {
+          position: absolute;
+          width: 57%;
+          height: 35px;
+          top: 0;
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  .disabledBtn{
+    background-color:#C1C1C1 !important
+  }
+
+  .button(@bgColor,@color,@height,@width) {
+    background: @bgColor;
+    color: @color;
+    height: @height;
+    width: @width;
+    border: none;
+    border-radius: 2px;
+  }
+</style>
+
 <script>
 
   import Page from '../Paginator.vue'
@@ -109,6 +227,9 @@
         type:'',//类型
         cfdshow: false,//控制显示
         hasErrMsg: true,//有错误信息
+        accountName:'',//账户名
+        balance:'',//
+        totalMoney:''
       }
     },
     watch: {
@@ -116,9 +237,12 @@
         this.dataId = this.excelData.dataId;
         this.prisonerCapitalIncomesList = this.excelData.prisonerCapitalIncomes;
         this.prisonerCapitalIncomeSize = this.excelData.prisonerCapitalIncomeSize;
+        this.balance = this.excelData.balance;
+        this.totalMoney = this.excelData.totalMoeny;
         for(let i=0; i<this.prisonerCapitalIncomesList.length; i++) {
           this.prison_name = this.prisonerCapitalIncomesList[i].prisonName;
           this.type = this.prisonerCapitalIncomesList[i].type;
+          this.accountName = this.prisonerCapitalIncomesList[i].accountName;
           if (this.prisonerCapitalIncomesList[i].tips) {
             this.hasErrMsg = true;
             break;
@@ -266,89 +390,3 @@
     }
   }
 </script>
-
-<style type="text/less" lang="less" scoped>
-  @white: #fff;
-  @gray: #C1C1C1;
-  @textGray: #B8B8B8;
-  @green: #1AA3AB;
-  /**{*/
-  /*border:1px solid #000;*/
-  /*}*/
-  .reject-text {
-    margin-left: 15%;
-    color: #ff1616;
-  }
-
-  .form {
-    margin-top: 81px;
-  }
-
-  .remarkBox {
-    margin-left: 2%;
-    background: @white;
-    margin-bottom: 20px;
-    padding: 20px 10px 15px 10px;
-    border: 1px solid #E9E9E9;
-    > div {
-      &:first-child {
-        margin-left: 1%;
-      }
-
-      &:nth-child(2) {
-        input {
-          height: 30px;
-          margin-top: -5px;
-        }
-      }
-    }
-    .remind-text {
-      color: #ff1616;
-    }
-  }
-
-  .confirm {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin-bottom: 25px;
-    > div {
-      &:first-child {
-        button {
-          .button(@green, @white, 35px, 150px);
-        }
-      }
-      &:nth-child(2) {
-        span {
-          color: @textGray;
-          line-height: 35px;
-        }
-      }
-      &:nth-child(3) {
-        position: relative;
-        button {
-          .button(@green, @white, 35px, 150px);
-        }
-        input {
-          position: absolute;
-          width: 57%;
-          height: 35px;
-          top: 0;
-          opacity: 0;
-        }
-      }
-    }
-  }
-
-  .disabledBtn{
-    background-color:#C1C1C1 !important
-  }
-
-  .button(@bgColor,@color,@height,@width) {
-    background: @bgColor;
-    color: @color;
-    height: @height;
-    width: @width;
-    border: none;
-    border-radius: 2px;
-  }
-</style>

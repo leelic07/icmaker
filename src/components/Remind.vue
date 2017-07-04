@@ -89,7 +89,7 @@ import store from '../store'
 	}
 </script>
 
-<style lang='less' scoped>
+<style type="text/less" lang='less' scoped>
 	#remindConfirm{
 		.panel{
 			margin-bottom:0;

@@ -54,7 +54,9 @@
 
     <Remind v-if = "remindShow" :status='remind.status' :msg='remind.msg' :path='remind.path'></Remind>
   </div>
+
 </template>
+
 <script>
 
   import Remind from '../Remind.vue'
@@ -92,42 +94,9 @@
       }
     },
     methods:{
-      getFirstMenuList() {//获取菜单列表
-        this.$http.get('role/getMenuHierarchys',{params:{'type':0}}).then(res=>{
-          // console.log(res);
-          if (res.data.code == 0) {
-            this.firstMenuList = res.data.data;
-            this.getEditInfo();
-          }
-        }).catch(err=>{
-          console.log(err);
-        });
-      },
-
-      getEditInfo() {//点击编辑时获取角色原有的权限和信息
-        let id = this.$route.params.id;
-        this.$http.get('/role/getRole',{params:{'roleId':id}}).then(res=>{
-          if (res.data.code == 0) {
-            let editInfo = res.data.data;
-            this.roleName = editInfo.roleName;//绑定角色名称
-            let checkbox = $("#addRole .role-check");
-            for(let i = 0; i < editInfo.roleMenus.length; i++){
-              let checkedId = editInfo.roleMenus[i].menuId;
-              for(let j =0 ;j < checkbox.length; j++) {
-                let listId = checkbox[j].getAttribute("id");
-                if (checkedId == listId) {
-                  $(checkbox[j]).addClass("active");//绑定已有权限
-                }
-              }
-            }
-          }
-        }).catch(err=>{
-          console.log(err);
-        });
-      },
       //获取处遇等级列表
       getLevelDetails() {
-        this.indexPage = '';
+//        this.indexPage = '';
         axios.get('/prisoner/levelDetails',{
             params:{
                 prisonerId:this.prisonerId,
@@ -136,9 +105,11 @@
             }
         }).then(res=>{
           if(res.data.code == 0){
-            this.logList = res.data.data.logs;
+            this.logList = res.data.data.records;
             this.logSize = res.data.data.logSize;
-            this.prisonerName = res.data.data.logs[0].name;
+            if(res.data.data.records.length != 0){
+              this.prisonerName = res.data.data.records[0].name;
+            }
             this.archivesNumber = res.data.data.prisoner.archivesNumber;
             console.log(this.prisonerName,this.archivesNumber);
           }
@@ -147,7 +118,7 @@
         });
       },
       //搜索处遇等级明细列表
-      searchLevelDetails(indexPage){
+      searchLevelDetails(indexPage) {
         if(indexPage) {
           this.indexPage = indexPage;
         }
@@ -159,9 +130,11 @@
           }
         }).then(res=>{
           if(res.data.code == 0){
-            this.logList = res.data.data.logs;
+            this.logList = res.data.data.records;
             this.logSize = res.data.data.logSize;
-            this.prisonerName = res.data.data.logs[0].name;
+            if(res.data.data.records.length != 0){
+              this.prisonerName = res.data.data.records[0].name;
+            }
             this.archivesNumber = res.data.data.prisoner.archivesNumber;
             console.log(this.prisonerName,this.archivesNumber);
           }
@@ -178,8 +151,6 @@
       this.prisonerId = this.$route.params.prisonerId;
     },
     mounted() {
-      $('#addRole').selectRole();
-      this.getFirstMenuList();
       this.getLevelDetails();
     }
   }

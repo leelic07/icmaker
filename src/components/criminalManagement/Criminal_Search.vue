@@ -92,7 +92,7 @@
               </table>
           </div>
           <!-- 表单底部-->
-          <Page :itemSize = "prisonerSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "criminalSearch"></Page>
+          <Page v-if="isManage" :itemSize = "prisonerSize" :pageSize = "pageSize" :indexPage = "indexPage" v-on:search = "criminalSearch"></Page>
         </div>
         <!-- 删除确认框-->
         <div class="modal modal-confirm" id="delCriminalConfirm" tabindex="-1" role="dialog"
@@ -198,7 +198,7 @@ import axios from 'axios'
             this.prisonDepartments = "";
           }
         },
-        $route(to, from){//监听路由变化
+        $route(to, from) {//监听路由变化
           this.toUrl = to.path;
           this.fromUrl = from.path;
         },
