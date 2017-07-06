@@ -2,6 +2,7 @@
   <!-- 右侧内容-->
   <div id="right-side" class="col-xs-20 pull-right">
 
+    <div class="" v-if="isCashOutPage">
     <!--搜索框部分-->
     <div class="col-xs-24 search">
       <div class="col-xs-23 search-box">
@@ -48,33 +49,44 @@
       </div>
     </div>
 
+    <!--按钮组部分-->
+    <div class="col-xs-24 button">
+      <div class="col-xs-2">
+        <input type="button" value="下载excel模板" class="reject-button" @click="downloadTemplate()">
+      </div>
+      <div class="col-xs-2">
+        <input type="button" value="罪犯批量取现" class="reject-button">
+        <input type="file" value="上传excel" id="upload" class="col-xs-24">
+      </div>
+    </div>
+
     <!--表格部分-->
     <div class="col-xs-24 form">
       <div class="col-xs-23">
         <table class="display table ic-table" id="table_id_example">
           <thead>
-          <tr>
-            <th></th>
-            <th>所属监狱</th>
-            <th>所属监区</th>
-            <th>档案号</th>
-            <th>姓名</th>
-            <th>虚拟账号</th>
-            <th>金额(元)</th>
-            <th>操作</th>
-          </tr>
+            <tr>
+              <th></th>
+              <th>所属监狱</th>
+              <th>所属监区</th>
+              <th>档案号</th>
+              <th>姓名</th>
+              <th>虚拟账号</th>
+              <th>金额(元)</th>
+              <th>操作</th>
+            </tr>
           </thead>
           <tbody>
-          <tr v-for="col in cashOutList">
-            <td></td>
-            <td>{{col.prison_name}}</td>
-            <td>{{col.prison_department_name}}</td>
-            <td>{{col.archives_number}}</td>
-            <td>{{col.name}}</td>
-            <td>{{col.virtual_account_no}}</td>
-            <td>{{col.total | currency}}</td>
-            <td><em class="agree-text" @click="cashOut(col.prisoner_id,col.total)">取现</em></td>
-          </tr>
+            <tr v-for="col in cashOutList">
+              <td></td>
+              <td>{{col.prison_name}}</td>
+              <td>{{col.prison_department_name}}</td>
+              <td>{{col.archives_number}}</td>
+              <td>{{col.name}}</td>
+              <td>{{col.virtual_account_no}}</td>
+              <td>{{col.total | currency}}</td>
+              <td><em class="agree-text" @click="cashOut(col.prisoner_id,col.total)">取现</em></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -136,17 +148,82 @@
         </div><!-- /.modal-content -->
       </div> <!-- /.modal -->
     </div>
+
     <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
+
+    </div>
+
+    <CashUploadExcel v-show="!isCashOutPage" :excelData="prisonerBatchApply" :remind="remind"></CashUploadExcel>
+
   </div>
+
 </template>
+
+<style type="text/less" lang='less' scoped>
+  #right-side {
+    /**{*/
+      /*border:1px solid #000;*/
+    /*}*/
+    .button {
+      >div {
+        &:nth-child(2){
+          position:relative;
+          input{
+            &:nth-child(2){
+              position:absolute;
+              top:0;
+              height:33px;
+              opacity:0;
+            }
+          }
+        }
+      }
+    }
+    #cashOutConfirm {
+      .modal-body {
+        h3 {
+          font-weight: bold;
+        }
+        .label-box {
+          height: 35px;
+          line-height: 35px;
+          color: #999;
+        }
+        .row {
+          margin-bottom: 20px;
+        }
+        hr {
+          width: 597px;
+          border-top-color: #ccc;
+          margin-left: -100px;
+        }
+        ul {
+          li {
+            line-height: 35px;
+            height: 35px;
+          }
+        }
+        .info-label {
+          color: #666;
+        }
+        .confirm-button {
+          margin-top: 12px;
+          margin-bottom: 30px;
+        }
+      }
+    }
+  }
+</style>
 
 <script>
   import Page from '../Paginator.vue'
   import Remind from '../Remind.vue'
   import store from '../../store'
+  import CashUploadExcel from './Cash_Upload_Excel.vue'
+  import Util from '../../../static/js/util.js'
 
-  export default{
-    data(){
+  export default {
+    data() {
       return {
         indexPage: 1,
         pageSize: 10,
@@ -163,11 +240,16 @@
         prisonDepartments: [],
         prisonDepartmentsTem: [],
         cashOutList: [],
-        cash: '',
         total: '',
         name: '',
         archivesNumber: '',
-        idCardNo: ''
+        idCardNo: '',
+        isCashOutPage:true,
+        prisonerBatchApply:[],//批量取现列表
+        uploadExcelUrl:'http://localhost:8080/icmaker/prisonerAccount/importPrisonerBatchApply',
+        downloadExcelUrl:'http://localhost:8080/icmaker/downTemplate',
+//        uploadExcelUrl:'http://10.10.10.119:8080/icmaker/prisonerAccount/importPrisonerBatchApply',
+//        downloadExcelUrl:'http://10.10.10.119:8080/icmaker/downTemplate',
       }
     },
     watch: {
@@ -364,51 +446,40 @@
         }).catch(err => {
           console.log(err);
         });
+      },
+
+      downloadTemplate() {
+        window.location.href = this.downloadExcelUrl;
+      },
+
+      uploadExcel() {
+        let self = this;
+        $('#upload').on("change",function(e) {
+          let file = e.target.files[0];
+          if (self.isExcel(file)) {
+            Util.readCashExcel(file,self,self.uploadExcelUrl,store,'prisonerBatchApply');
+          } else {
+            self.remind = {
+              status:'warn',
+              msg:'请上传格式正确的Excel文件'
+            }
+            store.dispatch('showRemind');
+          }
+        });
       }
+
     },
     components: {
       Page,
-      Remind
+      Remind,
+      CashUploadExcel
     },
     mounted(){
       $('#table_id_example').tableHover();
       this.getAllPrison();
+      this.uploadExcel();
     }
   }
 </script>
 
-<style type="text/less" lang='less' scoped>
-  #cashOutConfirm {
-    .modal-body {
-      h3 {
-        font-weight: bold;
-      }
-      .label-box {
-        height: 35px;
-        line-height: 35px;
-        color: #999;
-      }
-      .row {
-        margin-bottom: 20px;
-      }
-      hr {
-        width: 597px;
-        border-top-color: #ccc;
-        margin-left: -100px;
-      }
-      ul {
-        li {
-          line-height: 35px;
-          height: 35px;
-        }
-      }
-      .info-label {
-        color: #666;
-      }
-      .confirm-button {
-        margin-top: 12px;
-        margin-bottom: 30px;
-      }
-    }
-  }
-</style>
+

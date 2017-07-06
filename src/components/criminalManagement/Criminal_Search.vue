@@ -52,6 +52,13 @@
           </div>
         </div>
       </div>
+
+      <!--按钮部分-->
+      <div class="col-xs-23 exportBtn">
+        <button class="btn btn-warning pull-right" @click="exportData()"><span class="glyphicon glyphicon-share"></span>导出数据</button>
+      </div>
+
+
       <!--表格部分-->
       <div class="col-xs-24 form">
           <div class="col-xs-23">
@@ -139,6 +146,17 @@
     <router-view></router-view>
   </div>
 </template>
+
+<style type="text/less" lang="less" scoped>
+  @marginLeft:2%;
+
+  .exportBtn {
+    margin-left: @marginLeft;
+    margin-top:10px;
+    margin-bottom:20px;
+  }
+</style>
+
 <script>
 import Remind from '../Remind.vue'
 import store from '../../store'
@@ -146,41 +164,44 @@ import Page from '../Paginator.vue'
 import axios from 'axios'
 
     export default {
-        data(){
-            return {
-                prisons: "",//监狱列表
-                prisonDepartments: "",//监区列表
-                statusList: "",//在监状态列表
-                prisonerList: "",//罪犯信息列表
-                prisonerSize: "",//罪犯信息条数
-                currentId: "",//当前操作的罪犯ID
-                prisonName: "",//监狱名
-                prisonId: "",//所属监狱ID
-                prisonDepartmentId: "",//所属监区ID
-                status: "",//在监状态
-                number: "",//编号
-                archivesNumber: "",//档案号
-                name: "",//罪犯名
-                toUrl: "",//到达路由
-                fromUrl: "",//进入路由
-                remind:{
-                    status:'',
-                    msg:''
-                },
-                isManage: true,//是否为管理页
-                pageSize: 10,//每页显示的条数
-                indexPage: 1
-            }
-        },
-        computed: {
-            remindShow:{
-                get(){
-                    return store.getters.remindShow;
-                }
-            }
-        },
+      data() {
+          return {
+              prisons: "",//监狱列表
+              prisonDepartments: "",//监区列表
+              statusList: "",//在监状态列表
+              prisonerList: "",//罪犯信息列表
+              prisonerSize: "",//罪犯信息条数
+              currentId: "",//当前操作的罪犯ID
+              prisonName: "",//监狱名
+              prisonId: "",//所属监狱ID
+              prisonDepartmentId: "",//所属监区ID
+              status: "",//在监状态
+              number: "",//编号
+              archivesNumber: "",//档案号
+              name: "",//罪犯名
+              toUrl: "",//到达路由
+              fromUrl: "",//进入路由
+              filepath:'',//导出数据文件路径
+              remind:{
+                  status:'',
+                  msg:''
+              },
+              isManage: true,//是否为管理页
+              pageSize: 10,//每页显示的条数
+              indexPage: 1,
+              downloadExcelUrl:'http://localhost:8080/icmaker/prisoner/downFiles',
+//              downloadExcelUrl:'http://10.10.10.119:8080/icmaker/prisoner/downFiles',
+          }
+      },
+      computed: {
+          remindShow:{
+              get(){
+                  return store.getters.remindShow;
+              }
+          }
+      },
       watch: {
-        prisonName(){
+        prisonName() {
           let oldPrisonId = this.prisonId;
           for (let i = 0; i < this.prisons.length; i++) {
             if (this.prisons[i].prisonName == this.prisonName) {
@@ -233,7 +254,7 @@ import axios from 'axios'
           }
       },
 
-      getStatusList(){//赋值状态列表
+      getStatusList() {//赋值状态列表
           this.statusList = [{"value": "", "name": "全部"}, {"value": 0, "name": "离监"}, {"value": 1, "name": "在监"}]
       },
 
@@ -263,7 +284,7 @@ import axios from 'axios'
           });
       },
 
-      criminalSearch(index){
+      criminalSearch(index) {
           this.indexPage =index;
           for (let i = 0; i< this.prisons.length; i++)  {
               if (this.prisons[i].prisonName == this.prisonName) {
@@ -289,8 +310,8 @@ import axios from 'axios'
           axios.get('prisoner/getPrisoners',{params:searchData}).then(res=>{
               //console.log(res);
               if (res.data.code == 0) {
-                  this.prisonerList = res.data.data.prisoners;//赋值罪犯列表
-                  this.prisonerSize = res.data.data.prisonerSize;//赋值罪犯列表数
+                this.prisonerList = res.data.data.prisoners;//赋值罪犯列表
+                this.prisonerSize = res.data.data.prisonerSize;//赋值罪犯列表数
               }
           }).catch(err=>{
               console.log(err);
@@ -353,9 +374,33 @@ import axios from 'axios'
             console.log('删除罪犯列表服务器异常' + err);
           });
       },
+
       levelDetails(e,prisonerId) {
         this.$router.push({
           path:'/crimsearch/criminal_details/'+prisonerId
+        });
+      },
+
+      //罪犯查询导出数据接口
+      exportData() {
+        axios.get('/prisoner/exportPrisoners',{
+            params:{
+                prisonId:this.prisonId,
+                prisonDepartmentId:this.prisonDepartmentId,
+                status:this.status,
+                name:this.name,
+                number:this.number,
+                archivesNumber:this.archivesNumber
+            }
+        }).then(res=> {
+//            console.log(res.data);
+            if(res.data.code == 0){
+                this.filepath = res.data.data.filepath;
+                console.log(this.filepath);
+                window.location.href = this.downloadExcelUrl+'?path='+this.filepath;
+            }
+        }).catch(err=> {
+            console.log(err);
         });
       }
     },
@@ -363,12 +408,12 @@ import axios from 'axios'
       Page,
       Remind
     },
-    mounted(){
+    mounted() {
       this.getStatusList();
       this.getPrisonInfo();
       this.hideCriminalList(this.$route.path);
     },
-    updated(){
+    updated() {
       $('#table_id_example').tableHover();
     }
   }

@@ -70,9 +70,8 @@
         firstMenuList:"",
         secondMenuList:"",
         indexPage:1,
-        pageSize:'',
+        pageSize:10,
         prisonId:'',
-//        prisonerId:'',
         logList:'',//罪犯列表
         logSize:'',//罪犯表长度
         prisonerSize:'',
@@ -111,7 +110,7 @@
               this.prisonerName = res.data.data.records[0].name;
             }
             this.archivesNumber = res.data.data.prisoner.archivesNumber;
-            console.log(this.prisonerName,this.archivesNumber);
+//            console.log(this.prisonerName,this.archivesNumber);
           }
         }).catch(err=>{
             console.log(err);
@@ -136,7 +135,7 @@
               this.prisonerName = res.data.data.records[0].name;
             }
             this.archivesNumber = res.data.data.prisoner.archivesNumber;
-            console.log(this.prisonerName,this.archivesNumber);
+//            console.log(this.prisonerName,this.archivesNumber);
           }
         }).catch(err=>{
           console.log(err);

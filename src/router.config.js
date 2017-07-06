@@ -52,7 +52,7 @@ import Balance from './components/statistics/Balance.vue'
 import Related_Bank_Account from './components/fundManagement/Related_Bank_Account.vue'
 import CriminalDetails from './components/criminalManagement/Criminal_Details.vue'
 import TreatmentLevelExamine from './components/criminalManagement/Treatment_Level_Examine.vue'
-
+import BatchCashOut from './components/criminalFundManagement/Batch_Cash_Out.vue'
 
 export default [
 	{
@@ -298,6 +298,10 @@ export default [
   {
     path:'/treatment_level_examine',
     component:TreatmentLevelExamine
+  },
+  {
+    path:'/batch_cash_out',
+    component:BatchCashOut
   },
 	{
 		path:'*',
