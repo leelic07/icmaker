@@ -263,18 +263,22 @@
         isDetail: true,
         dateType: '',//日期类型
         printPrisonCapitalDetailDtos: [],//监狱资金明细打印列表
-//        downloadExcelUrl:'http://localhost:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
-        downloadExcelUrl: 'http://10.10.10.119:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
+        downloadExcelUrl:'http://localhost:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
+//        downloadExcelUrl: 'http://10.10.10.119:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
         withdraw: {
           money: '',
           serialNo: '',
           reason: ''
+        },
+        remind:{
+            status:'',
+            msg:''
         }
       }
     },
     computed: {
       remindShow: {
-        get(){
+        get() {
           return store.getters.remindShow;
         }
       }
@@ -356,7 +360,6 @@
         }).then(res => {
           console.log(res);
           let data = res.data.data;
-
           this.prisonCapitalDetailDtos = data.prisonCapitalDetailDtos;
           this.menuSize = data.prisonCapitalDetailDtoSize;
           this.prisonCapitalIncomeTotal = data.prisonCapitalIncomeTotal;
@@ -471,13 +474,15 @@
         }).then(res => {
           if (res.data.code == 0) {
             this.printPrisonCapitalDetailDtos = res.data.data.prisonCapitalDetailDtos;
+//            console.log(res.data.data.prisonCapitalDetailDtos);
+//            console.log(this.printPrisonCapitalDetailDtos);
             this.remind = {
               status: 'success',
               msg: res.data.msg
             }
           } else {
             this.remind = {
-              status: 'warn',
+              status: 'failed',
               msg: res.data.msg
             }
           }

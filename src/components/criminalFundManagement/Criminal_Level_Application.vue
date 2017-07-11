@@ -18,13 +18,13 @@
       <div class="col-xs-23">
         <table class="display table ic-table" id="table_id_example">
           <thead>
-          <tr>
-            <th></th>
-            <th>罪犯姓名</th>
-            <th>罪犯编号</th>
-            <th>申请等级</th>
-            <th>备注</th>
-          </tr>
+            <tr>
+              <th></th>
+              <th>罪犯姓名</th>
+              <th>罪犯编号</th>
+              <th>申请等级</th>
+              <th>备注</th>
+            </tr>
           </thead>
           <tbody>
             <tr v-for="pl in prisonerLevels">
@@ -43,16 +43,13 @@
             v-on:search='searchPrisonerLevelData'></Page>
 
       <div class="confirm pull-left col-xs-23">
-
         <div class="col-xs-10">
           <button class="pull-right" :disabled="hasErrMsg" :class="{disabledBtn:hasErrMsg}"  @click="addPrisonerLevel()">确认上传</button>
         </div>
-
         <div class="col-xs-11 col-xs-offset-3">
           <button class="pull-left" @click="clearCache()" id="reUpload">取消</button>
           <!--<input type="file" class="col-xs-8">-->
         </div>
-
       </div>
 
     </div>
@@ -119,6 +116,7 @@
           this.prisonId = '';
         }
       },
+
       prisonerLevels() {
         for(let i=0; i<this.prisonerLevels.length; i++) {
           if (this.prisonerLevels[i].tips == '数据存在问题，请检查') {
@@ -128,9 +126,6 @@
               this.hasErrMsg = false;
           }
         }
-      },
-      dataId() {
-//        this.hasErrMsg = false;
       }
     },
     computed: {

@@ -149,11 +149,14 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal -->
     </div>
+
     <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
+
   </div>
 </template>
 
 <script>
+
   import Page from '../Paginator.vue'
   import Remind from '../Remind.vue'
   import store from '../../store'
@@ -194,7 +197,7 @@
     },
     watch: {
       //根据监狱名称得到监狱ID
-      prisonName(){
+      prisonName() {
         this.prisonId = '';
         this.levelName = '';
         if (this.prisonName != '') {

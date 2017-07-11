@@ -1,6 +1,8 @@
 <template>
   <!-- 右侧内容-->
   <div id="right-side" class="col-xs-20 pull-right">
+
+    <div class="box" v-if="isDetail">
     <!--搜索框部分-->
     <div class="col-xs-24 search">
       <div class="col-xs-23 search-box">
@@ -54,6 +56,7 @@
               <input type="text" class="form-control" id="idCardNo" v-model="idCardNo"/>
             </div>
           </div>
+
           <div class="row">
             <div class="col-xs-4 col-xs-push-1 text-box">
               <label for="name">创建时间</label>
@@ -76,6 +79,7 @@
               </select>
             </div>
           </div>
+
           <div class="row">
             <div class="col-xs-4 col-xs-push-10 button-box">
               <input type="button" value="搜索" class="search-button" @click="getDetailList(1)">
@@ -88,7 +92,7 @@
     <!--按钮部分-->
     <div class="col-xs-23 exportBtn">
       <button class="btn btn-warning pull-right" @click="exportData()"><span class="glyphicon glyphicon-share"></span>导出数据</button>
-      <button class="btn pull-right" @click="printPrisonCapitalDetails()"><span class="glyphicon glyphicon-print"></span>打印数据</button>
+      <button class="btn pull-right" @click="printCriminalFundDetails()"><span class="glyphicon glyphicon-print"></span>打印数据</button>
     </div>
 
     <!--罪犯资金总收入，总支出-->
@@ -106,43 +110,43 @@
       <div class="col-xs-23">
         <table class="display table ic-table" id="table_id_example">
           <thead>
-          <tr>
-            <th></th>
-            <th>所属监狱</th>
-            <th>所属监区</th>
-            <th>流水号</th>
-            <th>姓名</th>
-            <th>编号</th>
-            <th>类别</th>
-            <th>对方账户名</th>
-            <th>交易金额(元)</th>
-            <th>余额(元)</th>
-            <th>交易状态</th>
-            <th>交易时间</th>
-            <th colspan=2>操作</th>
-          </tr>
+            <tr>
+              <th></th>
+              <th>所属监狱</th>
+              <th>所属监区</th>
+              <th>流水号</th>
+              <th>姓名</th>
+              <th>编号</th>
+              <th>类别</th>
+              <th>对方账户名</th>
+              <th>交易金额(元)</th>
+              <th>余额(元)</th>
+              <th>交易状态</th>
+              <th>交易时间</th>
+              <th colspan=2>操作</th>
+            </tr>
           </thead>
           <tbody>
-          <tr v-for="detail in detailList">
-            <td></td>
-            <td>{{detail.prison_name}}</td>
-            <td>{{detail.prison_department_name}}</td>
-            <td>{{detail.capitalSerialNo}}</td>
-            <td>{{detail.name}}</td>
-            <td>{{detail.number}}</td>
-            <td>{{detail.type | formatFundType}}</td>
-            <td>{{detail.otherAccountName}}</td>
-            <td v-if='detail.type >= 3' class='text-red'>+{{detail.money | currency}}</td>
-            <td v-else-if='detail.type <3' class='text-green'>-{{detail.money | currency}}</td>
-            <td>{{detail.balance | currency}}</td>
-            <td>{{detail.status | dealStatus}}</td>
-            <td>{{detail.createTime | formatDate}}</td>
-            <td><em class="agree-text" @click="inDetail(detail.capitalSerialNo,detail.capitalType)">明细</em></td>
-            <td><em class="agree-text" @click="inWithdraw(detail.capitalSerialNo,detail.money)"
-                    v-show="(detail.type == 0 || detail.type == 1 || detail.type == 2) && detail.status == 1">撤回</em>
-            </td>
-            <!--<td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark | formatRemark}}</a></td>-->
-          </tr>
+            <tr v-for="detail in detailList">
+              <td></td>
+              <td>{{detail.prison_name}}</td>
+              <td>{{detail.prison_department_name}}</td>
+              <td>{{detail.capitalSerialNo}}</td>
+              <td>{{detail.name}}</td>
+              <td>{{detail.number}}</td>
+              <td>{{detail.type | formatFundType}}</td>
+              <td>{{detail.otherAccountName}}</td>
+              <td v-if='detail.type >= 3' class='text-red'>+{{detail.money | currency}}</td>
+              <td v-else-if='detail.type <3' class='text-green'>-{{detail.money | currency}}</td>
+              <td>{{detail.balance | currency}}</td>
+              <td>{{detail.status | dealStatus}}</td>
+              <td>{{detail.createTime | formatDate}}</td>
+              <td><em class="agree-text" @click="inDetail(detail.capitalSerialNo,detail.capitalType)">明细</em></td>
+              <td><em class="agree-text" @click="inWithdraw(detail.capitalSerialNo,detail.money)"
+                      v-show="(detail.type == 0 || detail.type == 1 || detail.type == 2) && detail.status == 1">撤回</em>
+              </td>
+              <!--<td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark | formatRemark}}</a></td>-->
+            </tr>
           </tbody>
         </table>
       </div>
@@ -234,6 +238,8 @@
     </div>
 
     <Remind v-if="remindShow" :status='remind.status' :msg='remind.msg'></Remind>
+    </div>
+    <PrintCriminalFundDetail v-show="!isDetail" :excelData="printCriminalFundDetailDtos" :remind="remind"></PrintCriminalFundDetail>
   </div>
 </template>
 
@@ -242,6 +248,7 @@
   import Page from '../Paginator.vue'
   import store from '../../store'
   import axios from 'axios'
+  import PrintCriminalFundDetail from './Print_Criminal_Fund_Detail.vue'
 
   export default {
     data() {
@@ -268,25 +275,32 @@
         incomeTotal: '',//罪犯收入总金额
         outTotal: '',//罪犯支出总金额
         dateType: '',//日期类型
-        downloadExcelUrl:'http://10.10.10.119:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
+        isDetail:true,
+        printCriminalFundDetailDtos:[],//罪犯资金明细打印列表
+//        downloadExcelUrl:'http://10.10.10.119:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
+        downloadExcelUrl:'http://localhost:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
         withdraw: {
           money: '',
           serialNo: '',
           reason: ''
         },
         detailInfo: "",
-        capitalSerialNo: ""
+        capitalSerialNo: "",
+        remind:{
+          status:'',
+          msg:''
+        }
       }
     },
     computed: {
       remindShow: {
-        get(){
+        get() {
           return store.getters.remindShow;
         }
       }
     },
     watch: {
-      prisonName(){
+      prisonName() {
         let oldPrisonId = this.prisonId;
         for (let i = 0; i < this.prisons.length; i++) {
           if (this.prisons[i].prisonName == this.prisonName) {
@@ -383,7 +397,7 @@
         };
         // console.log(searchData);
         this.$http.get('criminalFundDetailList', {params: searchData}).then(res => {
-          console.log(res);
+//          console.log(res);
           if (res.data.code == 0) {
             this.detailList = res.data.data.criminalFundDetailList;
             this.detailSize = res.data.data.criminalFundDetailListSize;
@@ -490,18 +504,60 @@
             this.filepath = res.data.data.filepath;
             console.log(this.filepath);
             window.location.href = this.downloadExcelUrl + '?path=' + this.filepath;
+          }else{
+            this.remind = {
+              status: 'failed',
+              msg: res.data.msg
+            }
+            store.dispatch('showRemind');
           }
         }).catch(err => {
           console.log(err);
         });
       },
-    },
 
+      //罪犯资金明细打印查询
+      printCriminalFundDetails() {
+        axios.get('/printCriminalFundDetails', {
+          params: {
+            prisonId: this.prisonId,
+            prisonDepartmentId:this.prisonDepartmentId,
+            name:this.name,
+            archivesNumber:this.archivesNumber,
+            idCardNo:this.idCardNo,
+            number:this.number,
+            type: this.type,
+            account:this.acount,
+            dateType:this.dateType,
+            startTime: $('#startTime').val(),
+            endTime: $('#endTime').val()
+          }
+        }).then(res => {
+          if (res.data.code == 0) {
+//            console.log(res.data);
+            this.printCriminalFundDetailDtos = res.data.data.criminalFundDetails;
+            this.remind = {
+              status: 'success',
+              msg: res.data.msg
+            }
+          } else {
+            this.remind = {
+              status: 'failed',
+              msg: res.data.msg
+            }
+          }
+          store.dispatch('showRemind');
+          this.isDetail = false;
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+    },
     components: {
       Page,
-      Remind
+      Remind,
+      PrintCriminalFundDetail
     },
-
     mounted(){
       this.dateInit();
       $('#table_id_example').tableHover();

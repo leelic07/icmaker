@@ -61,9 +61,9 @@
           <input id="remark" type="text" class="col-xs-24" v-model="remark">
         </div>
 
-        <div class="col-xs-1">
-          <span class="remind-text pull-left col-xs-24 text-center">必填</span>
-        </div>
+        <!--<div class="col-xs-1">-->
+          <!--<span class="remind-text pull-left col-xs-24 text-center">必填</span>-->
+        <!--</div>-->
 
         <div class="col-xs-10 pull-right typeBox">
           <div class="col-xs-5 label-box">
@@ -318,14 +318,6 @@
 
       //确认取现
       confirmDistribution() {
-        if(this.isNull(this.remark)) {
-          this.remind = {
-            status: 'warn',
-            msg: '请填写备注信息',
-          };
-          store.dispatch('showRemind');
-        } else {
-
           let confirmData = {
             dataId:this.dataId,
             type:this.type,
@@ -354,7 +346,6 @@
           }).catch(err => {
             console.log(err);
           });
-        }
       },
 
       //罪犯资金分配查询
