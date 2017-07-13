@@ -263,7 +263,8 @@
         isDetail: true,
         dateType: '',//日期类型
         printPrisonCapitalDetailDtos: [],//监狱资金明细打印列表
-        downloadExcelUrl:'http://localhost:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
+//        downloadExcelUrl:'http://localhost:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
+        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
 //        downloadExcelUrl: 'http://10.10.10.119:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
         withdraw: {
           money: '',
@@ -453,7 +454,7 @@
 //            console.log(res.data);
           if (res.data.code == 0) {
             this.filepath = res.data.data.filepath;
-            console.log(this.filepath);
+//            console.log(this.filepath);
             window.location.href = this.downloadExcelUrl + '?path=' + this.filepath;
           }
         }).catch(err => {

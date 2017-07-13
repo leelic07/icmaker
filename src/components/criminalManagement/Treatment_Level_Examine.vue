@@ -22,10 +22,15 @@
               </datalist>
             </div>
             <div class="col-xs-8 select-box">
-              <label for="prisonDepartmentId">所属监区</label>
-              <select class="form-control" id="prisonDepartmentId" v-model="prisonDepartmentId">
-                <option value="">全部</option>
-                <option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>
+              <!--<label for="prisonDepartmentId">所属监区</label>-->
+              <!--<select class="form-control" id="prisonDepartmentId" v-model="prisonDepartmentId">-->
+                <!--<option value="">全部</option>-->
+                <!--<option v-for = "depart in prisonDepartments" :value = "depart.id">{{depart.prisonDepartmentName}}</option>-->
+              <!--</select>-->
+              <label for="name">所属监区</label>
+              <select class="form-control" v-model='prisonDepartmentId'>
+                <option value=''>全部</option>
+                <option v-for='pdt in prisonDepartmentsTem' v-text='pdt.prisonDepartmentName' :value='pdt.id'></option>
               </select>
             </div>
             <div class="col-xs-8 select-box">
@@ -98,7 +103,7 @@
               <td v-text="rs.levelName"></td>
               <td v-text="rs.userName"></td>
               <td>{{rs.createdAt | formatDate}}</td>
-              <td></td>
+              <td v-text="rs.remark"></td>
             </tr>
           </tbody>
         </table>
@@ -193,6 +198,16 @@
         get(){
           return store.getters.remindShow;
         }
+      },
+      //计算获得监区数组
+      prisonDepartmentsTem: {
+        get(){
+          let pd = this.prisonDepartments;
+          let pdt = [];
+          this.prisonAndPrisonDepartment(pd, pdt);
+          this.prisonDepartmentId = '';
+          return pdt;
+        }
       }
     },
     watch: {
@@ -212,35 +227,32 @@
         }
       },
       prisonId() {
-        this.getPrisonDepartInfo();
+        let pd = this.prisonDepartments;
+        let pdt = this.prisonDepartmentsTem;
+        pdt.splice(0, pdt.length);
+        this.prisonAndPrisonDepartment(pd, pdt);
         this.getLevelsByPrisonId();
       }
     },
     methods: {
-      getPrisonInfo() {//根据用户信息获取监狱信息
-        this.$http.get('prisoner/toAddOrEdit').then(res=>{
-          if (res.data.code == 0) {
-            this.prisons = res.data.data.prisons;//赋值监狱列表
-            if (this.prisons.length == 1) {
-              this.prisonName = this.prisons[0].prisonName;
-              this.prisonId = this.prisons[0].id;
-            }
-            this.getFundList(this.indexPage);
+      //监狱，监区联动
+      prisonAndPrisonDepartment(pd, pdt){
+        $.each(pd, (index, value) => {
+          if (value.prisonId == this.prisonId) {
+            pdt.push(value);
           }
-        }).catch(err=>{
-          console.log(err);
         });
       },
 
-      getPrisonDepartInfo () {//获取监区信息
-        this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
-          if (res.data.code == 0) {
-            this.prisonDepartments = res.data.data;//赋值监区列表
-          }
-        }).catch(err=>{
-          console.log(err);
-        });
-      },
+//      getPrisonDepartInfo () {//获取监区信息
+//        this.$http.get('prisoner/getDepartments',{params: {"prisonId":this.prisonId}}).then(res=>{
+//          if (res.data.code == 0) {
+//            this.prisonDepartments = res.data.data;//赋值监区列表
+//          }
+//        }).catch(err=>{
+//          console.log(err);
+//        });
+//      },
 
       getLevelsByPrisonId () {//获取处遇等级信息
         this.$http.get('level/getLevelsByPrisonId',{
@@ -263,10 +275,14 @@
           url: '/prisoner/toAddOrEdit',
         }).then(res => {
           let data = res.data.data;
-          this.prisonList = data.prisons;
-          if (this.prisonList.length == 1) {
-            this.prisonId = this.prisonList[0].id;
-            this.prisonName = this.prisonList[0].prisonName;
+          if(res.data.code == 0) {
+            this.prisonList = data.prisons;
+            this.prisonDepartments = data.prisonDepartments;
+            if (this.prisonList.length == 1) {
+              this.prisonId = this.prisonList[0].id;
+              this.prisonName = this.prisonList[0].prisonName;
+            }
+            this.getPrisonerLevelRecords();
           }
         }).catch(err => {
           console.log(err);
@@ -290,7 +306,7 @@
           }
         }).then(res=> {
           if(res.data.code == 0) {
-            console.log(res.data);
+//            console.log(res.data);
             this.records = res.data.data.records;
             this.recordSize = res.data.data.recordSize;
           }
@@ -407,7 +423,6 @@
     mounted(){
       $('#table_id_example').tableHover();
       $('#table_id_example').select();
-      this.getPrisonerLevelRecords();
       this.getAllPrison();
     }
   }

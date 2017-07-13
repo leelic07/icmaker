@@ -11,12 +11,12 @@
 
       <div class="col-xs-5">
         <div class="pull-left agree-text">可分配金额（元）：</div>
-        <div class="pull-left reject-text">{{balance}}元</div>
+        <div class="pull-left reject-text">{{balance | currency}}元</div>
       </div>
 
       <div class="col-xs-5">
         <div class="pull-left agree-text">待分配金额（元）：</div>
-        <div class="pull-left reject-text">{{totalMoney}}元</div>
+        <div class="pull-left reject-text">{{totalMoney | currency}}元</div>
       </div>
 
     </div>

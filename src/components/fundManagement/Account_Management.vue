@@ -110,8 +110,9 @@
 <script>
   import Page from '../Paginator.vue'
   import axios from 'axios'
+
   export default {
-    data(){
+    data() {
       return {
         prisonAccountDtos: '',
         prisonList: [],
@@ -129,7 +130,7 @@
     },
     watch: {
       //根据监狱名称得到监狱ID
-      prisonName(){
+      prisonName() {
         this.prisonId = '';
         if (this.prisonName != '') {
           $.each(this.prisonList, (index, value) => {
@@ -260,56 +261,55 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style type="text/less" lang="less" scoped>
   #right-side {
 
-  .select-box {
-    padding: 20px 50px 20px 40px;
-  }
+    .select-box {
+      padding: 20px 50px 20px 40px;
+    }
 
-  .text-box {
-    padding-left: 40px;
-  }
+    .text-box {
+      padding-left: 40px;
+    }
 
-  table {
+    table {
 
-  tr {
+      tr {
 
-  th, td {
-    text-align: center;
-  }
+        th, td {
+          text-align: center;
+        }
 
-  th:last-child {
-    text-align: left;
-    padding-left: 3%;
-  }
+        th:last-child {
+          text-align: left;
+          padding-left: 3%;
+        }
 
-  td {
+        td {
 
-  &
-  :nth-child(6),
+          &
+          :nth-child(6),
+          &
+          :last-child {
+            text-align: center;
+          }
 
-  &
-  :last-child {
-    text-align: center;
-  }
+        }
+      }
+    }
 
-  }
-  }
-  }
+    .account-total {
+      margin-left: 2%;
+      padding: 10px 0 15px 0;
+    }
 
-  .account-total {
-    margin-left: 2%;
-    padding: 10px 0 15px 0;
-  }
+    .text-red {
+      color: #E96900;
+    }
 
-  .text-red {
-    color: #E96900;
-  }
-
-  .text-green {
-    color: #36A5B0;
-  }
+    .text-green {
+      color: #36A5B0;
+    }
 
   }
 </style>

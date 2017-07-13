@@ -87,13 +87,6 @@
         <div class="col-xs-13">
           <button class="pull-right btnPrint">确认打印</button>
         </div>
-        <!--<div class="col-xs-5" >-->
-          <!--<span v-show="hasErrMsg" class="col-xs-24 text-center">罪犯信息错误，无法取现</span>-->
-        <!--</div>-->
-
-        <!--<div class="col-xs-6">-->
-          <!--<button class="" @click="reUploadExcel()">重新上传</button>-->
-        <!--</div>-->
       </div>
 
     </div>
@@ -102,6 +95,7 @@
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
   </div>
+
 </template>
 
 <style type="text/less" lang="less" scoped>
@@ -229,6 +223,7 @@
     border: none;
     border-radius: 2px;
   }
+
 </style>
 
 <script>

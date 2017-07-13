@@ -6,9 +6,6 @@
     <div class="col-xs-23 exportBtn">
       <button class="btn pull-left btnPrint"><span class="glyphicon glyphicon-print"></span>确定打印
       </button>
-      <!--<button class="btn pull-right" @click="printPrisonCapitalDetails()"><span-->
-      <!--class="glyphicon glyphicon-print"></span>打印数据-->
-      <!--</button>-->
     </div>
 
     <!--表格部分-->

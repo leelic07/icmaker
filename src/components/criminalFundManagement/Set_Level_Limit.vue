@@ -186,6 +186,7 @@
         }
       },
       prisonId(){
+        this.levelList = [];
         this.getLevelsByPrisonId();
       },
       //删除小数点两位后的数字

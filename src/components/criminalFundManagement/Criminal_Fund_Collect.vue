@@ -9,20 +9,20 @@
           <div class="col-xs-23 search-inner-box">
             <div class="row">
               <div class="col-xs-6 select-box">
-                <label for="prisonId">所属监狱</label>
-                <input type="text" class="form-control" list="prisonList" placeholder="全部" v-model="prisonName"
-                       :disabled="prisons.length == 1">
-                <datalist class="form-control hidden" id="prisonList">
-                  <option v-for="prison in prisons" :prisonId="prison.id">{{prison.prisonName}}</option>
+                <label for="name">所属监狱</label>
+                <input list="prisons" placeholder="全部" class='form-control' v-model='prisonName'
+                       v-if='prisonList.length > 1'>
+                <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1'
+                       disabled>
+                <datalist id="prisons">
+                  <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
                 </datalist>
               </div>
               <div class="col-xs-6 select-box">
-                <label for="prisonDepartmentId">所属监区</label>
-                <select class="form-control" id="prisonDepartmentId" v-model="prisonDepartmentId"
-                        @change="getAccountInfo">
-                  <option value="">全部</option>
-                  <option v-for="depart in prisonDepartments" :value="depart.id">{{depart.prisonDepartmentName}}
-                  </option>
+                <label for="name">所属监区</label>
+                <select class="form-control" v-model='prisonDepartmentId'>
+                  <option value=''>全部</option>
+                  <option v-for='pdt in prisonDepartmentsTem' v-text='pdt.prisonDepartmentName' :value='pdt.id'></option>
                 </select>
               </div>
               <div class="col-xs-6 select-box">
@@ -80,40 +80,40 @@
         <div class="col-xs-23">
           <table class="display table ic-table table-bordered" id="table_id_example">
             <thead>
-              <tr>
-                <!--<th></th>-->
-                <th colspan="4">罪犯信息</th>
-                <th rowspan="3">期初余额</th>
-                <th colspan="5">收入</th>
-                <th colspan="4">支出</th>
-                <th rowspan="3">期末余额</th>
-                <!--<th>类别</th>-->
-                <!--<th>对方账户名</th>-->
-                <!--<th>交易金额(元)</th>-->
-                <!--<th>余额(元)</th>-->
-                <!--<th>交易状态</th>-->
-                <!--<th>交易时间</th>-->
-                <!--<th colspan=2>操作</th>-->
-              </tr>
-              <tr>
-                <!--<th></th>-->
-                <th rowspan="2">所属监狱</th>
-                <th rowspan="2">所属监区</th>
-                <th rowspan="2">姓名</th>
-                <th rowspan="2">编号</th>
-                <th colspan="3">资金分配</th>
-                <th rowspan="2">家属汇款</th>
-                <th rowspan="2">小计</th>
-                <th rowspan="2">刷卡消费</th>
-                <th rowspan="2">取现</th>
-                <th rowspan="2">制卡费</th>
-                <th rowspan="2">小计</th>
-              </tr>
-              <tr>
-                <th>零花钱</th>
-                <th>IC卡</th>
-                <th>低报酬</th>
-              </tr>
+            <tr>
+              <!--<th></th>-->
+              <th colspan="4">罪犯信息</th>
+              <th rowspan="3">期初余额</th>
+              <th colspan="5">收入</th>
+              <th colspan="4">支出</th>
+              <th rowspan="3">期末余额</th>
+              <!--<th>类别</th>-->
+              <!--<th>对方账户名</th>-->
+              <!--<th>交易金额(元)</th>-->
+              <!--<th>余额(元)</th>-->
+              <!--<th>交易状态</th>-->
+              <!--<th>交易时间</th>-->
+              <!--<th colspan=2>操作</th>-->
+            </tr>
+            <tr>
+              <!--<th></th>-->
+              <th rowspan="2">所属监狱</th>
+              <th rowspan="2">所属监区</th>
+              <th rowspan="2">姓名</th>
+              <th rowspan="2">编号</th>
+              <th colspan="3">资金分配</th>
+              <th rowspan="2">家属汇款</th>
+              <th rowspan="2">小计</th>
+              <th rowspan="2">刷卡消费</th>
+              <th rowspan="2">取现</th>
+              <th rowspan="2">制卡费</th>
+              <th rowspan="2">小计</th>
+            </tr>
+            <tr>
+              <th>零花钱</th>
+              <th>IC卡</th>
+              <th>低报酬</th>
+            </tr>
             </thead>
             <tbody>
             <tr v-for="cfsd in criminalFundSummaryDtos">
@@ -124,14 +124,16 @@
               <td>{{cfsd.number}}</td>
               <td>{{cfsd.initialBalance}}</td>
               <!--<td>{{detail.type | formatFundType}}</td>-->
-              <td>资金分配</td>
-              <td>{{cfsd.familyRemittanceMoney}}</td>
+              <td>{{cfsd.pinMoney | currency}}</td>
+              <td>{{cfsd.icCardMoney | currency}}</td>
+              <td>{{cfsd.lowRewardMoney | currency}}</td>
+              <td>{{cfsd.familyRemittanceMoney | currency}}</td>
               <td>{{cfsd.IncomeMoney | currency}}</td>
               <td>{{cfsd.swingCardMoney | currency}}</td>
               <td>{{cfsd.withdrawCashMoney | currency}}</td>
               <td>{{cfsd.makeCardMoney | currency}}</td>
               <td>{{cfsd.expenditureMoney | currency}}</td>
-              <td>{{cfsd.EndingBalance | currency}}</td>
+              <td>{{cfsd.endingBalance | currency}}</td>
               <!--<td><a class="tooltip-toggle" data-toggle="tooltip" data-placement="bottom" :title="detail.remark">{{detail.remark | formatRemark}}</a></td>-->
             </tr>
             </tbody>
@@ -233,6 +235,7 @@
 </template>
 
 <script>
+
   import Remind from '../Remind.vue'
   import Page from '../Paginator.vue'
   import store from '../../store'
@@ -265,10 +268,12 @@
         outTotal: '',//罪犯支出总金额
         dateType: '',//日期类型
         isDetail: true,
+        prisonList: [],//监狱列表
         criminalFundSummaryDtos: [],//罪犯资金汇总列表
         criminalFundSummarySize: '',//罪犯资金汇总列表长度
 //        downloadExcelUrl:'http://10.10.10.119:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
         downloadExcelUrl: 'http://localhost:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
+//        downloadExcelUrl: 'http://106.14.18.98:8080/icmaker/downFiles',
         withdraw: {
           money: '',
           serialNo: '',
@@ -287,54 +292,70 @@
         get() {
           return store.getters.remindShow;
         }
+      },
+      //计算获得监区数组
+      prisonDepartmentsTem: {
+        get(){
+          let pd = this.prisonDepartments;
+          let pdt = [];
+          this.prisonAndPrisonDepartment(pd, pdt);
+          this.prisonDepartmentId = '';
+          return pdt;
+        }
       }
     },
     watch: {
+      //根据监狱名称得到监狱ID
       prisonName() {
-        let oldPrisonId = this.prisonId;
-        for (let i = 0; i < this.prisons.length; i++) {
-          if (this.prisons[i].prisonName == this.prisonName) {
-            this.prisonId = this.prisons[i].id;
+        this.prisonId = '';
+        if (this.prisonName != '') {
+          $.each(this.prisonList, (index, value) => {
+            if (value.prisonName == this.prisonName) {
+              this.prisonId = value.id;
+            }
+          });
+          if (this.prisonId == '') {
+            this.prisonId = -1
           }
-        }
-        if (this.prisonId != oldPrisonId) {
-          this.getPrisonDepartInfo();
         } else {
-          this.prisonId = "";
-          this.prisonDepartments = "";
+          this.prisonId = '';
         }
+      },
+
+      //监听监狱ID
+      prisonId(){
+        let pd = this.prisonDepartments;
+        let pdt = this.prisonDepartmentsTem;
+        pdt.splice(0, pdt.length);
+        this.prisonAndPrisonDepartment(pd, pdt);
       }
     },
     methods: {
-      getPrisonInfo() {//根据用户信息获取监狱信息
-        this.$http.get('prisoner/toAddOrEdit').then(res => {
-          // console.log(res);
-          if (res.data.code == 0) {
-            this.prisons = res.data.data.prisons;//赋值监狱列表
-            if (this.prisons.length == 1) {
-              this.prisonName = this.prisons[0].prisonName;
-              this.prisonId = this.prisons[0].id;
-              this.getPrisonDepartInfo();
-            }
-            this.getDetailList(1);
+      //监狱，监区联动
+      prisonAndPrisonDepartment(pd, pdt){
+        $.each(pd, (index, value) => {
+          if (value.prisonId == this.prisonId) {
+            pdt.push(value);
           }
-        }).catch(err => {
-          console.log(err);
         });
       },
 
-      getPrisonDepartInfo () {//获取监区信息
-        this.prisonDepartments = "";
-        this.prisonDepartmentId = "";
-        this.$http.get('prisoner/getDepartments', {params: {"prisonId": this.prisonId}}).then(res => {
-          // console.log(res);
-          if (res.data.code == 0) {
-            this.prisonDepartments = res.data.data;//赋值监区列表
+      //查询所有监狱列表
+      getAllPrison(){
+        axios.get('/prisoner/toAddOrEdit').then(res => {
+          let data = res.data.data;
+          if(res.data.code == 0) {
+            this.prisonList = data.prisons;
+            this.prisonDepartments = data.prisonDepartments;
+            if (this.prisonList.length == 1) {
+              this.prisonId = this.prisonList[0].id;
+              this.prisonName = this.prisonList[0].prisonName;
+            }
+            this.getCriminalFundSummary();
           }
         }).catch(err => {
           console.log(err);
         });
-        this.getAccountInfo();
       },
 
       getAccountInfo() {//获取场所列表
@@ -407,7 +428,7 @@
           "capitalType": capitalType
         };
         this.$http.get('getCriminalFundDetail', {params: detailData}).then(res => {
-          console.log(res);
+//          console.log(res);
           if (res.data.code == 0) {
             this.detailInfo = res.data.data;
           }
@@ -472,94 +493,52 @@
         });
       },
 
-      //罪犯资金明细数据导出
-      exportData() {
-        axios.get('/exportCriminalFundDetails', {
-          params: {
-            prisonId: this.prisonId,
-            prisonDepartmentId: this.prisonDepartmentId,
-            name: this.name,
-            archivesNumber: this.archivesNumber,
-            idCardNo: this.idCardNo,
-            number: this.number,
-            type: this.type,
-            account: this.account,
-            dateType: this.dateType,
-            startDateStr: $('#startTime').val(),
-            endDateStr: $('#endTime').val()
-          }
+      //罪犯资金汇总查询接口
+      getCriminalFundSummary(indexPage) {
+        let params = {
+          prisonId: this.prisonId,
+          prisonDepartmentId: this.prisonDepartmentId,
+          name: this.name,
+//          archivesNumber: this.archivesNumber,
+          number:this.number,
+          startTime: $('#startTime').val(),
+          endTime: $('#endTime').val(),
+          pageSize: this.pageSize,
+          indexPage:1
+        }
+        if (indexPage) {
+          this.indexPage = indexPage;
+          $.extend(params,{indexPage: this.indexPage});
+        }
+//        console.log(this.prisonId + 'prisonId');
+        axios.get('/getCriminalFundSummary', {
+          'params':params
         }).then(res => {
-//            console.log(res.data);
           if (res.data.code == 0) {
-            this.filepath = res.data.data.filepath;
-            console.log(this.filepath);
-            window.location.href = this.downloadExcelUrl + '?path=' + this.filepath;
-          } else {
-            this.remind = {
-              status: 'failed',
-              msg: res.data.msg
-            }
-            store.dispatch('showRemind');
+//          console.log(res.data);
+            this.criminalFundSummaryDtos = res.data.data.criminalFundSummaryDtos;
+            this.criminalFundSummarySize = res.data.data.criminalFundSummarySize;
           }
         }).catch(err => {
           console.log(err);
         });
       },
-
-      //罪犯资金汇总查询接口
-      getCriminalFundSummary(indexPage) {
-          if(indexPage){
-              this.indexPage = indexPage;
-          }
-        axios.get('/getCriminalFundSummary', {
-          params: {
-            prisonId: this.prisonId,
-            prisonDepartmentId: this.prisonDepartmentId,
-            name: this.name,
-            archivesNumber: this.archivesNumber,
-            startTime: $('#startTime').val(),
-            endTime: $('#endTime').val(),
-            pageSize:this.pageSize,
-            indexPage:this.indexPage
-          }
-        }).then(res => {
-          if (res.data.code == 0) {
-            console.log(res.data);
-            this.criminalFundSummaryDtos = res.data.data.criminalFundSummaryDtos;
-            this.criminalFundSummarySize = res.data.data.criminalFundSummarySize;
-//            this.remind = {
-//              status: 'success',
-//              msg: res.data.msg
-//            }
-          }
-//          else {
-//            this.remind = {
-//              status: 'failed',
-//              msg: res.data.msg
-//            }
-//          }
-//          store.dispatch('showRemind');
-//          this.isDetail = false;
-        }).catch(err => {
-          console.log(err);
-        });
-      }
     },
     components: {
       Page,
       Remind,
       PrintCriminalFundDetail
     },
-    mounted(){
+    mounted() {
       this.dateInit();
       $('#table_id_example').tableHover();
       $('.tooltip-toggle').tooltip('toggle')
-//      this.getTypeList();
-      this.getCriminalFundSummary();
-      this.getPrisonInfo();
+      this.getAllPrison();
     },
     updated(){
       this.dateInit();
+      $('#table_id_example').tableHover();
+      $('.tooltip-toggle').tooltip('toggle')
     }
   }
 </script>

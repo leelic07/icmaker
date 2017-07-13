@@ -189,8 +189,9 @@ import axios from 'axios'
               isManage: true,//是否为管理页
               pageSize: 10,//每页显示的条数
               indexPage: 1,
-              downloadExcelUrl:'http://localhost:8080/icmaker/prisoner/downFiles',
+//              downloadExcelUrl:'http://localhost:8080/icmaker/prisoner/downFiles',
 //              downloadExcelUrl:'http://10.10.10.119:8080/icmaker/prisoner/downFiles',
+              downloadExcelUrl:'http://106.14.18.98:8080/icmaker/prisoner/downFiles',
           }
       },
       computed: {

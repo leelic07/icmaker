@@ -55,7 +55,7 @@ import store from '../store'
 
 			}
 		},
-		props:['status','msg','back','path','reload'],
+		props:['status','msg','back','path','reload','method'],
 		methods:{
 			//显示模态框
 			remindInit(){
@@ -74,6 +74,8 @@ import store from '../store'
 						});
 					}else if(this.reload){
             window.location.reload();
+          }else if(this.method){
+            this.method();
           }
 				});
 			},

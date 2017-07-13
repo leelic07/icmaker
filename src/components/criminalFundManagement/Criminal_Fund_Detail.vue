@@ -278,7 +278,8 @@
         isDetail:true,
         printCriminalFundDetailDtos:[],//罪犯资金明细打印列表
 //        downloadExcelUrl:'http://10.10.10.119:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
-        downloadExcelUrl:'http://localhost:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
+//        downloadExcelUrl:'http://localhost:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
+        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/downFiles',
         withdraw: {
           money: '',
           serialNo: '',

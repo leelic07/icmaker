@@ -24,6 +24,7 @@
               <th>罪犯编号</th>
               <th>申请等级</th>
               <th>备注</th>
+              <th>修改理由</th>
             </tr>
           </thead>
           <tbody>
@@ -33,6 +34,7 @@
               <td v-text="pl.number"></td>
               <td v-text="pl.level"></td>
               <td class="reject-text" v-text="pl.tips"></td>
+              <td v-text="pl.remark"></td>
             </tr>
           </tbody>
         </table>
@@ -54,7 +56,7 @@
 
     </div>
 
-    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg'></Remind>
+    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :method='remind.method'></Remind>
 
     <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
 
@@ -83,12 +85,12 @@
         prisonerLevelSize:'',
 //        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/level/importPrisonerLevel',
 //        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/level/downLevelTemplate',
-//         uploadExcelUrl:'http://192.168.1.52:8080/icmaker/level/importPrisonerLevel',
-//         downloadExcelUrl:'http://192.168.1.52:8080/icmaker/level/downLevelTemplate',
-//          uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
-//          downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
-        uploadExcelUrl:'http://localhost:8080/icmaker/level/importPrisonerLevel',
-        downloadExcelUrl:'http://localhost:8080/icmaker/level/downLevelTemplate',
+//        uploadExcelUrl:'http://192.168.1.52:8080/icmaker/level/importPrisonerLevel',
+//        downloadExcelUrl:'http://192.168.1.52:8080/icmaker/level/downLevelTemplate',
+          uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
+          downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
+//        uploadExcelUrl:'http://localhost:8080/icmaker/level/importPrisonerLevel',
+//        downloadExcelUrl:'http://localhost:8080/icmaker/level/downLevelTemplate',
 //        uploadExcelUrl:'http://10.10.10.126:8080/icmaker/level/importPrisonerLevel',
 //        downloadExcelUrl:'http://10.10.10.126:8080/icmaker/level/downLevelTemplate',
         hasErrMsg:true,//有错误信息
@@ -119,11 +121,11 @@
 
       prisonerLevels() {
         for(let i=0; i<this.prisonerLevels.length; i++) {
-          if (this.prisonerLevels[i].tips == '数据存在问题，请检查') {
-            this.hasErrMsg = true;
+          if (this.prisonerLevels[i].tips == '数据正确') {
+            this.hasErrMsg = false;
             break;
           }else{
-              this.hasErrMsg = false;
+              this.hasErrMsg = true;
           }
         }
       }
@@ -232,7 +234,7 @@
         })
       },
 
-      //添加罪犯资金分配
+      //确认罪犯分级申请
       addPrisonerLevel() {
         axios.post('/level/addPrisonerLevel',
         $.param({
@@ -242,54 +244,31 @@
             this.remind = {
               status: 'success',
               msg: '上传成功',
+              method:this.clearCache
             };
-            store.dispatch('showRemind');
           } else {
             this.remind = {
-              status: 'warn',
+              status: 'failed',
               msg: res.data.msg,
             };
-            store.dispatch('showRemind');
           }
+          store.dispatch('showRemind');
         }).catch(err => {
           console.log(err);
         })
       },
 
-      //重新上传
-//      reUploadExcel() {
-//        $('#reUpload').on("change", function (e) {
-//          let file = e.target.files[0];
-//          if (self.isExcel(file)) {
-//            Util.readUploadExcel(file, self, store, uploadExcelUrl,'reUpload');
-//          } else {
-//            self.remind = {
-//              status: 'warn',
-//              msg: '请上传格式正确的Excel文件'
-//            }
-//            store.dispatch('showRemind');
-//          }
-//        });
-//      },
-
+      //清理缓存
       clearCache(){
         axios.post('/level/clearCachePrisonerLevel',
         $.param({
           dataId:this.dataId
         })).then((res) => {
-          console.log(res.data);
-
           if (res.data.code == 0) {
-//            this.prisonerLevels = '';
-//            this.remind = {
-//              status: 'success',
-//              msg: '取消成功',
-//            };
-//            store.dispatch('showRemind');
             window.location.reload();
           } else {
             this.remind = {
-              status: 'warn',
+              status: 'failed',
               msg:res.data.msg,
             };
             store.dispatch('showRemind');

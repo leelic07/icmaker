@@ -153,7 +153,9 @@
 
     </div>
 
-    <CashUploadExcel v-show="!isCashOutPage" :excelData="prisonerBatchApply" :remind="remind"></CashUploadExcel>
+    <div v-if="!isCashOutPage">
+      <CashUploadExcel v-show="!isCashOutPage" :excelData="prisonerBatchApply" :remind="remind"></CashUploadExcel>
+    </div>
 
   </div>
 
@@ -246,10 +248,12 @@
         idCardNo: '',
         isCashOutPage:true,
         prisonerBatchApply:[],//批量取现列表
-        uploadExcelUrl:'http://localhost:8080/icmaker/prisonerAccount/importPrisonerBatchApply',
-        downloadExcelUrl:'http://localhost:8080/icmaker/downTemplate',
+//        uploadExcelUrl:'http://localhost:8080/icmaker/prisonerAccount/importPrisonerBatchApply',
+//        downloadExcelUrl:'http://localhost:8080/icmaker/downTemplate',
 //        uploadExcelUrl:'http://10.10.10.119:8080/icmaker/prisonerAccount/importPrisonerBatchApply',
 //        downloadExcelUrl:'http://10.10.10.119:8080/icmaker/downTemplate',
+        uploadExcelUrl:'http://106.14.18.98:8080/icmaker/prisonerAccount/importPrisonerBatchApply',
+        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/downTemplate',
       }
     },
     watch: {
@@ -284,7 +288,7 @@
     computed: {
       //获得提示模态框状态
       remindShow: {
-        get(){
+        get() {
           return store.getters.remindShow;
         }
       },
@@ -311,7 +315,7 @@
       },
 
       //点击取现执行的方法
-      cashOut(prisonerId, total){
+      cashOut(prisonerId, total) {
         this.cash = '';
         this.prisonerId = prisonerId;
         this.total = total;
@@ -332,7 +336,7 @@
       },
 
       //点击确定取现按钮
-      withdrawCash(){
+      withdrawCash() {
         let isNull = false;
         let isEnough = true;
         if (!this.isNumber(this.cash) || this.cash == 0) {
@@ -365,14 +369,13 @@
                 status: 'success',
                 msg: res.data.msg
               }
-              store.dispatch('showRemind');
             } else {
               this.remind = {
                 status: 'failed',
                 msg: res.data.msg
               }
-              store.dispatch('showRemind');
             }
+            store.dispatch('showRemind');
             $('#cashOutConfirm').modal('hide');
             this.searchCashOutList(this.indexPage);
             this.cash = '';

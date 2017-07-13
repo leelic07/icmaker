@@ -105,8 +105,8 @@ export default {
     let oReq = new XMLHttpRequest();
     // oReq.open("POST", "http://192.168.1.52:8080/icmaker/fileUpload");
     // oReq.open("POST", "http://10.10.10.100:8080/icmaker/fileUpload");
-    oReq.open("POST", "http://localhost:8080/icmaker/fileUpload");
-    // oReq.open("POST", "http://106.14.18.98:8080/icmaker/fileUpload");
+    // oReq.open("POST", "http://localhost:8080/icmaker/fileUpload");
+    oReq.open("POST", "http://106.14.18.98:8080/icmaker/fileUpload");
     // oReq.open("POST", "http://10.10.10.126:8080/icmaker/fileUpload");
     oReq.send(oMyForm);
     oReq.onload = function (oEvent) {
@@ -226,5 +226,4 @@ export default {
       }
     }
   }
-
 }
