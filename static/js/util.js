@@ -99,7 +99,7 @@ let setCookie = (name,value,time) => {
 export default {
   //上传读取图片路径
   readImgUrl(file, _this, dataName) {
-    console.log(dataName);
+    // console.log(dataName);
     let oMyForm = new FormData();
     oMyForm.append("file", file);
     let oReq = new XMLHttpRequest();
@@ -173,8 +173,6 @@ export default {
       if (oReq.status == 200) {
         let response = $.parseJSON(this.response);
         if (response.code == 0) {//上传Excel成功
-          // _this['prisonerLevels'] = response.data.prisonerLevels;
-          // _this['prisonerLevelSize'] = response.data.prisonLevelSize;
           _this['dataId'] = response.data.dataId;
           _this['getPrisonerLevelData']();
           if (reUpload) {

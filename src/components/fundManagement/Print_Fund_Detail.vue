@@ -1,38 +1,15 @@
 <template>
   <!-- 右侧内容-->
   <div class="col-xs-24 pull-right">
-
-    <!--<div class="col-xs-23 message">-->
-
-    <!--<div class="col-xs-5">-->
-    <!--<div class="pull-left agree-text">资金分配账户：</div>-->
-    <!--<div class="pull-left reject-text">{{accountName}}</div>-->
-    <!--</div>-->
-
-    <!--<div class="col-xs-5">-->
-    <!--<div class="pull-left agree-text">可分配金额（元）：</div>-->
-    <!--<div class="pull-left reject-text">{{balance}}元</div>-->
-    <!--</div>-->
-
-    <!--<div class="col-xs-5">-->
-    <!--<div class="pull-left agree-text">待分配金额（元）：</div>-->
-    <!--<div class="pull-left reject-text">{{totalMoney}}元</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
     <!--按钮部分-->
     <div class="col-xs-23 exportBtn">
-      <button class="btn pull-left btnPrint"><span class="glyphicon glyphicon-print"></span>确定打印
+      <button class="btn pull-left btnPrint" @click="print()"><span class="glyphicon glyphicon-print"></span>确定打印
       </button>
-      <!--<button class="btn pull-right" @click="printPrisonCapitalDetails()"><span-->
-        <!--class="glyphicon glyphicon-print"></span>打印数据-->
-      <!--</button>-->
     </div>
 
     <!--表格部分-->
     <div class="col-xs-24 form">
-      <div class="col-xs-23" id="printContent">
+      <div class="col-xs-23">
         <table class="display table ic-table" id="table_id_example">
           <thead>
             <tr>
@@ -85,7 +62,7 @@
 
       <div class="confirm pull-left col-xs-23">
         <div class="col-xs-13">
-          <button class="pull-right btnPrint">确认打印</button>
+          <button class="pull-right btnPrint" @click="print()">确认打印</button>
         </div>
       </div>
 
@@ -93,7 +70,6 @@
 
     <Remind v-if='remindShow' :reload="remind.reload" :status='remind.status' :msg='remind.msg'></Remind>
 
-    <!--<CriminalFundDistribution v-show='cfdshow' v-on:prisonCapitalIncomes="getPrisonCapitalIncomes"></CriminalFundDistribution>-->
   </div>
 
 </template>
@@ -296,116 +272,18 @@
       }
     },
     methods: {
-      //查询所有监狱列表
-      getAllPrison() {
-        this.$http({
-          method: 'get',
-          url: '/prisoner/toAddOrEdit',
-        }).then(res => {
-          let data = res.data.data;
-          this.prisonList = data.prisons;
-          if (this.prisonList.length == 1) {
-            this.prisonId = this.prisonList[0].id;
-            this.prisonName = this.prisonList[0].prisonName;
-          }
-        }).catch(err => {
-          console.log(err);
+      //点击打印执行的方法
+      print() {
+        $("#table_id_example").print({
+          addGlobalStyles : true,
+          stylesheet : null,
+          rejectWindow : true,
+          noPrintSelector : ".no-print",
+          iframe : true,
+          append : null,
+          prepend : null
         });
-      },
-
-      //确认取现
-      confirmDistribution() {
-        if(this.isNull(this.remark)) {
-          this.remind = {
-            status: 'warn',
-            msg: '请填写备注信息',
-          };
-          store.dispatch('showRemind');
-        } else {
-          let confirmData = {
-            dataId:this.dataId,
-            type:this.type,
-            remark:this.remark
-          }
-          this.$http({
-            method: 'post',
-            url: '/prisonerAccount/batchApplyWithdrawCash',
-            params:confirmData
-          }).then(res => {
-            if(res.data.code == 0){
-              this.remind = {
-                status: 'success',
-                msg: '分配上传成功',
-                reload:true
-              };
-              store.dispatch('showRemind');
-            } else {
-              this.remind = {
-                status: 'failed',
-                msg:res.data.msg
-              };
-              store.dispatch('showRemind');
-            }
-          }).catch(err => {
-            console.log(err);
-          });
-        }
-      },
-
-      //罪犯资金分配查询
-      getCriminalFundDistribution(indexPage) {
-        this.indexPage = indexPage;
-        axios.get('getPrisonerCapitalIncomeData', {
-          params: {
-            indexPage: this.indexPage,
-            pageSize: this.pageSize,
-            dataId: this.dataId,
-          }
-        }).then(res => {
-          if (res.data.code == 0) {
-            this.prisonerCapitalIncomesList = res.data.data.prisonerCapitalIncomes;
-            this.prisonerCapitalIncomeSize = res.data.data.prisonerCapitalIncomeSize;
-            $.each(this.prisonerCapitalIncomesList,(index,value)=>{
-              value.type = this.type;
-              value.prisonName = this.prison_name;
-            });
-          }
-        }).catch(err => {
-          console.log(err);
-        });
-      },
-
-      //重新上传
-      reUploadExcel() {
-        axios.post('/prisonerAccount/clearCachePrisonerBatchApply',$.param({
-          dataId:this.dataId
-        })).then((res) => {
-          if (res.data.code == 0) {
-            window.location.reload();
-          }
-        }).catch(err => {
-          console.log(err);
-        })
-      },
-
-      //缓存区批量申请取现分页查询
-      getPrisonerBatchApplyData(indexPage) {
-        if(indexPage) {
-          this.indexPage = indexPage;
-        }
-        axios.get('/prisonerAccount/getPrisonerBatchApplyData',{
-          params:{
-            dataId:this.dataId,
-            indexPage:this.indexPage,
-            pageSize:this.pageSize
-          }
-        }).then(res=>{
-//          this.prisonerBatchApplys = res.data.data.prisonerBatchApplys;
-//          this.prisonerBatchApplySize = res.data.data.prisonerBatchApplySize;
-        }).catch(err=>{
-          console.log(err);
-        });
-      },
+      }
     },
     components: {
       Page,
@@ -413,15 +291,9 @@
     },
     mounted() {
       $('#table_id_example').tableHover();
-      $(function(){
-        $(".btnPrint").click(function(){ $("#printContent").printArea(); });
-      });
     },
     updated() {
       $('#table_id_example').tableHover();
-      $(function(){
-        $(".btnPrint").click(function(){ $("#printContent").printArea(); });
-      });
     }
   }
 </script>

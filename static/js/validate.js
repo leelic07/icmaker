@@ -68,7 +68,7 @@ export default{
     },
 
     //可以为空，或者是正整数或浮点数
-    isNullOrNumber(){
+    isNullOrNumber() {
         let pattNum = new RegExp('^(([0-9]+\.[0-9]*[0-9][0-9]*)|([0-9]*[0-9][0-9]*\.[0-9]+)|([0-9]*[0-9][0-9]*))$');
         for(let i = 0;i < arguments.length;i++){
             if(!this.isNull(arguments[i]) && !pattNum.test(arguments[i])){

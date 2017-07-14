@@ -143,7 +143,6 @@
 //        downloadExcelUrl:'http://localhost:8080/icmaker/downTemplate',
 //          uploadExcelUrl:'http://10.10.10.126:8080/icmaker/importPrisonerCapitalIncome',
 //          downloadExcelUrl:'http://10.10.10.126:8080/icmaker/downTemplate',
-
         remind: {
           status: '',
           msg: ''

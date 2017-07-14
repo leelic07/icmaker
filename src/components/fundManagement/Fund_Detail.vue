@@ -3,7 +3,6 @@
 
   <div id="right-side" class="col-xs-20 pull-right">
     <div class="box" v-if="isDetail">
-
       <!--搜索框部分-->
       <div class="col-xs-24 search">
         <div class="col-xs-23 search-box">
@@ -231,7 +230,9 @@
 
     </div>
 
-    <PrintFundDetail v-show="!isDetail" :excelData="printPrisonCapitalDetailDtos" :remind="remind"></PrintFundDetail>
+    <div v-show="!isDetail">
+      <PrintFundDetail :excelData="printPrisonCapitalDetailDtos" :remind="remind"></PrintFundDetail>
+    </div>
 
   </div>
 </template>
@@ -271,10 +272,6 @@
           serialNo: '',
           reason: ''
         },
-        remind:{
-            status:'',
-            msg:''
-        }
       }
     },
     computed: {
@@ -286,7 +283,7 @@
     },
     watch: {
       //根据监狱名称得到监狱ID
-      prisonName(){
+      prisonName() {
         this.prisonId = '';
         if (this.prisonName != '') {
           $.each(this.prisonList, (index, value) => {
@@ -300,7 +297,7 @@
         } else {
           this.prisonId = '';
         }
-      }
+      },
     },
     methods: {
       //查询所有转账明细
@@ -451,12 +448,18 @@
             endDateStr: $('#endTime').val()
           }
         }).then(res => {
-//            console.log(res.data);
           if (res.data.code == 0) {
             this.filepath = res.data.data.filepath;
 //            console.log(this.filepath);
             window.location.href = this.downloadExcelUrl + '?path=' + this.filepath;
           }
+//          else {
+//            this.remind = {
+//              status: 'failed',
+//              msg: res.data.msg + ',只有监狱账户才能导出数据'
+//            }
+//            store.dispatch('showRemind');
+//          }
         }).catch(err => {
           console.log(err);
         });
@@ -481,6 +484,7 @@
               status: 'success',
               msg: res.data.msg
             }
+            this.isDetail = false;
           } else {
             this.remind = {
               status: 'failed',
@@ -488,7 +492,6 @@
             }
           }
           store.dispatch('showRemind');
-          this.isDetail = false;
         }).catch(err => {
           console.log(err);
         });
