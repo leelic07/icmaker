@@ -83,16 +83,6 @@
         prisonList: [],
         prisonerLevels:[],
         prisonerLevelSize:'',
-//        uploadExcelUrl:'http://10.10.10.100:8080/icmaker/level/importPrisonerLevel',
-//        downloadExcelUrl:'http://10.10.10.100:8080/icmaker/level/downLevelTemplate',
-//        uploadExcelUrl:'http://192.168.1.52:8080/icmaker/level/importPrisonerLevel',
-//        downloadExcelUrl:'http://192.168.1.52:8080/icmaker/level/downLevelTemplate',
-          uploadExcelUrl:'http://106.14.18.98:8080/icmaker/level/importPrisonerLevel',
-          downloadExcelUrl:'http://106.14.18.98:8080/icmaker/level/downLevelTemplate',
-//        uploadExcelUrl:'http://localhost:8080/icmaker/level/importPrisonerLevel',
-//        downloadExcelUrl:'http://localhost:8080/icmaker/level/downLevelTemplate',
-//        uploadExcelUrl:'http://10.10.10.126:8080/icmaker/level/importPrisonerLevel',
-//        downloadExcelUrl:'http://10.10.10.126:8080/icmaker/level/downLevelTemplate',
         hasErrMsg:true,//有错误信息
         dataId:'',//excelId
         remind: {
@@ -139,7 +129,7 @@
     },
     methods: {
       //查询所有监狱列表
-      getAllPrison(){
+      getAllPrison() {
         this.$http({
           method: 'get',
           url: '/prisoner/toAddOrEdit',
@@ -156,12 +146,12 @@
       },
       downLevelTemplate() {
 //        window.location.href = "http://106.14.18.98:8080/icmaker/level/downLevelTemplate";
-        window.location.href = this.downloadExcelUrl;
+        window.location.href = this.criminal_level_application.downloadExcelUrl;
       },
       //上传excel文件
       criminalLevelImport(e) {
         let self = this;
-        let uploadExcelUrl = this.uploadExcelUrl;
+        let uploadExcelUrl = this.criminal_level_application.uploadExcelUrl;
 
         $('#ExcelId').on("change",function(e) {
           let file = e.target.files[0];

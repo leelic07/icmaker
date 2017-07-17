@@ -3,68 +3,69 @@
   <div id="right-side" class="col-xs-20 pull-right">
 
     <div class="" v-if="isCashOutPage">
-    <!--搜索框部分-->
-    <div class="col-xs-24 search">
-      <div class="col-xs-23 search-box">
-        <div class="col-xs-23 search-inner-box">
-          <div class="row">
-            <div class="col-xs-8 select-box">
-              <label for="name">所属监狱</label>
-              <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName'
-                     v-if='prisonList.length > 1'>
-              <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1'
-                     disabled>
-              <datalist id="prisons">
-                <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
-              </datalist>
+      <!--搜索框部分-->
+      <div class="col-xs-24 search">
+        <div class="col-xs-23 search-box">
+          <div class="col-xs-23 search-inner-box">
+            <div class="row">
+              <div class="col-xs-8 select-box">
+                <label for="name">所属监狱</label>
+                <input list="prisons" placeholder="请选择" class='form-control' v-model='prisonName'
+                       v-if='prisonList.length > 1'>
+                <input list="prisons" class='form-control' v-model='prisonName' v-else-if='prisonList.length == 1'
+                       disabled>
+                <datalist id="prisons">
+                  <option v-for='prison in prisonList' v-text='prison.prisonName'></option>
+                </datalist>
+              </div>
+              <div class="col-xs-8 select-box">
+                <label for="name">所属监区</label>
+                <select class="form-control" v-model='prisonDepartmentId'>
+                  <option value=''>请选择</option>
+                  <option v-for='pdt in prisonDepartmentsTem' v-text='pdt.prisonDepartmentName'
+                          :value='pdt.id'></option>
+                </select>
+              </div>
             </div>
-            <div class="col-xs-8 select-box">
-              <label for="name">所属监区</label>
-              <select class="form-control" v-model='prisonDepartmentId'>
-                <option value=''>请选择</option>
-                <option v-for='pdt in prisonDepartmentsTem' v-text='pdt.prisonDepartmentName' :value='pdt.id'></option>
-              </select>
+            <div class="row">
+              <div class="col-xs-6 text-box">
+                <label for="name">姓名</label>
+                <input type="text" class="form-control" v-model='name'>
+              </div>
+              <div class="col-xs-6 text-box">
+                <label for="name">档案号</label>
+                <input type="text" class="form-control" v-model='archivesNumber'>
+              </div>
+              <div class="col-xs-6 text-box">
+                <label for="name">读卡</label>
+                <input type="text" class="form-control" id="" v-model='idCardNo'>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-6 text-box">
-              <label for="name">姓名</label>
-              <input type="text" class="form-control" v-model='name'>
-            </div>
-            <div class="col-xs-6 text-box">
-              <label for="name">档案号</label>
-              <input type="text" class="form-control" v-model='archivesNumber'>
-            </div>
-            <div class="col-xs-6 text-box">
-              <label for="name">读卡</label>
-              <input type="text" class="form-control" id="" v-model='idCardNo'>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-4 col-xs-push-10 button-box">
-              <input type="button" value="搜索" class="search-button" @click='searchCashOutList()'>
+            <div class="row">
+              <div class="col-xs-4 col-xs-push-10 button-box">
+                <input type="button" value="搜索" class="search-button" @click='searchCashOutList()'>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!--按钮组部分-->
-    <div class="col-xs-24 button">
-      <div class="col-xs-2">
-        <input type="button" value="下载excel模板" class="reject-button" @click="downloadTemplate()">
+      <!--按钮组部分-->
+      <div class="col-xs-24 button">
+        <div class="col-xs-2">
+          <input type="button" value="下载excel模板" class="reject-button" @click="downloadTemplate()">
+        </div>
+        <div class="col-xs-2">
+          <input type="button" value="罪犯批量取现" class="reject-button">
+          <input type="file" value="上传excel" id="upload" class="col-xs-24">
+        </div>
       </div>
-      <div class="col-xs-2">
-        <input type="button" value="罪犯批量取现" class="reject-button">
-        <input type="file" value="上传excel" id="upload" class="col-xs-24">
-      </div>
-    </div>
 
-    <!--表格部分-->
-    <div class="col-xs-24 form">
-      <div class="col-xs-23">
-        <table class="display table ic-table" id="table_id_example">
-          <thead>
+      <!--表格部分-->
+      <div class="col-xs-24 form">
+        <div class="col-xs-23">
+          <table class="display table ic-table" id="table_id_example">
+            <thead>
             <tr>
               <th></th>
               <th>所属监狱</th>
@@ -75,8 +76,8 @@
               <th>金额(元)</th>
               <th>操作</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <tr v-for="col in cashOutList">
               <td></td>
               <td>{{col.prison_name}}</td>
@@ -87,69 +88,78 @@
               <td>{{col.total | currency}}</td>
               <td><em class="agree-text" @click="cashOut(col.prisoner_id,col.total)">取现</em></td>
             </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
+        <!-- 表单底部-->
+        <Page :itemSize="cashOutSize" :pageSize="pageSize" :indexPage="indexPage"
+              v-on:search="searchCashOutList"></Page>
       </div>
-      <!-- 表单底部-->
-      <Page :itemSize="cashOutSize" :pageSize="pageSize" :indexPage="indexPage" v-on:search="searchCashOutList"></Page>
-    </div>
 
-    <!-- 模态框-->
+      <!-- 模态框-->
 
-    <!--取现 -->
-    <div class="modal modal-confirm modal-bind" id="cashOutConfirm" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="false">
-      <div class="modal-dialog">
-        <div class="modal-content" v-if = "isCashOut">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
-              &times;
-            </button>
-          </div>
-          <div class="modal-body">
-            <h2>取现</h2>
-            <div class="clearfix bind-info">
+      <!--取现 -->
+      <div class="modal modal-confirm modal-bind" id="cashOutConfirm" tabindex="-1" role="dialog"
+           aria-labelledby="myModalLabel" aria-hidden="false">
+        <div class="modal-dialog">
+          <div class="modal-content" v-if="isCashOut">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                &times;
+              </button>
+            </div>
+            <div class="modal-body">
+              <h2>取现</h2>
+              <div class="clearfix bind-info">
                 <img :src="CashOutInfo.prisoner.imgUrl" alt="" class="pull-left bind-img">
                 <ul class="pull-left clearfix bind-info-list">
-                    <li class="clearfix"><span class="pull-left info-label">罪犯名</span><span class="pull-right">{{CashOutInfo.prisoner.name}}</span></li>
-                    <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{CashOutInfo.prison.prisonName}}</span></li>
-                    <li class="clearfix"><span class="pull-left info-label">所属监区</span><span class="pull-right">{{CashOutInfo.prison.prisonDepartmentName}}</span></li>
-                    <li class="clearfix"><span class="pull-left info-label">编号</span><span class="pull-right">{{CashOutInfo.prisoner.number}}</span></li>
+                  <li class="clearfix"><span class="pull-left info-label">罪犯名</span><span class="pull-right">{{CashOutInfo.prisoner.name}}</span>
+                  </li>
+                  <li class="clearfix"><span class="pull-left info-label">所属监狱</span><span class="pull-right">{{CashOutInfo.prison.prisonName}}</span>
+                  </li>
+                  <li class="clearfix"><span class="pull-left info-label">所属监区</span><span class="pull-right">{{CashOutInfo.prison.prisonDepartmentName}}</span>
+                  </li>
+                  <li class="clearfix"><span class="pull-left info-label">编号</span><span class="pull-right">{{CashOutInfo.prisoner.number}}</span>
+                  </li>
                 </ul>
-            </div>
-            <ul class="clearfix bind-info-list">
-                <li class="clearfix"><span class="pull-left info-label">A卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.aTotal | currency}} 元</span></li>
-                <li class="clearfix"><span class="pull-left info-label">B卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.bTotal | currency}} 元</span></li>
-                <li class="clearfix"><span class="pull-left info-label">总余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.total | currency}} 元</span></li>
-            </ul>
-            <hr>
-            <div class="line"></div>
-            <div class="row">
+              </div>
+              <ul class="clearfix bind-info-list">
+                <li class="clearfix"><span class="pull-left info-label">A卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.aTotal | currency}} 元</span>
+                </li>
+                <li class="clearfix"><span class="pull-left info-label">B卡余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.bTotal | currency}} 元</span>
+                </li>
+                <li class="clearfix"><span class="pull-left info-label">总余额</span><span class="pull-right">{{CashOutInfo.virtualAccountRecord.total | currency}} 元</span>
+                </li>
+              </ul>
+              <hr>
+              <div class="line"></div>
+              <div class="row">
                 <div class="col-xs-6 label-box">
-                    <label class = "pull-left info-label" for="name">取现类型 </label>
+                  <label class="pull-left info-label" for="name">取现类型 </label>
                 </div>
                 <div class="col-xs-18">
-                    <select class="form-control" v-model = "type">
-                        <option v-for='cashType in CashOutInfo.cashTypeList' :value='cashType.value' v-text='cashType.text'></option>
-                    </select>
+                  <select class="form-control" v-model="type">
+                    <option v-for='cashType in CashOutInfo.cashTypeList' :value='cashType.value'
+                            v-text='cashType.text'></option>
+                  </select>
                 </div>
-            </div>
-            <div class="row">
+              </div>
+              <div class="row">
                 <div class="col-xs-6 label-box">
-                    <label class = "pull-left info-label" for="name">取现金额 </label>
+                  <label class="pull-left info-label" for="name">取现金额 </label>
                 </div>
                 <div class="col-xs-18">
-                    <input type="text" class="form-control" v-model = "cash">
+                  <input type="text" class="form-control" v-model="cash">
                 </div>
+              </div>
+              <button class="confirm-button" @click='withdrawCash()'>确定</button>
+              <button class="cancel-button" data-dismiss="modal">取消</button>
             </div>
-            <button class="confirm-button" @click='withdrawCash()'>确定</button>
-            <button class="cancel-button" data-dismiss="modal">取消</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div> <!-- /.modal -->
-    </div>
+          </div><!-- /.modal-content -->
+        </div> <!-- /.modal -->
+      </div>
 
-    <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
+      <Remind v-if='remindShow' :status='remind.status' :msg='remind.msg' :back='remind.back'></Remind>
 
     </div>
 
@@ -164,18 +174,18 @@
 <style type="text/less" lang='less' scoped>
   #right-side {
     /**{*/
-      /*border:1px solid #000;*/
+    /*border:1px solid #000;*/
     /*}*/
     .button {
-      >div {
-        &:nth-child(2){
-          position:relative;
-          input{
-            &:nth-child(2){
-              position:absolute;
-              top:0;
-              height:33px;
-              opacity:0;
+      > div {
+        &:nth-child(2) {
+          position: relative;
+          input {
+            &:nth-child(2) {
+              position: absolute;
+              top: 0;
+              height: 33px;
+              opacity: 0;
             }
           }
         }
@@ -240,20 +250,14 @@
         prisonDepartmentId: '',
         prisonList: [],
         prisonDepartments: [],
-        prisonDepartmentsTem: [],
+//        prisonDepartmentsTem: [],
         cashOutList: [],
         total: '',
         name: '',
         archivesNumber: '',
         idCardNo: '',
-        isCashOutPage:true,
-        prisonerBatchApply:[],//批量取现列表
-//        uploadExcelUrl:'http://localhost:8080/icmaker/prisonerAccount/importPrisonerBatchApply',
-//        downloadExcelUrl:'http://localhost:8080/icmaker/downTemplate',
-//        uploadExcelUrl:'http://10.10.10.119:8080/icmaker/prisonerAccount/importPrisonerBatchApply',
-//        downloadExcelUrl:'http://10.10.10.119:8080/icmaker/downTemplate',
-        uploadExcelUrl:'http://106.14.18.98:8080/icmaker/prisonerAccount/importPrisonerBatchApply',
-        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/downTemplate',
+        isCashOutPage: true,
+        prisonerBatchApply: [],//批量取现列表
       }
     },
     watch: {
@@ -320,19 +324,19 @@
         this.prisonerId = prisonerId;
         this.total = total;
         this.$http({
-            method: 'get',
-            url: '/prisonerAccount/getCashPage',
-            params: {
-              prisonerId: this.prisonerId
-            }
-          }).then(res => {
-            this.CashOutInfo = res.data.data;
-            this.type = this.CashOutInfo.cashTypeList[0].value;
-            this.isCashOut = true;
-            $('#cashOutConfirm').modal();
-          }).catch(err => {
-            console.log(err);
-          });
+          method: 'get',
+          url: '/prisonerAccount/getCashPage',
+          params: {
+            prisonerId: this.prisonerId
+          }
+        }).then(res => {
+          this.CashOutInfo = res.data.data;
+          this.type = this.CashOutInfo.cashTypeList[0].value;
+          this.isCashOut = true;
+          $('#cashOutConfirm').modal();
+        }).catch(err => {
+          console.log(err);
+        });
       },
 
       //点击确定取现按钮
@@ -399,7 +403,7 @@
             name: this.name.replace(/(^\s*)|(\s*$)/g, ""),
             archivesNumber: this.archivesNumber.replace(/(^\s*)|(\s*$)/g, ""),
             idCardNo: this.idCardNo.replace(/(^\s*)|(\s*$)/g, ""),
-            flag:1
+            flag: 1
           }
         }).then(res => {
           if (res.data.code == 0) {
@@ -431,7 +435,7 @@
       },
 
       //得到罪犯资金列表
-      getCashOutList(){
+      getCashOutList() {
         this.$http({
           method: 'get',
           url: 'personalCrimeConsumptionRestrictList',
@@ -452,32 +456,31 @@
       },
 
       downloadTemplate() {
-        window.location.href = this.downloadExcelUrl;
+        window.location.href = this.cash_out.downloadExcelUrl;
       },
 
       uploadExcel() {
         let self = this;
-        $('#upload').on("change",function(e) {
+        $('#upload').on("change", function (e) {
           let file = e.target.files[0];
           if (self.isExcel(file)) {
-            Util.readCashExcel(file,self,self.uploadExcelUrl,store,'prisonerBatchApply');
+            Util.readCashExcel(file, self, self.cash_out.uploadExcelUrl, store, 'prisonerBatchApply');
           } else {
             self.remind = {
-              status:'warn',
-              msg:'请上传格式正确的Excel文件'
+              status: 'warn',
+              msg: '请上传格式正确的Excel文件'
             }
             store.dispatch('showRemind');
           }
         });
       }
-
     },
     components: {
       Page,
       Remind,
       CashUploadExcel
     },
-    mounted(){
+    mounted() {
       $('#table_id_example').tableHover();
       this.getAllPrison();
       this.uploadExcel();

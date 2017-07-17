@@ -66,15 +66,16 @@ import store from '../store'
 			remindDestroy(){
 				$('.bs-example-modal-sm').on('hidden.bs.modal',()=>{
 					store.dispatch('hideRemind');
+          this.hideRemind();
 					if(this.back == true){
 						window.history.go(-1);
-					}else if(this.path){
+					} else if(this.path) {
 						this.$router.push({
 							path:this.path
 						});
-					}else if(this.reload){
+					} else if(this.reload) {
             window.location.reload();
-          }else if(this.method){
+          } else if(this.method) {
             this.method();
           }
 				});

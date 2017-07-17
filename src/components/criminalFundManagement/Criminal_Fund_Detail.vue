@@ -241,7 +241,7 @@
         </div><!-- /.modal -->
       </div>
 
-      <Remind v-if="remindShow" :status='remindData.status' :msg='remindData.msg'></Remind>
+      <Remind v-if="remindShow" :status='remind.status' :msg='remind.msg'></Remind>
     </div>
 
     <div v-show="!isDetail">
@@ -285,9 +285,6 @@
         dateType: '',//日期类型
         isDetail: true,
         printCriminalFundDetailDtos: [],//罪犯资金明细打印列表
-//        downloadExcelUrl:'http://10.10.10.119:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
-//        downloadExcelUrl:'http://localhost:8080/icmaker/downFiles',//罪犯资金明细excel文件下载接口
-        downloadExcelUrl: 'http://106.14.18.98:8080/icmaker/downFiles',
         withdraw: {
           money: '',
           serialNo: '',
@@ -296,10 +293,6 @@
         detailInfo: "",
         capitalSerialNo: "",
         remind: {
-          status: '',
-          msg: ''
-        },
-        remindData: {
           status: '',
           msg: ''
         }
@@ -460,7 +453,7 @@
             url: '/prisonerAccount/applyRecall',
             'params': this.withdraw
           }).then(res => {
-            console.log(res);
+//            console.log(res);
             if (res.data.code == 0) {
               this.remind = {
                 status: 'success',
@@ -516,15 +509,15 @@
           if (res.data.code == 0) {
             this.filepath = res.data.data.filepath;
 //            console.log(this.filepath);
-            window.location.href = this.downloadExcelUrl + '?path=' + this.filepath;
+            window.location.href = this.criminal_fund_detail.downloadExcelUrl + '?path=' + this.filepath;
           }
-//          else {
-//            this.remindData = {
-//              status: 'failed',
-//              msg: res.data.msg + ',只有监狱账户才能导出数据'
-//            }
-//            store.dispatch('showRemind');
-//          }
+          else {
+            this.remind = {
+              status: 'failed',
+              msg: res.data.msg
+            }
+            store.dispatch('showRemind');
+          }
         }).catch(err => {
           console.log(err);
         });

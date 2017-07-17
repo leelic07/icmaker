@@ -148,7 +148,7 @@ export default {
           store.dispatch('showRemind');
         } else {
           _this['remind'] = {
-            status: 'warn',
+            status: 'failed',
             msg: response.msg
           }
           store.dispatch('showRemind');
@@ -180,7 +180,7 @@ export default {
           }
         } else {
           _this['remind'] = {
-            status: 'warn',
+            status: 'failed',
             msg: response.msg
           }
           store.dispatch('showRemind');
@@ -213,7 +213,7 @@ export default {
           _this['isCashOutPage'] = false;
         } else {
           _this['remind'] = {
-            status: 'warn',
+            status: 'failed',
             msg: response.msg
           }
           store.dispatch('showRemind');

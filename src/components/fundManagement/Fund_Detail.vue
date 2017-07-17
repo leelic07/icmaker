@@ -264,14 +264,15 @@
         isDetail: true,
         dateType: '',//日期类型
         printPrisonCapitalDetailDtos: [],//监狱资金明细打印列表
-//        downloadExcelUrl:'http://localhost:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
-        downloadExcelUrl:'http://106.14.18.98:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
-//        downloadExcelUrl: 'http://10.10.10.119:8080/icmaker/prisonCapital/downFiles',//资金明细列表导出excel文件下载接口
         withdraw: {
           money: '',
           serialNo: '',
           reason: ''
         },
+        remind: {
+          status: '',
+          msg: ''
+        }
       }
     },
     computed: {
@@ -299,9 +300,11 @@
         }
       },
     },
+
     methods: {
+
       //查询所有转账明细
-      getPrisonCapitalDetails(){
+      getPrisonCapitalDetails() {
         this.$http({
           method: 'get',
           url: 'prisonCapital/getPrisonCapitalDetails',
@@ -313,10 +316,12 @@
         }).then(res => {
 //          console.log(res);
           let data = res.data.data;
-          this.prisonCapitalDetailDtos = data.prisonCapitalDetailDtos;
-          this.menuSize = data.prisonCapitalDetailDtoSize;
-          this.prisonCapitalIncomeTotal = data.prisonCapitalIncomeTotal;
-          this.prisonCapitalOutTotal = data.prisonCapitalOutTotal;
+          if (res.data.code == 0) {
+            this.prisonCapitalDetailDtos = data.prisonCapitalDetailDtos;
+            this.menuSize = data.prisonCapitalDetailDtoSize;
+            this.prisonCapitalIncomeTotal = data.prisonCapitalIncomeTotal;
+            this.prisonCapitalOutTotal = data.prisonCapitalOutTotal;
+          }
         }).catch(err => {
           console.log(err);
         });
@@ -412,7 +417,7 @@
                 status: 'failed',
                 msg: res.data.msg
               }
-              console.log(res.data.code, res.data.msg);
+//              console.log(res.data.code, res.data.msg);
             }
             store.dispatch('showRemind');
             $('#withdrawConfirm').modal('hide');
@@ -451,15 +456,16 @@
           if (res.data.code == 0) {
             this.filepath = res.data.data.filepath;
 //            console.log(this.filepath);
-            window.location.href = this.downloadExcelUrl + '?path=' + this.filepath;
+            window.location.href = this.fund_detail.downloadExcelUrl + '?path=' + this.filepath;
           }
-//          else {
-//            this.remind = {
-//              status: 'failed',
-//              msg: res.data.msg + ',只有监狱账户才能导出数据'
-//            }
-//            store.dispatch('showRemind');
-//          }
+          else {
+            this.remind = {
+              status: 'failed',
+              msg: res.data.msg,
+
+            }
+            store.dispatch('showRemind');
+          }
         }).catch(err => {
           console.log(err);
         });

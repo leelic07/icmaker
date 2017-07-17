@@ -10,6 +10,7 @@ import PhotoLoading from './components/photoLoading'
 import $ from 'jquery'
 import Filters from './filters'
 import Validate from '../static/js/validate.js'
+import UrlConfig from '../static/js/url-config.js'
 import '../static/js/bootstrap.min.js'
 import '../static/css/datepicker/bootstrap-datetimepicker.min.js'
 import '../static/css/datepicker/bootstrap-datetimepicker.zh-CN.js'
@@ -43,6 +44,11 @@ routes[0].meta = {requireAuth: false};
 //控件，参数验证
 Object.keys(Validate).forEach((key)=>{
   Vue.prototype[key] = Validate[key];
+});
+
+//下载，上传url模板配置文件
+Object.keys(UrlConfig).forEach((key)=>{
+  Vue.prototype[key] = UrlConfig[key];
 });
 
 Vue.use(VueRouter);
@@ -123,7 +129,7 @@ axios.defaults.baseURL='http://106.14.18.98:8080/icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.111:8080//icmaker/';
 
-// axios.defaults.baseURL='http://10.10.10.112:8080/icmaker/';
+// axios.defaults.baseURL='http://10.10.10.122:8080/icmaker/';
 
 // axios.defaults.baseURL='http://10.10.10.100:8080/icmaker/';
 
