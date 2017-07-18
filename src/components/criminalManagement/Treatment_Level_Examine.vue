@@ -367,7 +367,7 @@
               msg: res.data.msg
             }
             store.dispatch('showRemind');
-            this.getPrisonerLevelRecords();
+            this.getPrisonerLevelRecords(1);
           } else {
             this.remind = {
               status: 'warn',
@@ -402,7 +402,7 @@
               msg: res.data.msg
             }
             store.dispatch('showRemind');
-            this.getPrisonerLevelRecords();
+            this.getPrisonerLevelRecords(1);
             $('#rejectConfirm').modal('hide');
           } else {
             this.remind = {
